@@ -3,950 +3,1248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>It's Power — Hub do Projeto · SrChZ Technologies</title>
+<title>It's Power × SrChZ — Portal do Projeto</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 :root{
   --blue:#1A7EC8;--blue-dark:#155FA0;--blue-light:#E8F3FB;--blue-mid:#C2DDF4;
   --orange:#F07820;--orange-light:#FEF0E6;--orange-mid:#FACCA0;
-  --green:#059669;--green-light:#D1FAE5;--purple:#7C3AED;--purple-light:#EDE9FE;
-  --red:#DC2626;--red-light:#FEE2E2;--amber:#D97706;--amber-light:#FEF3C7;
-  --sw:268px;--th:54px;
-  --bg:#EEF2F7;--surface:#FFF;--surface2:#F7F8FA;--border:#E5E7EB;
-  --text:#374151;--muted:#6B7280;--heading:#111827;--sb:#111827;
+  --green:#059669;--green-light:#D1FAE5;--green-dark:#065F46;
+  --purple:#7C3AED;--purple-light:#EDE9FE;--purple-dark:#5B21B6;
+  --amber:#D97706;--amber-light:#FEF3C7;
+  --red:#DC2626;--red-light:#FEE2E2;
+  --sb-w:260px;--top-h:56px;
+  --bg:#F1F5F9;--surface:#FFFFFF;--surface2:#F8FAFC;--border:#E2E8F0;
+  --text:#334155;--muted:#64748B;--heading:#0F172A;--sb:#0F172A;
+  --r:10px;
 }
 [data-theme="dark"]{
-  --bg:#0F172A;--surface:#1E293B;--surface2:#162032;--border:#334155;
-  --text:#CBD5E1;--muted:#94A3B8;--heading:#F1F5F9;
-  --blue-light:rgba(26,126,200,.15);--blue-mid:rgba(26,126,200,.3);
-  --orange-light:rgba(240,120,32,.15);--green-light:rgba(5,150,105,.15);
-  --purple-light:rgba(124,58,237,.15);--red-light:rgba(220,38,38,.15);
-  --amber-light:rgba(217,119,6,.15);
+  --bg:#020817;--surface:#0F172A;--surface2:#1E293B;--border:#1E293B;
+  --text:#CBD5E1;--muted:#64748B;--heading:#F8FAFC;
+  --blue-light:rgba(26,126,200,.12);--blue-mid:rgba(26,126,200,.25);
+  --orange-light:rgba(240,120,32,.12);--green-light:rgba(5,150,105,.12);
+  --purple-light:rgba(124,58,237,.12);--amber-light:rgba(217,119,6,.12);
 }
-body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;transition:background .3s,color .3s}
+body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;transition:background .25s,color .25s}
 
-/* SIDEBAR */
-.sidebar{width:var(--sw);background:var(--sb);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:transform .3s;overflow:hidden}
-.sb-logo{padding:14px 20px 12px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;display:flex;align-items:center;gap:11px}
-.sb-logo-img{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1.5px solid rgba(255,255,255,.15)}
-.sb-brand{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1}
-.sb-brand span{color:var(--orange)}
-.sb-agency{font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
-.sb-info{padding:11px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
-.sb-row{display:flex;justify-content:space-between;font-size:9px;margin-bottom:3px}
-.sb-row span:first-child{color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em}
-.sb-row span:last-child{color:rgba(255,255,255,.8);font-weight:600}
-.sb-prog{padding:11px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
-.sb-prog-top{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
-.sb-prog-top strong{color:#fff}
-.prog-bar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:2px;transition:width .5s}
-.sb-nav{flex:1;overflow-y:auto;padding:4px 0 8px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent}
-.sb-nav::-webkit-scrollbar{width:3px}
-.sb-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
-.sb-sec{padding:10px 20px 4px;font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.14em}
-.sb-btn{display:flex;align-items:center;gap:10px;padding:8px 20px;cursor:pointer;transition:background .15s;border:none;background:transparent;width:100%;text-align:left}
-.sb-btn:hover{background:rgba(255,255,255,.05)}
-.sb-btn.active{background:rgba(26,126,200,.25)}
-.sb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.sb-btn-info{flex:1;min-width:0}
-.sb-btn-name{font-size:12px;color:rgba(255,255,255,.8);font-weight:600}
-.sb-btn.active .sb-btn-name{color:#fff}
-.sb-btn-sub{font-size:9px;color:rgba(255,255,255,.3);margin-top:1px}
-.sb-btn-pct{font-size:9px;font-weight:700;color:rgba(255,255,255,.5)}
-.sb-links{padding:10px 20px;flex-shrink:0;border-top:1px solid rgba(255,255,255,.08)}
-.sb-link{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,.05);margin-bottom:5px;text-decoration:none;transition:background .15s}
-.sb-link:hover{background:rgba(255,255,255,.1)}
-.sb-link-t{font-size:10px;color:rgba(255,255,255,.7)}
-.sb-link-t strong{color:#fff;display:block;font-size:10px}
+/* ─── SIDEBAR ─── */
+.sidebar{width:var(--sb-w);background:var(--sb);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:200;overflow:hidden;transition:transform .3s}
+.sb-logo{padding:16px 18px 14px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;display:flex;align-items:center;gap:10px}
+.sb-logo-img{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1.5px solid rgba(255,255,255,.12)}
+.sb-brand{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1}
+.sb-brand em{color:var(--orange);font-style:normal}
+.sb-sub{font-size:8px;color:rgba(255,255,255,.32);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
+.sb-phase{padding:10px 18px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.sb-phase-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:20px;background:rgba(124,58,237,.25);border:1px solid rgba(124,58,237,.4);font-size:9px;font-weight:700;color:#C4B5FD;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.sb-phase-badge span{width:6px;height:6px;border-radius:50%;background:#A78BFA;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sb-phase-title{font-size:11px;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:3px}
+.sb-phase-sub{font-size:9px;color:rgba(255,255,255,.35)}
+.sb-prog{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.sb-prog-row{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.sb-prog-row strong{color:rgba(255,255,255,.9)}
+.prog-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#818CF8,var(--orange));border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.sb-nav{flex:1;overflow-y:auto;padding:8px 0;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.sb-nav-section{padding:10px 18px 4px;font-size:9px;color:rgba(255,255,255,.22);text-transform:uppercase;letter-spacing:.14em}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;cursor:pointer;transition:background .12s;border:none;background:transparent;width:100%;text-align:left;border-radius:0}
+.nav-item:hover{background:rgba(255,255,255,.04)}
+.nav-item.active{background:rgba(255,255,255,.08)}
+.nav-item.active .nav-icon{color:#fff}
+.nav-item.active .nav-label{color:#fff;font-weight:600}
+.nav-icon{font-size:14px;width:20px;text-align:center;color:rgba(255,255,255,.4)}
+.nav-info{flex:1;min-width:0}
+.nav-label{font-size:12px;color:rgba(255,255,255,.7);line-height:1.2}
+.nav-badge{font-size:9px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.nb-new{background:rgba(239,68,68,.2);color:#FCA5A5}
+.nb-ok{background:rgba(5,150,105,.2);color:#6EE7B7}
+.nb-info{background:rgba(26,126,200,.2);color:#93C5FD}
+.sb-footer{padding:12px 18px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.sb-contact{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.05);text-decoration:none;transition:background .12s}
+.sb-contact:hover{background:rgba(255,255,255,.09)}
+.sb-contact-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--orange));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.sb-contact-info{min-width:0}
+.sb-contact-name{font-size:10px;font-weight:600;color:rgba(255,255,255,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-contact-role{font-size:8.5px;color:rgba(255,255,255,.35)}
 
-/* MAIN */
-.main{margin-left:var(--sw);display:flex;flex-direction:column;min-width:0}
-.topbar{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:var(--th);display:flex;align-items:center;justify-content:space-between;gap:14px}
-.tab-row{display:flex;gap:2px}
-.tab-btn{padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .15s}
-.tab-btn:hover{background:var(--blue-light);color:var(--blue)}
-.tab-btn.active{background:var(--blue);color:#fff}
-.topbar-right{display:flex;gap:7px}
-.ico-btn{width:32px;height:32px;border-radius:7px;border:1.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;transition:all .15s}
+/* ─── MAIN ─── */
+.main{margin-left:var(--sb-w);display:flex;flex-direction:column;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;gap:14px;backdrop-filter:blur(12px)}
+.tb-tabs{display:flex;gap:1px}
+.tb-tab{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .12s;display:flex;align-items:center;gap:5px}
+.tb-tab:hover{background:var(--surface2);color:var(--heading)}
+.tb-tab.active{background:var(--blue);color:#fff}
+.tb-right{display:flex;align-items:center;gap:7px}
+.ico-btn{width:32px;height:32px;border-radius:7px;border:1px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:13px;transition:all .12s}
 .ico-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
 .mob-menu{display:none}
-.content{padding:22px 28px 60px;display:flex;flex-direction:column;gap:20px}
 
-/* TAB PANELS */
-.tab-panel{display:none}
-.tab-panel.active{display:flex;flex-direction:column;gap:20px}
+/* ─── CONTENT ─── */
+.content{padding:24px 28px 64px;display:flex;flex-direction:column;gap:20px;flex:1}
+.tab-panel{display:none;flex-direction:column;gap:20px}
+.tab-panel.active{display:flex}
 
-/* PILLAR BADGE */
-.pillar{display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;padding:2px 7px;border-radius:12px;text-transform:uppercase;letter-spacing:.06em}
-.pillar-a{background:var(--blue-light);color:var(--blue-dark)} /* Autoridade */
-.pillar-c{background:var(--green-light);color:#065F46}          /* Conexão */
-.pillar-v{background:var(--orange-light);color:#92400E}         /* Conversão */
+/* ─── GRID HELPERS ─── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 
-/* STATS */
-.stats{display:grid;gap:12px}
-.stats-3{grid-template-columns:repeat(3,1fr)}
-.stats-4{grid-template-columns:repeat(4,1fr)}
-.stats-5{grid-template-columns:repeat(5,1fr)}
-.stat{background:var(--surface);border-radius:10px;padding:14px 16px;border:1px solid var(--border);border-top:3px solid var(--blue);transition:transform .15s,box-shadow .15s}
-.stat:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.06)}
-.stat.or{border-top-color:var(--orange)}.stat.gr{border-top-color:var(--green)}.stat.pu{border-top-color:var(--purple)}.stat.am{border-top-color:var(--amber)}
-.stat-n{font-size:26px;font-weight:800;color:var(--blue);line-height:1}
-.stat.or .stat-n{color:var(--orange)}.stat.gr .stat-n{color:var(--green)}.stat.pu .stat-n{color:var(--purple)}.stat.am .stat-n{color:var(--amber)}
-.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+/* ─── CARD ─── */
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);overflow:hidden}
+.card-hdr{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-title{font-size:12px;font-weight:700;color:var(--heading);display:flex;align-items:center;gap:7px}
+.card-title-icon{font-size:14px}
+.card-body{padding:18px}
+.card-badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:12px;text-transform:uppercase;letter-spacing:.06em}
 
-/* CARD */
-.card{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden}
-.card-hdr{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-hdr-t{font-size:11px;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:8px}
-.card-hdr-t::after{content:'';width:24px;height:2px;background:var(--blue-mid);border-radius:1px}
-.card-body{padding:16px}
+/* ─── STAT CARDS ─── */
+.stat-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:16px;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.stat-card:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.blue::before{background:var(--blue)}.stat-card.green::before{background:var(--green)}.stat-card.orange::before{background:var(--orange)}.stat-card.purple::before{background:var(--purple)}.stat-card.amber::before{background:var(--amber)}
+.stat-n{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-card.blue .stat-n{color:var(--blue)}.stat-card.green .stat-n{color:var(--green)}.stat-card.orange .stat-n{color:var(--orange)}.stat-card.purple .stat-n{color:var(--purple)}.stat-card.amber .stat-n{color:var(--amber)}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.stat-sub{font-size:9px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:4px}
 
-/* STRATEGY PILLARS */
-.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.pillar-card{border-radius:10px;padding:16px;border:1px solid var(--border)}
-.pillar-card.pa{background:var(--blue-light);border-color:var(--blue-mid)}
-.pillar-card.pc{background:var(--green-light);border-color:#A7F3D0}
-.pillar-card.pv{background:var(--orange-light);border-color:var(--orange-mid)}
-.pillar-card-icon{font-size:22px;margin-bottom:8px}
-.pillar-card-title{font-size:13px;font-weight:800;color:var(--heading);margin-bottom:6px}
-.pillar-card-desc{font-size:11px;color:var(--text);line-height:1.5;margin-bottom:8px}
-.pillar-card-tags{display:flex;flex-direction:column;gap:3px}
-.pillar-tag{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:5px}
-.pillar-tag::before{content:'·';color:var(--muted)}
+/* ─── HERO STATUS CARD ─── */
+.hero-card{background:linear-gradient(135deg,var(--purple-dark) 0%,var(--purple) 50%,#A78BFA 100%);border-radius:var(--r);padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hero-card::after{content:'';position:absolute;bottom:-60px;right:80px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.04)}
+.hero-info{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:9px;font-weight:700;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:#A7F3D0;animation:pulse 2s infinite}
+.hero-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:5px;line-height:1.2}
+.hero-sub{font-size:12px;color:rgba(255,255,255,.7);max-width:420px}
+.hero-right{text-align:right;position:relative;z-index:1;flex-shrink:0}
+.hero-val{font-size:36px;font-weight:800;color:#fff;line-height:1}
+.hero-val-l{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.hero-actions{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+.btn{padding:8px 16px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-white{background:rgba(255,255,255,.9);color:var(--purple-dark)}.btn-white:hover{background:#fff}
+.btn-ghost-white{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)}.btn-ghost-white:hover{background:rgba(255,255,255,.2)}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dark)}
+.btn-success{background:var(--green);color:#fff}.btn-success:hover{background:var(--green-dark)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-danger{background:var(--red);color:#fff}
 
-/* PHASE TIMELINE */
-.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.phase{padding:14px 16px;border-right:1px solid var(--border)}
-.phase:last-child{border-right:none}
-.phase.current{background:var(--blue-light)}
-.phase-dot{width:9px;height:9px;border-radius:50%;margin-bottom:8px}
-.phase-lbl{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px}
-.phase-name{font-size:12px;font-weight:700;color:var(--heading);margin-bottom:2px}
-.phase-period{font-size:10px;color:var(--muted)}
-.phase-val{font-size:14px;font-weight:800;color:var(--blue);margin-top:6px}
-.phase.current .phase-val{color:var(--orange)}
-.phase-badge{display:inline-block;font-size:8px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;margin-top:6px}
+/* ─── APPROVAL CARD ─── */
+.approval-card{background:linear-gradient(135deg,#1E3A5F,var(--blue-dark));border-radius:var(--r);padding:20px 24px;border:1px solid rgba(26,126,200,.3);display:flex;align-items:center;justify-content:space-between;gap:16px}
+.approval-info .lbl{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.approval-info .ttl{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.approval-info .sub{font-size:11px;color:rgba(255,255,255,.6)}
+.approval-right{flex-shrink:0;text-align:right}
+.approval-price{font-size:26px;font-weight:800;color:#fff;line-height:1}
+.approval-price-l{font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
 
-/* MONTH BANNER */
-.month-banner{border-radius:10px;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.mb-f1{background:linear-gradient(135deg,var(--blue-dark),var(--blue))}
-.mb-f2{background:linear-gradient(135deg,#C04A10,var(--orange))}
-.mb-info .lbl{font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px}
-.mb-info .ttl{font-size:15px;font-weight:700;color:#fff;line-height:1.3}
-.mb-info .sub{font-size:10px;color:rgba(255,255,255,.65);margin-top:3px}
-.mb-right{text-align:right;flex-shrink:0}
-.mb-val{font-size:28px;font-weight:800;color:#fff;line-height:1}
-.mb-val-l{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em}
+/* ─── TIMELINE ─── */
+.timeline{padding:4px 0}
+.tl-item{display:flex;gap:14px;padding:14px 0;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:17px;top:38px;bottom:0;width:2px;background:var(--border)}
+.tl-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:2px solid transparent;position:relative;z-index:1}
+.tl-dot.done{background:var(--green-light);border-color:var(--green);color:var(--green)}
+.tl-dot.active{background:var(--purple-light);border-color:var(--purple);color:var(--purple);animation:ring 2s infinite}
+@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,.3)}50%{box-shadow:0 0 0 6px rgba(124,58,237,0)}}
+.tl-dot.upcoming{background:var(--surface2);border-color:var(--border);color:var(--muted)}
+.tl-dot.locked{background:var(--surface2);border-color:var(--border);color:var(--muted);opacity:.5}
+.tl-content{flex:1;min-width:0;padding-top:5px}
+.tl-header{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.tl-title{font-size:13px;font-weight:700;color:var(--heading)}
+.tl-badge{font-size:8px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
+.tl-b-done{background:var(--green-light);color:var(--green-dark)}.tl-b-active{background:var(--purple-light);color:var(--purple-dark)}.tl-b-next{background:var(--blue-light);color:var(--blue-dark)}.tl-b-locked{background:var(--surface2);color:var(--muted)}
+.tl-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.tl-price{font-size:12px;font-weight:700;color:var(--heading);margin-top:4px}
+.tl-date{font-size:10px;color:var(--muted);margin-top:2px}
 
-/* PILLAR STATS ROW */
-.pillar-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pstat{padding:10px 12px;border-radius:8px;text-align:center}
-.pstat.pa{background:var(--blue-light);border:1px solid var(--blue-mid)}
-.pstat.pc{background:var(--green-light);border:1px solid #A7F3D0}
-.pstat.pv{background:var(--orange-light);border:1px solid var(--orange-mid)}
-.pstat-n{font-size:22px;font-weight:800;line-height:1}
-.pstat.pa .pstat-n{color:var(--blue-dark)}.pstat.pc .pstat-n{color:#065F46}.pstat.pv .pstat-n{color:#92400E}
-.pstat-l{font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-top:2px;opacity:.7}
+/* ─── FEEDBACK BOARD ─── */
+.feedback-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:16px;transition:border-color .15s}
+.feedback-card:hover{border-color:var(--blue-mid)}
+.fb-post-title{font-size:12px;font-weight:600;color:var(--heading);margin-bottom:8px;line-height:1.4}
+.fb-stars{display:flex;gap:3px;margin-bottom:8px}
+.fb-star{font-size:18px;cursor:pointer;color:#E2E8F0;transition:color .1s,transform .1s;user-select:none}
+.fb-star:hover,.fb-star.active{color:#FBBF24}
+.fb-star:hover{transform:scale(1.15)}
+.fb-status{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px}
+.fb-note{width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text);background:var(--surface2);resize:none;font-family:inherit;line-height:1.5;height:60px;transition:border-color .15s}
+.fb-note:focus{outline:none;border-color:var(--blue)}
+.fb-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.fb-saved{font-size:9px;color:var(--green);display:flex;align-items:center;gap:4px;opacity:0;transition:opacity .3s}
+.fb-saved.show{opacity:1}
 
-/* CALENDAR */
-.cal-wrap{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
-.cal-mhdr{background:var(--blue-dark);padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+/* ─── REQUESTS / PEDIDOS ─── */
+.request-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.request-item:last-child{border-bottom:none;padding-bottom:0}
+.req-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.req-content{flex:1}
+.req-title{font-size:12px;font-weight:600;color:var(--heading);margin-bottom:2px}
+.req-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.req-date{font-size:9px;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:4px}
+.req-status{flex-shrink:0;font-size:9px;font-weight:700;padding:3px 9px;border-radius:12px}
+.rs-pendente{background:#FEF3C7;color:#92400E}.rs-done{background:var(--green-light);color:var(--green-dark)}.rs-novo{background:var(--blue-light);color:var(--blue-dark)}
+
+/* ─── ACTIVITY FEED ─── */
+.activity-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.activity-item:last-child{border-bottom:none}
+.act-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.act-content{flex:1}
+.act-text{font-size:11px;color:var(--text);line-height:1.4}
+.act-text strong{color:var(--heading)}
+.act-time{font-size:9px;color:var(--muted);margin-top:2px}
+
+/* ─── CALENDAR ─── */
+.cal-mhdr{background:var(--purple-dark);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
 .cal-mhdr .t{font-size:12px;font-weight:700;color:#fff}
 .cal-mhdr .s{font-size:9px;color:rgba(255,255,255,.55)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
-.cal-head{background:var(--blue);color:#fff;text-align:center;font-size:8px;font-weight:700;padding:7px 2px;text-transform:uppercase;letter-spacing:.04em}
-.cal-cell{min-height:56px;border:1px solid var(--border);padding:5px 6px;background:var(--surface);position:relative;transition:background .15s}
+.cal-head{background:var(--purple);color:#fff;text-align:center;font-size:8px;font-weight:700;padding:7px 2px;text-transform:uppercase;letter-spacing:.04em}
+.cal-cell{min-height:52px;border:1px solid var(--border);padding:5px 6px;background:var(--surface);position:relative;transition:background .12s}
 .cal-cell.empty{background:var(--surface2);border-color:transparent}
-.cal-cell.inactive{background:var(--surface2);opacity:.5}
+.cal-cell.inactive{background:var(--surface2);opacity:.4}
 .cal-cell.hp{cursor:pointer}
-.cal-cell.hp.a-post{background:var(--blue-light);border-color:var(--blue-mid)}
-.cal-cell.hp.c-post{background:var(--green-light);border-color:#A7F3D0}
-.cal-cell.hp.v-post{background:var(--orange-light);border-color:var(--orange-mid)}
+.cal-cell.hp.a-p{background:var(--blue-light);border-color:var(--blue-mid)}
+.cal-cell.hp.c-p{background:var(--green-light);border-color:#A7F3D0}
+.cal-cell.hp.v-p{background:var(--orange-light);border-color:var(--orange-mid)}
 .cal-cell.hp:hover{filter:brightness(.95)}
-.cal-cell.special{border-color:var(--orange) !important}
 .cal-cell.today{box-shadow:inset 0 0 0 2px var(--orange)}
 .cal-dn{font-size:9px;font-weight:600;color:var(--heading);display:block;margin-bottom:2px}
 .cal-cell.empty .cal-dn,.cal-cell.inactive .cal-dn{color:var(--muted)}
-.cal-badge{font-size:7px;padding:1px 5px;border-radius:2px;font-weight:700;display:inline-block;line-height:1.4}
-.b-a{background:var(--blue);color:#fff}.b-c{background:var(--green);color:#fff}.b-v{background:var(--orange);color:#fff}
+.cal-badge{font-size:7px;padding:1px 4px;border-radius:2px;font-weight:700;display:inline-block;line-height:1.4}
+.cb-a{background:var(--blue);color:#fff}.cb-c{background:var(--green);color:#fff}.cb-v{background:var(--orange);color:#fff}
 .cal-ev{font-size:7px;color:var(--muted);margin-top:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cal-sdot{position:absolute;top:4px;right:5px;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--surface)}
-.cal-leg{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px;background:var(--surface2);border-top:1px solid var(--border)}
-.leg{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--text)}
-.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 
-/* POST LIST */
-.post-item{display:grid;grid-template-columns:52px 5px 1fr auto;gap:0 10px;align-items:stretch;background:var(--surface2);border-radius:8px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .15s;margin-bottom:8px}
+/* ─── POST CARDS ─── */
+.post-item{display:grid;grid-template-columns:48px 4px 1fr auto;gap:0 10px;align-items:stretch;background:var(--surface);border-radius:8px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .15s,border-color .15s;margin-bottom:10px}
 .post-item:last-child{margin-bottom:0}
-.post-item:hover{box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.post-item:hover{box-shadow:0 2px 12px rgba(0,0,0,.06);border-color:var(--blue-mid)}
 .post-date{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;flex-shrink:0}
 .post-day-n{font-size:20px;font-weight:800;color:#fff;line-height:1}
-.post-wday{font-size:7px;color:rgba(255,255,255,.75);text-transform:uppercase;margin-top:1px}
-.post-stripe{width:5px;flex-shrink:0}
-.post-content{padding:9px 10px 9px 0;min-width:0;flex:1}
-.post-top{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
-.post-type-badge{font-size:7px;padding:2px 6px;border-radius:2px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.post-wday{font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-top:1px}
+.post-stripe{flex-shrink:0}
+.post-body{padding:10px 10px 10px 0;min-width:0;flex:1}
+.post-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}
+.post-type-badge{font-size:7px;padding:2px 7px;border-radius:4px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 .post-num{font-size:7.5px;color:var(--muted)}
 .post-title{font-size:11px;font-weight:700;color:var(--heading);margin-bottom:3px;line-height:1.3}
 .post-desc{font-size:10px;color:var(--muted);line-height:1.5}
 .post-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
-.post-tag{font-size:7px;padding:1px 5px;border-radius:2px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
-.post-actions{padding:9px 12px;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:7px;min-width:138px}
-.s-sel{font-size:10px;font-weight:600;padding:5px 22px 5px 9px;border-radius:16px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24'%3E%3Cpath fill='%236B7280' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 6px center;transition:border-color .15s;width:100%}
+.post-tag{font-size:7px;padding:1px 6px;border-radius:3px;background:var(--surface2);border:1px solid var(--border);color:var(--muted)}
+.post-actions{padding:10px 14px;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:8px;min-width:148px;border-left:1px solid var(--border)}
+.s-sel{font-size:10px;font-weight:600;padding:5px 22px 5px 9px;border-radius:16px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24'%3E%3Cpath fill='%2364748B' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 6px center;width:100%;transition:border-color .15s}
 .s-sel:focus{outline:none;border-color:var(--blue)}
-.post-note-btn{font-size:9px;color:var(--muted);cursor:pointer;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:128px}
+.post-note-btn{font-size:9px;color:var(--muted);cursor:pointer;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;transition:color .12s}
 .post-note-btn:hover{color:var(--blue)}
+.post-fb-row{display:flex;gap:3px}
+.post-fb-star{font-size:13px;cursor:pointer;color:var(--border);transition:color .1s;user-select:none}
+.post-fb-star.active{color:#FBBF24}
 
-/* CRONOGRAMA IFRAME */
-.cron-toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:background .15s}
-.cron-toggle:hover{background:var(--blue-light)}
-.cron-toggle-label{font-size:11px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
-.cron-toggle-arrow{font-size:11px;color:var(--muted);transition:transform .25s}
-.cron-toggle-arrow.open{transform:rotate(180deg)}
-.cron-iframe-wrap{display:none;border-radius:10px;overflow:hidden;border:1px solid var(--border);margin-top:8px}
-.cron-iframe-wrap.open{display:block}
-.cron-iframe{width:100%;height:calc(100vh - var(--th) - 120px);border:none;background:var(--surface)}
+/* ─── PLAN CARDS (próximas fases) ─── */
+.plan-card{border-radius:var(--r);border:1px solid var(--border);overflow:hidden;transition:transform .15s,box-shadow .15s}
+.plan-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.plan-card.featured{border-color:var(--blue);box-shadow:0 0 0 2px rgba(26,126,200,.15)}
+.plan-hdr{padding:20px;text-align:center}
+.plan-name{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.plan-price{font-size:32px;font-weight:800;color:var(--heading);line-height:1}
+.plan-price-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.plan-body{padding:0 20px 20px}
+.plan-feature{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--text)}
+.plan-feature:last-child{border-bottom:none}
+.plan-feature-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.plan-cta{margin:16px 20px 20px;display:block}
 
-/* CONTRACT INFO */
-.contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.cc{background:var(--surface);border-radius:10px;border:1px solid var(--border);overflow:hidden}
-.cc-hdr{padding:10px 14px;display:flex;align-items:center;gap:8px}
-.cc-hdr-t{font-size:11px;font-weight:700;color:#fff}
-.cc-body{padding:10px 14px}
-.cc-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--border)}
-.cc-row:last-child{border-bottom:none;padding-bottom:0}
-.cc-l{font-size:10px;color:var(--muted)}
-.cc-v{font-size:11px;font-weight:600;color:var(--heading);text-align:right;max-width:55%}
+/* ─── CONTRACT TAB ─── */
+.contract-section{margin-bottom:20px}
+.contract-section-title{font-size:12px;font-weight:700;color:var(--heading);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.contract-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.contract-row:last-child{border-bottom:none}
+.cr-label{font-size:11px;color:var(--muted);flex-shrink:0;max-width:40%}
+.cr-value{font-size:12px;font-weight:600;color:var(--heading);text-align:right;max-width:58%}
+.payment-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);margin-bottom:8px}
+.pr-phase{font-size:11px;font-weight:600;color:var(--heading)}
+.pr-period{font-size:10px;color:var(--muted);margin-top:2px}
+.pr-amount{font-size:16px;font-weight:800;color:var(--blue)}
+.pr-status{font-size:9px;font-weight:700;padding:3px 9px;border-radius:12px}
 
-/* NOTE MODAL */
-.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
-.modal-backdrop.open{display:flex}
-.modal{background:var(--surface);border-radius:12px;padding:20px;width:420px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal-title{font-size:13px;font-weight:700;color:var(--heading);margin-bottom:12px}
-.modal textarea{width:100%;min-height:90px;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text);background:var(--surface);resize:vertical;font-family:inherit;line-height:1.5}
-.modal textarea:focus{outline:none;border-color:var(--blue)}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-.btn{padding:7px 16px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
-.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-dark)}
-.btn-g{background:var(--surface2);color:var(--text);border:1.5px solid var(--border)}.btn-g:hover{border-color:var(--blue);color:var(--blue)}
+/* ─── PROGRESS RINGS ─── */
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.ring{position:relative;width:80px;height:80px}
+.ring svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--border);stroke-width:6}
+.ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+.ring-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--heading)}
+.ring-sub{font-size:10px;color:var(--muted);text-align:center;font-weight:600}
 
-.toast{position:fixed;bottom:24px;right:24px;background:var(--heading);color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none}
+/* ─── PILLAR STATS ─── */
+.pillar-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.pillar-row:last-child{border-bottom:none}
+.pillar-icon-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.pillar-bar-wrap{flex:1}
+.pillar-bar-label{display:flex;justify-content:space-between;font-size:10px;font-weight:600;color:var(--heading);margin-bottom:4px}
+.pillar-bar{height:6px;border-radius:3px;background:var(--border);overflow:hidden}
+.pillar-bar-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.pillar-count{font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0;width:40px;text-align:right}
+
+/* ─── CRON TOGGLE ─── */
+.cron-toggle{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:background .12s}
+.cron-toggle:hover{background:var(--blue-light);border-color:var(--blue-mid)}
+.cron-toggle-label{font-size:12px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.cron-arrow{font-size:11px;color:var(--muted);transition:transform .25s}
+.cron-arrow.open{transform:rotate(180deg)}
+.cron-frame-wrap{display:none;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);margin-top:8px}
+.cron-frame-wrap.open{display:block}
+.cron-frame{width:100%;height:calc(100vh - var(--top-h) - 100px);border:none}
+
+/* ─── UTILS ─── */
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
+.tag-purple{background:var(--purple-light);color:var(--purple-dark)}.tag-blue{background:var(--blue-light);color:var(--blue-dark)}.tag-green{background:var(--green-light);color:var(--green-dark)}.tag-orange{background:var(--orange-light);color:#92400E}.tag-gray{background:var(--surface2);color:var(--muted)}
+
+/* ─── MODAL ─── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-bg.open{display:flex}
+.modal-box{background:var(--surface);border-radius:12px;padding:22px;width:440px;max-width:90vw;box-shadow:0 24px 60px rgba(0,0,0,.18)}
+.modal-title{font-size:15px;font-weight:700;color:var(--heading);margin-bottom:14px}
+.modal-box textarea{width:100%;min-height:90px;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text);background:var(--surface2);resize:vertical;font-family:inherit;line-height:1.5}
+.modal-box textarea:focus{outline:none;border-color:var(--blue)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--heading);color:#fff;padding:11px 18px;border-radius:9px;font-size:12px;font-weight:600;z-index:999;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none;display:flex;align-items:center;gap:8px}
 .toast.show{opacity:1;transform:translateY(0)}
-.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;transition:opacity .3s}
+
+/* ─── SB OVERLAY ─── */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:190;opacity:0;transition:opacity .3s}
 .sb-overlay.show{opacity:1}
 
-/* RESPONSIVE */
-@media print{.sidebar,.topbar,.post-actions,.cron-toggle,.sb-overlay{display:none!important}.main{margin-left:0}.content{padding:16px}}
-@media(max-width:1100px){.stats-5{grid-template-columns:repeat(3,1fr)}.contract-grid,.pillars-grid{grid-template-columns:1fr}}
-@media(max-width:900px){:root{--sw:230px}.phases{grid-template-columns:1fr}.pillar-stats{grid-template-columns:repeat(3,1fr)}}
+/* ─── RESPONSIVE ─── */
+@media print{.sidebar,.topbar,.post-actions,.cron-toggle,.sb-overlay,.modal-bg{display:none!important}.main{margin-left:0}.content{padding:16px}}
+@media(max-width:1200px){.grid-5{grid-template-columns:repeat(3,1fr)}.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1024px){:root{--sb-w:230px}.grid-3{grid-template-columns:1fr}.hero-card{flex-direction:column;gap:12px}.hero-right{text-align:left}.hero-actions{justify-content:flex-start}}
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
   .sb-overlay{display:block}.main{margin-left:0}.topbar{padding:0 14px}
-  .content{padding:14px 14px 60px}.stats-5,.stats-4,.stats-3{grid-template-columns:repeat(2,1fr)}
-  .post-item{grid-template-columns:44px 5px 1fr}.post-actions{display:none}
-  .mob-menu{display:flex}.phases{grid-template-columns:1fr}.pillars-grid{grid-template-columns:1fr}
+  .content{padding:14px 14px 60px}.grid-5,.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+  .post-item{grid-template-columns:42px 4px 1fr}.post-actions{display:none}
+  .mob-menu{display:flex}.tb-tab{padding:5px 10px;font-size:11px}
 }
-@media(max-width:480px){.stats-5,.stats-4,.stats-3{grid-template-columns:1fr 1fr}.pillar-stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
 
+<!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar" id="sidebar">
   <div class="sb-logo">
     <img class="sb-logo-img" src="LogoItsPower.jpg" alt="It's Power" onerror="this.style.display='none'">
     <div>
-      <div class="sb-brand">it's <span>power</span></div>
-      <div class="sb-agency">SrChZ Technologies · @WebSrChZ</div>
+      <div class="sb-brand">it's <em>power</em></div>
+      <div class="sb-sub">Portal do Projeto</div>
     </div>
   </div>
-  <div class="sb-info">
-    <div class="sb-row"><span>Início do projeto</span><span>08 Jun 2026</span></div>
-    <div class="sb-row"><span>Término previsto</span><span>31 Dez 2026</span></div>
-    <div class="sb-row"><span>Modelo</span><span>Braço interno de produção</span></div>
+  <div class="sb-phase">
+    <div class="sb-phase-badge"><span class="sb-phase-badge-dot"></span> Fase Teste · Ativa</div>
+    <div class="sb-phase-title">Junho 2026 — Descoberta de Narrativa</div>
+    <div class="sb-phase-sub">R$ 1.200 · 10 posts · Início 08/06</div>
   </div>
   <div class="sb-prog">
-    <div class="sb-prog-top">Progresso geral <strong id="sbPct">0%</strong></div>
+    <div class="sb-prog-row">Progresso geral <strong id="sbPct">0%</strong></div>
     <div class="prog-bar"><div class="prog-fill" id="sbFill" style="width:0%"></div></div>
   </div>
   <div class="sb-nav">
-    <div class="sb-sec">Navegação</div>
-    <button class="sb-btn active" data-tab="visao-geral" onclick="switchTab('visao-geral')">
-      <div class="sb-dot" style="background:var(--blue)"></div>
-      <div class="sb-btn-info"><div class="sb-btn-name">Visão Geral</div><div class="sb-btn-sub">Estratégia & projeto</div></div>
+    <div class="sb-nav-section">Projeto</div>
+    <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+      <span class="nav-icon">🏠</span>
+      <div class="nav-info"><div class="nav-label">Dashboard</div></div>
+      <span class="nav-badge nb-new" id="actionsBadge" style="display:none">!</span>
     </button>
-    <button class="sb-btn" data-tab="junho" onclick="switchTab('junho')">
-      <div class="sb-dot" style="background:var(--blue)"></div>
-      <div class="sb-btn-info"><div class="sb-btn-name">Junho 2026</div><div class="sb-btn-sub">Início · 08/06 · 10 posts</div></div>
-      <span class="sb-btn-pct" id="pctJunho">0%</span>
+    <button class="nav-item" data-tab="junho" onclick="switchTab('junho')">
+      <span class="nav-icon">📅</span>
+      <div class="nav-info"><div class="nav-label">Junho 2026</div></div>
+      <span class="nav-badge nb-info" id="pctJunho">0%</span>
     </button>
-    <button class="sb-btn" data-tab="julho" onclick="switchTab('julho')">
-      <div class="sb-dot" style="background:var(--purple)"></div>
-      <div class="sb-btn-info"><div class="sb-btn-name">Julho 2026</div><div class="sb-btn-sub">12 posts · 3/semana</div></div>
-      <span class="sb-btn-pct" id="pctJulho">0%</span>
+    <div class="sb-nav-section">Crescimento</div>
+    <button class="nav-item" data-tab="fases" onclick="switchTab('fases')">
+      <span class="nav-icon">🚀</span>
+      <div class="nav-info"><div class="nav-label">Próximas Fases</div></div>
+      <span class="nav-badge nb-new">Novo</span>
     </button>
-    <button class="sb-btn" data-tab="agosto" onclick="switchTab('agosto')">
-      <div class="sb-dot" style="background:var(--orange)"></div>
-      <div class="sb-btn-info"><div class="sb-btn-name">Agosto 2026</div><div class="sb-btn-sub">12 posts · produção +</div></div>
-      <span class="sb-btn-pct" id="pctAgosto">0%</span>
+    <div class="sb-nav-section">Documentos</div>
+    <button class="nav-item" data-tab="contrato" onclick="switchTab('contrato')">
+      <span class="nav-icon">📋</span>
+      <div class="nav-info"><div class="nav-label">Contrato & Docs</div></div>
+    </button>
+    <button class="nav-item" onclick="window.open('its_power_videos_junho2026.html','_blank')">
+      <span class="nav-icon">🎬</span>
+      <div class="nav-info"><div class="nav-label">Roteiros de Vídeo</div></div>
+      <span class="nav-badge nb-info">↗</span>
     </button>
   </div>
-  <div class="sb-links">
-    <a class="sb-link" href="its_power_videos_junho2026.html" target="_blank"><span style="font-size:13px">🎬</span><div class="sb-link-t"><strong>Roteiros de Vídeo</strong>12 roteiros · Junho</div></a>
-    <a class="sb-link" href="its_power_cronograma_junho_responsivo.html" target="_blank"><span style="font-size:13px">📋</span><div class="sb-link-t"><strong>Cronograma Junho</strong>Documento editorial</div></a>
-    <a class="sb-link" href="its_power_cronograma_julho_responsivo.html" target="_blank"><span style="font-size:13px">📋</span><div class="sb-link-t"><strong>Cronograma Julho</strong>Documento editorial</div></a>
-    <a class="sb-link" href="its_power_cronograma_agosto_responsivo.html" target="_blank"><span style="font-size:13px">📋</span><div class="sb-link-t"><strong>Cronograma Agosto</strong>Documento editorial</div></a>
-    <a class="sb-link" href="contrato_its_power_srchz.pdf" target="_blank"><span style="font-size:13px">📄</span><div class="sb-link-t"><strong>Contrato 001/2026</strong>SrChZ × It's Power</div></a>
+  <div class="sb-footer">
+    <a class="sb-contact" href="mailto:rafaelhenriquecsantosz@gmail.com">
+      <div class="sb-contact-avatar">R</div>
+      <div class="sb-contact-info">
+        <div class="sb-contact-name">Rafael Cordeiro</div>
+        <div class="sb-contact-role">SrChZ Technologies · @WebSrChZ</div>
+      </div>
+    </a>
   </div>
 </aside>
 
+<!-- ═══ MAIN ═══ -->
 <div class="main">
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:10px">
       <button class="ico-btn mob-menu" onclick="toggleSidebar()">☰</button>
-      <div class="tab-row">
-        <button class="tab-btn active" data-tab="visao-geral" onclick="switchTab('visao-geral')">Visão Geral</button>
-        <button class="tab-btn" data-tab="junho" onclick="switchTab('junho')">Junho</button>
-        <button class="tab-btn" data-tab="julho" onclick="switchTab('julho')">Julho</button>
-        <button class="tab-btn" data-tab="agosto" onclick="switchTab('agosto')">Agosto</button>
+      <div class="tb-tabs">
+        <button class="tb-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">🏠 Dashboard</button>
+        <button class="tb-tab" data-tab="junho" onclick="switchTab('junho')">📅 Junho</button>
+        <button class="tb-tab" data-tab="fases" onclick="switchTab('fases')">🚀 Fases</button>
+        <button class="tb-tab" data-tab="contrato" onclick="switchTab('contrato')">📋 Contrato</button>
       </div>
     </div>
-    <div class="topbar-right">
-      <button class="ico-btn" onclick="toggleDark()" title="Modo escuro">🌙</button>
+    <div class="tb-right">
+      <button class="ico-btn" onclick="toggleDark()" title="Tema">🌙</button>
       <button class="ico-btn" onclick="window.print()" title="Imprimir">🖨️</button>
     </div>
   </div>
 
   <div class="content">
 
-    <!-- ══ VISÃO GERAL ══ -->
-    <div class="tab-panel active" id="panel-visao-geral">
+    <!-- ════════════════════════════════════
+         TAB: DASHBOARD
+    ════════════════════════════════════ -->
+    <div class="tab-panel active" id="panel-dashboard">
 
-      <div class="stats stats-5">
-        <div class="stat"><div class="stat-n">34</div><div class="stat-l">Posts totais</div></div>
-        <div class="stat or"><div class="stat-n">12</div><div class="stat-l">Posts Autoridade</div></div>
-        <div class="stat gr"><div class="stat-n">12</div><div class="stat-l">Posts Conexão</div></div>
-        <div class="stat pu"><div class="stat-n">10</div><div class="stat-l">Posts Conversão</div></div>
-        <div class="stat am"><div class="stat-n" id="sgPub">0</div><div class="stat-l">Publicados</div></div>
+      <!-- HERO STATUS -->
+      <div class="hero-card">
+        <div class="hero-info">
+          <div class="hero-badge"><span class="hero-badge-dot"></span> Fase Teste em andamento</div>
+          <div class="hero-title">Junho 2026 — Descoberta de Narrativa</div>
+          <div class="hero-sub">Identificando quais conteúdos geram maior alcance, engajamento e percepção de valor para a ITS Power. Ao fim do mês, apresentamos os resultados e a recomendação para a próxima fase.</div>
+          <div class="hero-actions">
+            <button class="btn btn-white" onclick="switchTab('junho')">📅 Ver posts de junho</button>
+            <button class="btn btn-ghost-white" onclick="switchTab('fases')">🚀 Ver próximas fases</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-val">R$ 1.200</div>
+          <div class="hero-val-l">Honorário mensal</div>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Fases do Projeto</div></div>
-        <div class="phases">
-          <div class="phase">
-            <div class="phase-dot" style="background:#9CA3AF"></div>
-            <div class="phase-lbl">Fase Teste · Encerrada</div>
-            <div class="phase-name">Descoberta de Narrativa</div>
-            <div class="phase-period">Mai 2026 · 1 mês</div>
-            <div class="phase-val" style="color:var(--muted)">R$ 1.200</div>
-            <span class="phase-badge" style="background:var(--surface2);color:var(--muted)">Concluída</span>
+      <!-- STATS ROW -->
+      <div class="grid-5">
+        <div class="stat-card blue">
+          <div class="stat-n" id="statTotal">10</div>
+          <div class="stat-label">Posts em Junho</div>
+          <div class="stat-sub"><span id="statPub">0</span> publicados</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-n">3</div>
+          <div class="stat-label">Pilares de conteúdo</div>
+          <div class="stat-sub">Autoridade · Conexão · Conversão</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-n">🏆 🤝 🎯</div>
+          <div class="stat-label">Posts por pilar</div>
+          <div class="stat-sub">4 · 4 · 2</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-n">3</div>
+          <div class="stat-label">Posts / semana</div>
+          <div class="stat-sub">Ter · Qui · Sáb</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-n" id="statFeedback">0</div>
+          <div class="stat-label">Feedbacks dados</div>
+          <div class="stat-sub">Avalie os conteúdos abaixo</div>
+        </div>
+      </div>
+
+      <!-- PROGRESS + TIMELINE -->
+      <div class="grid-2">
+
+        <!-- PROGRESS -->
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title"><span class="card-title-icon">📊</span>Progresso de Publicação</div>
           </div>
-          <div class="phase current">
-            <div class="phase-dot" style="background:var(--orange)"></div>
-            <div class="phase-lbl">Fase 01 · Em andamento</div>
-            <div class="phase-name">Braço Interno de Produção</div>
-            <div class="phase-period">08 Jun – Dez 2026</div>
-            <div class="phase-val">R$ 1.200/mês</div>
-            <span class="phase-badge" style="background:var(--orange-light);color:#92400E">Ativo</span>
+          <div class="card-body">
+            <div style="display:flex;justify-content:center;gap:28px;margin-bottom:18px">
+              <div class="ring-wrap">
+                <div class="ring">
+                  <svg viewBox="0 0 80 80" width="80" height="80">
+                    <circle class="ring-bg" cx="40" cy="40" r="34"/>
+                    <circle class="ring-fill" id="ringTotal" cx="40" cy="40" r="34" stroke="var(--blue)" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+                  </svg>
+                  <div class="ring-label" id="ringTotalPct">0%</div>
+                </div>
+                <div class="ring-sub">Geral</div>
+              </div>
+              <div class="ring-wrap">
+                <div class="ring">
+                  <svg viewBox="0 0 80 80" width="80" height="80">
+                    <circle class="ring-bg" cx="40" cy="40" r="34"/>
+                    <circle class="ring-fill" id="ringFb" cx="40" cy="40" r="34" stroke="#FBBF24" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+                  </svg>
+                  <div class="ring-label" id="ringFbPct">0%</div>
+                </div>
+                <div class="ring-sub">Feedbacks</div>
+              </div>
+            </div>
+            <div class="pillar-row">
+              <div class="pillar-icon-badge" style="background:var(--blue-light)">🏆</div>
+              <div class="pillar-bar-wrap">
+                <div class="pillar-bar-label"><span>Autoridade</span><span id="pb-a">0/4</span></div>
+                <div class="pillar-bar"><div class="pillar-bar-fill" id="pbar-a" style="width:0%;background:var(--blue)"></div></div>
+              </div>
+            </div>
+            <div class="pillar-row">
+              <div class="pillar-icon-badge" style="background:var(--green-light)">🤝</div>
+              <div class="pillar-bar-wrap">
+                <div class="pillar-bar-label"><span>Conexão</span><span id="pb-c">0/4</span></div>
+                <div class="pillar-bar"><div class="pillar-bar-fill" id="pbar-c" style="width:0%;background:var(--green)"></div></div>
+              </div>
+            </div>
+            <div class="pillar-row">
+              <div class="pillar-icon-badge" style="background:var(--orange-light)">🎯</div>
+              <div class="pillar-bar-wrap">
+                <div class="pillar-bar-label"><span>Conversão</span><span id="pb-v">0/2</span></div>
+                <div class="pillar-bar"><div class="pillar-bar-fill" id="pbar-v" style="width:0%;background:var(--orange)"></div></div>
+              </div>
+            </div>
           </div>
-          <div class="phase">
-            <div class="phase-dot" style="background:var(--purple)"></div>
-            <div class="phase-lbl">Plano Growth · Futuro</div>
-            <div class="phase-name">Performance & Tráfego</div>
-            <div class="phase-period">A definir</div>
-            <div class="phase-val" style="color:var(--purple)">R$ 4.500/mês</div>
-            <span class="phase-badge" style="background:var(--purple-light);color:var(--purple)">Planejado</span>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title"><span class="card-title-icon">🗓️</span>Etapas do Projeto</div>
+          </div>
+          <div class="card-body">
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-dot done">✓</div>
+                <div class="tl-content">
+                  <div class="tl-header"><span class="tl-title">Período de Teste</span><span class="tl-badge tl-b-done">Encerrado</span></div>
+                  <div class="tl-desc">Análise inicial da academia, proposta aprovada e início do projeto.</div>
+                  <div class="tl-date">Maio 2026</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot active">●</div>
+                <div class="tl-content">
+                  <div class="tl-header"><span class="tl-title">Fase Teste — Descoberta</span><span class="tl-badge tl-b-active">Agora</span></div>
+                  <div class="tl-desc">10 posts, 3 pilares, identificação das narrativas com maior engajamento. Relatório final em 30/06.</div>
+                  <div class="tl-price">R$ 1.200 / mês único</div>
+                  <div class="tl-date">08 Jun – 30 Jun 2026</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot upcoming">⟳</div>
+                <div class="tl-content">
+                  <div class="tl-header"><span class="tl-title">Reunião de Alinhamento</span><span class="tl-badge tl-b-next">Próximo</span></div>
+                  <div class="tl-desc">Apresentação dos resultados da Fase Teste. Decisão sobre continuidade e qual plano seguir.</div>
+                  <div class="tl-date">Final de Junho 2026</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot upcoming">◎</div>
+                <div class="tl-content">
+                  <div class="tl-header"><span class="tl-title">Plano Essencial</span><span class="tl-badge tl-b-next">Aguardando aprovação</span></div>
+                  <div class="tl-desc">12 vídeos/mês, reunião mensal, relatório de desempenho, stories estratégicos.</div>
+                  <div class="tl-price">R$ 2.800 / mês · Meses 2 a 4</div>
+                  <div class="tl-date">Jul – Set 2026 (após aprovação)</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot locked">🔒</div>
+                <div class="tl-content">
+                  <div class="tl-header"><span class="tl-title">Plano Growth</span><span class="tl-badge tl-b-locked">Futuro</span></div>
+                  <div class="tl-desc">Meta Ads, lookalike audience, stories diários, campanhas sazonais, relatório CPL/ROI.</div>
+                  <div class="tl-price">R$ 4.500 / mês · Mês 5+</div>
+                  <div class="tl-date">Out 2026 em diante</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- APPROVAL CTA -->
+      <div class="approval-card" id="approvalCard">
+        <div class="approval-info">
+          <div class="lbl">🚀 Próxima etapa disponível</div>
+          <div class="ttl">Aprovar continuidade com o Plano Essencial</div>
+          <div class="sub">Após a reunião de alinhamento ao fim de junho, confirme aqui para ativar o Plano Essencial. Isso registra a decisão e inicia o próximo ciclo de 3 meses.</div>
+        </div>
+        <div class="approval-right">
+          <div class="approval-price">R$ 2.800</div>
+          <div class="approval-price-l">por mês · Plano Essencial</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-white" onclick="approvePhase('essencial')">✓ Aprovar Essencial</button>
+            <button class="btn btn-ghost-white" onclick="switchTab('fases')">Ver detalhes</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:none;background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:var(--r);padding:16px 24px;display:flex;align-items:center;gap:14px" id="approvedCard">
+        <span style="font-size:24px">✅</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#fff">Plano Essencial aprovado!</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:3px">Parabéns! O próximo ciclo está confirmado. Rafael entrará em contato para agendar a reunião de início do Plano Essencial.</div>
+        </div>
+      </div>
+
+      <!-- FEEDBACK BOARD -->
       <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Estratégia de Conteúdo — 3 Pilares</div></div>
+        <div class="card-hdr">
+          <div class="card-title"><span class="card-title-icon">⭐</span>Feedback dos Conteúdos</div>
+          <span class="card-badge" style="background:var(--purple-light);color:var(--purple-dark)">Interativo — avalie aqui</span>
+        </div>
         <div class="card-body">
-          <div class="pillars-grid">
-            <div class="pillar-card pa">
-              <div class="pillar-card-icon">🏆</div>
-              <div class="pillar-card-title">Autoridade</div>
-              <div class="pillar-card-desc">Conteúdo que mostra conhecimento, estrutura e diferenciais da ITS Power. Posiciona a academia como referência técnica local.</div>
-              <div class="pillar-card-tags">
-                <div class="pillar-tag">Dicas e orientações de treino</div>
-                <div class="pillar-tag">Bastidores técnicos e metodologia</div>
-                <div class="pillar-tag">Apresentação da equipe e diferenciais</div>
-                <div class="pillar-tag">Educação sobre saúde e performance</div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:16px">Avalie cada post planejado e deixe comentários. Seu feedback guia os próximos conteúdos.</p>
+          <div class="grid-2" id="feedbackGrid"></div>
+        </div>
+      </div>
+
+      <!-- PEDIDOS & ATIVIDADE -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title"><span class="card-title-icon">📌</span>Pedidos & Ações Pendentes</div>
+          </div>
+          <div class="card-body" id="requestsBody">
+            <div class="request-item">
+              <div class="req-icon" style="background:var(--purple-light)">📸</div>
+              <div class="req-content">
+                <div class="req-title">Autorizar uso de imagem dos alunos</div>
+                <div class="req-desc">Para os posts de depoimento e aluno em destaque, precisamos de autorização formal dos alunos filmados.</div>
+                <div class="req-date">⏰ Antes de 10 de junho</div>
               </div>
+              <span class="req-status rs-pendente">Pendente</span>
             </div>
-            <div class="pillar-card pc">
-              <div class="pillar-card-icon">🤝</div>
-              <div class="pillar-card-title">Conexão</div>
-              <div class="pillar-card-desc">Conteúdo que aproxima o público da marca. Mostra a vida real da academia e cria sentimento de comunidade e pertencimento.</div>
-              <div class="pillar-card-tags">
-                <div class="pillar-tag">Histórias de alunos — superação real</div>
-                <div class="pillar-tag">Rotina, bastidores e momentos espontâneos</div>
-                <div class="pillar-tag">Humor, tendências e engajamento</div>
-                <div class="pillar-tag">Eventos, desafios e cultura interna</div>
+            <div class="request-item">
+              <div class="req-icon" style="background:var(--blue-light)">📱</div>
+              <div class="req-content">
+                <div class="req-title">Acesso ao Instagram da academia</div>
+                <div class="req-desc">Necessário para publicação e monitoramento de métricas.</div>
+                <div class="req-date">⏰ Aguardando</div>
               </div>
+              <span class="req-status rs-pendente">Pendente</span>
             </div>
-            <div class="pillar-card pv">
-              <div class="pillar-card-icon">🎯</div>
-              <div class="pillar-card-title">Conversão</div>
-              <div class="pillar-card-desc">Conteúdo voltado para gerar interesse e novas matrículas. Transforma seguidores em pessoas interessadas na academia.</div>
-              <div class="pillar-card-tags">
-                <div class="pillar-tag">Transformações e resultados visíveis</div>
-                <div class="pillar-tag">Benefícios, campanhas e CTAs</div>
-                <div class="pillar-tag">Convites e primeira visita gratuita</div>
-                <div class="pillar-tag">Urgência sazonal (inverno → verão)</div>
+            <div class="request-item">
+              <div class="req-icon" style="background:var(--green-light)">📅</div>
+              <div class="req-content">
+                <div class="req-title">Confirmar dias de captação de junho</div>
+                <div class="req-desc">Agendar os dias da semana para presença na academia e gravação de conteúdo.</div>
+                <div class="req-date">⏰ Prioridade alta</div>
               </div>
+              <span class="req-status rs-pendente">Pendente</span>
             </div>
+            <div class="request-item">
+              <div class="req-icon" style="background:var(--amber-light)">💬</div>
+              <div class="req-content">
+                <div class="req-title">Avaliar os conteúdos planejados</div>
+                <div class="req-desc">Use a seção de feedback acima para comentar sobre cada post antes da produção.</div>
+                <div class="req-date">⏰ A qualquer momento</div>
+              </div>
+              <span class="req-status rs-novo">Novo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title"><span class="card-title-icon">📡</span>Atividade Recente</div>
+          </div>
+          <div class="card-body" id="activityFeed">
+            <div class="activity-item"><div class="act-dot" style="background:var(--purple)"></div><div class="act-content"><div class="act-text"><strong>Hub do projeto</strong> atualizado com nova estratégia de conteúdo — 3 pilares: Autoridade, Conexão, Conversão.</div><div class="act-time">Jun 2026</div></div></div>
+            <div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-content"><div class="act-text"><strong>Proposta de continuidade</strong> entregue — Fase Teste → Plano Essencial (R$ 2.800/mês).</div><div class="act-time">Jun 2026</div></div></div>
+            <div class="activity-item"><div class="act-dot" style="background:var(--green)"></div><div class="act-content"><div class="act-text"><strong>10 roteiros de junho</strong> planejados com base nos 3 pilares estratégicos.</div><div class="act-time">Jun 2026</div></div></div>
+            <div class="activity-item"><div class="act-dot" style="background:var(--orange)"></div><div class="act-content"><div class="act-text"><strong>Início do projeto</strong> confirmado em 08 de junho de 2026. Fase Teste ativa.</div><div class="act-time">08 Jun 2026</div></div></div>
+            <div class="activity-item"><div class="act-dot" style="background:var(--muted)"></div><div class="act-content"><div class="act-text"><strong>Período de teste anterior</strong> (maio) — análise da academia, identidade e narrativas identificadas.</div><div class="act-time">Mai 2026</div></div></div>
           </div>
         </div>
       </div>
 
-      <div class="contract-grid">
-        <div class="cc">
-          <div class="cc-hdr" style="background:var(--blue-dark)"><span style="font-size:14px">🎬</span><div class="cc-hdr-t">Entregas Mensais</div></div>
-          <div class="cc-body">
-            <div class="cc-row"><span class="cc-l">Vídeos</span><span class="cc-v">12/mês · 3 por semana</span></div>
-            <div class="cc-row"><span class="cc-l">Roteirização</span><span class="cc-v">Completa — hook, dev., CTA</span></div>
-            <div class="cc-row"><span class="cc-l">Stories estratégicos</span><span class="cc-v">Cobertura constante da rotina</span></div>
-            <div class="cc-row"><span class="cc-l">Planejamento</span><span class="cc-v">Reuniões periódicas de alinhamento</span></div>
-            <div class="cc-row"><span class="cc-l">Canais</span><span class="cc-v">Instagram · TikTok · YouTube Shorts</span></div>
-            <div class="cc-row"><span class="cc-l">Captação</span><span class="cc-v">Braço interno · vida real da academia</span></div>
-          </div>
-        </div>
-        <div class="cc">
-          <div class="cc-hdr" style="background:#059669"><span style="font-size:14px">📊</span><div class="cc-hdr-t">Indicadores de Sucesso</div></div>
-          <div class="cc-body">
-            <div class="cc-row"><span class="cc-l">Compartilhamentos</span><span class="cc-v">Conteúdo que se espalha</span></div>
-            <div class="cc-row"><span class="cc-l">Salvamentos</span><span class="cc-v">Conteúdo de valor real</span></div>
-            <div class="cc-row"><span class="cc-l">Respostas nos stories</span><span class="cc-v">Proximidade com a audiência</span></div>
-            <div class="cc-row"><span class="cc-l">Alcance local</span><span class="cc-v">Cláudio e região — 15km</span></div>
-            <div class="cc-row"><span class="cc-l">Geração de conversas</span><span class="cc-v">Interesse de potenciais alunos</span></div>
-            <div class="cc-row"><span class="cc-l">Crescimento da audiência</span><span class="cc-v">Seguidores → pessoas interessadas</span></div>
-          </div>
-        </div>
-        <div class="cc">
-          <div class="cc-hdr" style="background:var(--orange)"><span style="font-size:14px">💡</span><div class="cc-hdr-t">Visão de Longo Prazo</div></div>
-          <div class="cc-body">
-            <div class="cc-row"><span class="cc-l">Posicionamento</span><span class="cc-v">Referência em saúde e performance em Cláudio</span></div>
-            <div class="cc-row"><span class="cc-l">Comunidade</span><span class="cc-v">Alunos se veem nas redes → pertencimento</span></div>
-            <div class="cc-row"><span class="cc-l">Transformação</span><span class="cc-v">ITS Power = mais que uma academia</span></div>
-            <div class="cc-row"><span class="cc-l">Qualidade de vida</span><span class="cc-v">Conteúdo que educa e inspira</span></div>
-            <div class="cc-row"><span class="cc-l">Experiência digital</span><span class="cc-v">Igual à experiência dentro da academia</span></div>
-          </div>
-        </div>
-        <div class="cc">
-          <div class="cc-hdr" style="background:var(--purple)"><span style="font-size:14px">🚀</span><div class="cc-hdr-t">Status por Mês</div></div>
-          <div class="cc-body">
-            <div class="cc-row"><span class="cc-l">Junho 2026 (08/06+)</span><span class="cc-v" id="ovJunho">10 posts · 0 publicados</span></div>
-            <div class="cc-row"><span class="cc-l">Julho 2026</span><span class="cc-v" id="ovJulho">12 posts · 0 publicados</span></div>
-            <div class="cc-row"><span class="cc-l">Agosto 2026</span><span class="cc-v" id="ovAgosto">12 posts · 0 publicados</span></div>
-            <div class="cc-row"><span class="cc-l">Total publicado</span><span class="cc-v" id="ovTotal" style="color:var(--green)">0 / 34 posts</span></div>
-            <div class="cc-row"><span class="cc-l">Roteiros detalhados</span><span class="cc-v">12 roteiros (Junho) — arquivo dedicado</span></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ══ JUNHO ══ -->
-    <div class="tab-panel" id="panel-junho">
-      <div class="month-banner mb-f1">
-        <div class="mb-info">
-          <div class="lbl">Fase 01 · Início do Projeto · 08 de Junho 2026</div>
-          <div class="ttl">Junho — Chegamos. Começa o braço de produção.</div>
-          <div class="sub">Autoridade · Conexão · Conversão · 10 posts · 3 por semana a partir da semana 2</div>
-        </div>
-        <div class="mb-right"><div class="mb-val">R$ 1.200</div><div class="mb-val-l">Honorário mensal</div></div>
-      </div>
-      <div class="stats stats-4">
-        <div class="stat"><div class="stat-n">10</div><div class="stat-l">Posts em Junho</div></div>
-        <div class="pillar-stats">
-          <div class="pstat pa"><div class="pstat-n">4</div><div class="pstat-l">🏆 Autoridade</div></div>
-          <div class="pstat pc"><div class="pstat-n">4</div><div class="pstat-l">🤝 Conexão</div></div>
-          <div class="pstat pv"><div class="pstat-n">2</div><div class="pstat-l">🎯 Conversão</div></div>
-        </div>
-        <div class="stat gr"><div class="stat-n" id="sJunhoPub">0</div><div class="stat-l">Publicados</div></div>
-        <div class="stat am"><div class="stat-n">2</div><div class="stat-l">Datas especiais</div></div>
-      </div>
-      <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:10px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-        <div style="font-size:11px;color:var(--text)">🎬 <strong>Roteiros detalhados de vídeo</strong> — 12 vídeos com scripts completos, checklists e legendas</div>
-        <a href="its_power_videos_junho2026.html" target="_blank" style="flex-shrink:0;background:var(--blue);color:#fff;padding:7px 14px;border-radius:7px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap">Abrir Roteiros →</a>
-      </div>
+      <!-- MONTHLY NOTE / COMUNICAÇÃO -->
       <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Calendário — Junho 2026</div></div>
+        <div class="card-hdr">
+          <div class="card-title"><span class="card-title-icon">💬</span>Notas do Mês</div>
+          <span style="font-size:10px;color:var(--muted)">Salvo automaticamente</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Use este espaço para registrar decisões, ajustes ou qualquer anotação importante sobre o projeto.</p>
+          <textarea id="monthNote" style="width:100%;min-height:100px;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text);background:var(--surface2);resize:vertical;font-family:inherit;line-height:1.5;transition:border-color .15s" placeholder="Ex: decidimos não publicar aos domingos, focar em terças e sábados…" oninput="saveMonthNote(this.value)"></textarea>
+          <div style="font-size:9px;color:var(--muted);margin-top:6px" id="noteSavedLbl"></div>
+        </div>
+      </div>
+
+    </div><!-- /dashboard -->
+
+    <!-- ════════════════════════════════════
+         TAB: JUNHO
+    ════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-junho">
+      <div style="background:linear-gradient(135deg,var(--purple-dark),var(--purple));border-radius:var(--r);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:14px">
+        <div>
+          <span class="tag tag-purple" style="margin-bottom:8px;display:inline-flex">● Fase Teste</span>
+          <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px">Junho 2026 — Descoberta de Narrativa</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.65)">10 posts · Início 08/06 · 3 pilares · Ter / Qui / Sáb</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:28px;font-weight:800;color:#fff">R$ 1.200</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em">Honorário — mês único</div>
+        </div>
+      </div>
+
+      <div class="grid-4">
+        <div class="stat-card purple"><div class="stat-n">10</div><div class="stat-label">Posts planejados</div></div>
+        <div class="stat-card blue"><div class="stat-n" id="sJunhoPub">0</div><div class="stat-label">Publicados</div></div>
+        <div class="stat-card green"><div class="stat-n">4 🏆 · 4 🤝 · 2 🎯</div><div class="stat-label">Distribuição por pilar</div></div>
+        <div class="stat-card orange"><div class="stat-n">2</div><div class="stat-label">Datas especiais</div></div>
+      </div>
+
+      <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--r);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div style="font-size:11px;color:var(--text)">🎬 <strong>12 roteiros detalhados</strong> com scripts, checklists de produção e legendas disponíveis no arquivo de roteiros.</div>
+        <a href="its_power_videos_junho2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">📆</span>Calendário de Publicações</div></div>
         <div id="calJunho"></div>
       </div>
+
       <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Posts — Junho 2026</div></div>
+        <div class="card-hdr">
+          <div class="card-title"><span class="card-title-icon">📝</span>Posts — Junho 2026</div>
+          <div style="display:flex;gap:6px">
+            <span class="tag tag-blue">🏆 Autoridade</span>
+            <span class="tag tag-green">🤝 Conexão</span>
+            <span class="tag tag-orange">🎯 Conversão</span>
+          </div>
+        </div>
         <div class="card-body" id="postsJunho"></div>
       </div>
+
       <div class="cron-toggle" onclick="toggleCron('junho')">
-        <div class="cron-toggle-label">📋 Cronograma Editorial — Junho 2026</div>
-        <span class="cron-toggle-arrow" id="cron-arrow-junho">▼</span>
+        <div class="cron-toggle-label">📋 Cronograma Editorial Completo — Junho 2026</div>
+        <span class="cron-arrow" id="cron-arrow-junho">▼</span>
       </div>
-      <div class="cron-iframe-wrap" id="cron-wrap-junho">
-        <iframe class="cron-iframe" src="its_power_cronograma_junho_responsivo.html" title="Cronograma Junho"></iframe>
-      </div>
-    </div>
-
-    <!-- ══ JULHO ══ -->
-    <div class="tab-panel" id="panel-julho">
-      <div class="month-banner mb-f1">
-        <div class="mb-info">
-          <div class="lbl">Fase 01 · Consolidação · 2º mês completo</div>
-          <div class="ttl">Julho — 12 posts. Ritmo pleno. Comunidade crescendo.</div>
-          <div class="sub">Autoridade · Conexão · Conversão · 3 posts/semana · Ter / Qui / Sáb</div>
-        </div>
-        <div class="mb-right"><div class="mb-val">R$ 1.200</div><div class="mb-val-l">Honorário mensal</div></div>
-      </div>
-      <div class="stats stats-4">
-        <div class="stat"><div class="stat-n">12</div><div class="stat-l">Posts em Julho</div></div>
-        <div class="pillar-stats">
-          <div class="pstat pa"><div class="pstat-n">4</div><div class="pstat-l">🏆 Autoridade</div></div>
-          <div class="pstat pc"><div class="pstat-n">5</div><div class="pstat-l">🤝 Conexão</div></div>
-          <div class="pstat pv"><div class="pstat-n">3</div><div class="pstat-l">🎯 Conversão</div></div>
-        </div>
-        <div class="stat gr"><div class="stat-n" id="sJulhoPub">0</div><div class="stat-l">Publicados</div></div>
-        <div class="stat pu"><div class="stat-n">2</div><div class="stat-l">Férias + Virada de fase</div></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Calendário — Julho 2026</div></div>
-        <div id="calJulho"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Posts — Julho 2026</div></div>
-        <div class="card-body" id="postsJulho"></div>
-      </div>
-      <div class="cron-toggle" onclick="toggleCron('julho')">
-        <div class="cron-toggle-label">📋 Cronograma Editorial — Julho 2026</div>
-        <span class="cron-toggle-arrow" id="cron-arrow-julho">▼</span>
-      </div>
-      <div class="cron-iframe-wrap" id="cron-wrap-julho">
-        <iframe class="cron-iframe" src="its_power_cronograma_julho_responsivo.html" title="Cronograma Julho"></iframe>
+      <div class="cron-frame-wrap" id="cron-wrap-junho">
+        <iframe class="cron-frame" src="its_power_cronograma_junho_responsivo.html" title="Cronograma Junho"></iframe>
       </div>
     </div>
 
-    <!-- ══ AGOSTO ══ -->
-    <div class="tab-panel" id="panel-agosto">
-      <div class="month-banner mb-f2">
-        <div class="mb-info">
-          <div class="lbl">Fase 01 · Produção avançada · Virada de estação</div>
-          <div class="ttl">Agosto — Verão começa a aparecer. Produção de nível superior.</div>
-          <div class="sub">Autoridade · Conexão · Conversão · Desafio interno · Urgência sazonal</div>
+    <!-- ════════════════════════════════════
+         TAB: PRÓXIMAS FASES
+    ════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-fases">
+      <div style="background:linear-gradient(135deg,#0F172A,var(--blue-dark));border-radius:var(--r);padding:22px 26px">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Crescimento planejado</div>
+        <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:5px">Do teste à performance — os próximos passos</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.6)">Após a Fase Teste de junho, a parceria evolui seguindo o contrato 001/2026. Cada fase amplia a produção e o impacto nas redes.</div>
+      </div>
+
+      <div class="grid-3">
+        <!-- FASE TESTE -->
+        <div class="plan-card">
+          <div class="plan-hdr" style="background:var(--surface2)">
+            <div class="plan-name" style="color:var(--purple)">Fase Teste</div>
+            <div class="plan-price">R$ 1.200</div>
+            <div class="plan-price-sub">mês único · Junho 2026</div>
+            <span class="tag tag-purple" style="margin-top:8px;display:inline-flex">● Ativa agora</span>
+          </div>
+          <div class="plan-body">
+            <div class="plan-feature"><span class="plan-feature-icon">✅</span>10 posts em junho</div>
+            <div class="plan-feature"><span class="plan-feature-icon">✅</span>Roteirização completa</div>
+            <div class="plan-feature"><span class="plan-feature-icon">✅</span>3 pilares estratégicos</div>
+            <div class="plan-feature"><span class="plan-feature-icon">✅</span>Captação interna (vida real)</div>
+            <div class="plan-feature"><span class="plan-feature-icon">✅</span>Relatório de descoberta</div>
+            <div class="plan-feature"><span class="plan-feature-icon">✅</span>Reunião de alinhamento final</div>
+          </div>
         </div>
-        <div class="mb-right"><div class="mb-val">R$ 1.200</div><div class="mb-val-l">Honorário mensal</div></div>
-      </div>
-      <div class="stats stats-4">
-        <div class="stat"><div class="stat-n">12</div><div class="stat-l">Posts em Agosto</div></div>
-        <div class="pillar-stats">
-          <div class="pstat pa"><div class="pstat-n">4</div><div class="pstat-l">🏆 Autoridade</div></div>
-          <div class="pstat pc"><div class="pstat-n">5</div><div class="pstat-l">🤝 Conexão</div></div>
-          <div class="pstat pv"><div class="pstat-n">3</div><div class="pstat-l">🎯 Conversão</div></div>
+
+        <!-- PLANO ESSENCIAL -->
+        <div class="plan-card featured">
+          <div class="plan-hdr" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff">
+            <div class="plan-name" style="color:rgba(255,255,255,.8)">Plano Essencial</div>
+            <div class="plan-price" style="color:#fff">R$ 2.800</div>
+            <div class="plan-price-sub" style="color:rgba(255,255,255,.65)">por mês · Meses 2 a 4</div>
+            <span class="tag" style="background:rgba(255,255,255,.2);color:#fff;margin-top:8px;display:inline-flex">Recomendado após aprovação</span>
+          </div>
+          <div class="plan-body">
+            <div class="plan-feature"><span class="plan-feature-icon">🎬</span>12 vídeos/mês (3/semana)</div>
+            <div class="plan-feature"><span class="plan-feature-icon">✍️</span>Roteirização + Captação + Edição</div>
+            <div class="plan-feature"><span class="plan-feature-icon">📅</span>Planejamento editorial mensal</div>
+            <div class="plan-feature"><span class="plan-feature-icon">📱</span>Suporte a stories estratégicos</div>
+            <div class="plan-feature"><span class="plan-feature-icon">🤝</span>Reunião mensal de alinhamento</div>
+            <div class="plan-feature"><span class="plan-feature-icon">📊</span>Relatório de desempenho mensal</div>
+          </div>
+          <div class="plan-cta">
+            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="approvePhase('essencial')">✓ Aprovar Plano Essencial</button>
+          </div>
         </div>
-        <div class="stat gr"><div class="stat-n" id="sAgostoPub">0</div><div class="stat-l">Publicados</div></div>
-        <div class="stat am"><div class="stat-n">1</div><div class="stat-l">Desafio interno</div></div>
+
+        <!-- PLANO GROWTH -->
+        <div class="plan-card">
+          <div class="plan-hdr" style="background:linear-gradient(135deg,#92400E,var(--orange))">
+            <div class="plan-name" style="color:rgba(255,255,255,.8)">Plano Growth</div>
+            <div class="plan-price" style="color:#fff">R$ 4.500</div>
+            <div class="plan-price-sub" style="color:rgba(255,255,255,.65)">por mês · Mês 5 em diante</div>
+            <span class="tag" style="background:rgba(255,255,255,.15);color:#fff;margin-top:8px;display:inline-flex">🔒 Após Plano Essencial</span>
+          </div>
+          <div class="plan-body">
+            <div class="plan-feature"><span class="plan-feature-icon">📦</span>Tudo do Plano Essencial</div>
+            <div class="plan-feature"><span class="plan-feature-icon">📣</span>Stories diários da rotina</div>
+            <div class="plan-feature"><span class="plan-feature-icon">🎯</span>Gestão de Meta Ads (Facebook/Insta)</div>
+            <div class="plan-feature"><span class="plan-feature-icon">🧲</span>Lookalike audience ativado</div>
+            <div class="plan-feature"><span class="plan-feature-icon">📈</span>Campanhas sazonais e promoções</div>
+            <div class="plan-feature"><span class="plan-feature-icon">💰</span>Relatório CPL e ROI completo</div>
+          </div>
+        </div>
       </div>
+
       <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Calendário — Agosto 2026</div></div>
-        <div id="calAgosto"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><div class="card-hdr-t">Posts — Agosto 2026</div></div>
-        <div class="card-body" id="postsAgosto"></div>
-      </div>
-      <div class="cron-toggle" onclick="toggleCron('agosto')">
-        <div class="cron-toggle-label">📋 Cronograma Editorial — Agosto 2026</div>
-        <span class="cron-toggle-arrow" id="cron-arrow-agosto">▼</span>
-      </div>
-      <div class="cron-iframe-wrap" id="cron-wrap-agosto">
-        <iframe class="cron-iframe" src="its_power_cronograma_agosto_responsivo.html" title="Cronograma Agosto"></iframe>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">💰</span>Investimento Total Estimado</div></div>
+        <div class="card-body">
+          <div class="payment-row">
+            <div><div class="pr-phase">Fase Teste</div><div class="pr-period">Junho 2026 · 1 mês</div></div>
+            <div class="pr-amount">R$ 1.200</div>
+            <span class="pr-status" style="background:var(--purple-light);color:var(--purple-dark)">Em andamento</span>
+          </div>
+          <div class="payment-row">
+            <div><div class="pr-phase">Plano Essencial · 3 meses</div><div class="pr-period">Jul – Set 2026 · R$ 2.800/mês</div></div>
+            <div class="pr-amount">R$ 8.400</div>
+            <span class="pr-status" style="background:var(--blue-light);color:var(--blue-dark)">Aguardando</span>
+          </div>
+          <div class="payment-row">
+            <div><div class="pr-phase">Plano Growth · 4 meses</div><div class="pr-period">Out – Dez 2026 · R$ 4.500/mês</div></div>
+            <div class="pr-amount">R$ 18.000</div>
+            <span class="pr-status" style="background:var(--surface2);color:var(--muted)">Futuro</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--heading);border-radius:8px;margin-top:8px">
+            <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.8)">Total estimado do contrato (8 meses)</div>
+            <div style="font-size:20px;font-weight:800;color:#fff">R$ 27.600</div>
+          </div>
+          <p style="font-size:10px;color:var(--muted);margin-top:8px">* Verba de tráfego pago (Meta Ads) é de responsabilidade da contratante e não está incluída. Estimativa: R$ 800–1.500/mês na Fase Growth.</p>
+        </div>
       </div>
     </div>
 
-  </div>
-</div>
+    <!-- ════════════════════════════════════
+         TAB: CONTRATO & DOCS
+    ════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-contrato">
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">📄</span>Contrato 001/2026 — Dados</div></div>
+          <div class="card-body">
+            <div class="contract-section">
+              <div class="contract-section-title">Partes</div>
+              <div class="contract-row"><span class="cr-label">Contratante</span><span class="cr-value">Academia It's Power · Cláudio, MG</span></div>
+              <div class="contract-row"><span class="cr-label">Contratado</span><span class="cr-value">Rafael Henrique Cordeiro Santos · SrChZ Technologies</span></div>
+              <div class="contract-row"><span class="cr-label">Site</span><span class="cr-value">academiapower.com.br</span></div>
+              <div class="contract-row"><span class="cr-label">Foro</span><span class="cr-value">Comarca de Cláudio, MG</span></div>
+            </div>
+            <div class="contract-section">
+              <div class="contract-section-title">Prazo e Vigência</div>
+              <div class="contract-row"><span class="cr-label">Início</span><span class="cr-value">1º de Maio de 2026</span></div>
+              <div class="contract-row"><span class="cr-label">Término previsto</span><span class="cr-value">31 de Dezembro de 2026</span></div>
+              <div class="contract-row"><span class="cr-label">Duração</span><span class="cr-value">8 meses</span></div>
+              <div class="contract-row"><span class="cr-label">Renovação</span><span class="cr-value">Instrumento aditivo · 30 dias de antecedência</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">⚖️</span>Regras Importantes</div></div>
+          <div class="card-body">
+            <div class="contract-section">
+              <div class="contract-section-title">Pagamento</div>
+              <div class="contract-row"><span class="cr-label">Vencimento</span><span class="cr-value">Até dia 5 de cada mês · PIX ou TED</span></div>
+              <div class="contract-row"><span class="cr-label">Multa por atraso</span><span class="cr-value">2% + 1% a.m. + IGPM/FGV</span></div>
+              <div class="contract-row"><span class="cr-label">Suspensão</span><span class="cr-value">Atraso &gt; 15 dias corridos</span></div>
+            </div>
+            <div class="contract-section">
+              <div class="contract-section-title">Aprovação de Conteúdo</div>
+              <div class="contract-row"><span class="cr-label">Prazo de revisão</span><span class="cr-value">48h após envio pelo contratado</span></div>
+              <div class="contract-row"><span class="cr-label">Aprovação tácita</span><span class="cr-value">Sem retorno em 48h = aprovado automaticamente</span></div>
+              <div class="contract-row"><span class="cr-label">Ajustes</span><span class="cr-value">Solicitados dentro do prazo de 48h</span></div>
+            </div>
+            <div class="contract-section">
+              <div class="contract-section-title">Rescisão</div>
+              <div class="contract-row"><span class="cr-label">Fim da Fase Teste</span><span class="cr-value">Sem multa · aviso 5 dias úteis</span></div>
+              <div class="contract-row"><span class="cr-label">Entre fases</span><span class="cr-value">Sem multa · aviso 30 dias</span></div>
+              <div class="contract-row"><span class="cr-label">Dentro de uma fase</span><span class="cr-value">Multa = 2 parcelas mensais</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">📦</span>Escopo dos Serviços — O que está incluído</div></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Responsabilidade do Contratado (SrChZ)</div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>🎯</span>Ideação e curadoria criativa dos conteúdos</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>✍️</span>Elaboração de roteiros (hook → desenvolvimento → CTA)</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>📅</span>Planejamento editorial mensal com datas comemorativas</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>📱</span>Gestão estratégica (Instagram · TikTok · YouTube Shorts)</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>📝</span>Produção de copies e legendas para cada post</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>📊</span>Relatório mensal de desempenho com análise de métricas</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>🤝</span>Reunião mensal de alinhamento estratégico</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Responsabilidade da Contratante (ITS Power)</div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>💳</span>Pagamento dos honorários até o dia 5 de cada mês</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>🔑</span>Acesso às contas de redes sociais e Meta Ads</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>📸</span>Disponibilizar espaço para captação de conteúdo</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>✅</span>Aprovar conteúdos em até 48h após o envio</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>💰</span>Verba de tráfego pago (Meta Ads — separado do honorário)</div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>📜</span>Autorizações de uso de imagem dos alunos</span></div>
+                <div style="display:flex;gap:8px;font-size:11px;color:var(--text)"><span>👤</span>Indicar responsável interno para comunicação</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">📂</span>Documentos</div></div>
+        <div class="card-body">
+          <div class="grid-3">
+            <a href="contrato_its_power_srchz.pdf" target="_blank" style="text-decoration:none;display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--surface2);transition:border-color .15s">
+              <span style="font-size:28px">📋</span>
+              <div><div style="font-size:12px;font-weight:700;color:var(--heading)">Contrato 001/2026</div><div style="font-size:10px;color:var(--muted)">SrChZ Technologies × ITS Power</div></div>
+            </a>
+            <a href="Ecossistema-de-Desejo-Its-Power.pdf" target="_blank" style="text-decoration:none;display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--surface2);transition:border-color .15s">
+              <span style="font-size:28px">📖</span>
+              <div><div style="font-size:12px;font-weight:700;color:var(--heading)">Ecossistema de Desejo</div><div style="font-size:10px;color:var(--muted)">Metodologia · 63 páginas</div></div>
+            </a>
+            <a href="its_power_videos_junho2026.html" target="_blank" style="text-decoration:none;display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--surface2);transition:border-color .15s">
+              <span style="font-size:28px">🎬</span>
+              <div><div style="font-size:12px;font-weight:700;color:var(--heading)">Roteiros de Vídeo</div><div style="font-size:10px;color:var(--muted)">12 roteiros completos · Junho</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /contrato -->
+
+  </div><!-- /content -->
+</div><!-- /main -->
 
 <!-- NOTE MODAL -->
-<div class="modal-backdrop" id="noteModal">
-  <div class="modal">
-    <div class="modal-title" id="noteModalTitle">Observações</div>
-    <textarea id="noteModalText" placeholder="Observações, ajustes, decisões…"></textarea>
+<div class="modal-bg" id="noteModal">
+  <div class="modal-box">
+    <div class="modal-title" id="noteModalTitle">Observação</div>
+    <textarea id="noteModalText" placeholder="Adicione uma observação…"></textarea>
     <div class="modal-actions">
-      <button class="btn btn-g" onclick="closeNote()">Cancelar</button>
-      <button class="btn btn-p" onclick="saveNote()">Salvar</button>
+      <button class="btn btn-outline" onclick="closeNoteModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="savePostNote()">Salvar</button>
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+
+<div class="toast" id="toast">✓ Salvo</div>
 
 <script>
-/* ═══ DATA ═══ */
-/* Pillar keys: a=Autoridade, c=Conexão, v=Conversão */
-const STATUS_OPT=['pendente','producao','aprovado','publicado'];
-const STATUS_LBL={pendente:'Pendente',producao:'Em produção',aprovado:'Aprovado',publicado:'Publicado'};
-const STATUS_COLOR={pendente:'#9CA3AF',producao:'#7C3AED',aprovado:'#D97706',publicado:'#059669'};
+/* ══════════════ DATA ══════════════ */
+const POSTS=[
+  {id:'jun01',day:10,wday:'Ter',pillar:'c',num:'01/10',
+   title:'Chegamos. Veja como a ITS Power vai aparecer nas suas redes.',
+   desc:'Reel de abertura. A academia como ela é — professores, alunos, estrutura, rotina real. Sem filtros, sem encenação.',
+   tags:['Reel de abertura','Tom autêntico e direto','Apresenta o novo formato de conteúdo']},
+  {id:'jun02',day:12,wday:'Qui',pillar:'v',num:'02/10 · Namorados',
+   title:'Casais que treinam juntos têm algo que vai além da academia.',
+   desc:'Casal treinando naturalmente. Texto: "Casais que treinam juntos…" Frase de impacto + logo. Stories: enquete "você treinaria com seu par?"',
+   tags:['Data especial 12/06','Alto engajamento e reshare','Stories: enquete + marcação']},
+  {id:'jun03',day:14,wday:'Sáb',pillar:'a',num:'03/10',
+   title:'O exercício que quase todo mundo faz errado — e como corrigir.',
+   desc:'Professor demonstra versão ❌ ERRADA vs ✅ CORRETA. Câmera lateral e didática. CTA: "salva esse vídeo."',
+   tags:['Alto salvamento','Autoridade técnica','TikTok: correções performam muito bem']},
+  {id:'jun04',day:17,wday:'Ter',pillar:'c',num:'04/10',
+   title:'Bastidores: como é uma manhã real aqui dentro.',
+   desc:'Câmera ativa desde a abertura. Professor preparando, alunos chegando. Estilo documental, sem roteiro. Texto: "6h da manhã. ITS Power, Cláudio."',
+   tags:['Conexão e humanização','Mostra o cuidado invisível da equipe','Stories: 4 bastidores em tempo real']},
+  {id:'jun05',day:19,wday:'Qui',pillar:'a',num:'05/10',
+   title:'3 motivos para não parar de treinar no inverno.',
+   desc:'"Inverno chegou. Bateu vontade de parar? Aqui vão 3 motivos pra não." Metabolismo no frio. Academia tranquila. O verão se constrói agora.',
+   tags:['Timing sazonal perfeito','Viral: compartilhamento entre quem pensa em parar','CTA: "manda pro amigo que tá de molho"']},
+  {id:'jun06',day:21,wday:'Sáb',pillar:'c',num:'06/10 · Inverno',
+   title:'Primeiro dia oficial do inverno — e a academia tá cheia.',
+   desc:'Efeito de digitação: "Hoje é o primeiro dia do inverno. E a ITS Power está assim:" → academia cheia, energia, alunos suando. "Aqui o frio não é desculpa. É combustível."',
+   tags:['Data especial 21/06','Frase forte para reshare','Engajamento: contraste frio × movimento']},
+  {id:'jun07',day:24,wday:'Ter',pillar:'v',num:'07/10',
+   title:'[Nome] — história real de transformação dentro da ITS Power.',
+   desc:'Aluno real conta o que mudou em 30s. Fala natural. Câmera próxima. Legendado para sem som. Texto: "[Nome]. Parte da comunidade ITS Power."',
+   tags:['Prova social poderosa','Legendado obrigatório','Stories: enquete "você se identifica?"']},
+  {id:'jun08',day:26,wday:'Qui',pillar:'a',num:'08/10',
+   title:'Professor responde: as dúvidas mais comuns sobre treino.',
+   desc:'Professor: "Sabe qual a pergunta que eu mais recebo?" Responde 3 dúvidas reais. Fecha: "Tem mais? Manda nos comentários. Respondo tudo."',
+   tags:['Q&A — alto engajamento','Pode virar série semanal','CTA: "salva e manda pra quem tem dúvida"']},
+  {id:'jun09',day:28,wday:'Sáb',pillar:'c',num:'09/10',
+   title:'30 segundos que resumem por que as pessoas não conseguem parar de treinar aqui.',
+   desc:'Desafio de 30s ou compilação de momentos espontâneos — risadas, conquistas, treinos puxados. Sem narração. Ambiente fala por si.',
+   tags:['Formato viral','Comentários e marcações','Alta retenção e compartilhamento']},
+  {id:'jun10',day:30,wday:'Seg',pillar:'v',num:'10/10',
+   title:'Junho foi assim. Julho tem mais. Você ainda não faz parte?',
+   desc:'Montagem rápida dos melhores momentos. Fecha com CTA: "Primeira visita por nossa conta. Link na bio." Tom: fechamento e abertura do próximo capítulo.',
+   tags:['Fechamento de mês','CTA direto para visita','Antecipa julho com expectativa']},
+];
 
 const PILLAR={
-  a:{key:'a',label:'Autoridade',icon:'🏆',badge:'b-a',cls:'pa',
-     typeCss:'background:var(--blue-light);color:var(--blue-dark)',dateBg:'background:var(--blue-dark)',stripe:'background:var(--blue)',calCls:'a-post'},
-  c:{key:'c',label:'Conexão',icon:'🤝',badge:'b-c',cls:'pc',
-     typeCss:'background:var(--green-light);color:#065F46',dateBg:'background:#059669',stripe:'background:var(--green)',calCls:'c-post'},
-  v:{key:'v',label:'Conversão',icon:'🎯',badge:'b-v',cls:'pv',
-     typeCss:'background:var(--orange-light);color:#92400E',dateBg:'background:var(--orange)',stripe:'background:var(--orange)',calCls:'v-post'},
+  a:{label:'Autoridade',icon:'🏆',badge:'cb-a',calCls:'a-p',
+     typeCss:'background:var(--blue-light);color:var(--blue-dark)',dateBg:'background:var(--blue-dark)',stripe:'background:var(--blue)'},
+  c:{label:'Conexão',icon:'🤝',badge:'cb-c',calCls:'c-p',
+     typeCss:'background:var(--green-light);color:var(--green-dark)',dateBg:'background:#059669',stripe:'background:var(--green)'},
+  v:{label:'Conversão',icon:'🎯',badge:'cb-v',calCls:'v-p',
+     typeCss:'background:var(--orange-light);color:#92400E',dateBg:'background:var(--orange)',stripe:'background:var(--orange)'},
 };
 
-const MONTHS={
-  junho:{
-    name:'Junho 2026',calStart:0/*Mon*/,days:30,year:2026,month:6,
-    inactiveBefore:8,/* days 1-7 are pre-project */
-    sub:'Início 08/06 · 3/semana · 10 posts',
-    posts:[
-      {id:'jun01',day:10,wday:'Ter',pillar:'c',num:'01/10',
-       title:'Chegamos. Veja como a ITS Power vai aparecer nas suas redes',
-       desc:'Reel de abertura do projeto. Câmera mostra a academia como ela é — professores, alunos, estrutura, rotina real. Sem filtros, sem encenação. Tom: "é assim que funciona por aqui."',
-       tags:['Reel de abertura do projeto','Apresenta o novo formato de conteúdo','Tom autêntico e direto']},
-      {id:'jun02',day:12,wday:'Qui',pillar:'v',num:'02/10 · Dia dos Namorados',
-       title:'Casais que treinam juntos têm algo que vai além da academia',
-       desc:'Casal treinando — câmera pega sem que percebam. Texto: "Casais que treinam juntos…" Fecha com frase impactante e logo. Enquete nos stories: "você treinaria com seu par?"',
-       tags:['Data especial 12/06','Alto engajamento e reshare','Stories: enquete + marcação']},
-      {id:'jun03',day:14,wday:'Sáb',pillar:'a',num:'03/10',
-       title:'O exercício que quase todo mundo faz errado — e como corrigir',
-       desc:'Professor demonstra versão errada vs versão correta do movimento (ex: agachamento, remada). Câmera lateral e didática. Texto na tela: ❌ ERRADO / ✅ CORRETO. CTA: "salva esse vídeo."',
-       tags:['Alto salvamento','Estabelece autoridade técnica','TikTok: conteúdo de correção performa muito']},
-      {id:'jun04',day:17,wday:'Ter',pillar:'c',num:'04/10',
-       title:'Bastidores: como é uma manhã real aqui dentro',
-       desc:'Câmera ativa desde a abertura. Professor preparando, alunos chegando, cumprimentos na entrada. Texto: "6h da manhã. ITS Power, Cláudio." Estilo documental — sem roteiro.',
-       tags:['Conexão e humanização','Mostra o cuidado invisível da equipe','Stories: sequência de 4 nos bastidores']},
-      {id:'jun05',day:19,wday:'Qui',pillar:'a',num:'05/10',
-       title:'3 motivos para não parar de treinar no inverno',
-       desc:'Abertura direta: "Inverno chegou. Bateu vontade de parar? Aqui vão 3 motivos pra não." Motivo 1: metabolismo no frio. Motivo 2: academia mais tranquila. Motivo 3: o verão se constrói agora.',
-       tags:['Timing sazonal perfeito','Viral: compartilhamento entre quem pensa em parar','CTA: "manda pro amigo que tá de molho"']},
-      {id:'jun06',day:21,wday:'Sáb',pillar:'c',num:'06/10 · Início do Inverno',
-       title:'Primeiro dia oficial do inverno — e a academia tá cheia',
-       desc:'Texto com efeito: "Hoje é o primeiro dia do inverno. E a ITS Power está assim:" → corte para academia cheia, energia alta, alunos suando. Frase: "Aqui o frio não é desculpa. É combustível."',
-       tags:['Data especial 21/06','Frase forte para reshare','Engajamento: contraste frio × movimento']},
-      {id:'jun07',day:24,wday:'Ter',pillar:'v',num:'07/10',
-       title:'[Nome] — história real de transformação dentro da ITS Power',
-       desc:'Aluno real conta em 2-3 frases o que mudou. Fala natural, sem roteiro. Câmera próxima. Legendado para assistir sem som. Texto final: "[Nome]. Parte da comunidade ITS Power."',
-       tags:['Prova social poderosa','Legendado obrigatório para assistir sem som','Stories: trecho + enquete "você se identifica?"']},
-      {id:'jun08',day:26,wday:'Qui',pillar:'a',num:'08/10',
-       title:'Professor responde: as dúvidas mais comuns sobre treino',
-       desc:'Professor olha pra câmera: "Sabe qual a pergunta que eu mais recebo?" Responde 3 dúvidas reais dos alunos em tom direto. Fecha: "Tem mais? Manda nos comentários. Respondo tudo."',
-       tags:['Q&A — alto engajamento nos comentários','Pode virar série semanal','CTA: "salva e manda pra quem tem dúvida"']},
-      {id:'jun09',day:28,wday:'Sáb',pillar:'c',num:'09/10',
-       title:'30 segundos que resumem por que as pessoas não conseguem parar de treinar aqui',
-       desc:'Desafio de 30 segundos ou compilação de momentos espontâneos — risadas, conquistas, treinos puxados. Sem narração. Deixa o ambiente falar. Texto: "É assim por aqui. Todo dia."',
-       tags:['Viral: formato desafio','Comentários e marcações','Alta retenção e compartilhamento']},
-      {id:'jun10',day:30,wday:'Seg',pillar:'v',num:'10/10',
-       title:'Junho foi assim. Julho tem mais. Você ainda não faz parte?',
-       desc:'Montagem rápida dos melhores momentos de junho. Fecha com CTA: "Primeira visita por nossa conta. Link na bio." Tom de fechamento de capítulo e abertura do próximo.',
-       tags:['Fechamento de mês','CTA direto para visita','Antecipa julho com expectativa']},
-    ]
-  },
-  julho:{
-    name:'Julho 2026',calStart:2/*Wed*/,days:31,year:2026,month:7,
-    inactiveBefore:0,
-    sub:'3 posts/semana · Ter/Qui/Sáb · 12 posts',
-    posts:[
-      {id:'jul01',day:1,wday:'Qua',pillar:'c',num:'01/12',
-       title:'Julho começou. Olha o que está acontecendo aqui',
-       desc:'Abertura de mês — reel da academia em movimento. Plano geral, energia, alunos. Texto: "Julho. A ITS Power não para." Tom: consistência é o que nos define.',
-       tags:['Abertura de mês','Reforça consistência e presença','Tom motivacional e direto']},
-      {id:'jul02',day:3,wday:'Sex',pillar:'a',num:'02/12',
-       title:'A diferença entre treinar certo e treinar muito',
-       desc:'Professor explica: volume sem técnica = lesão e platô. Técnica + consistência = resultado real. Demonstração prática. CTA: "salva esse vídeo antes do próximo treino."',
-       tags:['Autoridade técnica forte','Desmistifica crenças populares','Alto salvamento']},
-      {id:'jul03',day:5,wday:'Dom',pillar:'v',num:'03/12',
-       title:'Quem começa hoje chega diferente no verão',
-       desc:'Frase impactante + imagem de academia cheia. "Faltam X semanas para o verão. Quem começa agora chega pronto. Quem espera, espera mais um ano." CTA: primeira visita grátis.',
-       tags:['Urgência sazonal — verão como gatilho','CTA direto matrícula','Reshare alto']},
-      {id:'jul04',day:8,wday:'Ter',pillar:'c',num:'04/12',
-       title:'Como o professor da ITS Power prepara cada treino dos alunos',
-       desc:'Bastidores do professor: planilha, anotações, conversa com aluno antes do treino. Sem encenação. Mostra o cuidado e personalização que alunos não veem. Diferencial claro vs. academias genéricas.',
-       tags:['Humanização da equipe','Diferencial competitivo visível','Compartilhamento por alunos atuais']},
-      {id:'jul05',day:10,wday:'Qui',pillar:'a',num:'05/12',
-       title:'Mito ou verdade: treinar em jejum emagrece mais?',
-       desc:'Formato quiz de alto retenção. Professor responde com embasamento simples. Virada com humor: "O que não funciona é a desculpa de não treinar." Salva + CTA whatsapp.',
-       tags:['Formato mito/verdade — alto salvamento','Desmonta crença popular','CTA implícito de matrícula']},
-      {id:'jul06',day:12,wday:'Sáb',pillar:'v',num:'06/12',
-       title:'[Nome] — 45 dias e esse resultado',
-       desc:'Aluno fala sobre o antes e depois em 30s. Foco no que mudou além do físico: disposição, sono, autoestima, hábitos. Legendado. Texto final: "[Nome]. Parte da comunidade ITS Power."',
-       tags:['Prova social — transformação real','Legendado para assistir sem som','Stories: enquete + caixa de objetivo']},
-      {id:'jul07',day:15,wday:'Ter',pillar:'c',num:'07/12',
-       title:'Férias de julho: seus filhos estão de folga. E você, o que está fazendo?',
-       desc:'Julho = férias escolares. Pais com mais tempo livre = oportunidade de matrícula. Visual: adulto treinando com energia. Story: enquete "férias é hora de começar ou continuar?"',
-       tags:['Público: pais 30-50 anos','Timing perfeito — férias escolares','Story: enquete + CTA matrícula']},
-      {id:'jul08',day:17,wday:'Qui',pillar:'a',num:'08/12',
-       title:'Como montar um treino que funciona na sua rotina sem mudar tudo',
-       desc:'Professor mostra como adaptar frequência, horário e tipo de treino à rotina real do aluno. Tom prático: "não precisa virar atleta, precisa de consistência." CTA: avaliação gratuita.',
-       tags:['Educativo com CTA orgânico','Quebrta a objeção da falta de tempo','Salva + compartilha']},
-      {id:'jul09',day:19,wday:'Sáb',pillar:'c',num:'09/12',
-       title:'Desafio: você consegue fazer isso por 30 segundos?',
-       desc:'Professor olha para câmera: "30 segundos. Você consegue?" Demonstra o exercício com cronômetro. Reação genuína ao final. Texto: "comenta se conseguiu e marca um amigo."',
-       tags:['Formato viral — engajamento alto','Comentários e marcações','FOMO para não alunos']},
-      {id:'jul10',day:22,wday:'Ter',pillar:'a',num:'10/12',
-       title:'Por que consistência bate intensidade toda vez',
-       desc:'Reflexão do professor sobre a mentalidade de longo prazo. "Treino leve toda semana bate treino pesado uma vez por mês." Formato fala direta para câmera. Simples, impactante, reshare.',
-       tags:['Filosofia de treino','Tom de autoridade pessoal','Alto reshare e salvamento']},
-      {id:'jul11',day:24,wday:'Qui',pillar:'v',num:'11/12',
-       title:'2 meses de projeto. O que construímos juntos até aqui.',
-       desc:'Balanço visual: clipes dos melhores momentos de junho e julho. Bastidores, alunos, professor. Texto: "Isso é o que acontece quando academia vira comunidade." Antecipa agosto.',
-       tags:['Balanço de projeto — transparência','Fideliza alunos atuais','Antecipa agosto com expectativa']},
-      {id:'jul12',day:26,wday:'Sáb',pillar:'c',num:'12/12',
-       title:'A comunidade que cresce junto — ITS Power em julho',
-       desc:'Montagem dos melhores momentos de conexão do mês: cumprimentos, risadas, conquistas compartilhadas. Sem narração. Música de fundo. Texto final: "Isso é a ITS Power. Vem ser parte."',
-       tags:['Fechamento de mês','Sentimento de comunidade','CTA emocional e não forçado']},
-    ]
-  },
-  agosto:{
-    name:'Agosto 2026',calStart:5/*Sat*/,days:31,year:2026,month:8,
-    inactiveBefore:0,
-    sub:'12 posts · Produção + · Desafio interno · Virada sazonal',
-    posts:[
-      {id:'ago01',day:4,wday:'Ter',pillar:'v',num:'01/12',
-       title:'Agosto chegou. O verão está a 3 meses. Você começa quando?',
-       desc:'Abertura de agosto com urgência sazonal. "Quem começou em junho já está na frente. Quem começa hoje chega a tempo. Quem espera mais, começa de zero em outubro." CTA: primeira visita grátis.',
-       tags:['Urgência máxima — virada de estação','Tom: provocativo sem ser agressivo','CTA direto matrícula']},
-      {id:'ago02',day:7,wday:'Qui',pillar:'a',num:'02/12',
-       title:'3 erros que sabotam seus resultados sem você perceber',
-       desc:'Professor lista: 1) Treinar sempre o mesmo 2) Ignorar o descanso 3) Fazer sem técnica. Cada erro com demonstração visual. Fecha: "Aqui a gente corrige isso desde o primeiro treino."',
-       tags:['Autoridade técnica','Alto salvamento','Conecta ao diferencial de acompanhamento']},
-      {id:'ago03',day:9,wday:'Sáb',pillar:'c',num:'03/12 · Dia dos Pais',
-       title:'Para os pais que dão o exemplo dentro e fora da academia',
-       desc:'Fuga do clichê. Foco no pai que cuida da própria saúde e, ao fazer isso, inspira. Câmera pega sem perceber. Story: caixa para filhos homenagearem os pais.',
-       tags:['Data especial 09/08','Tom: empático e sem clichê','Story: homenagem dos filhos → alto engajamento']},
-      {id:'ago04',day:12,wday:'Ter',pillar:'c',num:'04/12',
-       title:'Como é um treino real aqui dentro — câmera aberta, sem filtro',
-       desc:'Câmera acompanha aluno do aquecimento ao último exercício. Professor orienta, corrige, incentiva. Sem música de fundo forçada. Apenas o ambiente real da academia.',
-       tags:['Bastidores autênticos','Mostra a experiência que o aluno vai ter','Tom: "o que você vai encontrar aqui"']},
-      {id:'ago05',day:14,wday:'Qui',pillar:'a',num:'05/12',
-       title:'A diferença entre esforço e eficiência: o que realmente gera resultado',
-       desc:'Professor explica progressão de carga, descanso adequado e variação de estímulo. Linguagem simples. "Mais esforço no errado não gera resultado. Eficiência gera." CTA: avaliação grátis.',
-       tags:['Educativo de alto nível','Diferencial de atendimento técnico','Salva + indica para quem "não vê resultado"']},
-      {id:'ago06',day:16,wday:'Sáb',pillar:'v',num:'06/12',
-       title:'[Nome] — 30 dias e isso mudou',
-       desc:'Transformação de 30 dias. Aluno fala sobre o que mudou: disposição, humor, sono, autoestima. Sem before/after forçado — foco no sentimento, não na estética. Legendado.',
-       tags:['Prova social emocional','Menos estética, mais sentimento','Stories: enquete + caixa de objetivo']},
-      {id:'ago07',day:19,wday:'Ter',pillar:'c',num:'07/12 · Desafio Interno',
-       title:'Apresentamos o 1º Desafio ITS Power — você aceita?',
-       desc:'Carrossel de lançamento: capa impactante → o que é → como participar → premiação → "isso é o que transforma academia em comunidade" → CTA na recepção. Endomarketing que gera FOMO.',
-       tags:['Fideliza alunos atuais','Gera FOMO em não alunos','Prova social futura garantida']},
-      {id:'ago08',day:21,wday:'Qui',pillar:'a',num:'08/12',
-       title:'Treinar no inverno vs. treinar no verão: por que o frio é seu aliado',
-       desc:'Motivos científicos em linguagem acessível: metabolismo mais ativo, academia menos cheia, construção de hábito sólido, vantagem competitiva. Timing: agosto = fim do inverno = senso de urgência.',
-       tags:['Conteúdo educativo sazonal','Urgência: "o inverno acaba, aproveita"','Retenção dos que treinaram no frio']},
-      {id:'ago09',day:23,wday:'Sáb',pillar:'c',num:'09/12 · Resultado Desafio',
-       title:'Resultado do 1º Desafio ITS Power — eles aceitaram. Eles venceram.',
-       desc:'Encerramento do desafio. Destaques premiados. Celebra a comunidade. Anuncia o próximo desafio. Story: votação pública nos destaques. Tom: orgulho e pertencimento.',
-       tags:['Prova social do desafio','FOMO em quem não participou','Anuncia próximo desafio — retenção']},
-      {id:'ago10',day:26,wday:'Ter',pillar:'a',num:'10/12',
-       title:'Por que quem começa aqui não consegue parar',
-       desc:'Professor fala sobre a psicologia do hábito: "O primeiro mês é difícil. O segundo você sente a diferença. O terceiro você não consegue imaginar sem treinar." Tom pessoal e direto.',
-       tags:['Psicologia do hábito — conteúdo de alto valor','Argumenta contra a objeção de desistência','CTA suave: "comece e veja por você mesmo"']},
-      {id:'ago11',day:28,wday:'Qui',pillar:'v',num:'11/12',
-       title:'Setembro começa em breve. Primeira visita por nossa conta.',
-       desc:'Urgência final de agosto. "Setembro é o início do aquecimento para o verão. A ITS Power tem estrutura, professor que te conhece e uma comunidade que puxa pra cima." CTA direto.',
-       tags:['CTA máximo — virada de mês','Urgência sazonal setembro','Primeira visita grátis como gatilho']},
-      {id:'ago12',day:30,wday:'Sáb',pillar:'c',num:'12/12',
-       title:'Agosto foi assim na ITS Power. Setembro tem mais.',
-       desc:'Montagem do melhor de agosto: desafio, bastidores, transformações, momentos espontâneos. Fecha com expectativa para setembro. Tom: "isso é só o começo."',
-       tags:['Fechamento de mês','Antecipa setembro com energia','Pertencimento e comunidade visíveis']},
-    ]
-  }
-};
+const STATUS_OPT=['pendente','producao','aprovado','publicado'];
+const STATUS_LBL={pendente:'Pendente',producao:'Em produção',aprovado:'Aprovado',publicado:'Publicado'};
+const STATUS_COLOR={pendente:'#94A3B8',producao:'#7C3AED',aprovado:'#D97706',publicado:'#059669'};
 
-/* ═══ STATE ═══ */
-function loadState(){try{return JSON.parse(localStorage.getItem('ip2_state'))||{}}catch{return{}}}
-function saveState(s){localStorage.setItem('ip2_state',JSON.stringify(s))}
-let STATE=loadState();
-Object.values(MONTHS).forEach(m=>m.posts.forEach(p=>{if(!STATE[p.id])STATE[p.id]={status:'pendente',note:''}}));
+/* ══════════════ STATE ══════════════ */
+function ls(k){try{return JSON.parse(localStorage.getItem('ip3_'+k))||null}catch{return null}}
+function sv(k,v){localStorage.setItem('ip3_'+k,JSON.stringify(v))}
 
-/* ═══ CALENDAR ═══ */
-const DAY_HEADS=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+let STATE=ls('state')||{};
+POSTS.forEach(p=>{if(!STATE[p.id])STATE[p.id]={status:'pendente',note:'',stars:0,fb:''}});
+let APPROVED=ls('approved')||{essencial:false,growth:false};
+let MONTH_NOTE=ls('monthNote')||'';
+
+/* ══════════════ CALENDAR ══════════════ */
 const TODAY=new Date().toISOString().slice(0,10);
-
-function buildCalendar(containerId,monthKey){
-  const m=MONTHS[monthKey];
-  const container=document.getElementById(containerId);
-  const postByDay={};
-  m.posts.forEach(p=>postByDay[p.day]=p);
-  let html=`<div class="cal-mhdr"><span class="t">${m.name}</span><span class="s">${m.sub}</span></div><div class="cal-grid">`;
-  html+=DAY_HEADS.map(d=>`<div class="cal-head">${d}</div>`).join('');
-  for(let i=0;i<m.calStart;i++) html+=`<div class="cal-cell empty"><span class="cal-dn"></span></div>`;
-  for(let d=1;d<=m.days;d++){
-    const p=postByDay[d];
-    const dateStr=`${m.year}-${String(m.month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday=dateStr===TODAY;
-    const inactive=m.inactiveBefore&&d<m.inactiveBefore;
+function buildCalendar(){
+  const container=document.getElementById('calJunho');
+  const byDay={};POSTS.forEach(p=>byDay[p.day]=p);
+  let html=`<div class="cal-mhdr"><span class="t">Junho 2026</span><span class="s">10 posts · início 08/06 · Ter/Qui/Sáb</span></div><div class="cal-grid">`;
+  ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].forEach(d=>html+=`<div class="cal-head">${d}</div>`);
+  // June 2026 starts Monday (offset 0)
+  for(let d=1;d<=30;d++){
+    const p=byDay[d],isToday=`2026-06-${String(d).padStart(2,'0')}`===TODAY;
+    const inactive=d<8;
     if(p){
-      const pl=PILLAR[p.pillar];
-      const st=STATE[p.id]?.status||'pendente';
-      html+=`<div class="cal-cell hp ${pl.calCls}${isToday?' today':''}${p.num.includes('Namorados')||p.num.includes('Pais')||p.num.includes('Inverno')?' special':''}" onclick="scrollToPost('${p.id}','${monthKey}')">
+      const pl=PILLAR[p.pillar],st=STATE[p.id]?.status||'pendente';
+      html+=`<div class="cal-cell hp ${pl.calCls}${isToday?' today':''}${p.num.includes('Namorados')||p.num.includes('Inverno')?' today':''}" onclick="scrollToPost('${p.id}')">
         <span class="cal-dn">${d}</span>
-        <span class="cal-badge ${pl.badge}">${pl.icon} ${pl.label.slice(0,5)}</span>
-        <div class="cal-ev">${p.title.slice(0,22)}…</div>
+        <span class="cal-badge ${pl.badge}">${pl.icon}</span>
+        <div class="cal-ev">${p.title.slice(0,20)}…</div>
         <div class="cal-sdot" style="background:${STATUS_COLOR[st]}"></div>
       </div>`;
     } else {
       html+=`<div class="cal-cell${inactive?' inactive':''}${isToday?' today':''}"><span class="cal-dn">${d}</span></div>`;
     }
   }
-  const totalCells=m.calStart+m.days;
-  const trailing=(7-totalCells%7)%7;
-  for(let i=0;i<trailing;i++) html+=`<div class="cal-cell empty"><span class="cal-dn"></span></div>`;
+  // June 30 = Tuesday → 5 trailing
+  for(let i=0;i<5;i++) html+=`<div class="cal-cell empty"></div>`;
   html+='</div>';
-  html+=`<div class="cal-leg">
-    <div class="leg"><div class="leg-dot" style="background:var(--blue)"></div>🏆 Autoridade</div>
-    <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>🤝 Conexão</div>
-    <div class="leg"><div class="leg-dot" style="background:var(--orange)"></div>🎯 Conversão</div>
-  </div>`;
   container.innerHTML=html;
 }
 
-/* ═══ POST LIST ═══ */
-function buildPosts(containerId,monthKey){
-  const m=MONTHS[monthKey];
-  const container=document.getElementById(containerId);
+/* ══════════════ POST LIST ══════════════ */
+function buildPosts(){
+  const c=document.getElementById('postsJunho');
   let html='';
-  m.posts.forEach(p=>{
-    const pl=PILLAR[p.pillar];
-    const st=STATE[p.id]?.status||'pendente';
-    const note=STATE[p.id]?.note||'';
+  POSTS.forEach(p=>{
+    const pl=PILLAR[p.pillar],st=STATE[p.id]?.status||'pendente',note=STATE[p.id]?.note||'',stars=STATE[p.id]?.stars||0;
     const opts=STATUS_OPT.map(s=>`<option value="${s}"${s===st?' selected':''}>${STATUS_LBL[s]}</option>`).join('');
     const tags=p.tags.map(t=>`<span class="post-tag">${t}</span>`).join('');
-    html+=`<div class="post-item" id="pi_${p.id}" data-status="${st}">
+    const starsHtml=[1,2,3,4,5].map(i=>`<span class="post-fb-star${i<=stars?' active':''}" onclick="setStars('${p.id}',${i})" data-pid="${p.id}" data-i="${i}">★</span>`).join('');
+    html+=`<div class="post-item" id="pi_${p.id}">
       <div class="post-date" style="${pl.dateBg}"><div class="post-day-n">${String(p.day).padStart(2,'0')}</div><div class="post-wday">${p.wday}</div></div>
       <div class="post-stripe" style="${pl.stripe}"></div>
-      <div class="post-content">
-        <div class="post-top">
-          <span class="post-type-badge" style="${pl.typeCss}">${pl.icon} ${pl.label}</span>
-          <span class="post-num">${p.num}</span>
-        </div>
+      <div class="post-body">
+        <div class="post-top"><span class="post-type-badge" style="${pl.typeCss}">${pl.icon} ${pl.label}</span><span class="post-num">${p.num}</span></div>
         <div class="post-title">${p.title}</div>
         <div class="post-desc">${p.desc}</div>
         <div class="post-tags">${tags}</div>
       </div>
       <div class="post-actions">
-        <select class="s-sel" onchange="setStatus('${p.id}','${monthKey}',this.value)">${opts}</select>
-        <div class="post-note-btn" onclick="openNote('${p.id}','${p.title}')">${note||'+ Observação'}</div>
+        <select class="s-sel" onchange="setStatus('${p.id}',this.value)">${opts}</select>
+        <div class="post-fb-row">${starsHtml}</div>
+        <div class="post-note-btn" onclick="openNoteModal('${p.id}','${p.title.replace(/'/g,"\\'")}')">${note||'+ Observação'}</div>
       </div>
     </div>`;
   });
-  container.innerHTML=html;
+  c.innerHTML=html;
 }
 
-/* ═══ INTERACTIONS ═══ */
-function setStatus(postId,monthKey,val){
-  STATE[postId].status=val;
-  saveState(STATE);
-  const el=document.getElementById('pi_'+postId);
-  if(el) el.dataset.status=val;
-  refreshCalDot(postId,monthKey,val);
+/* ══════════════ FEEDBACK BOARD ══════════════ */
+function buildFeedbackBoard(){
+  const g=document.getElementById('feedbackGrid');
+  if(!g)return;
+  let html='';
+  POSTS.forEach(p=>{
+    const stars=STATE[p.id]?.stars||0,fb=STATE[p.id]?.fb||'';
+    const starsHtml=[1,2,3,4,5].map(i=>`<span class="fb-star${i<=stars?' active':''}" onclick="setStars('${p.id}',${i},true)">★</span>`).join('');
+    const saved=stars>0||fb;
+    html+=`<div class="feedback-card" id="fbc_${p.id}">
+      <div class="fb-post-title">${p.icon||PILLAR[p.pillar].icon} ${p.title}</div>
+      <div class="fb-stars">${starsHtml}</div>
+      <textarea class="fb-note" id="fbnote_${p.id}" placeholder="Comentário opcional sobre este conteúdo…" oninput="setFbNote('${p.id}',this.value)">${fb}</textarea>
+      <div class="fb-actions">
+        <div class="fb-saved${saved?' show':''}" id="fbsaved_${p.id}">✓ Feedback salvo</div>
+        <button class="btn btn-primary" style="padding:5px 12px;font-size:10px" onclick="saveFb('${p.id}')">Salvar</button>
+      </div>
+    </div>`;
+  });
+  g.innerHTML=html;
+}
+POSTS.forEach(p=>{p.icon=PILLAR[p.pillar].icon});
+
+/* ══════════════ INTERACTIONS ══════════════ */
+function setStatus(id,val){
+  STATE[id].status=val;sv('state',STATE);
+  const dot=document.querySelector(`[onclick="scrollToPost('${id}')"] .cal-sdot`);
+  if(dot)dot.style.background=STATUS_COLOR[val];
+  updateStats();showToast('Status atualizado ✓');
+}
+
+function setStars(id,n,fromBoard=false){
+  STATE[id].stars=n;sv('state',STATE);
+  // update post list stars
+  document.querySelectorAll(`[data-pid="${id}"]`).forEach(s=>{s.classList.toggle('active',parseInt(s.dataset.i)<=n)});
+  // update board stars
+  const fbStars=document.querySelectorAll(`#fbc_${id} .fb-star`);
+  fbStars.forEach((s,i)=>s.classList.toggle('active',i<n));
+  if(fromBoard){const saved=document.getElementById('fbsaved_'+id);if(saved)saved.classList.add('show');}
   updateStats();
 }
 
-function refreshCalDot(postId,monthKey,status){
-  const dot=document.querySelector(`[onclick="scrollToPost('${postId}','${monthKey}')"] .cal-sdot`);
-  if(dot) dot.style.background=STATUS_COLOR[status];
+function setFbNote(id,val){STATE[id].fb=val}
+
+function saveFb(id){
+  sv('state',STATE);
+  const saved=document.getElementById('fbsaved_'+id);
+  if(saved)saved.classList.add('show');
+  showToast('Feedback salvo ✓');
+  updateStats();
 }
 
-function scrollToPost(id,monthKey){
-  switchTab(monthKey);
-  setTimeout(()=>{
-    const el=document.getElementById('pi_'+id);
-    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
-  },200);
-}
+function saveMonthNote(val){MONTH_NOTE=val;sv('monthNote',val);document.getElementById('noteSavedLbl').textContent='Salvo automaticamente'}
 
 let activeNote={id:null};
-function openNote(id,title){
+function openNoteModal(id,title){
   activeNote.id=id;
-  document.getElementById('noteModalTitle').textContent=title.slice(0,55)+(title.length>55?'…':'');
+  document.getElementById('noteModalTitle').textContent=title.slice(0,50);
   document.getElementById('noteModalText').value=STATE[id]?.note||'';
   document.getElementById('noteModal').classList.add('open');
 }
-function closeNote(){document.getElementById('noteModal').classList.remove('open');activeNote.id=null}
-function saveNote(){
-  if(!activeNote.id) return;
+function closeNoteModal(){document.getElementById('noteModal').classList.remove('open');activeNote.id=null}
+function savePostNote(){
+  if(!activeNote.id)return;
   const val=document.getElementById('noteModalText').value;
-  STATE[activeNote.id].note=val;
-  saveState(STATE);
-  document.querySelectorAll('.post-note-btn').forEach(n=>{
-    if(n.getAttribute('onclick').includes(`'${activeNote.id}'`)) n.textContent=val||'+ Observação';
-  });
-  showToast('Observação salva ✓');
-  closeNote();
+  STATE[activeNote.id].note=val;sv('state',STATE);
+  document.querySelectorAll('.post-note-btn').forEach(n=>{if(n.getAttribute('onclick').includes(`'${activeNote.id}'`))n.textContent=val||'+ Observação'});
+  showToast('Observação salva ✓');closeNoteModal();
 }
 
-function toggleCron(month){
-  const wrap=document.getElementById('cron-wrap-'+month);
-  const arrow=document.getElementById('cron-arrow-'+month);
-  const open=wrap.classList.toggle('open');
-  arrow.classList.toggle('open',open);
+function approvePhase(phase){
+  APPROVED[phase]=true;sv('approved',APPROVED);
+  document.getElementById('approvalCard').style.display='none';
+  document.getElementById('approvedCard').style.display='flex';
+  showToast('🎉 Plano Essencial aprovado!');
 }
 
+function scrollToPost(id){
+  switchTab('junho');
+  setTimeout(()=>{const el=document.getElementById('pi_'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'})},200);
+}
+
+/* ══════════════ STATS ══════════════ */
 function updateStats(){
-  const counts={junho:0,julho:0,agosto:0,total:0};
-  Object.values(MONTHS).forEach((m,mi)=>{
-    const key=Object.keys(MONTHS)[mi];
-    let pub=0;
-    m.posts.forEach(p=>{if((STATE[p.id]?.status||'pendente')==='publicado') pub++;});
-    counts[key]=pub;
-    counts.total+=pub;
+  let pub=0,fbCount=0,aP=0,cP=0,vP=0,aTot=0,cTot=0,vTot=0;
+  POSTS.forEach(p=>{
+    const s=STATE[p.id]||{};
+    if(s.status==='publicado')pub++;
+    if(s.stars>0||s.fb)fbCount++;
+    const pl=p.pillar;
+    if(pl==='a'){aTot++;if(s.status==='publicado')aP++;}
+    if(pl==='c'){cTot++;if(s.status==='publicado')cP++;}
+    if(pl==='v'){vTot++;if(s.status==='publicado')vP++;}
   });
-  const totPosts=34;
-  const pct=Math.round(counts.total/totPosts*100);
+  const pct=Math.round(pub/POSTS.length*100);
+  const fbPct=Math.round(fbCount/POSTS.length*100);
   document.getElementById('sbPct').textContent=pct+'%';
   document.getElementById('sbFill').style.width=pct+'%';
-  ['junho','julho','agosto'].forEach(k=>{
-    const n=MONTHS[k]?.posts.length||0;
-    const el=document.getElementById('pct'+k.charAt(0).toUpperCase()+k.slice(1));
-    if(el) el.textContent=Math.round((counts[k]||0)/n*100)+'%';
-    const sel=document.getElementById('s'+k.charAt(0).toUpperCase()+k.slice(1)+'Pub');
-    if(sel) sel.textContent=counts[k]||0;
-    const ov=document.getElementById('ov'+k.charAt(0).toUpperCase()+k.slice(1));
-    const nn=MONTHS[k]?.posts.length||0;
-    if(ov) ov.textContent=`${nn} posts · ${counts[k]} publicado${counts[k]!==1?'s':''}`;
-  });
-  document.getElementById('sgPub').textContent=counts.total;
-  document.getElementById('ovTotal').textContent=`${counts.total} / ${totPosts} posts`;
+  document.getElementById('pctJunho').textContent=pct+'%';
+  document.getElementById('statPub').textContent=pub;
+  document.getElementById('sJunhoPub').textContent=pub;
+  document.getElementById('statFeedback').textContent=fbCount;
+  // rings
+  const circ=213.6;
+  setRing('ringTotal',pct,circ);setRing('ringFb',fbPct,circ);
+  document.getElementById('ringTotalPct').textContent=pct+'%';
+  document.getElementById('ringFbPct').textContent=fbPct+'%';
+  // bars
+  setPBar('a',aP,aTot);setPBar('c',cP,cTot);setPBar('v',vP,vTot);
+  // overview
+  document.querySelectorAll('.pb-a-count').forEach(el=>el.textContent=`${aP}/${aTot}`);
+}
+function setRing(id,pct,circ){
+  const el=document.getElementById(id);
+  if(el) el.style.strokeDashoffset=circ-(circ*pct/100);
+}
+function setPBar(key,done,total){
+  const pct=total?Math.round(done/total*100):0;
+  const bar=document.getElementById('pbar-'+key),lbl=document.getElementById('pb-'+key);
+  if(bar)bar.style.width=pct+'%';
+  if(lbl)lbl.textContent=`${done}/${total}`;
 }
 
-/* ═══ TAB ═══ */
+/* ══════════════ TAB ══════════════ */
 function switchTab(tab){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn,.sb-btn').forEach(b=>b.classList.remove('active'));
-  const panel=document.getElementById('panel-'+tab);
-  if(panel) panel.classList.add('active');
+  document.querySelectorAll('.tb-tab,.nav-item').forEach(b=>b.classList.remove('active'));
+  const panel=document.getElementById('panel-'+tab);if(panel)panel.classList.add('active');
   document.querySelectorAll(`[data-tab="${tab}"]`).forEach(b=>b.classList.add('active'));
 }
 
-/* ═══ DARK MODE ═══ */
-function toggleDark(){
-  const html=document.documentElement;
-  const d=html.dataset.theme==='dark';
-  html.dataset.theme=d?'light':'dark';
-  try{localStorage.setItem('ip2_dark',!d)}catch{}
+function toggleCron(m){
+  const w=document.getElementById('cron-wrap-'+m),a=document.getElementById('cron-arrow-'+m);
+  const o=w.classList.toggle('open');a.classList.toggle('open',o);
 }
 
-/* ═══ SIDEBAR MOBILE ═══ */
+/* ══════════════ DARK MODE ══════════════ */
+function toggleDark(){
+  const h=document.documentElement,d=h.dataset.theme==='dark';
+  h.dataset.theme=d?'light':'dark';try{localStorage.setItem('ip3_dark',!d)}catch{}
+}
+
+/* ══════════════ SIDEBAR MOBILE ══════════════ */
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('show')}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show')}
 
-/* ═══ TOAST ═══ */
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+/* ══════════════ TOAST ══════════════ */
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
 
-/* ═══ INIT ═══ */
+/* ══════════════ INIT ══════════════ */
 (function(){
-  try{if(localStorage.getItem('ip2_dark')==='true')document.documentElement.dataset.theme='dark'}catch{}
-  ['junho','julho','agosto'].forEach(k=>{
-    buildCalendar('cal'+k.charAt(0).toUpperCase()+k.slice(1),k);
-    buildPosts('posts'+k.charAt(0).toUpperCase()+k.slice(1),k);
-  });
-  updateStats();
+  try{if(localStorage.getItem('ip3_dark')==='true')document.documentElement.dataset.theme='dark'}catch{}
+  buildCalendar();buildPosts();buildFeedbackBoard();updateStats();
+  // restore month note
+  if(MONTH_NOTE)document.getElementById('monthNote').value=MONTH_NOTE;
+  // restore approval state
+  if(APPROVED.essencial){
+    document.getElementById('approvalCard').style.display='none';
+    document.getElementById('approvedCard').style.display='flex';
+  }
 })();
 </script>
 </body>
