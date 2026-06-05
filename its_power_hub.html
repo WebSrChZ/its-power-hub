@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>It's Power × SrChZ — Portal do Projeto</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -406,6 +407,10 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
       </div>
     </div>
     <div class="tb-right">
+      <div id="connStatus" style="display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);cursor:default" title="Status da conexão">
+        <span class="conn-dot" style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;transition:background .3s"></span>
+        <span class="conn-label" style="font-size:10px;font-weight:600;color:var(--muted);white-space:nowrap">Conectando…</span>
+      </div>
       <button class="ico-btn" onclick="toggleDark()" title="Tema">🌙</button>
       <button class="ico-btn" onclick="window.print()" title="Imprimir">🖨️</button>
     </div>
@@ -432,6 +437,33 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
         <div class="hero-right">
           <div class="hero-val">R$ 1.200</div>
           <div class="hero-val-l">Honorário mensal</div>
+        </div>
+      </div>
+
+      <!-- SETUP BANNER (visível quando Supabase não está configurado) -->
+      <div id="setupBanner" style="display:none;background:linear-gradient(135deg,#1E3A5F,#0F172A);border-radius:var(--r);border:1px solid rgba(99,102,241,.4);padding:20px 24px;gap:16px;align-items:flex-start;flex-wrap:wrap">
+        <div style="font-size:22px;flex-shrink:0">⚡</div>
+        <div style="flex:1;min-width:240px">
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px">Configure o banco de dados para ativar o tempo real</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:14px">Agora o site usa apenas o armazenamento local do seu browser. Para sincronizar dados entre você e o cliente em tempo real, siga os passos:</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="width:20px;height:20px;border-radius:50%;background:rgba(99,102,241,.4);color:#A5B4FC;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>
+              <div style="font-size:11px;color:rgba(255,255,255,.75)">Crie sua conta gratuita em <a href="https://supabase.com" target="_blank" style="color:#818CF8">supabase.com</a> → <strong style="color:#fff">New project</strong> → nome: <code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px">its-power-hub</code></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="width:20px;height:20px;border-radius:50%;background:rgba(99,102,241,.4);color:#A5B4FC;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>
+              <div style="font-size:11px;color:rgba(255,255,255,.75)">No painel: <strong style="color:#fff">SQL Editor → New query</strong> → cole e execute o conteúdo do arquivo <code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px">supabase_setup.sql</code></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="width:20px;height:20px;border-radius:50%;background:rgba(99,102,241,.4);color:#A5B4FC;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>
+              <div style="font-size:11px;color:rgba(255,255,255,.75)"><strong style="color:#fff">Settings → API</strong> → copie a <em>Project URL</em> e a <em>anon public key</em> → abra o arquivo <code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px">its_power_hub.html</code> e preencha as duas constantes no início do <code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px">&lt;script&gt;</code></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="width:20px;height:20px;border-radius:50%;background:rgba(99,102,241,.4);color:#A5B4FC;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</span>
+              <div style="font-size:11px;color:rgba(255,255,255,.75)">Faça o <strong style="color:#fff">git commit + push</strong> — o site no GitHub Pages atualiza em 1 minuto com banco real ativado.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1015,14 +1047,188 @@ const STATUS_OPT=['pendente','producao','aprovado','publicado'];
 const STATUS_LBL={pendente:'Pendente',producao:'Em produção',aprovado:'Aprovado',publicado:'Publicado'};
 const STATUS_COLOR={pendente:'#94A3B8',producao:'#7C3AED',aprovado:'#D97706',publicado:'#059669'};
 
-/* ══════════════ STATE ══════════════ */
-function ls(k){try{return JSON.parse(localStorage.getItem('ip3_'+k))||null}catch{return null}}
-function sv(k,v){localStorage.setItem('ip3_'+k,JSON.stringify(v))}
+/* ══════════════ SUPABASE CONFIG ══════════════
+   Preencha com suas credenciais após criar o projeto em supabase.com
+   Dashboard → Settings → API
+════════════════════════════════════════════════ */
+const SUPABASE_URL = 'SEU_SUPABASE_URL_AQUI';   // ex: https://abcdefgh.supabase.co
+const SUPABASE_KEY = 'SUA_ANON_KEY_AQUI';       // chave "anon public"
 
-let STATE=ls('state')||{};
+const IS_CONFIGURED = SUPABASE_URL !== 'SEU_SUPABASE_URL_AQUI' && SUPABASE_KEY !== 'SUA_ANON_KEY_AQUI';
+const db = IS_CONFIGURED ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+/* ══════════════ STATE (local cache + Supabase sync) ══════════════ */
+function lsGet(k){try{return JSON.parse(localStorage.getItem('ip3_'+k))||null}catch{return null}}
+function lsSet(k,v){try{localStorage.setItem('ip3_'+k,JSON.stringify(v))}catch{}}
+
+let STATE = lsGet('state') || {};
 POSTS.forEach(p=>{if(!STATE[p.id])STATE[p.id]={status:'pendente',note:'',stars:0,fb:''}});
-let APPROVED=ls('approved')||{essencial:false,growth:false};
-let MONTH_NOTE=ls('monthNote')||'';
+let APPROVED = lsGet('approved') || {essencial:false,growth:false};
+let MONTH_NOTE = lsGet('monthNote') || '';
+
+/* ── Supabase: carregar dados ── */
+async function loadFromDB(){
+  if(!IS_CONFIGURED) return;
+  setConnStatus('connecting');
+  try{
+    const [{data:posts},{data:settings},{data:reqs},{data:acts}] = await Promise.all([
+      db.from('post_data').select('*'),
+      db.from('project_settings').select('*'),
+      db.from('requests').select('*').order('created_at',{ascending:true}),
+      db.from('activity').select('*').order('created_at',{ascending:false}).limit(8),
+    ]);
+    // posts
+    if(posts) posts.forEach(r=>{
+      STATE[r.post_id]={status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||''};
+    });
+    // settings
+    if(settings) settings.forEach(r=>{
+      if(r.key==='month_note') MONTH_NOTE=r.value||'';
+      if(r.key==='approved_essencial') APPROVED.essencial=r.value==='true';
+      if(r.key==='approved_growth')    APPROVED.growth=r.value==='true';
+    });
+    lsSet('state',STATE);lsSet('approved',APPROVED);lsSet('monthNote',MONTH_NOTE);
+    // requests
+    if(reqs) renderRequests(reqs);
+    // activity
+    if(acts) renderActivity(acts);
+    setConnStatus('online');
+  }catch(e){
+    console.warn('Supabase load error:',e);
+    setConnStatus('offline');
+  }
+}
+
+/* ── Supabase: salvar post ── */
+async function savePostToDB(postId){
+  if(!IS_CONFIGURED) return;
+  const s=STATE[postId];
+  const {error}=await db.from('post_data').upsert({
+    post_id:postId, status:s.status, stars:s.stars,
+    feedback:s.fb, note:s.note, updated_at:new Date().toISOString()
+  },{onConflict:'post_id'});
+  if(error) console.warn('Save error:',error);
+  else addActivity(`Post atualizado: ${POSTS.find(p=>p.id===postId)?.title?.slice(0,40)}…`,'Post atualizado');
+}
+
+/* ── Supabase: salvar setting ── */
+async function saveSettingToDB(key,value){
+  if(!IS_CONFIGURED) return;
+  const {error}=await db.from('project_settings').upsert({key,value},{onConflict:'key'});
+  if(error) console.warn('Setting save error:',error);
+}
+
+/* ── Supabase: adicionar atividade ── */
+async function addActivity(message,boldPart=''){
+  if(!IS_CONFIGURED) return;
+  await db.from('activity').insert({message,bold_part:boldPart,created_at:new Date().toISOString()});
+}
+
+/* ── Supabase: real-time subscription ── */
+function subscribeRealtime(){
+  if(!IS_CONFIGURED) return;
+  db.channel('hub_changes')
+    .on('postgres_changes',{event:'*',schema:'public',table:'post_data'},payload=>{
+      const r=payload.new;
+      if(r&&r.post_id&&STATE[r.post_id]){
+        STATE[r.post_id]={status:r.status,stars:r.stars,fb:r.feedback,note:r.note};
+        lsSet('state',STATE);
+        refreshPostUI(r.post_id);
+        updateStats();
+      }
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'project_settings'},payload=>{
+      const r=payload.new;
+      if(!r) return;
+      if(r.key==='month_note'){MONTH_NOTE=r.value;const el=document.getElementById('monthNote');if(el&&document.activeElement!==el)el.value=MONTH_NOTE;}
+      if(r.key==='approved_essencial'){APPROVED.essencial=r.value==='true';renderApprovalState();}
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'activity'},payload=>{
+      const r=payload.new;
+      if(r) prependActivity(r);
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'requests'},async()=>{
+      const {data}=await db.from('requests').select('*').order('created_at',{ascending:true});
+      if(data) renderRequests(data);
+    })
+    .subscribe(status=>{
+      setConnStatus(status==='SUBSCRIBED'?'online':'offline');
+    });
+}
+
+/* ── Refresh individual post UI ── */
+function refreshPostUI(postId){
+  const s=STATE[postId];if(!s) return;
+  // status select
+  const sel=document.querySelector(`select[onchange*="${postId}"]`);
+  if(sel&&sel.value!==s.status) sel.value=s.status;
+  // stars in post list
+  document.querySelectorAll(`[data-pid="${postId}"]`).forEach(el=>el.classList.toggle('active',parseInt(el.dataset.i)<=s.stars));
+  // stars in feedback board
+  const fbStars=document.querySelectorAll(`#fbc_${postId} .fb-star`);
+  fbStars.forEach((el,i)=>el.classList.toggle('active',i<s.stars));
+  // note btn
+  document.querySelectorAll('.post-note-btn').forEach(el=>{if(el.getAttribute('onclick')?.includes(`'${postId}'`))el.textContent=s.note||'+ Observação';});
+  // calendar dot
+  const dot=document.querySelector(`[onclick="scrollToPost('${postId}')"] .cal-sdot`);
+  if(dot) dot.style.background=STATUS_COLOR[s.status];
+}
+
+/* ── Render requests ── */
+function renderRequests(reqs){
+  const c=document.getElementById('requestsBody');if(!c)return;
+  const icons={pendente:'📌',done:'✅',novo:'🔔'};
+  const statusCls={pendente:'rs-pendente',done:'rs-done',novo:'rs-novo'};
+  const statusLbl={pendente:'Pendente',done:'Feito',novo:'Novo'};
+  c.innerHTML=reqs.map(r=>`
+    <div class="request-item">
+      <div class="req-icon" style="background:var(--surface2)">${icons[r.status]||'📌'}</div>
+      <div class="req-content">
+        <div class="req-title">${r.title}</div>
+        <div class="req-desc">${r.description}</div>
+        <div class="req-date">⏰ ${r.due_date}</div>
+      </div>
+      <span class="req-status ${statusCls[r.status]||'rs-pendente'}">${statusLbl[r.status]||r.status}</span>
+    </div>`).join('');
+}
+
+/* ── Render activity ── */
+function renderActivity(acts){
+  const c=document.getElementById('activityFeed');if(!c)return;
+  c.innerHTML=acts.map(r=>activityHTML(r)).join('');
+}
+function prependActivity(r){
+  const c=document.getElementById('activityFeed');if(!c)return;
+  c.insertAdjacentHTML('afterbegin',activityHTML(r));
+}
+function activityHTML(r){
+  const t=new Date(r.created_at);
+  const label=isNaN(t)?'agora':t.toLocaleString('pt-BR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  const msg=r.bold_part?r.message.replace(r.bold_part,`<strong>${r.bold_part}</strong>`):r.message;
+  return `<div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-content"><div class="act-text">${msg}</div><div class="act-time">${label}</div></div></div>`;
+}
+
+/* ── Render approval state ── */
+function renderApprovalState(){
+  const ac=document.getElementById('approvalCard'),aok=document.getElementById('approvedCard');
+  if(!ac||!aok)return;
+  if(APPROVED.essencial){ac.style.display='none';aok.style.display='flex';}
+  else{ac.style.display='';aok.style.display='none';}
+}
+
+/* ── Connection status indicator ── */
+function setConnStatus(state){
+  const el=document.getElementById('connStatus');if(!el)return;
+  const cfg={
+    online:    {dot:'#22C55E',label:'Online',title:'Conectado ao Supabase'},
+    offline:   {dot:'#EF4444',label:'Offline',title:'Sem conexão com o banco'},
+    connecting:{dot:'#F59E0B',label:'Conectando…',title:'Tentando conectar ao Supabase'},
+  };
+  const c=cfg[state]||cfg.offline;
+  el.title=c.title;
+  el.querySelector('.conn-dot').style.background=c.dot;
+  el.querySelector('.conn-label').textContent=c.label;
+}
 
 /* ══════════════ CALENDAR ══════════════ */
 const TODAY=new Date().toISOString().slice(0,10);
@@ -1106,34 +1312,45 @@ POSTS.forEach(p=>{p.icon=PILLAR[p.pillar].icon});
 
 /* ══════════════ INTERACTIONS ══════════════ */
 function setStatus(id,val){
-  STATE[id].status=val;sv('state',STATE);
+  STATE[id].status=val; lsSet('state',STATE);
   const dot=document.querySelector(`[onclick="scrollToPost('${id}')"] .cal-sdot`);
-  if(dot)dot.style.background=STATUS_COLOR[val];
-  updateStats();showToast('Status atualizado ✓');
+  if(dot) dot.style.background=STATUS_COLOR[val];
+  updateStats(); showToast('Status atualizado ✓');
+  savePostToDB(id);
 }
 
 function setStars(id,n,fromBoard=false){
-  STATE[id].stars=n;sv('state',STATE);
-  // update post list stars
-  document.querySelectorAll(`[data-pid="${id}"]`).forEach(s=>{s.classList.toggle('active',parseInt(s.dataset.i)<=n)});
-  // update board stars
-  const fbStars=document.querySelectorAll(`#fbc_${id} .fb-star`);
-  fbStars.forEach((s,i)=>s.classList.toggle('active',i<n));
+  STATE[id].stars=n; lsSet('state',STATE);
+  document.querySelectorAll(`[data-pid="${id}"]`).forEach(s=>s.classList.toggle('active',parseInt(s.dataset.i)<=n));
+  document.querySelectorAll(`#fbc_${id} .fb-star`).forEach((s,i)=>s.classList.toggle('active',i<n));
   if(fromBoard){const saved=document.getElementById('fbsaved_'+id);if(saved)saved.classList.add('show');}
   updateStats();
+  savePostToDB(id);
 }
 
-function setFbNote(id,val){STATE[id].fb=val}
+function setFbNote(id,val){ STATE[id].fb=val; }
 
 function saveFb(id){
-  sv('state',STATE);
+  lsSet('state',STATE);
   const saved=document.getElementById('fbsaved_'+id);
-  if(saved)saved.classList.add('show');
+  if(saved) saved.classList.add('show');
   showToast('Feedback salvo ✓');
   updateStats();
+  savePostToDB(id);
 }
 
-function saveMonthNote(val){MONTH_NOTE=val;sv('monthNote',val);document.getElementById('noteSavedLbl').textContent='Salvo automaticamente'}
+let noteDebounce=null;
+function saveMonthNote(val){
+  MONTH_NOTE=val; lsSet('monthNote',val);
+  document.getElementById('noteSavedLbl').textContent='Salvando…';
+  clearTimeout(noteDebounce);
+  noteDebounce=setTimeout(()=>{
+    saveSettingToDB('month_note',val).then(()=>{
+      document.getElementById('noteSavedLbl').textContent='✓ Salvo no servidor';
+      setTimeout(()=>{const el=document.getElementById('noteSavedLbl');if(el)el.textContent=''},3000);
+    });
+  },800);
+}
 
 let activeNote={id:null};
 function openNoteModal(id,title){
@@ -1142,20 +1359,24 @@ function openNoteModal(id,title){
   document.getElementById('noteModalText').value=STATE[id]?.note||'';
   document.getElementById('noteModal').classList.add('open');
 }
-function closeNoteModal(){document.getElementById('noteModal').classList.remove('open');activeNote.id=null}
+function closeNoteModal(){document.getElementById('noteModal').classList.remove('open');activeNote.id=null;}
 function savePostNote(){
-  if(!activeNote.id)return;
+  if(!activeNote.id) return;
   const val=document.getElementById('noteModalText').value;
-  STATE[activeNote.id].note=val;sv('state',STATE);
-  document.querySelectorAll('.post-note-btn').forEach(n=>{if(n.getAttribute('onclick').includes(`'${activeNote.id}'`))n.textContent=val||'+ Observação'});
-  showToast('Observação salva ✓');closeNoteModal();
+  STATE[activeNote.id].note=val; lsSet('state',STATE);
+  document.querySelectorAll('.post-note-btn').forEach(n=>{
+    if(n.getAttribute('onclick')?.includes(`'${activeNote.id}'`)) n.textContent=val||'+ Observação';
+  });
+  showToast('Observação salva ✓'); closeNoteModal();
+  savePostToDB(activeNote.id);
 }
 
 function approvePhase(phase){
-  APPROVED[phase]=true;sv('approved',APPROVED);
-  document.getElementById('approvalCard').style.display='none';
-  document.getElementById('approvedCard').style.display='flex';
+  APPROVED[phase]=true; lsSet('approved',APPROVED);
+  renderApprovalState();
   showToast('🎉 Plano Essencial aprovado!');
+  saveSettingToDB('approved_'+phase,'true');
+  addActivity('Plano Essencial aprovado pelo cliente — próxima fase confirmada.','Plano Essencial aprovado');
 }
 
 function scrollToPost(id){
@@ -1235,16 +1456,30 @@ function showToast(msg){
 }
 
 /* ══════════════ INIT ══════════════ */
-(function(){
+(async function(){
   try{if(localStorage.getItem('ip3_dark')==='true')document.documentElement.dataset.theme='dark'}catch{}
-  buildCalendar();buildPosts();buildFeedbackBoard();updateStats();
-  // restore month note
-  if(MONTH_NOTE)document.getElementById('monthNote').value=MONTH_NOTE;
-  // restore approval state
-  if(APPROVED.essencial){
-    document.getElementById('approvalCard').style.display='none';
-    document.getElementById('approvedCard').style.display='flex';
+
+  // Render imediato com dados locais (localStorage)
+  buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats();
+  if(MONTH_NOTE) document.getElementById('monthNote').value=MONTH_NOTE;
+  renderApprovalState();
+
+  if(!IS_CONFIGURED){
+    // Mostrar banner de setup
+    setConnStatus('offline');
+    const banner=document.getElementById('setupBanner');
+    if(banner) banner.style.display='flex';
+    return;
   }
+
+  // Carregar dados do Supabase e atualizar a UI
+  await loadFromDB();
+  buildPosts(); buildFeedbackBoard(); updateStats();
+  if(MONTH_NOTE){const el=document.getElementById('monthNote');if(el)el.value=MONTH_NOTE;}
+  renderApprovalState();
+
+  // Ativar real-time
+  subscribeRealtime();
 })();
 </script>
 </body>
