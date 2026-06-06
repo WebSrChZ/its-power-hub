@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>It's Power × SrChZ — Portal do Projeto</title>
+<meta name="description" content="Portal do cliente — Academia ITS Power × SrChZ Technologies">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="authGate">
+  <div class="auth-box" id="authBox">
+    <img class="auth-logo" src="assets/LogoItsPower.jpg" alt="It's Power"
+         onerror="this.style.display='none';document.getElementById('authLogoFallback').style.display='flex'">
+    <div class="auth-logo-fallback" id="authLogoFallback" style="display:none">&#128170;</div>
+    <div class="auth-title">it's <span style="color:var(--orange)">power</span></div>
+    <div class="auth-sub">Portal restrito · SrChZ Technologies</div>
+    <div class="auth-field-group">
+      <div>
+        <div class="auth-field-label">Login</div>
+        <input class="auth-field" id="authUser" type="text"
+               placeholder="Digite seu login"
+               onkeydown="if(event.key==='Enter')document.getElementById('authPass').focus()">
+      </div>
+      <div>
+        <div class="auth-field-label">Senha</div>
+        <input class="auth-field" id="authPass" type="password"
+               placeholder="Digite sua senha"
+               onkeydown="if(event.key==='Enter')handleLogin()">
+      </div>
+    </div>
+    <button class="auth-btn" onclick="handleLogin()">Entrar</button>
+    <div class="auth-err hide" id="authErr">Login ou senha incorretos.</div>
+  </div>
+</div>
+
+<div class="admin-ring"></div>
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <img class="sb-logo-img" src="assets/LogoItsPower.jpg" alt="It's Power" onerror="this.style.display='none'">
+    <div>
+      <div class="sb-brand">it's <em>power</em></div>
+      <div class="sb-sub">Portal do Projeto</div>
+    </div>
+  </div>
+  <div class="sb-phase">
+    <div class="sb-phase-badge"><span class="sb-phase-badge-dot"></span> Fase Teste · Ativa</div>
+    <div class="admin-badge-sb">&#128275; Modo Admin · Rafael</div>
+    <div class="sb-phase-title">Junho 2026 — Descoberta de Narrativa</div>
+    <div class="sb-phase-sub">R$ 1.200 · 10 posts · Início 08/06</div>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-row">Progresso geral <strong id="sbPct">0%</strong></div>
+    <div class="prog-bar"><div class="prog-fill" id="sbFill" style="width:0%"></div></div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-nav-section">Projeto</div>
+    <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+      <span class="nav-icon">&#127968;</span>
+      <div class="nav-info"><div class="nav-label">Dashboard</div></div>
+      <span class="nav-badge nb-new" id="actionsBadge" style="display:none">!</span>
+    </button>
+    <button class="nav-item" data-tab="junho" onclick="switchTab('junho')">
+      <span class="nav-icon">&#128197;</span>
+      <div class="nav-info"><div class="nav-label">Junho 2026</div></div>
+      <span class="nav-badge nb-info" id="pctJunho">0%</span>
+    </button>
+    <div class="sb-nav-section">Estratégia</div>
+    <button class="nav-item" data-tab="pilares" onclick="switchTab('pilares')">
+      <span class="nav-icon">&#127919;</span>
+      <div class="nav-info"><div class="nav-label">3 Pilares</div></div>
+    </button>
+    <div class="sb-nav-section">Crescimento</div>
+    <button class="nav-item" data-tab="fases" onclick="switchTab('fases')">
+      <span class="nav-icon">&#128640;</span>
+      <div class="nav-info"><div class="nav-label">Próximas Fases</div></div>
+      <span class="nav-badge nb-new">Novo</span>
+    </button>
+    <div class="sb-nav-section">Documentos</div>
+    <button class="nav-item" data-tab="contrato" onclick="switchTab('contrato')">
+      <span class="nav-icon">&#128203;</span>
+      <div class="nav-info"><div class="nav-label">Contrato & Docs</div></div>
+    </button>
+    <button class="nav-item" onclick="window.open('its_power_videos_junho2026.html','_blank')">
+      <span class="nav-icon">&#127916;</span>
+      <div class="nav-info"><div class="nav-label">Roteiros de Vídeo</div></div>
+      <span class="nav-badge nb-info">&#8599;</span>
+    </button>
+    <div class="sb-nav-section" style="margin-top:auto"></div>
+    <button class="nav-item" onclick="toggleSidebarCollapse()" title="Recolher menu lateral">
+      <span class="nav-icon">&#11013;</span>
+      <div class="nav-info"><div class="nav-label">Recolher Menu</div></div>
+    </button>
+  </div>
+  <div class="sb-footer">
+    <div class="sb-contact" id="sbContactLink" onclick="switchProfile()" title="Trocar de conta">
+      <div class="sb-contact-avatar" id="sbContactAvatar">R</div>
+      <div class="sb-contact-info">
+        <div class="sb-contact-name" id="sbContactName">Rafael Cordeiro</div>
+        <div class="sb-contact-role" id="sbContactRole">SrChZ Technologies</div>
+        <div class="sb-contact-switch">&#128260; Trocar conta</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="ico-btn mob-menu" onclick="smartToggleSidebar()">&#9776;</button>
+      <div class="tb-tabs">
+        <button class="tb-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">&#127968; Dashboard</button>
+        <button class="tb-tab" data-tab="junho" onclick="switchTab('junho')">&#128197; Junho</button>
+        <button class="tb-tab" data-tab="pilares" onclick="switchTab('pilares')">&#127919; Pilares</button>
+        <button class="tb-tab" data-tab="fases" onclick="switchTab('fases')">&#128640; Fases</button>
+        <button class="tb-tab" data-tab="contrato" onclick="switchTab('contrato')">&#128203; Contrato</button>
+      </div>
+    </div>
+    <div class="tb-right">
+      <button onclick="openClientReqModal()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:10px;border:1.5px solid var(--orange);background:var(--orange-light);color:var(--orange);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font);box-shadow:var(--shadow-sm)" title="Enviar pedido ou observação">&#128236; <span>Pedido</span></button>
+      <button class="ico-btn admin-ctrl" onclick="document.getElementById('adminActModal').classList.add('open')" title="Registrar atividade" style="font-size:14px">&#128225;</button>
+      <div class="notif-wrap">
+        <button class="notif-bell" onclick="toggleNotifPanel()" title="Notificacoes">&#128276;<span class="notif-count" id="notifCount" style="display:none">0</span></button>
+        <div class="notif-panel" id="notifPanel">
+          <div class="notif-hdr">
+            <span class="notif-hdr-title">Notificacoes</span>
+            <button class="notif-mark-read" onclick="markAllNotifRead()">Marcar todas como lidas</button>
+          </div>
+          <div class="notif-list" id="notifList">
+            <div class="notif-empty">Nenhuma notificacao ainda.</div>
+          </div>
+        </div>
+      </div>
+      <div id="connStatus" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:default;box-shadow:var(--shadow-sm)" title="Status da conexão">
+        <span class="conn-dot" style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;transition:background .3s"></span>
+        <span class="conn-label" style="font-size:10px;font-weight:600;color:var(--muted);white-space:nowrap">Conectando...</span>
+      </div>
+      <button class="ico-btn" onclick="toggleDark()" title="Tema">&#127769;</button>
+      <button class="ico-btn" onclick="window.print()" title="Imprimir">&#128424;</button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB / BACK NAV -->
+  <div class="breadcrumb-bar">
+    <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none">&#8592; Voltar</button>
+    <span class="breadcrumb-sep">&#187;</span>
+    <span class="breadcrumb-text" id="breadcrumb">Dashboard</span>
+  </div>
+
+  <div class="content">
+
+    <!-- TAB: DASHBOARD -->
+    <div class="tab-panel active" id="panel-dashboard">
+
+      <div class="hero-card">
+        <div class="hero-info">
+          <div class="hero-badge"><span class="hero-badge-dot"></span> Fase Teste em andamento</div>
+          <div class="hero-title">Junho 2026 — Descoberta de Narrativa</div>
+          <div class="hero-sub">Identificando quais conteúdos geram maior alcance, engajamento e percepção de valor para a ITS Power. Ao fim do mês, apresentamos os resultados e a recomendação para a próxima fase.</div>
+          <div class="hero-actions">
+            <button class="btn btn-white" onclick="switchTab('junho')">&#128197; Ver posts de junho</button>
+            <button class="btn btn-ghost-white" onclick="switchTab('fases')">&#128640; Ver próximas fases</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-val">R$ 1.200</div>
+          <div class="hero-val-l">Honorário mensal</div>
+        </div>
+      </div>
+
+      <div class="grid-5">
+        <div class="stat-card blue" onclick="switchTab('junho')"><div class="stat-n" id="statTotal">10</div><div class="stat-label">Posts em Junho</div><div class="stat-sub"><span id="statPub">0</span> publicados</div></div>
+        <div class="stat-card purple" onclick="switchTab('pilares')"><div class="stat-n">3</div><div class="stat-label">Pilares de conteúdo</div><div class="stat-sub">Autoridade · Conexão · Conversão</div></div>
+        <div class="stat-card green" onclick="switchTab('junho')"><div class="stat-n">&#127942; &#129309; &#127919;</div><div class="stat-label">Posts por pilar</div><div class="stat-sub">4 · 4 · 2</div></div>
+        <div class="stat-card orange" onclick="switchTab('junho')"><div class="stat-n">3</div><div class="stat-label">Posts / semana</div><div class="stat-sub">Ter · Qui · Sáb</div></div>
+        <div class="stat-card amber" onclick="switchTab('junho');setTimeout(()=>document.getElementById('postsJunho')?.scrollIntoView({behavior:'smooth'}),100)"><div class="stat-n" id="statFeedback">0</div><div class="stat-label">Feedbacks dados</div><div class="stat-sub">Avalie os conteúdos abaixo</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Progresso de Publicação</div></div>
+          <div class="card-body">
+            <div style="display:flex;justify-content:center;gap:32px;margin-bottom:20px">
+              <div class="ring-wrap">
+                <div class="ring">
+                  <svg viewBox="0 0 88 88" width="88" height="88">
+                    <circle class="ring-bg" cx="44" cy="44" r="38"/>
+                    <circle class="ring-fill" id="ringTotal" cx="44" cy="44" r="38" stroke="var(--blue)" stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
+                  </svg>
+                  <div class="ring-label" id="ringTotalPct">0%</div>
+                </div>
+                <div class="ring-sub">Geral</div>
+              </div>
+              <div class="ring-wrap">
+                <div class="ring">
+                  <svg viewBox="0 0 88 88" width="88" height="88">
+                    <circle class="ring-bg" cx="44" cy="44" r="38"/>
+                    <circle class="ring-fill" id="ringFb" cx="44" cy="44" r="38" stroke="#FBBF24" stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
+                  </svg>
+                  <div class="ring-label" id="ringFbPct">0%</div>
+                </div>
+                <div class="ring-sub">Feedbacks</div>
+              </div>
+            </div>
+            <div class="pillar-row"><div class="pillar-icon-badge" style="background:var(--blue-light)">&#127942;</div><div class="pillar-bar-wrap"><div class="pillar-bar-label"><span>Autoridade</span><span id="pb-a">0/4</span></div><div class="pillar-bar"><div class="pillar-bar-fill" id="pbar-a" style="width:0%;background:linear-gradient(90deg,var(--blue),#60A5FA)"></div></div></div></div>
+            <div class="pillar-row"><div class="pillar-icon-badge" style="background:var(--green-light)">&#129309;</div><div class="pillar-bar-wrap"><div class="pillar-bar-label"><span>Conexão</span><span id="pb-c">0/4</span></div><div class="pillar-bar"><div class="pillar-bar-fill" id="pbar-c" style="width:0%;background:linear-gradient(90deg,var(--green),#34D399)"></div></div></div></div>
+            <div class="pillar-row"><div class="pillar-icon-badge" style="background:var(--orange-light)">&#127919;</div><div class="pillar-bar-wrap"><div class="pillar-bar-label"><span>Conversão</span><span id="pb-v">0/2</span></div><div class="pillar-bar"><div class="pillar-bar-fill" id="pbar-v" style="width:0%;background:linear-gradient(90deg,var(--orange),#FB923C)"></div></div></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128197;</span>Etapas do Projeto</div></div>
+          <div class="card-body">
+            <div class="timeline">
+              <div class="tl-item"><div class="tl-dot done">&#10003;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Período de Teste</span><span class="tl-badge tl-b-done">Encerrado</span></div><div class="tl-desc">Análise inicial da academia, proposta aprovada e início do projeto.</div><div class="tl-date">Maio 2026</div></div></div>
+              <div class="tl-item"><div class="tl-dot active">&#9679;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Fase Teste — Descoberta</span><span class="tl-badge tl-b-active">Agora</span></div><div class="tl-desc">10 posts, 3 pilares, identificação das narrativas com maior engajamento. Relatório final em 30/06.</div><div class="tl-price">R$ 1.200 / mês único</div><div class="tl-date">08 Jun – 30 Jun 2026</div></div></div>
+              <div class="tl-item"><div class="tl-dot upcoming">&#10227;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Reunião de Alinhamento</span><span class="tl-badge tl-b-next">Próximo</span></div><div class="tl-desc">Apresentação dos resultados da Fase Teste. Decisão sobre continuidade e qual plano seguir.</div><div class="tl-date">Final de Junho 2026</div></div></div>
+              <div class="tl-item"><div class="tl-dot upcoming">&#9678;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Plano Essencial</span><span class="tl-badge tl-b-next">Aguardando aprovação</span></div><div class="tl-desc">12 vídeos/mês, reunião mensal, relatório de desempenho, stories estratégicos.</div><div class="tl-price">R$ 2.800 / mês · Meses 2 a 4</div><div class="tl-date">Jul – Set 2026 (após aprovação)</div></div></div>
+              <div class="tl-item"><div class="tl-dot locked">&#128274;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Plano Growth</span><span class="tl-badge tl-b-locked">Futuro</span></div><div class="tl-desc">Meta Ads, lookalike audience, stories diários, campanhas sazonais, relatório CPL/ROI.</div><div class="tl-price">R$ 4.500 / mês · Mês 5+</div><div class="tl-date">Out 2026 em diante</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="approval-card" id="approvalCard">
+        <div class="approval-info">
+          <div class="lbl">&#128640; Próxima etapa disponível</div>
+          <div class="ttl">Aprovar continuidade com o Plano Essencial</div>
+          <div class="sub">Após a reunião de alinhamento ao fim de junho, confirme aqui para ativar o Plano Essencial.</div>
+        </div>
+        <div class="approval-right">
+          <div class="approval-price">R$ 2.800</div>
+          <div class="approval-price-l">por mês · Plano Essencial</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-white" onclick="approvePhase('essencial')">&#10003; Aprovar Essencial</button>
+            <button class="btn btn-ghost-white" onclick="switchTab('fases')">Ver detalhes</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:none;background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:var(--r-lg);padding:18px 28px;align-items:center;gap:16px;box-shadow:0 4px 16px rgba(16,185,129,.2)" id="approvedCard">
+        <span style="font-size:26px">&#9989;</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#fff;font-family:var(--font-heading)">Plano Essencial aprovado!</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.75);margin-top:4px;line-height:1.6">Parabéns! O próximo ciclo está confirmado. Rafael entrará em contato para agendar a reunião de início.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title"><span class="card-title-icon">&#11088;</span>Feedback dos Conteúdos</div>
+          <span class="card-badge" style="background:var(--purple-light);color:var(--purple-dark)">Interativo — avalie aqui</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.6">Avalie cada post planejado e deixe comentários. Seu feedback guia os próximos conteúdos.</p>
+          <div class="grid-2" id="feedbackGrid"></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title"><span class="card-title-icon">&#128204;</span>Pedidos & Ações</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--orange);color:#fff;border-radius:8px" onclick="document.getElementById('adminReqModal').classList.add('open')">&#10133; Criar pedido</button>
+            </div>
+          </div>
+          <div class="card-body" id="requestsBody"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-title"><span class="card-title-icon">&#128225;</span>Atividade Recente</div>
+            <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--purple);color:#fff;border-radius:8px" onclick="document.getElementById('adminActModal').classList.add('open')">&#128225; Registrar</button>
+          </div>
+          <div class="card-body" id="activityFeed"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title"><span class="card-title-icon">&#128172;</span>Notas do Mês</div>
+          <span style="font-size:10px;color:var(--muted);font-weight:500">Salvo automaticamente</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6">Use este espaço para registrar decisões, ajustes ou qualquer anotação importante.</p>
+          <textarea id="monthNote" style="width:100%;min-height:110px;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--text);background:var(--surface2);resize:vertical;font-family:var(--font);line-height:1.6;transition:all .2s" placeholder="Ex: decidimos não publicar aos domingos..." oninput="saveMonthNote(this.value)" onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px rgba(37,99,235,.1)'" onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'"></textarea>
+          <div style="font-size:9px;color:var(--muted);margin-top:8px;font-weight:500" id="noteSavedLbl"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB: JUNHO -->
+    <div class="tab-panel" id="panel-junho">
+      <div style="background:linear-gradient(135deg,#4C1D95,var(--purple),#7C3AED);border-radius:var(--r-lg);padding:24px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 8px 24px rgba(124,58,237,.2)">
+        <div>
+          <span class="tag tag-purple" style="margin-bottom:10px;display:inline-flex">&#9679; Fase Teste</span>
+          <div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:5px;font-family:var(--font-heading)">Junho 2026 — Descoberta de Narrativa</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.65)">10 posts · Início 08/06 · 3 pilares · Ter / Qui / Sáb</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:30px;font-weight:800;color:#fff;font-family:var(--font-heading)">R$ 1.200</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-weight:600">Honorário — mês único</div>
+        </div>
+      </div>
+
+      <div class="grid-4">
+        <div class="stat-card purple"><div class="stat-n">10</div><div class="stat-label">Posts planejados</div></div>
+        <div class="stat-card blue"><div class="stat-n" id="sJunhoPub">0</div><div class="stat-label">Publicados</div></div>
+        <div class="stat-card green"><div class="stat-n">4 &#127942; · 4 &#129309; · 2 &#127919;</div><div class="stat-label">Distribuição por pilar</div></div>
+        <div class="stat-card orange"><div class="stat-n">2</div><div class="stat-label">Datas especiais</div></div>
+      </div>
+
+      <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+        <div style="font-size:12px;color:var(--text)">&#127916; <strong>12 roteiros detalhados</strong> com scripts, checklists de produção e legendas.</div>
+        <a href="its_power_videos_junho2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros &#8594;</a>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128198;</span>Calendário de Publicações</div></div>
+        <div id="calJunho"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title"><span class="card-title-icon">&#128221;</span>Posts — Junho 2026</div>
+          <div style="display:flex;gap:6px">
+            <span class="tag tag-blue">&#127942; Autoridade</span>
+            <span class="tag tag-green">&#129309; Conexão</span>
+            <span class="tag tag-orange">&#127919; Conversão</span>
+          </div>
+        </div>
+        <div class="card-body" id="postsJunho"></div>
+      </div>
+
+      <div class="cron-toggle" onclick="toggleCron('junho')">
+        <div class="cron-toggle-label">&#128203; Cronograma Editorial Completo — Junho 2026</div>
+        <span class="cron-arrow" id="cron-arrow-junho">&#9660;</span>
+      </div>
+      <div class="cron-frame-wrap" id="cron-wrap-junho">
+        <div class="cron-inline" id="cronInlineJunho"></div>
+      </div>
+    </div>
+
+    <!-- TAB: 3 PILARES -->
+    <div class="tab-panel" id="panel-pilares">
+      <div style="background:linear-gradient(135deg,#1E3A5F 0%,#0F172A 50%,#1E293B 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
+        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Metodologia de Conteúdo</div>
+        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Os 3 Pilares Estratégicos</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Cada conteúdo da ITS Power é baseado em um dos três pilares do <strong style="color:var(--orange)">Ecossistema de Desejo</strong>.</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card" style="border-top:3px solid var(--blue)">
+          <div class="card-body" style="text-align:center;padding:28px 20px">
+            <div style="font-size:42px;margin-bottom:12px">&#127942;</div>
+            <div style="font-size:18px;font-weight:800;color:var(--blue);margin-bottom:4px;font-family:var(--font-heading)">Autoridade</div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;font-weight:600">Pilar A · Confiança</div>
+            <div style="font-size:12.5px;color:var(--text);line-height:1.7;text-align:left">
+              <p style="margin-bottom:10px">Conteúdos que mostram <strong>conhecimento técnico</strong>, resultados concretos e experiência real.</p>
+              <div style="background:var(--blue-light);border-radius:var(--r);padding:12px;margin-top:8px">
+                <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Exemplos</div>
+                <div style="font-size:11px;color:var(--text);line-height:1.6">&#8226; Dicas de treino e nutrição<br>&#8226; Resultados de alunos<br>&#8226; Explicações técnicas<br>&#8226; Bastidores profissionais</div>
+              </div>
+            </div>
+            <div style="margin-top:14px"><span class="tag tag-blue">4 posts em junho</span></div>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--green)">
+          <div class="card-body" style="text-align:center;padding:28px 20px">
+            <div style="font-size:42px;margin-bottom:12px">&#129309;</div>
+            <div style="font-size:18px;font-weight:800;color:var(--green);margin-bottom:4px;font-family:var(--font-heading)">Conexão</div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;font-weight:600">Pilar C · Proximidade</div>
+            <div style="font-size:12.5px;color:var(--text);line-height:1.7;text-align:left">
+              <p style="margin-bottom:10px">Conteúdos que criam <strong>vínculo emocional</strong> com o público.</p>
+              <div style="background:var(--green-light);border-radius:var(--r);padding:12px;margin-top:8px">
+                <div style="font-size:10px;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Exemplos</div>
+                <div style="font-size:11px;color:var(--text);line-height:1.6">&#8226; Depoimentos reais<br>&#8226; Dia a dia da academia<br>&#8226; Aluno em destaque<br>&#8226; Momentos descontraídos</div>
+              </div>
+            </div>
+            <div style="margin-top:14px"><span class="tag" style="background:var(--green-light);color:var(--green-dark)">4 posts em junho</span></div>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--orange)">
+          <div class="card-body" style="text-align:center;padding:28px 20px">
+            <div style="font-size:42px;margin-bottom:12px">&#127919;</div>
+            <div style="font-size:18px;font-weight:800;color:var(--orange);margin-bottom:4px;font-family:var(--font-heading)">Conversão</div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;font-weight:600">Pilar V · Ação</div>
+            <div style="font-size:12.5px;color:var(--text);line-height:1.7;text-align:left">
+              <p style="margin-bottom:10px">Conteúdos com <strong>chamada para ação direta</strong>.</p>
+              <div style="background:var(--orange-light);border-radius:var(--r);padding:12px;margin-top:8px">
+                <div style="font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Exemplos</div>
+                <div style="font-size:11px;color:var(--text);line-height:1.6">&#8226; Promoções especiais<br>&#8226; Tour pela academia<br>&#8226; Aula experimental<br>&#8226; Comparativos</div>
+              </div>
+            </div>
+            <div style="margin-top:14px"><span class="tag" style="background:var(--orange-light);color:var(--orange)">2 posts em junho</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Distribuição dos Pilares</div></div>
+        <div class="card-body">
+          <div style="display:flex;gap:6px;height:28px;border-radius:8px;overflow:hidden;margin-bottom:14px">
+            <div style="flex:4;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">40%</div>
+            <div style="flex:4;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">40%</div>
+            <div style="flex:2;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">20%</div>
+          </div>
+          <div style="display:flex;justify-content:center;gap:20px;font-size:11px;color:var(--text)">
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--blue);margin-right:5px;vertical-align:middle"></span>Autoridade (4)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--green);margin-right:5px;vertical-align:middle"></span>Conexão (4)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--orange);margin-right:5px;vertical-align:middle"></span>Conversão (2)</span>
+          </div>
+          <div style="margin-top:16px;padding:14px 16px;background:var(--surface2);border-radius:var(--r);font-size:12px;color:var(--text);line-height:1.6">
+            <strong style="color:var(--heading)">Por que essa proporção?</strong> Na Fase Teste, priorizamos <span style="color:var(--blue);font-weight:600">Autoridade</span> e <span style="color:var(--green);font-weight:600">Conexão</span> para construir a base da marca antes de converter.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128279;</span>Pilares × Ecossistema de Desejo</div></div>
+        <div class="card-body">
+          <div style="font-size:12.5px;color:var(--text);line-height:1.7">
+            <p style="margin-bottom:12px">O <strong>Ecossistema de Desejo</strong> é a metodologia que conecta os três pilares numa jornada contínua:</p>
+            <div style="display:flex;flex-direction:column;gap:10px;margin:14px 0">
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--blue-light);border-radius:var(--r);border-left:3px solid var(--blue)">
+                <span style="font-size:20px">1&#65039;&#8419;</span>
+                <div><strong style="color:var(--blue)">Autoridade</strong> atrai → o seguidor descobre a ITS Power e reconhece competência</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--green-light);border-radius:var(--r);border-left:3px solid var(--green)">
+                <span style="font-size:20px">2&#65039;&#8419;</span>
+                <div><strong style="color:var(--green-dark)">Conexão</strong> engaja → o seguidor se identifica, interage, cria vínculo emocional</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--orange-light);border-radius:var(--r);border-left:3px solid var(--orange)">
+                <span style="font-size:20px">3&#65039;&#8419;</span>
+                <div><strong style="color:var(--orange)">Conversão</strong> ativa → o seguidor vira aluno matriculado</div>
+              </div>
+            </div>
+            <p style="font-size:11px;color:var(--muted);margin-top:8px">O ciclo se repete: alunos matriculados geram mais conteúdo de conexão, que reforça a autoridade, que alimenta novas conversões.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: PRÓXIMAS FASES -->
+    <div class="tab-panel" id="panel-fases">
+      <div style="background:linear-gradient(135deg,#0F172A 0%,#1E3A5F 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
+        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Crescimento planejado</div>
+        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Do teste à performance — os próximos passos</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Após a Fase Teste de junho, a parceria evolui seguindo o contrato 001/2026.</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="plan-card">
+          <div class="plan-hdr" style="background:var(--surface2)">
+            <div class="plan-name" style="color:var(--purple)">Fase Teste</div>
+            <div class="plan-price">R$ 1.200</div>
+            <div class="plan-price-sub">mês único · Junho 2026</div>
+            <span class="tag tag-purple" style="margin-top:10px;display:inline-flex">&#9679; Ativa agora</span>
+          </div>
+          <div class="plan-body">
+            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>10 posts em junho</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Roteirização completa</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>3 pilares estratégicos</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Captação interna (vida real)</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Relatório de descoberta</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Reunião de alinhamento final</div>
+          </div>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-hdr" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff">
+            <div class="plan-name" style="color:rgba(255,255,255,.8)">Plano Essencial</div>
+            <div class="plan-price" style="color:#fff">R$ 2.800</div>
+            <div class="plan-price-sub" style="color:rgba(255,255,255,.65)">por mês · Meses 2 a 4</div>
+            <span class="tag" style="background:rgba(255,255,255,.15);color:#fff;margin-top:10px;display:inline-flex">Recomendado</span>
+          </div>
+          <div class="plan-body">
+            <div class="plan-feature"><span class="plan-feature-icon">&#127916;</span>12 vídeos/mês</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#9997;</span>Roteirização + Captação + Edição</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#128197;</span>Planejamento editorial mensal</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#128241;</span>Suporte a stories</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#129309;</span>Reunião mensal</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#128202;</span>Relatório de desempenho</div>
+          </div>
+          <div class="plan-cta"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="approvePhase('essencial')">&#10003; Aprovar Plano Essencial</button></div>
+        </div>
+        <div class="plan-card">
+          <div class="plan-hdr" style="background:linear-gradient(135deg,#92400E,var(--orange))">
+            <div class="plan-name" style="color:rgba(255,255,255,.8)">Plano Growth</div>
+            <div class="plan-price" style="color:#fff">R$ 4.500</div>
+            <div class="plan-price-sub" style="color:rgba(255,255,255,.65)">por mês · Mês 5+</div>
+            <span class="tag" style="background:rgba(255,255,255,.12);color:#fff;margin-top:10px;display:inline-flex">&#128274; Após Essencial</span>
+          </div>
+          <div class="plan-body">
+            <div class="plan-feature"><span class="plan-feature-icon">&#128230;</span>Tudo do Essencial</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#128227;</span>Stories diários</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#127919;</span>Gestão de Meta Ads</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#129528;</span>Lookalike audience</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#128200;</span>Campanhas sazonais</div>
+            <div class="plan-feature"><span class="plan-feature-icon">&#128176;</span>Relatório CPL e ROI</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128176;</span>Investimento Total Estimado</div></div>
+        <div class="card-body">
+          <div class="payment-row"><div><div class="pr-phase">Fase Teste</div><div class="pr-period">Junho 2026 · 1 mês</div></div><div class="pr-amount">R$ 1.200</div><span class="pr-status" style="background:var(--purple-light);color:var(--purple-dark)">Em andamento</span></div>
+          <div class="payment-row"><div><div class="pr-phase">Plano Essencial · 3 meses</div><div class="pr-period">Jul – Set 2026 · R$ 2.800/mês</div></div><div class="pr-amount">R$ 8.400</div><span class="pr-status" style="background:var(--blue-light);color:var(--blue-dark)">Aguardando</span></div>
+          <div class="payment-row"><div><div class="pr-phase">Plano Growth · 4 meses</div><div class="pr-period">Out – Dez 2026 · R$ 4.500/mês</div></div><div class="pr-amount">R$ 18.000</div><span class="pr-status" style="background:var(--surface2);color:var(--muted)">Futuro</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:linear-gradient(135deg,var(--heading),#1E293B);border-radius:var(--r);margin-top:10px;box-shadow:var(--shadow-md)">
+            <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.8)">Total estimado (8 meses)</div>
+            <div style="font-size:22px;font-weight:800;color:#fff;font-family:var(--font-heading)">R$ 27.600</div>
+          </div>
+          <p style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.5">* Verba de tráfego pago (Meta Ads) não incluída. Estimativa: R$ 800–1.500/mês na Fase Growth.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: CONTRATO & DOCS -->
+    <div class="tab-panel" id="panel-contrato">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128196;</span>Contrato 001/2026 — Dados</div></div>
+          <div class="card-body">
+            <div class="contract-section">
+              <div class="contract-section-title">Partes</div>
+              <div class="contract-row"><span class="cr-label">Contratante</span><span class="cr-value">Academia It's Power · Cláudio, MG</span></div>
+              <div class="contract-row"><span class="cr-label">Contratado</span><span class="cr-value">Rafael Henrique Cordeiro Santos · SrChZ Technologies</span></div>
+              <div class="contract-row"><span class="cr-label">Site</span><span class="cr-value">academiapower.com.br</span></div>
+              <div class="contract-row"><span class="cr-label">Foro</span><span class="cr-value">Comarca de Cláudio, MG</span></div>
+            </div>
+            <div class="contract-section">
+              <div class="contract-section-title">Prazo e Vigência</div>
+              <div class="contract-row"><span class="cr-label">Início</span><span class="cr-value">1º de Maio de 2026</span></div>
+              <div class="contract-row"><span class="cr-label">Término previsto</span><span class="cr-value">31 de Dezembro de 2026</span></div>
+              <div class="contract-row"><span class="cr-label">Duração</span><span class="cr-value">8 meses</span></div>
+              <div class="contract-row"><span class="cr-label">Renovação</span><span class="cr-value">Instrumento aditivo · 30 dias antecedência</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#9878;</span>Regras Importantes</div></div>
+          <div class="card-body">
+            <div class="contract-section">
+              <div class="contract-section-title">Pagamento</div>
+              <div class="contract-row"><span class="cr-label">Vencimento</span><span class="cr-value">Até dia 5 de cada mês · PIX ou TED</span></div>
+              <div class="contract-row"><span class="cr-label">Multa por atraso</span><span class="cr-value">2% + 1% a.m. + IGPM/FGV</span></div>
+              <div class="contract-row"><span class="cr-label">Suspensão</span><span class="cr-value">Atraso > 15 dias corridos</span></div>
+            </div>
+            <div class="contract-section">
+              <div class="contract-section-title">Aprovação de Conteúdo</div>
+              <div class="contract-row"><span class="cr-label">Prazo de revisão</span><span class="cr-value">48h após envio pelo contratado</span></div>
+              <div class="contract-row"><span class="cr-label">Aprovação tácita</span><span class="cr-value">Sem retorno em 48h = aprovado</span></div>
+              <div class="contract-row"><span class="cr-label">Ajustes</span><span class="cr-value">Solicitados dentro do prazo de 48h</span></div>
+            </div>
+            <div class="contract-section">
+              <div class="contract-section-title">Rescisão</div>
+              <div class="contract-row"><span class="cr-label">Fim da Fase Teste</span><span class="cr-value">Sem multa · aviso 5 dias úteis</span></div>
+              <div class="contract-row"><span class="cr-label">Entre fases</span><span class="cr-value">Sem multa · aviso 30 dias</span></div>
+              <div class="contract-row"><span class="cr-label">Dentro de uma fase</span><span class="cr-value">Multa = 2 parcelas mensais</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128230;</span>Escopo dos Serviços</div></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Contratado (SrChZ)</div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text);line-height:1.5">
+                <div style="display:flex;gap:10px"><span>&#127919;</span>Ideação e curadoria criativa</div>
+                <div style="display:flex;gap:10px"><span>&#9997;</span>Roteiros (hook → CTA)</div>
+                <div style="display:flex;gap:10px"><span>&#128197;</span>Planejamento editorial mensal</div>
+                <div style="display:flex;gap:10px"><span>&#128241;</span>Gestão de redes sociais</div>
+                <div style="display:flex;gap:10px"><span>&#128221;</span>Copies e legendas</div>
+                <div style="display:flex;gap:10px"><span>&#128202;</span>Relatório mensal</div>
+                <div style="display:flex;gap:10px"><span>&#129309;</span>Reunião mensal</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Contratante (ITS Power)</div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text);line-height:1.5">
+                <div style="display:flex;gap:10px"><span>&#128179;</span>Pagamento até dia 5</div>
+                <div style="display:flex;gap:10px"><span>&#128273;</span>Acesso às redes sociais</div>
+                <div style="display:flex;gap:10px"><span>&#128248;</span>Espaço para captação</div>
+                <div style="display:flex;gap:10px"><span>&#9989;</span>Aprovar conteúdos em 48h</div>
+                <div style="display:flex;gap:10px"><span>&#128176;</span>Verba de tráfego pago</div>
+                <div style="display:flex;gap:10px"><span>&#128220;</span>Autorizações de imagem</div>
+                <div style="display:flex;gap:10px"><span>&#128100;</span>Responsável interno</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128194;</span>Documentos</div></div>
+        <div class="card-body">
+          <div class="grid-3">
+            <a href="#" onclick="showToast('Documento disponível em breve.');return false" style="text-decoration:none;display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface2);transition:all .2s;box-shadow:var(--shadow-sm);cursor:pointer">
+              <span style="font-size:30px">&#128203;</span>
+              <div><div style="font-size:13px;font-weight:700;color:var(--heading)">Contrato 001/2026</div><div style="font-size:10px;color:var(--muted);margin-top:2px">SrChZ × ITS Power</div></div>
+            </a>
+            <a href="#" onclick="showToast('Documento em preparação.');return false" style="text-decoration:none;display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface2);transition:all .2s;box-shadow:var(--shadow-sm);cursor:pointer;position:relative">
+              <span style="font-size:30px">&#128214;</span>
+              <div><div style="font-size:13px;font-weight:700;color:var(--heading)">Ecossistema de Desejo</div><div style="font-size:10px;color:var(--muted);margin-top:2px">Metodologia · Em preparação</div></div>
+              <span style="position:absolute;top:8px;right:10px;font-size:8px;padding:2px 8px;border-radius:10px;background:rgba(249,115,22,.15);color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Em breve</span>
+            </a>
+            <a href="its_power_videos_junho2026.html" target="_blank" style="text-decoration:none;display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface2);transition:all .2s;box-shadow:var(--shadow-sm)">
+              <span style="font-size:30px">&#127916;</span>
+              <div><div style="font-size:13px;font-weight:700;color:var(--heading)">Roteiros de Vídeo</div><div style="font-size:10px;color:var(--muted);margin-top:2px">12 roteiros · Junho</div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NOTE MODAL -->
+<div class="modal-bg" id="noteModal">
+  <div class="modal-box">
+    <div class="modal-title" id="noteModalTitle">Observação</div>
+    <textarea id="noteModalText" placeholder="Adicione uma observação..."></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeNoteModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="savePostNote()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CLIENTE PEDIDO -->
+<div class="modal-bg" id="clientReqModal">
+  <div class="modal-box" style="width:520px">
+    <div class="modal-title">&#128236; Enviar Pedido ou Observação</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.6">Use este espaço para solicitar algo, deixar uma observação ou tirar dúvidas. Respondemos em até 24h.</p>
+    <div class="form-row">
+      <label class="modal-label">Assunto *</label>
+      <input type="text" class="modal-input" id="clientReqTitle" placeholder="Ex: Gostaria de ajustar o tema do post 03...">
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Descrição</label>
+      <textarea class="modal-input" id="clientReqDesc" placeholder="Detalhe seu pedido..."></textarea>
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Urgência</label>
+      <select class="modal-input" id="clientReqPriority">
+        <option value="normal">Normal — sem urgência</option>
+        <option value="urgente">Urgente — esta semana</option>
+        <option value="critico">Crítico — preciso hoje</option>
+      </select>
+    </div>
+    <div class="pin-error" id="clientReqError">Preencha o assunto antes de enviar.</div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeClientReqModal()">Cancelar</button>
+      <button class="btn btn-primary" id="clientReqSendBtn" onclick="submitClientRequest()">&#128236; Enviar pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADMIN PEDIDO -->
+<div class="modal-bg" id="adminReqModal">
+  <div class="modal-box" style="width:500px">
+    <div class="modal-title">&#10133; Criar Pedido ao Cliente</div>
+    <div class="form-row">
+      <label class="modal-label">Título *</label>
+      <input type="text" class="modal-input" id="adminReqTitle" placeholder="Ex: Enviar autorização de uso de imagem">
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Descrição</label>
+      <textarea class="modal-input" id="adminReqDesc" placeholder="Detalhe o que é necessário..."></textarea>
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Prazo</label>
+      <input type="text" class="modal-input" id="adminReqDate" placeholder="Ex: Antes de 15 de julho">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="document.getElementById('adminReqModal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitAdminRequest()">&#10003; Criar pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADMIN ATIVIDADE -->
+<div class="modal-bg" id="adminActModal">
+  <div class="modal-box" style="width:460px">
+    <div class="modal-title">&#128225; Registrar Atividade</div>
+    <div class="form-row">
+      <label class="modal-label">Mensagem</label>
+      <textarea class="modal-input" id="adminActMsg" placeholder="Ex: Vídeo do post 05 entregue..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="document.getElementById('adminActModal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitAdminActivity()">&#128225; Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: LGPD CONSENT -->
+<div class="modal-bg" id="lgpdModal">
+  <div class="modal-box" style="width:560px">
+    <div class="modal-title">&#128274; Termos de Uso e Política de Privacidade (LGPD)</div>
+    <div class="lgpd-content">
+      <h4>1. Dados Coletados</h4>
+      <p>Para o funcionamento deste portal, coletamos e armazenamos os seguintes dados:</p>
+      <ul>
+        <li>Nome de usuario e credenciais de acesso (criptografadas)</li>
+        <li>Feedbacks e avaliacoes sobre conteudos</li>
+        <li>Pedidos e observacoes enviados pelo formulario</li>
+        <li>Notas e anotacoes do projeto</li>
+        <li>Registro de atividades e interacoes no portal</li>
+        <li>Endereco IP e informacoes do navegador (para seguranca)</li>
+      </ul>
+
+      <h4>2. Finalidade do Tratamento</h4>
+      <p>Os dados sao utilizados exclusivamente para:</p>
+      <ul>
+        <li>Gestao do projeto de conteudo entre ITS Power e SrChZ Technologies</li>
+        <li>Acompanhamento de aprovacoes, feedbacks e status de producao</li>
+        <li>Comunicacao e registro de decisoes do projeto</li>
+        <li>Seguranca e controle de acesso ao portal</li>
+      </ul>
+
+      <h4>3. Compartilhamento</h4>
+      <p>Os dados <strong>nao sao compartilhados</strong> com terceiros. O acesso e restrito as partes envolvidas no contrato 001/2026 (SrChZ Technologies e Academia ITS Power).</p>
+
+      <h4>4. Armazenamento e Seguranca</h4>
+      <p>Os dados sao armazenados em servidores seguros (Supabase/PostgreSQL) com criptografia em transito (TLS) e em repouso. Senhas sao armazenadas com hash bcrypt.</p>
+
+      <h4>5. Seus Direitos (Lei 13.709/2018)</h4>
+      <ul>
+        <li>Acesso aos seus dados pessoais</li>
+        <li>Correcao de dados incompletos ou inexatos</li>
+        <li>Eliminacao dos dados (mediante solicitacao)</li>
+        <li>Revogacao do consentimento a qualquer momento</li>
+      </ul>
+      <p>Para exercer seus direitos, entre em contato: <strong>rafaelhenriquecsantosz@gmail.com</strong></p>
+
+      <h4>6. Base Legal</h4>
+      <p>O tratamento dos dados e realizado com base no <strong>consentimento do titular</strong> (Art. 7, I da LGPD) e na <strong>execucao de contrato</strong> (Art. 7, V da LGPD).</p>
+    </div>
+    <div class="lgpd-checkbox-row">
+      <input type="checkbox" id="lgpdCheckbox">
+      <label for="lgpdCheckbox">Li e aceito os Termos de Uso e a Politica de Privacidade conforme a Lei Geral de Protecao de Dados (LGPD - Lei 13.709/2018).</label>
+    </div>
+    <div class="lgpd-error" id="lgpdError">Voce precisa aceitar os termos para continuar.</div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="acceptLGPD()">&#10003; Aceitar e Continuar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">&#10003; Salvo</div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/router.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

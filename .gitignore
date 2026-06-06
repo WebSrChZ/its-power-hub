@@ -3,3 +3,12 @@ tools/
 *.log
 *.tmp
 node_modules/
+
+# Variáveis de ambiente (contém credenciais)
+.env
+
+# Binários e documentos sensíveis
+*.pdf
+*.doc
+*.docx
+*.pptx

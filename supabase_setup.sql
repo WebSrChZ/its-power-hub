@@ -26,7 +26,10 @@ create table if not exists requests (
   description text not null default '',
   due_date    text not null default '',
   status      text not null default 'pendente', -- pendente | done | novo
-  created_at  timestamptz default now()
+  source      text not null default 'admin',    -- admin | client
+  priority    text not null default 'normal',   -- normal | urgente | critico
+  created_at  timestamptz default now(),
+  updated_at  timestamptz default now()
 );
 
 -- 4. Feed de atividade
@@ -75,6 +78,36 @@ insert into requests (title, description, due_date, status) values
   ('Avaliar os conteúdos planejados','Use a seção de feedback para comentar sobre cada post antes da produção.','A qualquer momento','novo')
 on conflict do nothing;
 
+-- 5. Notificações bidirecionais admin ↔ cliente
+create table if not exists notifications (
+  id          uuid default gen_random_uuid() primary key,
+  target_role text not null default 'admin',       -- admin | client
+  type        text not null default 'activity',    -- request | feedback | status_change | activity | approval | note
+  title       text not null,
+  message     text not null default '',
+  read        boolean not null default false,
+  created_at  timestamptz default now()
+);
+
+alter table notifications replica identity full;
+alter table notifications enable row level security;
+create policy "Public read/write notifications" on notifications for all using (true) with check (true);
+
+-- 6. Consentimento LGPD
+create table if not exists lgpd_consent (
+  id          uuid default gen_random_uuid() primary key,
+  user_id     text unique not null,
+  accepted    boolean not null default false,
+  accepted_at timestamptz,
+  ip_address  text,
+  user_agent  text,
+  created_at  timestamptz default now()
+);
+
+alter table lgpd_consent replica identity full;
+alter table lgpd_consent enable row level security;
+create policy "Public read/write lgpd_consent" on lgpd_consent for all using (true) with check (true);
+
 -- ── Seed: atividade inicial ──
 insert into activity (message, bold_part, created_at) values
   ('Hub integrado ao Supabase — dados agora em tempo real no servidor.','Hub integrado ao Supabase',now()),
@@ -84,9 +117,10 @@ insert into activity (message, bold_part, created_at) values
 on conflict do nothing;
 
 -- ============================================================
--- PRONTO! Agora copie a Project URL e a anon key em:
--- Supabase Dashboard → Settings → API
--- E cole no arquivo its_power_hub.html nas variáveis:
---   const SUPABASE_URL  = 'https://xxxx.supabase.co'
---   const SUPABASE_KEY  = 'eyJ...'
+-- PRONTO! Configure as variáveis de ambiente no arquivo .env:
+--   SUPABASE_URL=https://xxxx.supabase.co
+--   SUPABASE_ANON_KEY=eyJ...
+--   SUPABASE_SERVICE_KEY=eyJ...
+--   JWT_SECRET=sua_chave_secreta
+-- E inicie o servidor: npm run dev
 -- ============================================================
