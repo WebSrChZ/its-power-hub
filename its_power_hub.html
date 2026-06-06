@@ -315,6 +315,29 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 .toast{position:fixed;bottom:24px;right:24px;background:var(--heading);color:#fff;padding:11px 18px;border-radius:9px;font-size:12px;font-weight:600;z-index:999;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none;display:flex;align-items:center;gap:8px}
 .toast.show{opacity:1;transform:translateY(0)}
 
+/* ─── ADMIN MODE ─── */
+.admin-ring{display:none;position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#FCD34D,var(--orange));background-size:200%;animation:adminShine 2s linear infinite;z-index:9999}
+@keyframes adminShine{0%{background-position:0%}100%{background-position:200%}}
+body.admin-mode .admin-ring{display:block}
+.admin-ctrl{display:none!important}
+body.admin-mode .admin-ctrl{display:inline-flex!important}
+.admin-badge-sb{display:none;align-items:center;gap:5px;padding:4px 10px;border-radius:12px;background:rgba(240,120,32,.25);border:1px solid rgba(240,120,32,.5);font-size:9px;font-weight:700;color:#FED7AA;text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+body.admin-mode .admin-badge-sb{display:flex}
+.req-admin-btns{display:none;gap:5px;margin-top:6px;flex-wrap:wrap}
+body.admin-mode .req-admin-btns{display:flex}
+.admin-trigger-ico{transition:transform .2s}
+body.admin-mode .admin-trigger-ico{filter:sepia(1) saturate(5) hue-rotate(10deg)}
+
+/* ─── MODAL FORM ELEMENTS ─── */
+.modal-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;display:block}
+.modal-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--text);background:var(--surface2);font-family:inherit;line-height:1.5;transition:border-color .15s;box-sizing:border-box}
+.modal-input:focus{outline:none;border-color:var(--blue)}
+textarea.modal-input{resize:vertical;min-height:72px}
+.form-row{margin-bottom:12px}
+.req-source-tag{font-size:8px;padding:1px 6px;border-radius:4px;background:var(--orange-light);color:var(--orange);font-weight:700;margin-right:5px;vertical-align:middle;text-transform:uppercase;letter-spacing:.05em}
+.req-item-client{border-left:3px solid var(--orange)!important}
+.pin-error{display:none;font-size:10px;color:var(--red);margin-top:5px}
+
 /* ─── SB OVERLAY ─── */
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:190;opacity:0;transition:opacity .3s}
 .sb-overlay.show{opacity:1}
@@ -334,6 +357,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
 </head>
 <body>
 
+<div class="admin-ring"></div>
 <div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
 
 <!-- ═══ SIDEBAR ═══ -->
@@ -347,6 +371,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
   </div>
   <div class="sb-phase">
     <div class="sb-phase-badge"><span class="sb-phase-badge-dot"></span> Fase Teste · Ativa</div>
+    <div class="admin-badge-sb">🔓 Modo Admin · Rafael</div>
     <div class="sb-phase-title">Junho 2026 — Descoberta de Narrativa</div>
     <div class="sb-phase-sub">R$ 1.200 · 10 posts · Início 08/06</div>
   </div>
@@ -407,12 +432,15 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
       </div>
     </div>
     <div class="tb-right">
+      <button onclick="openClientReqModal()" style="display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:7px;border:1.5px solid var(--orange);background:var(--orange-light);color:var(--orange);font-size:11px;font-weight:700;cursor:pointer" title="Enviar pedido ou observação">📬 <span>Pedido</span></button>
+      <button class="ico-btn admin-ctrl" onclick="document.getElementById('adminActModal').classList.add('open')" title="Registrar atividade" style="font-size:13px">📡</button>
       <div id="connStatus" style="display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);cursor:default" title="Status da conexão">
         <span class="conn-dot" style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;transition:background .3s"></span>
         <span class="conn-label" style="font-size:10px;font-weight:600;color:var(--muted);white-space:nowrap">Conectando…</span>
       </div>
       <button class="ico-btn" onclick="toggleDark()" title="Tema">🌙</button>
       <button class="ico-btn" onclick="window.print()" title="Imprimir">🖨️</button>
+      <button class="ico-btn" id="adminTriggerBtn" onclick="triggerAdminMode()" title="Acesso admin"><span class="admin-trigger-ico" id="adminTriggerIco">🔒</span></button>
     </div>
   </div>
 
@@ -646,7 +674,10 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
       <div class="grid-2">
         <div class="card">
           <div class="card-hdr">
-            <div class="card-title"><span class="card-title-icon">📌</span>Pedidos & Ações Pendentes</div>
+            <div class="card-title"><span class="card-title-icon">📌</span>Pedidos & Ações</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <button class="btn admin-ctrl" style="font-size:10px;padding:5px 11px;background:var(--orange);color:#fff;border-radius:6px" onclick="document.getElementById('adminReqModal').classList.add('open')">➕ Criar pedido</button>
+            </div>
           </div>
           <div class="card-body" id="requestsBody">
             <div class="request-item">
@@ -691,6 +722,7 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
         <div class="card">
           <div class="card-hdr">
             <div class="card-title"><span class="card-title-icon">📡</span>Atividade Recente</div>
+            <button class="btn admin-ctrl" style="font-size:10px;padding:5px 11px;background:var(--purple);color:#fff;border-radius:6px" onclick="document.getElementById('adminActModal').classList.add('open')">📡 Registrar</button>
           </div>
           <div class="card-body" id="activityFeed">
             <div class="activity-item"><div class="act-dot" style="background:var(--purple)"></div><div class="act-content"><div class="act-text"><strong>Hub do projeto</strong> atualizado com nova estratégia de conteúdo — 3 pilares: Autoridade, Conexão, Conversão.</div><div class="act-time">Jun 2026</div></div></div>
@@ -987,6 +1019,90 @@ body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(
   </div>
 </div>
 
+<!-- ══ MODAL: ADMIN PIN ══ -->
+<div class="modal-bg" id="adminPinModal">
+  <div class="modal-box" style="width:340px">
+    <div class="modal-title">🔐 Acesso Administrativo</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:14px">Digite a senha para ativar os controles de edição.</p>
+    <div class="form-row">
+      <label class="modal-label">Senha</label>
+      <input type="password" class="modal-input" id="adminPinInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')verifyAdminPin()">
+      <div class="pin-error" id="adminPinError">❌ Senha incorreta. Tente novamente.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="document.getElementById('adminPinModal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="verifyAdminPin()">🔓 Entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: CLIENTE — NOVO PEDIDO ══ -->
+<div class="modal-bg" id="clientReqModal">
+  <div class="modal-box" style="width:500px">
+    <div class="modal-title">📬 Enviar Pedido ou Observação</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:16px">Use este espaço para solicitar algo, deixar uma observação ou tirar dúvidas com a equipe SrChZ. Respondemos em até 24h.</p>
+    <div class="form-row">
+      <label class="modal-label">Assunto *</label>
+      <input type="text" class="modal-input" id="clientReqTitle" placeholder="Ex: Gostaria de ajustar o tema do post 03…">
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Descrição</label>
+      <textarea class="modal-input" id="clientReqDesc" placeholder="Detalhe seu pedido, dúvida ou observação…"></textarea>
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Urgência</label>
+      <select class="modal-input" id="clientReqPriority">
+        <option value="normal">🟢 Normal — sem urgência</option>
+        <option value="urgente">🟡 Urgente — esta semana</option>
+        <option value="critico">🔴 Crítico — preciso hoje</option>
+      </select>
+    </div>
+    <div class="pin-error" id="clientReqError">❌ Preencha o assunto antes de enviar.</div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeClientReqModal()">Cancelar</button>
+      <button class="btn btn-primary" id="clientReqSendBtn" onclick="submitClientRequest()">📬 Enviar pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: ADMIN — CRIAR PEDIDO ══ -->
+<div class="modal-bg" id="adminReqModal">
+  <div class="modal-box" style="width:480px">
+    <div class="modal-title">➕ Criar Pedido ao Cliente</div>
+    <div class="form-row">
+      <label class="modal-label">Título *</label>
+      <input type="text" class="modal-input" id="adminReqTitle" placeholder="Ex: Enviar autorização de uso de imagem">
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Descrição</label>
+      <textarea class="modal-input" id="adminReqDesc" placeholder="Detalhe o que é necessário…"></textarea>
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Prazo</label>
+      <input type="text" class="modal-input" id="adminReqDate" placeholder="Ex: Antes de 15 de julho">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="document.getElementById('adminReqModal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitAdminRequest()">✓ Criar pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: ADMIN — REGISTRAR ATIVIDADE ══ -->
+<div class="modal-bg" id="adminActModal">
+  <div class="modal-box" style="width:440px">
+    <div class="modal-title">📡 Registrar Atividade</div>
+    <div class="form-row">
+      <label class="modal-label">Mensagem</label>
+      <textarea class="modal-input" id="adminActMsg" placeholder="Ex: Vídeo do post 05 entregue para aprovação…"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="document.getElementById('adminActModal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitAdminActivity()">📡 Registrar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast">✓ Salvo</div>
 
 <script>
@@ -1051,8 +1167,8 @@ const STATUS_COLOR={pendente:'#94A3B8',producao:'#7C3AED',aprovado:'#D97706',pub
    Preencha com suas credenciais após criar o projeto em supabase.com
    Dashboard → Settings → API
 ════════════════════════════════════════════════ */
-const SUPABASE_URL = 'SEU_SUPABASE_URL_AQUI';   // ex: https://abcdefgh.supabase.co
-const SUPABASE_KEY = 'SUA_ANON_KEY_AQUI';       // chave "anon public"
+const SUPABASE_URL = 'https://aqbwwiarinvmgqfaqvnr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxYnd3aWFyaW52bWdxZmFxdm5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2ODczODUsImV4cCI6MjA5NjI2MzM4NX0.BNDsWX5xquhndVKeG7O6aJZs5vWYSH8clKbfe6wNuPg';
 
 const IS_CONFIGURED = SUPABASE_URL !== 'SEU_SUPABASE_URL_AQUI' && SUPABASE_KEY !== 'SUA_ANON_KEY_AQUI';
 const db = IS_CONFIGURED ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
@@ -1180,13 +1296,27 @@ function renderRequests(reqs){
   const icons={pendente:'📌',done:'✅',novo:'🔔'};
   const statusCls={pendente:'rs-pendente',done:'rs-done',novo:'rs-novo'};
   const statusLbl={pendente:'Pendente',done:'Feito',novo:'Novo'};
-  c.innerHTML=reqs.map(r=>`
-    <div class="request-item">
-      <div class="req-icon" style="background:var(--surface2)">${icons[r.status]||'📌'}</div>
+  const priLabel={normal:'',urgente:'🟡 Urgente',critico:'🔴 Crítico'};
+  const sorted=[...reqs].sort((a,b)=>{
+    if(a.status==='done'&&b.status!=='done')return 1;
+    if(a.status!=='done'&&b.status==='done')return -1;
+    if(a.source==='client'&&b.source!=='client')return -1;
+    return new Date(b.created_at)-new Date(a.created_at);
+  });
+  const pendingCount=sorted.filter(r=>r.status!=='done').length;
+  const badge=document.getElementById('actionsBadge');
+  if(badge){badge.style.display=pendingCount?'inline-flex':'none';badge.textContent=pendingCount;}
+  c.innerHTML=sorted.map(r=>`
+    <div class="request-item${r.source==='client'?' req-item-client':''}">
+      <div class="req-icon" style="background:${r.source==='client'?'var(--orange-light)':'var(--surface2)'}">${icons[r.status]||'📌'}</div>
       <div class="req-content">
-        <div class="req-title">${r.title}</div>
+        <div class="req-title">${r.source==='client'?'<span class="req-source-tag">CLIENTE</span>':''}${r.title}${r.priority&&r.priority!=='normal'?` <span style="font-size:9px;color:var(--amber)">${priLabel[r.priority]||''}</span>`:''}</div>
         <div class="req-desc">${r.description}</div>
         <div class="req-date">⏰ ${r.due_date}</div>
+        <div class="req-admin-btns">
+          ${r.status!=='done'?`<button onclick="markRequestDone('${r.id}')" style="font-size:9px;padding:2px 9px;border-radius:5px;border:none;background:var(--green-light);color:var(--green-dark);cursor:pointer;font-weight:700">✓ Concluído</button>`:''}
+          <button onclick="deleteRequest('${r.id}')" style="font-size:9px;padding:2px 9px;border-radius:5px;border:none;background:var(--red-light);color:var(--red);cursor:pointer;font-weight:700">🗑️ Remover</button>
+        </div>
       </div>
       <span class="req-status ${statusCls[r.status]||'rs-pendente'}">${statusLbl[r.status]||r.status}</span>
     </div>`).join('');
@@ -1438,6 +1568,115 @@ function toggleCron(m){
   const o=w.classList.toggle('open');a.classList.toggle('open',o);
 }
 
+/* ══════════════ ADMIN MODE ══════════════ */
+const ADMIN_PASS='srchz2026';
+let IS_ADMIN=false;
+
+function triggerAdminMode(){
+  if(IS_ADMIN){
+    IS_ADMIN=false;
+    document.body.classList.remove('admin-mode');
+    document.getElementById('adminTriggerIco').textContent='🔒';
+    showToast('🔒 Modo admin desativado');
+    return;
+  }
+  const inp=document.getElementById('adminPinInput');
+  inp.value='';
+  document.getElementById('adminPinError').style.display='none';
+  document.getElementById('adminPinModal').classList.add('open');
+  setTimeout(()=>inp.focus(),120);
+}
+
+function verifyAdminPin(){
+  const val=document.getElementById('adminPinInput').value;
+  if(val===ADMIN_PASS){
+    IS_ADMIN=true;
+    document.body.classList.add('admin-mode');
+    document.getElementById('adminPinModal').classList.remove('open');
+    document.getElementById('adminTriggerIco').textContent='🔓';
+    showToast('🔓 Modo admin ativo');
+  } else {
+    document.getElementById('adminPinError').style.display='block';
+    document.getElementById('adminPinInput').select();
+  }
+}
+
+/* ══════════════ CLIENT REQUEST ══════════════ */
+function openClientReqModal(){
+  document.getElementById('clientReqTitle').value='';
+  document.getElementById('clientReqDesc').value='';
+  document.getElementById('clientReqPriority').value='normal';
+  document.getElementById('clientReqError').style.display='none';
+  document.getElementById('clientReqModal').classList.add('open');
+  setTimeout(()=>document.getElementById('clientReqTitle').focus(),120);
+}
+function closeClientReqModal(){document.getElementById('clientReqModal').classList.remove('open');}
+
+async function submitClientRequest(){
+  const title=document.getElementById('clientReqTitle').value.trim();
+  const desc=document.getElementById('clientReqDesc').value.trim();
+  const priority=document.getElementById('clientReqPriority').value;
+  if(!title){document.getElementById('clientReqError').style.display='block';return;}
+  const dueMap={normal:'Quando possível',urgente:'Urgente — esta semana',critico:'🔴 Crítico — hoje'};
+  const btn=document.getElementById('clientReqSendBtn');
+  btn.disabled=true; btn.textContent='Enviando…';
+  try{
+    if(IS_CONFIGURED){
+      const {error}=await db.from('requests').insert({
+        title,description:desc||'—',due_date:dueMap[priority]||'Quando possível',
+        status:'novo',source:'client',priority
+      });
+      if(!error) await addActivity(`Novo pedido do cliente: ${title.slice(0,50)}`,'Novo pedido do cliente');
+    }
+    closeClientReqModal();
+    showToast('📬 Pedido enviado! Responderemos em breve.');
+  } finally {
+    btn.disabled=false; btn.textContent='📬 Enviar pedido';
+  }
+}
+
+/* ══════════════ ADMIN: GERENCIAR PEDIDOS ══════════════ */
+async function markRequestDone(id){
+  if(!IS_ADMIN||!IS_CONFIGURED)return;
+  await db.from('requests').update({status:'done',updated_at:new Date().toISOString()}).eq('id',id);
+  await addActivity('Pedido marcado como concluído pela equipe.','Pedido concluído');
+  showToast('✅ Pedido concluído');
+}
+
+async function deleteRequest(id){
+  if(!IS_ADMIN||!IS_CONFIGURED)return;
+  if(!confirm('Remover este pedido permanentemente?'))return;
+  await db.from('requests').delete().eq('id',id);
+  showToast('🗑️ Pedido removido');
+}
+
+async function submitAdminRequest(){
+  const title=document.getElementById('adminReqTitle').value.trim();
+  const desc=document.getElementById('adminReqDesc').value.trim();
+  const date=document.getElementById('adminReqDate').value.trim();
+  if(!title)return;
+  if(IS_CONFIGURED){
+    await db.from('requests').insert({
+      title,description:desc||'—',due_date:date||'Sem prazo definido',
+      status:'pendente',source:'admin',priority:'normal'
+    });
+    await addActivity(`Novo pedido criado: ${title.slice(0,50)}`,'Novo pedido');
+  }
+  document.getElementById('adminReqModal').classList.remove('open');
+  ['adminReqTitle','adminReqDesc','adminReqDate'].forEach(id=>{document.getElementById(id).value='';});
+  showToast('✓ Pedido criado');
+}
+
+/* ══════════════ ADMIN: REGISTRAR ATIVIDADE ══════════════ */
+async function submitAdminActivity(){
+  const msg=document.getElementById('adminActMsg').value.trim();
+  if(!msg)return;
+  if(IS_CONFIGURED) await addActivity(msg,msg.slice(0,40));
+  document.getElementById('adminActModal').classList.remove('open');
+  document.getElementById('adminActMsg').value='';
+  showToast('📡 Atividade registrada');
+}
+
 /* ══════════════ DARK MODE ══════════════ */
 function toggleDark(){
   const h=document.documentElement,d=h.dataset.theme==='dark';
@@ -1464,8 +1703,12 @@ function showToast(msg){
   if(MONTH_NOTE) document.getElementById('monthNote').value=MONTH_NOTE;
   renderApprovalState();
 
+  // Fechar modais ao clicar no fundo
+  document.querySelectorAll('.modal-bg').forEach(m=>{
+    m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
+  });
+
   if(!IS_CONFIGURED){
-    // Mostrar banner de setup
     setConnStatus('offline');
     const banner=document.getElementById('setupBanner');
     if(banner) banner.style.display='flex';
