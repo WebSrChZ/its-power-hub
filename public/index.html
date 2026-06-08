@@ -215,7 +215,7 @@
         <span class="conn-label" style="font-size:10px;font-weight:600;color:var(--muted);white-space:nowrap">Conectando...</span>
       </div>
       <button class="ico-btn" onclick="toggleDark()" title="Tema">&#127769;</button>
-      <button class="ico-btn" onclick="window.print()" title="Imprimir">&#128424;</button>
+      <button class="ico-btn" onclick="exportPDF()" title="Exportar PDF">&#128196;</button>
     </div>
   </div>
 
@@ -741,36 +741,18 @@
       </div>
 
       <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Desempenho por Post</div></div>
-        <div class="card-body">
-          <div class="empty-state" id="resultadosPostList">
-            <div class="empty-state-icon">&#128202;</div>
-            <div class="empty-state-title">Metricas em breve</div>
-            <div class="empty-state-desc">As metricas de desempenho serao exibidas aqui conforme os posts forem publicados e os dados do Instagram estiverem disponiveis.</div>
-          </div>
-        </div>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Status de Producao</div></div>
+        <div class="card-body" id="resultadosPostList"></div>
       </div>
 
       <div class="grid-2">
         <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#127942;</span>Top Posts por Engajamento</div></div>
-          <div class="card-body">
-            <div class="empty-state">
-              <div class="empty-state-icon">&#127942;</div>
-              <div class="empty-state-title">Ranking em breve</div>
-              <div class="empty-state-desc">O ranking dos melhores posts aparecera aqui apos as publicacoes.</div>
-            </div>
-          </div>
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#127942;</span>Top Posts por Feedback</div></div>
+          <div class="card-body" id="resultadosTopPosts"></div>
         </div>
         <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128200;</span>Evolucao Semanal</div></div>
-          <div class="card-body">
-            <div class="empty-state">
-              <div class="empty-state-icon">&#128200;</div>
-              <div class="empty-state-title">Grafico em breve</div>
-              <div class="empty-state-desc">A evolucao semanal de seguidores e alcance sera exibida aqui.</div>
-            </div>
-          </div>
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128200;</span>Resumo por Pilar</div></div>
+          <div class="card-body" id="resultadosPilares"></div>
         </div>
       </div>
 
@@ -797,13 +779,7 @@
         <button class="btn btn-outline gallery-filter" data-filter="design" onclick="filterGallery('design',this)" style="font-size:11px;padding:6px 14px">&#127912; Design</button>
       </div>
 
-      <div class="gallery-grid" id="galleryGrid">
-        <div class="empty-state" style="grid-column:1/-1">
-          <div class="empty-state-icon">&#128247;</div>
-          <div class="empty-state-title">Galeria vazia</div>
-          <div class="empty-state-desc">Os conteudos produzidos aparecerão aqui conforme forem finalizados. Videos, fotos e artes para Instagram.</div>
-        </div>
-      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
     </div>
 
   </div>
@@ -948,5 +924,10 @@
 <script src="js/auth.js"></script>
 <script src="js/router.js"></script>
 <script src="js/app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
 </body>
 </html>

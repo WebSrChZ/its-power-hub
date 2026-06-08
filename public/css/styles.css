@@ -537,17 +537,23 @@ textarea.modal-input{resize:vertical;min-height:80px}
 [data-theme="dark"] .hero-card{background:linear-gradient(135deg,#1a0533 0%,#2e1065 40%,#4c1d95 100%);box-shadow:0 8px 32px rgba(76,29,149,.3)}
 [data-theme="dark"] .approval-card{background:linear-gradient(135deg,#0c1e36 0%,#1e3a5f 100%);box-shadow:0 8px 24px rgba(30,58,95,.3)}
 
+/* ─── GALLERY CARD DARK ─── */
+[data-theme="dark"] .gallery-card{background:var(--surface);border-color:var(--border)}
+[data-theme="dark"] .gallery-card:hover{border-color:var(--blue)}
+
 /* ─── RESPONSIVE ─── */
 @media print{
-  .sidebar,.topbar,.breadcrumb-bar,.post-actions,.cron-toggle,.sb-overlay,.modal-bg,.admin-ring,.toast,#landingPage,.notif-wrap,#connStatus,#authGate{display:none!important}
+  .sidebar,.topbar,.breadcrumb-bar,.post-actions,.cron-toggle,.sb-overlay,.modal-bg,.admin-ring,.toast,#landingPage,.notif-wrap,#connStatus,#authGate,.gallery-thumb-overlay{display:none!important}
   .main{margin-left:0}
   .content{padding:16px}
   .hero-card{background:#4C1D95!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .stat-card,.card{break-inside:avoid;box-shadow:none;border:1px solid #ddd}
-  .tab-panel{display:flex!important;page-break-before:always}
-  .tab-panel:first-child{page-break-before:auto}
+  .stat-card,.card,.metric-highlight{break-inside:avoid;box-shadow:none;border:1px solid #ddd}
+  body.pdf-export .tab-panel{display:none!important}
+  body.pdf-export .tab-panel.active{display:block!important}
   body{font-size:11px}
   @page{margin:1.5cm}
+  .gallery-grid{grid-template-columns:repeat(3,1fr)!important}
+  .gallery-thumb{aspect-ratio:4/3!important}
 }
 @media(max-width:1200px){.grid-5{grid-template-columns:repeat(3,1fr)}.grid-4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:1024px){:root{--sb-w:240px}.grid-3{grid-template-columns:1fr}.hero-card{flex-direction:column;gap:14px}.hero-right{text-align:left}.hero-actions{justify-content:flex-start}.approval-card{flex-direction:column;text-align:left}.approval-right{text-align:left}}
@@ -563,4 +569,8 @@ textarea.modal-input{resize:vertical;min-height:80px}
   .tb-tabs{padding:2px;gap:1px}
   .toast{left:16px;right:16px;bottom:16px}
   .landing-features{grid-template-columns:1fr}.landing-title{font-size:28px}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)!important}
+}
+@media(max-width:480px){
+  .gallery-grid{grid-template-columns:1fr!important}
 }

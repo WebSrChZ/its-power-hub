@@ -674,13 +674,161 @@ async function handleLogin() {
 function filterGallery(type, btn) {
   document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  // Future: filter gallery items by type
+  const grid = document.getElementById('galleryGrid');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.gallery-card');
+  cards.forEach(c => {
+    if (type === 'all') { c.style.display = ''; return; }
+    c.style.display = c.dataset.type === type ? '' : 'none';
+  });
+}
+
+function buildGallery() {
+  const grid = document.getElementById('galleryGrid');
+  if (!grid) return;
+  const types = ['video','video','foto','video','video','foto','video','video','video','video'];
+  const typeLabels = {video:'Video',foto:'Foto',design:'Design'};
+  const typeBg = {video:'background:var(--purple-light);color:var(--purple-dark)',foto:'background:var(--blue-light);color:var(--blue-dark)',design:'background:var(--orange-light);color:#92400E'};
+  let html = '';
+  POSTS.forEach((p, i) => {
+    const pl = PILLAR[p.pillar];
+    const st = STATE[p.id]?.status || 'pendente';
+    const t = types[i] || 'video';
+    html += `<div class="gallery-card fade-in" data-type="${t}">
+      <div class="gallery-thumb" style="${pl.dateBg}">
+        <span style="font-size:42px;color:rgba(255,255,255,.9)">${pl.icon}</span>
+        <div class="gallery-thumb-overlay"><span>&#128065;</span></div>
+      </div>
+      <div class="gallery-info">
+        <div class="gallery-title">${p.title}</div>
+        <div class="gallery-meta">
+          <span class="gallery-badge" style="${typeBg[t]}">${typeLabels[t]}</span>
+          <span>${String(p.day).padStart(2,'0')}/06</span>
+          <span style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:${STATUS_COLOR[st]}" title="${STATUS_LBL[st]}"></span>
+        </div>
+      </div>
+    </div>`;
+  });
+  grid.innerHTML = html;
+}
+
+/* ─── RESULTADOS (computed from post data) ─── */
+function buildResultados() {
+  const pub = POSTS.filter(p => STATE[p.id]?.status === 'publicado').length;
+  const prod = POSTS.filter(p => STATE[p.id]?.status === 'producao').length;
+  const aprov = POSTS.filter(p => STATE[p.id]?.status === 'aprovado').length;
+  const pend = POSTS.filter(p => STATE[p.id]?.status === 'pendente').length;
+  const fbCount = POSTS.filter(p => (STATE[p.id]?.stars||0) > 0).length;
+
+  // Update metric cards
+  const mf = document.getElementById('metricFollowers');
+  const mr = document.getElementById('metricReach');
+  const me = document.getElementById('metricEngagement');
+  const mc = document.getElementById('metricConversions');
+  if (mf) mf.textContent = pub + '/10';
+  if (mr) mr.textContent = fbCount + '/10';
+  if (me) me.textContent = Math.round((pub + aprov) / 10 * 100) + '%';
+  if (mc) mc.textContent = prod + aprov + pub;
+
+  // Update labels
+  const labels = document.querySelectorAll('#panel-resultados .metric-label');
+  if (labels[0]) labels[0].textContent = 'Publicados';
+  if (labels[1]) labels[1].textContent = 'Com Feedback';
+  if (labels[2]) labels[2].textContent = 'Aprovacao';
+  if (labels[3]) labels[3].textContent = 'Em Progresso';
+
+  // Post status list
+  const list = document.getElementById('resultadosPostList');
+  if (list) {
+    let html = '<div style="display:flex;flex-direction:column;gap:10px">';
+    POSTS.forEach(p => {
+      const st = STATE[p.id]?.status || 'pendente';
+      const stars = STATE[p.id]?.stars || 0;
+      const starsHtml = stars > 0 ? '&#9733;'.repeat(stars) + '<span style="opacity:.3">' + '&#9733;'.repeat(5 - stars) + '</span>' : '<span style="opacity:.3">&#9733;&#9733;&#9733;&#9733;&#9733;</span>';
+      html += `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r);background:var(--surface2);border:1px solid var(--border)">
+        <span style="font-size:16px">${PILLAR[p.pillar].icon}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px">${String(p.day).padStart(2,'0')}/06 · ${PILLAR[p.pillar].label}</div>
+        </div>
+        <div style="font-size:12px;color:#FBBF24">${starsHtml}</div>
+        <span style="font-size:9px;font-weight:700;padding:3px 10px;border-radius:10px;background:${STATUS_COLOR[st]}20;color:${STATUS_COLOR[st]};white-space:nowrap">${STATUS_LBL[st]}</span>
+      </div>`;
+    });
+    html += '</div>';
+    list.innerHTML = html;
+  }
+
+  // Top posts by feedback
+  const top = document.getElementById('resultadosTopPosts');
+  if (top) {
+    const ranked = [...POSTS].filter(p => (STATE[p.id]?.stars||0) > 0).sort((a,b) => (STATE[b.id]?.stars||0) - (STATE[a.id]?.stars||0));
+    if (ranked.length === 0) {
+      top.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#127942;</div><div class="empty-state-title">Sem feedbacks ainda</div><div class="empty-state-desc">Avalie os posts na aba Junho para ver o ranking aqui.</div></div>';
+    } else {
+      let html = '<div style="display:flex;flex-direction:column;gap:8px">';
+      ranked.slice(0,5).forEach((p, i) => {
+        const stars = STATE[p.id]?.stars || 0;
+        html += `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r);background:var(--surface2)">
+          <span style="font-size:14px;font-weight:800;color:${i===0?'var(--orange)':i===1?'var(--blue)':'var(--muted)'};width:22px;text-align:center">${i+1}</span>
+          <span>${PILLAR[p.pillar].icon}</span>
+          <div style="flex:1;font-size:11px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+          <div style="font-size:11px;color:#FBBF24">${'&#9733;'.repeat(stars)}</div>
+        </div>`;
+      });
+      html += '</div>';
+      top.innerHTML = html;
+    }
+  }
+
+  // Pillar summary
+  const pilares = document.getElementById('resultadosPilares');
+  if (pilares) {
+    const summary = {};
+    ['a','c','v'].forEach(k => {
+      const posts = POSTS.filter(p => p.pillar === k);
+      const pubCount = posts.filter(p => STATE[p.id]?.status === 'publicado').length;
+      const avgStars = posts.reduce((sum,p) => sum + (STATE[p.id]?.stars||0), 0) / posts.length;
+      summary[k] = { total: posts.length, pub: pubCount, avg: avgStars };
+    });
+    let html = '<div style="display:flex;flex-direction:column;gap:12px">';
+    ['a','c','v'].forEach(k => {
+      const s = summary[k];
+      const pl = PILLAR[k];
+      const pct = Math.round(s.pub / s.total * 100);
+      html += `<div style="padding:14px 16px;border-radius:var(--r);background:var(--surface2);border:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:16px">${pl.icon}</span>
+          <span style="font-size:13px;font-weight:700;color:var(--heading)">${pl.label}</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--muted)">${s.pub}/${s.total} publicados</span>
+        </div>
+        <div class="prog-bar" style="height:6px;background:var(--border)">
+          <div style="height:100%;border-radius:3px;width:${pct}%;${pl.stripe};transition:width .6s"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px">
+          <span style="font-size:10px;color:var(--muted)">Media: ${s.avg.toFixed(1)} &#9733;</span>
+          <span style="font-size:10px;font-weight:600;color:var(--heading)">${pct}%</span>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+    pilares.innerHTML = html;
+  }
+}
+
+/* ─── PDF EXPORT ─── */
+function exportPDF() {
+  // Add a class to optimize print layout
+  document.body.classList.add('pdf-export');
+  window.print();
+  setTimeout(() => document.body.classList.remove('pdf-export'), 1000);
 }
 
 /* ─── INIT ─── */
 async function initApp() {
   try { if (localStorage.getItem('ip3_dark')==='true') document.documentElement.dataset.theme = 'dark'; } catch {}
   buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
+  buildGallery(); buildResultados();
   renderApprovalState();
   document.querySelectorAll('.modal-bg').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
@@ -688,6 +836,7 @@ async function initApp() {
   Router.init();
   await loadData();
   buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
+  buildGallery(); buildResultados();
   if (MONTH_NOTE) { const el = document.getElementById('monthNote'); if (el) el.value = MONTH_NOTE; }
   renderApprovalState();
   await updateNotifBadge();
