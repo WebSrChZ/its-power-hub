@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260608d">
+<link rel="stylesheet" href="css/styles.css?v=20260608e">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
@@ -289,6 +289,7 @@
 
         <div class="card" id="card-etapas">
           <div class="card-hdr collapsible" onclick="toggleCard('card-etapas')"><div class="card-title"><span class="card-title-icon">&#128197;</span>Etapas do Projeto</div><span class="card-collapse-arrow">&#9660;</span></div>
+          <div class="card-summary" id="etapasSummary"></div>
           <div class="card-body">
             <div class="timeline" id="timelineContainer"></div>
           </div>
@@ -1006,8 +1007,8 @@
 
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/router.js?v=20260608d"></script>
-<script src="js/app.js?v=20260608d"></script>
+<script src="js/router.js?v=20260608e"></script>
+<script src="js/app.js?v=20260608e"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
