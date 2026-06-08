@@ -1,44 +1,52 @@
 /* ─── DATA ─── */
 const POSTS = [
-  { id:'jun01',day:10,wday:'Ter',pillar:'c',num:'01/10',
-    title:'Chegamos. E o que voce vai ver aqui e real.',
-    desc:'Reel de abertura. A academia sem filtro — professores, alunos, estrutura, rotina. O novo padrao de conteudo da It\'s Power.',
-    tags:['Reel de abertura','Autenticidade cinematografica','Primeiro contato com a marca']},
-  { id:'jun02',day:12,wday:'Qui',pillar:'v',num:'02/10 - Namorados',
-    title:'O que casais que treinam juntos dividem — alem do treino.',
-    desc:'Cumplicidade real no esforco compartilhado. Sem cliche. Fechamento elegante para o Dia dos Namorados.',
-    tags:['Data especial 12/06','Estilo de vida e conexao','Alto reshare organico']},
-  { id:'jun03',day:14,wday:'Sab',pillar:'a',num:'03/10',
-    title:'O exercicio que voce faz todo treino — provavelmente errado.',
-    desc:'Professor demonstra versao errada vs. correta. Camera lateral, didatica limpa. Informacao que vale o salvamento.',
-    tags:['Alto salvamento','Autoridade tecnica','Diferencial de acompanhamento']},
-  { id:'jun04',day:17,wday:'Ter',pillar:'c',num:'04/10',
-    title:'O que acontece aqui quando ninguem esta filmando.',
-    desc:'Camera ativa desde a abertura. Professor preparando, alunos chegando pelo nome. O cuidado invisivel que define a experiencia.',
-    tags:['Humanizacao premium','Cuidado como diferencial','Estilo documental']},
-  { id:'jun05',day:19,wday:'Qui',pillar:'a',num:'05/10',
-    title:'Tres razoes para nao abandonar o treino no frio.',
-    desc:'O inverno vai passar. A decisao de hoje, nao. Argumentos diretos com urgencia elegante — sem pressao.',
-    tags:['Timing sazonal','Compartilhamento organico','Construcao de longo prazo']},
-  { id:'jun06',day:21,wday:'Sab',pillar:'c',num:'06/10 - Inverno',
-    title:'Primeiro dia de inverno. A It\'s Power esta assim.',
-    desc:'Contraste cinematografico: frio la fora, energia aqui dentro. Frase iconica para reshare: "Aqui o frio nao e desculpa. E combustivel."',
-    tags:['Data especial 21/06','Pertencimento visual','Frase iconica para reshare']},
-  { id:'jun07',day:24,wday:'Ter',pillar:'v',num:'07/10',
-    title:'[Nome] — uma historia que comecou aqui dentro.',
-    desc:'Depoimento real. Fala natural, camera proxima. Sem roteiro. A melhor prova do que a gente faz nao esta em numeros — esta nas pessoas.',
-    tags:['Prova social autentica','Legendado obrigatorio','Comunidade como diferencial']},
-  { id:'jun08',day:26,wday:'Qui',pillar:'a',num:'08/10',
+  { id:'jun01',day:3,wday:'Qua',pillar:'v',num:'01/12',
+    title:'Existe um lugar em Claudio que voce ainda nao conhece.',
+    desc:'Reel de abertura. A academia revelada: estrutura real, profissionais reais, comunidade real. O primeiro convite — sem pressao.',
+    tags:['Reel de abertura','Primeiro contato com a marca','CTA suave — link na bio']},
+  { id:'jun02',day:6,wday:'Sab',pillar:'c',num:'02/12',
+    title:'O inverno separa intencao de compromisso.',
+    desc:'Quem levanta no frio escolhe o que e dificil. O inverno nao e obstaculo — e filtro. Engajamento emocional puro.',
+    tags:['Engajamento emocional','Frase iconica para reshare','Inverno como filtro']},
+  { id:'jun03',day:9,wday:'Ter',pillar:'a',num:'03/12',
     title:'As 3 perguntas que todo aluno faz — respondidas sem filtro.',
-    desc:'Sem enrolacao. Sem resposta generica. So o que funciona. Autoridade acessivel — formato que pode virar serie semanal.',
-    tags:['Q&A — autoridade acessivel','Potencial de serie','Alto salvamento e compartilhamento']},
-  { id:'jun09',day:28,wday:'Sab',pillar:'c',num:'09/10',
+    desc:'Professor responde as 3 duvidas mais comuns: whey, descanso e tempo de resultado. Sem enrolacao, sem resposta generica.',
+    tags:['Q&A — autoridade acessivel','Potencial de serie semanal','Alto salvamento']},
+  { id:'jun04',day:11,wday:'Qui',pillar:'a',num:'04/12',
+    title:'Treinar em jejum emagrece mais — mito ou verdade?',
+    desc:'Formato quiz com suspense e resposta direta. A diferenca entre resultado e frustracao e informacao de qualidade.',
+    tags:['Formato quiz — alta retencao','Alto salvamento','Autoridade tecnica']},
+  { id:'jun05',day:12,wday:'Sex',pillar:'c',num:'05/12 — Namorados',
+    title:'O que casais que treinam juntos dividem — alem do treino.',
+    desc:'Cumplicidade real no esforco compartilhado. Sem cliche — o cuidado com a saude como ato de amor.',
+    tags:['Data especial 12/06','Estilo de vida e conexao','Alto reshare organico']},
+  { id:'jun06',day:16,wday:'Ter',pillar:'a',num:'06/12',
+    title:'Tres razoes para nao abandonar o treino no frio.',
+    desc:'Tres argumentos diretos para nao pausar no inverno. Metabolismo, atencao exclusiva e vantagem competitiva.',
+    tags:['Timing sazonal','Compartilhamento organico','Construcao de longo prazo']},
+  { id:'jun07',day:19,wday:'Sex',pillar:'c',num:'07/12',
+    title:'[Nome] — uma historia que comecou aqui dentro.',
+    desc:'Depoimento real, fala natural, camera proxima. A melhor prova do que a academia faz — nao esta em numeros, esta nas pessoas.',
+    tags:['Prova social autentica','Legendado obrigatorio','Comunidade como diferencial']},
+  { id:'jun08',day:21,wday:'Dom',pillar:'c',num:'08/12 — Inverno',
+    title:'Primeiro dia de inverno. A It\'s Power esta assim.',
+    desc:'Contraste cinematografico: frio la fora, energia aqui dentro. Frase iconica para reshare.',
+    tags:['Data especial 21/06','Pertencimento visual','Frase iconica para reshare']},
+  { id:'jun09',day:23,wday:'Ter',pillar:'c',num:'09/12',
+    title:'O que acontece aqui quando ninguem esta filmando.',
+    desc:'Camera ativa desde as 6h. Professor preparando, alunos chegando pelo nome. O cuidado invisivel que define a experiencia.',
+    tags:['Humanizacao premium','Cuidado como diferencial','Estilo documental']},
+  { id:'jun10',day:25,wday:'Qui',pillar:'a',num:'10/12',
+    title:'O exercicio que voce faz todo treino — provavelmente errado.',
+    desc:'Demonstracao errado vs. correto com camera lateral. Didatica limpa, informacao que vale o salvamento.',
+    tags:['Alto salvamento','Autoridade tecnica','Diferencial de acompanhamento']},
+  { id:'jun11',day:27,wday:'Sab',pillar:'c',num:'11/12',
     title:'30 segundos. Sem pausar. Sem desculpa. Voce aguenta?',
-    desc:'Parece pouco — ate voce tentar. Desafio real com reacao genuina. Formato viral com alta retencao.',
+    desc:'Parece pouco — ate tentar. Desafio real com reacao genuina. Formato viral com alta retencao e marcacoes.',
     tags:['Formato viral','Desafio com autenticidade','Alta retencao e marcacoes']},
-  { id:'jun10',day:30,wday:'Seg',pillar:'v',num:'10/10',
+  { id:'jun12',day:30,wday:'Ter',pillar:'v',num:'12/12',
     title:'Junho acabou. O que a gente construiu, fica.',
-    desc:'Montagem dos melhores momentos do mes. Gratidao genuina + convite direto: "Primeira visita por nossa conta."',
+    desc:'Montagem dos melhores momentos do mes. Gratidao genuina e convite direto para julho.',
     tags:['Fechamento com proposito','Convite — nao panfleto','Antecipacao para julho']},
 ];
 
@@ -105,7 +113,7 @@ function buildCalendar() {
   const byDay = {};
   POSTS.forEach(p => byDay[p.day] = p);
   const today = new Date().toISOString().slice(0,10);
-  let html = `<div class="cal-mhdr"><span class="t">Junho 2026</span><span class="s">10 posts - inicio 08/06 - Ter/Qui/Sab</span></div><div class="cal-grid">`;
+  let html = `<div class="cal-mhdr"><span class="t">Junho 2026</span><span class="s">12 reels · inicio 03/06 · 3×/semana</span></div><div class="cal-grid">`;
   ['Seg','Ter','Qua','Qui','Sex','Sab','Dom'].forEach(d => html += `<div class="cal-head">${d}</div>`);
   for (let d=1;d<=30;d++) {
     const p = byDay[d], isToday = `2026-06-${String(d).padStart(2,'0')}` === today;
@@ -472,7 +480,7 @@ function buildCronogramaInline() {
 /* ─── TIMELINE (dynamic) ─── */
 const DEFAULT_TIMELINE = [
   {title:'Periodo de Teste',status:'done',badge:'Encerrado',desc:'Analise inicial da academia, proposta aprovada e inicio do projeto.',date:'Maio 2026',price:''},
-  {title:'Fase Teste — Descoberta',status:'active',badge:'Agora',desc:'10 posts, 3 pilares, identificacao das narrativas com maior engajamento. Relatorio final em 30/06.',date:'08 Jun – 30 Jun 2026',price:'R$ 1.200 / mes unico'},
+  {title:'Fase Teste — Descoberta',status:'active',badge:'Agora',desc:'12 reels, 3 pilares, identificacao das narrativas com maior engajamento. Relatorio final em 30/06.',date:'03 Jun – 30 Jun 2026',price:'R$ 1.200 / mes unico'},
   {title:'Reuniao de Alinhamento',status:'upcoming',badge:'Proximo',desc:'Apresentacao dos resultados da Fase Teste. Decisao sobre continuidade e qual plano seguir.',date:'Final de Junho 2026',price:''},
   {title:'Plano Essencial',status:'upcoming',badge:'Aguardando aprovacao',desc:'12 videos/mes, reuniao mensal, relatorio de desempenho, stories estrategicos.',date:'Jul – Set 2026 (apos aprovacao)',price:'R$ 2.800 / mes · Meses 2 a 4'},
   {title:'Plano Growth',status:'locked',badge:'Futuro',desc:'Meta Ads, lookalike audience, stories diarios, campanhas sazonais, relatorio CPL/ROI.',date:'Out 2026 em diante',price:'R$ 4.500 / mes · Mes 5+'},
@@ -848,7 +856,7 @@ function filterGallery(type, btn) {
 function buildGallery() {
   const grid = document.getElementById('galleryGrid');
   if (!grid) return;
-  const types = ['video','video','foto','video','video','foto','video','video','video','video'];
+  const types = ['video','video','video','video','foto','video','video','video','video','video','video','foto'];
   const typeLabels = {video:'Video',foto:'Foto',design:'Design'};
   const typeBg = {video:'background:var(--purple-light);color:var(--purple-dark)',foto:'background:var(--blue-light);color:var(--blue-dark)',design:'background:var(--orange-light);color:#92400E'};
   let html = '';
@@ -887,9 +895,9 @@ function buildResultados() {
   const mr = document.getElementById('metricReach');
   const me = document.getElementById('metricEngagement');
   const mc = document.getElementById('metricConversions');
-  if (mf) mf.textContent = pub + '/10';
-  if (mr) mr.textContent = fbCount + '/10';
-  if (me) me.textContent = Math.round((pub + aprov) / 10 * 100) + '%';
+  if (mf) mf.textContent = pub + '/' + POSTS.length;
+  if (mr) mr.textContent = fbCount + '/' + POSTS.length;
+  if (me) me.textContent = Math.round((pub + aprov) / POSTS.length * 100) + '%';
   if (mc) mc.textContent = prod + aprov + pub;
 
   // Update labels
