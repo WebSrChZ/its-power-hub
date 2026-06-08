@@ -81,7 +81,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 
 /* ─── MAIN ─── */
 .main{margin-left:var(--sb-w);display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
-.topbar{position:sticky;top:0;z-index:100;background:rgba(248,250,252,.85);border-bottom:1px solid var(--border);padding:0 32px;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;gap:14px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);overflow:hidden}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(248,250,252,.85);border-bottom:1px solid var(--border);padding:0 32px;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;gap:14px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 [data-theme="dark"] .topbar{background:rgba(3,7,18,.85)}
 .tb-tabs{display:flex;gap:2px;background:var(--surface2);border-radius:10px;padding:3px;border:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tb-tabs::-webkit-scrollbar{display:none}
