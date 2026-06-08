@@ -57,6 +57,8 @@ const Router = {
         junho: 'Junho 2026',
         pilares: '3 Pilares',
         fases: 'Proximas Fases',
+        resultados: 'Resultados',
+        galeria: 'Galeria',
         contrato: 'Contrato & Docs'
       };
       breadcrumb.textContent = labels[tab] || tab;

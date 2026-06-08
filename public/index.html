@@ -4,7 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>It's Power × SrChZ — Portal do Projeto</title>
-<meta name="description" content="Portal do cliente — Academia ITS Power × SrChZ Technologies">
+<meta name="description" content="Portal do cliente — Academia ITS Power × SrChZ Technologies. Gestao de conteudo digital, calendario editorial, feedback e acompanhamento de projeto.">
+<meta name="theme-color" content="#0F172A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- Open Graph -->
+<meta property="og:title" content="It's Power × SrChZ — Portal do Projeto">
+<meta property="og:description" content="Portal de gestao de conteudo digital da Academia ITS Power. Calendario editorial, feedback em tempo real e acompanhamento de projeto.">
+<meta property="og:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
+<meta property="og:url" content="https://websrchz.github.io/its-power-hub/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="It's Power × SrChZ — Portal do Projeto">
+<meta name="twitter:description" content="Portal de gestao de conteudo digital da Academia ITS Power.">
+<meta name="twitter:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
+<!-- Favicon -->
+<link rel="icon" type="image/jpeg" href="assets/LogoItsPower.jpg">
+<link rel="apple-touch-icon" href="assets/LogoItsPower.jpg">
+<!-- Manifest -->
+<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
@@ -13,8 +33,44 @@
 </head>
 <body>
 
+<!-- LANDING PAGE -->
+<div id="landingPage">
+  <div class="landing-content">
+    <img class="landing-logo" src="assets/LogoItsPower.jpg" alt="It's Power"
+         onerror="this.style.display='none'">
+    <div class="landing-title">it's <em>power</em></div>
+    <div class="landing-sub">Portal do Projeto · SrChZ Technologies</div>
+    <p class="landing-desc">
+      Gestao de conteudo digital para a <strong>Academia ITS Power</strong>.
+      Calendario editorial, feedback em tempo real, acompanhamento de projeto
+      e resultados — tudo em um so lugar.
+    </p>
+    <div class="landing-features">
+      <div class="landing-feat">
+        <div class="landing-feat-icon">&#128197;</div>
+        <div class="landing-feat-title">Calendario Editorial</div>
+        <div class="landing-feat-desc">Planejamento mensal com 3 pilares estrategicos</div>
+      </div>
+      <div class="landing-feat">
+        <div class="landing-feat-icon">&#11088;</div>
+        <div class="landing-feat-title">Feedback em Tempo Real</div>
+        <div class="landing-feat-desc">Avalie conteudos e acompanhe o progresso</div>
+      </div>
+      <div class="landing-feat">
+        <div class="landing-feat-icon">&#128202;</div>
+        <div class="landing-feat-title">Resultados</div>
+        <div class="landing-feat-desc">Metricas de engajamento e crescimento</div>
+      </div>
+    </div>
+    <button class="landing-cta" onclick="showLoginFromLanding()">&#128274; Acessar Portal</button>
+    <div class="landing-footer">
+      <a href="https://instagram.com/websrchz" target="_blank">@websrchz</a> · SrChZ Technologies · 2026
+    </div>
+  </div>
+</div>
+
 <!-- AUTH GATE -->
-<div id="authGate">
+<div id="authGate" style="display:none">
   <div class="auth-box" id="authBox">
     <img class="auth-logo" src="assets/LogoItsPower.jpg" alt="It's Power"
          onerror="this.style.display='none';document.getElementById('authLogoFallback').style.display='flex'">
@@ -37,6 +93,7 @@
     </div>
     <button class="auth-btn" onclick="handleLogin()">Entrar</button>
     <div class="auth-err hide" id="authErr">Login ou senha incorretos.</div>
+    <div class="auth-cooldown" id="authCooldown"></div>
   </div>
 </div>
 
@@ -85,6 +142,16 @@
       <div class="nav-info"><div class="nav-label">Próximas Fases</div></div>
       <span class="nav-badge nb-new">Novo</span>
     </button>
+    <div class="sb-nav-section">Resultados</div>
+    <button class="nav-item" data-tab="resultados" onclick="switchTab('resultados')">
+      <span class="nav-icon">&#128200;</span>
+      <div class="nav-info"><div class="nav-label">Resultados</div></div>
+      <span class="nav-badge nb-info">Novo</span>
+    </button>
+    <button class="nav-item" data-tab="galeria" onclick="switchTab('galeria')">
+      <span class="nav-icon">&#128247;</span>
+      <div class="nav-info"><div class="nav-label">Galeria</div></div>
+    </button>
     <div class="sb-nav-section">Documentos</div>
     <button class="nav-item" data-tab="contrato" onclick="switchTab('contrato')">
       <span class="nav-icon">&#128203;</span>
@@ -123,6 +190,8 @@
         <button class="tb-tab" data-tab="junho" onclick="switchTab('junho')">&#128197; Junho</button>
         <button class="tb-tab" data-tab="pilares" onclick="switchTab('pilares')">&#127919; Pilares</button>
         <button class="tb-tab" data-tab="fases" onclick="switchTab('fases')">&#128640; Fases</button>
+        <button class="tb-tab" data-tab="resultados" onclick="switchTab('resultados')">&#128200; Resultados</button>
+        <button class="tb-tab" data-tab="galeria" onclick="switchTab('galeria')">&#128247; Galeria</button>
         <button class="tb-tab" data-tab="contrato" onclick="switchTab('contrato')">&#128203; Contrato</button>
       </div>
     </div>
@@ -179,11 +248,11 @@
       </div>
 
       <div class="grid-5">
-        <div class="stat-card blue" onclick="switchTab('junho')"><div class="stat-n" id="statTotal">10</div><div class="stat-label">Posts em Junho</div><div class="stat-sub"><span id="statPub">0</span> publicados</div></div>
-        <div class="stat-card purple" onclick="switchTab('pilares')"><div class="stat-n">3</div><div class="stat-label">Pilares de conteúdo</div><div class="stat-sub">Autoridade · Conexão · Conversão</div></div>
-        <div class="stat-card green" onclick="switchTab('junho')"><div class="stat-n">&#127942; &#129309; &#127919;</div><div class="stat-label">Posts por pilar</div><div class="stat-sub">4 · 4 · 2</div></div>
-        <div class="stat-card orange" onclick="switchTab('junho')"><div class="stat-n">3</div><div class="stat-label">Posts / semana</div><div class="stat-sub">Ter · Qui · Sáb</div></div>
-        <div class="stat-card amber" onclick="switchTab('junho');setTimeout(()=>document.getElementById('postsJunho')?.scrollIntoView({behavior:'smooth'}),100)"><div class="stat-n" id="statFeedback">0</div><div class="stat-label">Feedbacks dados</div><div class="stat-sub">Avalie os conteúdos abaixo</div></div>
+        <div class="stat-card blue fade-in" onclick="switchTab('junho')"><div class="stat-n" id="statTotal">10</div><div class="stat-label">Posts em Junho</div><div class="stat-sub"><span id="statPub">0</span> publicados</div></div>
+        <div class="stat-card purple fade-in" onclick="switchTab('pilares')"><div class="stat-n">3</div><div class="stat-label">Pilares de conteúdo</div><div class="stat-sub">Autoridade · Conexão · Conversão</div></div>
+        <div class="stat-card green fade-in" onclick="switchTab('junho')"><div class="stat-n">&#127942; &#129309; &#127919;</div><div class="stat-label">Posts por pilar</div><div class="stat-sub">4 · 4 · 2</div></div>
+        <div class="stat-card orange fade-in" onclick="switchTab('junho')"><div class="stat-n">3</div><div class="stat-label">Posts / semana</div><div class="stat-sub">Ter · Qui · Sáb</div></div>
+        <div class="stat-card amber fade-in" onclick="switchTab('junho');setTimeout(()=>document.getElementById('postsJunho')?.scrollIntoView({behavior:'smooth'}),100)"><div class="stat-n" id="statFeedback">0</div><div class="stat-label">Feedbacks dados</div><div class="stat-sub">Avalie os conteúdos abaixo</div></div>
       </div>
 
       <div class="grid-2">
@@ -624,6 +693,115 @@
               <div><div style="font-size:13px;font-weight:700;color:var(--heading)">Roteiros de Vídeo</div><div style="font-size:10px;color:var(--muted);margin-top:2px">12 roteiros · Junho</div></div>
             </a>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: RESULTADOS -->
+    <div class="tab-panel" id="panel-resultados">
+      <div style="background:linear-gradient(135deg,#064E3B 0%,#065F46 50%,var(--green) 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(16,185,129,.2)">
+        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Metricas de Desempenho</div>
+        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Resultados da Fase Teste</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Acompanhe o impacto dos conteudos produzidos para a ITS Power.</div>
+      </div>
+
+      <div class="grid-4">
+        <div class="metric-highlight fade-in">
+          <div class="metric-icon" style="background:var(--blue-light)">&#128101;</div>
+          <div class="metric-data">
+            <div class="metric-value" id="metricFollowers">--</div>
+            <div class="metric-label">Seguidores</div>
+          </div>
+          <span class="metric-change metric-neutral">Fase Teste</span>
+        </div>
+        <div class="metric-highlight fade-in">
+          <div class="metric-icon" style="background:var(--green-light)">&#128065;</div>
+          <div class="metric-data">
+            <div class="metric-value" id="metricReach">--</div>
+            <div class="metric-label">Alcance Total</div>
+          </div>
+          <span class="metric-change metric-neutral">Fase Teste</span>
+        </div>
+        <div class="metric-highlight fade-in">
+          <div class="metric-icon" style="background:var(--purple-light)">&#128172;</div>
+          <div class="metric-data">
+            <div class="metric-value" id="metricEngagement">--</div>
+            <div class="metric-label">Engajamento</div>
+          </div>
+          <span class="metric-change metric-neutral">Fase Teste</span>
+        </div>
+        <div class="metric-highlight fade-in">
+          <div class="metric-icon" style="background:var(--orange-light)">&#127919;</div>
+          <div class="metric-data">
+            <div class="metric-value" id="metricConversions">--</div>
+            <div class="metric-label">Visitas Geradas</div>
+          </div>
+          <span class="metric-change metric-neutral">Fase Teste</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Desempenho por Post</div></div>
+        <div class="card-body">
+          <div class="empty-state" id="resultadosPostList">
+            <div class="empty-state-icon">&#128202;</div>
+            <div class="empty-state-title">Metricas em breve</div>
+            <div class="empty-state-desc">As metricas de desempenho serao exibidas aqui conforme os posts forem publicados e os dados do Instagram estiverem disponiveis.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#127942;</span>Top Posts por Engajamento</div></div>
+          <div class="card-body">
+            <div class="empty-state">
+              <div class="empty-state-icon">&#127942;</div>
+              <div class="empty-state-title">Ranking em breve</div>
+              <div class="empty-state-desc">O ranking dos melhores posts aparecera aqui apos as publicacoes.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128200;</span>Evolucao Semanal</div></div>
+          <div class="card-body">
+            <div class="empty-state">
+              <div class="empty-state-icon">&#128200;</div>
+              <div class="empty-state-title">Grafico em breve</div>
+              <div class="empty-state-desc">A evolucao semanal de seguidores e alcance sera exibida aqui.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;gap:14px">
+        <span style="font-size:20px">&#128161;</span>
+        <div style="font-size:12px;color:var(--text);line-height:1.6">
+          <strong>Nota:</strong> As metricas do Instagram serao preenchidas manualmente ou via integracao apos as publicacoes de junho. O relatorio completo sera apresentado na reuniao de alinhamento ao fim do mes.
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: GALERIA -->
+    <div class="tab-panel" id="panel-galeria">
+      <div style="background:linear-gradient(135deg,#1E293B 0%,#334155 50%,#475569 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
+        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Producao Visual</div>
+        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Galeria de Conteudos</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Fotos, videos e materiais produzidos para a ITS Power.</div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+        <button class="btn btn-outline gallery-filter active" data-filter="all" onclick="filterGallery('all',this)" style="font-size:11px;padding:6px 14px">Todos</button>
+        <button class="btn btn-outline gallery-filter" data-filter="video" onclick="filterGallery('video',this)" style="font-size:11px;padding:6px 14px">&#127916; Videos</button>
+        <button class="btn btn-outline gallery-filter" data-filter="foto" onclick="filterGallery('foto',this)" style="font-size:11px;padding:6px 14px">&#128247; Fotos</button>
+        <button class="btn btn-outline gallery-filter" data-filter="design" onclick="filterGallery('design',this)" style="font-size:11px;padding:6px 14px">&#127912; Design</button>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="empty-state" style="grid-column:1/-1">
+          <div class="empty-state-icon">&#128247;</div>
+          <div class="empty-state-title">Galeria vazia</div>
+          <div class="empty-state-desc">Os conteudos produzidos aparecerão aqui conforme forem finalizados. Videos, fotos e artes para Instagram.</div>
         </div>
       </div>
     </div>

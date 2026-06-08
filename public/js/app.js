@@ -603,27 +603,78 @@ async function acceptLGPD() {
   showToast('Termos aceitos com sucesso');
 }
 
+/* ─── LANDING PAGE ─── */
+function showLoginFromLanding() {
+  const landing = document.getElementById('landingPage');
+  const gate = document.getElementById('authGate');
+  landing.classList.add('hide');
+  setTimeout(() => {
+    landing.style.display = 'none';
+    gate.style.display = '';
+    document.getElementById('authUser').focus();
+  }, 500);
+}
+
 /* ─── AUTH GATE ─── */
+let _cooldownInterval = null;
 async function handleLogin() {
   const user = document.getElementById('authUser').value.trim().toLowerCase();
   const pass = document.getElementById('authPass').value;
+  const btn = document.querySelector('.auth-btn');
+  const cooldownEl = document.getElementById('authCooldown');
+
+  if (Auth.isLocked()) {
+    const secs = Auth.getRemainingLock();
+    if (cooldownEl) cooldownEl.textContent = `Aguarde ${secs}s para tentar novamente.`;
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Verificando...';
   const result = await Auth.login(user, pass);
+  btn.disabled = false; btn.textContent = 'Entrar';
+
   if (result.ok) {
     Auth.applyRole();
     const gate = document.getElementById('authGate');
     gate.classList.add('hide');
     document.body.style.overflow = '';
     setTimeout(() => gate.style.display = 'none', 500);
+    if (cooldownEl) cooldownEl.textContent = '';
     await initApp();
   } else {
     const box = document.getElementById('authBox');
     const err = document.getElementById('authErr');
     box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+    err.textContent = result.error;
     err.classList.remove('hide');
     document.getElementById('authPass').value = '';
     document.getElementById('authUser').focus();
-    setTimeout(() => err.classList.add('hide'), 2500);
+    setTimeout(() => err.classList.add('hide'), 3000);
+
+    if (result.locked) {
+      btn.disabled = true;
+      const fields = document.querySelectorAll('.auth-field');
+      fields.forEach(f => f.disabled = true);
+      _cooldownInterval = setInterval(() => {
+        const secs = Auth.getRemainingLock();
+        if (secs <= 0) {
+          clearInterval(_cooldownInterval);
+          btn.disabled = false;
+          fields.forEach(f => f.disabled = false);
+          if (cooldownEl) cooldownEl.textContent = '';
+        } else {
+          if (cooldownEl) cooldownEl.textContent = `Bloqueado. Tente novamente em ${secs}s.`;
+        }
+      }, 1000);
+    }
   }
+}
+
+/* ─── GALLERY ─── */
+function filterGallery(type, btn) {
+  document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Future: filter gallery items by type
 }
 
 /* ─── INIT ─── */
@@ -642,17 +693,35 @@ async function initApp() {
   await updateNotifBadge();
   setupRealtimeNotifications();
   await checkLGPD();
+  logSession();
 }
 
+/* ─── SESSION LOG ─── */
+async function logSession() {
+  try {
+    const user = Auth.user?.user || 'unknown';
+    const role = Auth.user?.role || 'unknown';
+    await API.addActivity(
+      `${Auth.user?.name || 'Usuario'} acessou o portal.`,
+      Auth.user?.name || 'Usuario'
+    );
+  } catch {}
+}
+
+/* ─── BOOT ─── */
 (function boot() {
+  try { if (localStorage.getItem('ip3_dark')==='true') document.documentElement.dataset.theme = 'dark'; } catch {}
   const hasSession = Auth.checkSession();
   if (hasSession) {
     Auth.applyRole();
+    const landing = document.getElementById('landingPage');
     const gate = document.getElementById('authGate');
+    if (landing) landing.style.display = 'none';
     if (gate) gate.style.display = 'none';
     document.body.style.overflow = '';
     initApp();
   } else {
     document.body.style.overflow = 'hidden';
+    // Show landing page, auth gate starts hidden
   }
 })();
