@@ -280,7 +280,9 @@ async function approvePhase(phase) {
 }
 
 function scrollToPost(id) {
-  switchTab('junho');
+  switchTab('calendario');
+  const mc = document.getElementById('month-jun2026');
+  if (mc && mc.classList.contains('collapsed')) mc.classList.remove('collapsed');
   setTimeout(() => { const el = document.getElementById('pi_'+id); if (el) el.scrollIntoView({behavior:'smooth',block:'center'}); }, 200);
 }
 
@@ -586,7 +588,7 @@ function updateStats() {
   });
   const pct = Math.round(pub/POSTS.length*100), fbPct = Math.round(fbCount/POSTS.length*100);
   const circ = 238.76;
-  const ids = {sbPct:pct+'%',pctJunho:pct+'%',statPub:pub,sJunhoPub:pub,statFeedback:fbCount,ringTotalPct:pct+'%',ringFbPct:fbPct+'%'};
+  const ids = {sbPct:pct+'%',pctJunho:pct+'%',monthJunPct:pct+'%',statPub:pub,sJunhoPub:pub,statFeedback:fbCount,ringTotalPct:pct+'%',ringFbPct:fbPct+'%'};
   Object.entries(ids).forEach(([id,val]) => { const el=document.getElementById(id); if(el)el.textContent=val; });
   document.getElementById('sbFill').style.width = pct+'%';
   setRing('ringTotal',pct,circ); setRing('ringFb',fbPct,circ);

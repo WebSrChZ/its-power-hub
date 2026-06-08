@@ -54,7 +54,7 @@ const Router = {
     if (breadcrumb) {
       const labels = {
         dashboard: 'Dashboard',
-        junho: 'Junho 2026',
+        calendario: 'Calendário',
         pilares: '3 Pilares',
         fases: 'Proximas Fases',
         resultados: 'Resultados',

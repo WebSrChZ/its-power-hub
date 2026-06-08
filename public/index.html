@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260608b">
+<link rel="stylesheet" href="css/styles.css?v=20260608c">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
@@ -126,9 +126,9 @@
       <div class="nav-info"><div class="nav-label">Dashboard</div></div>
       <span class="nav-badge nb-new" id="actionsBadge" style="display:none">!</span>
     </button>
-    <button class="nav-item" data-tab="junho" onclick="switchTab('junho')">
+    <button class="nav-item" data-tab="calendario" onclick="switchTab('calendario')">
       <span class="nav-icon">&#128197;</span>
-      <div class="nav-info"><div class="nav-label">Junho 2026</div></div>
+      <div class="nav-info"><div class="nav-label">Calendário</div></div>
       <span class="nav-badge nb-info" id="pctJunho">0%</span>
     </button>
     <div class="sb-nav-section">Estratégia</div>
@@ -187,7 +187,7 @@
       <button class="ico-btn mob-menu" onclick="smartToggleSidebar()">&#9776;</button>
       <div class="tb-tabs">
         <button class="tb-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">&#127968; Dashboard</button>
-        <button class="tb-tab" data-tab="junho" onclick="switchTab('junho')">&#128197; Junho</button>
+        <button class="tb-tab" data-tab="calendario" onclick="switchTab('calendario')">&#128197; Calendário</button>
         <button class="tb-tab" data-tab="pilares" onclick="switchTab('pilares')">&#127919; Pilares</button>
         <button class="tb-tab" data-tab="fases" onclick="switchTab('fases')">&#128640; Fases</button>
         <button class="tb-tab" data-tab="resultados" onclick="switchTab('resultados')">&#128200; Resultados</button>
@@ -237,7 +237,7 @@
           <div class="hero-title">Junho 2026 — Descoberta de Narrativa</div>
           <div class="hero-sub">Identificando quais conteúdos geram maior alcance, engajamento e percepção de valor para a ITS Power. Ao fim do mês, apresentamos os resultados e a recomendação para a próxima fase.</div>
           <div class="hero-actions">
-            <button class="btn btn-white" onclick="switchTab('junho')">&#128197; Ver posts de junho</button>
+            <button class="btn btn-white" onclick="switchTab('calendario')">&#128197; Ver calendário</button>
             <button class="btn btn-ghost-white" onclick="switchTab('fases')">&#128640; Ver próximas fases</button>
           </div>
         </div>
@@ -248,11 +248,11 @@
       </div>
 
       <div class="grid-5">
-        <div class="stat-card blue fade-in" onclick="switchTab('junho')"><div class="stat-n" id="statTotal">12</div><div class="stat-label">Reels em Junho</div><div class="stat-sub"><span id="statPub">0</span> publicados</div></div>
+        <div class="stat-card blue fade-in" onclick="switchTab('calendario')"><div class="stat-n" id="statTotal">12</div><div class="stat-label">Reels em Junho</div><div class="stat-sub"><span id="statPub">0</span> publicados</div></div>
         <div class="stat-card purple fade-in" onclick="switchTab('pilares')"><div class="stat-n">3</div><div class="stat-label">Pilares de conteúdo</div><div class="stat-sub">Autoridade · Conexão · Conversão</div></div>
-        <div class="stat-card green fade-in" onclick="switchTab('junho')"><div class="stat-n">&#127942; &#129309; &#127919;</div><div class="stat-label">Reels por pilar</div><div class="stat-sub">4 · 6 · 2</div></div>
-        <div class="stat-card orange fade-in" onclick="switchTab('junho')"><div class="stat-n">3</div><div class="stat-label">Reels / semana</div><div class="stat-sub">3×/semana · 12 no mês</div></div>
-        <div class="stat-card amber fade-in" onclick="switchTab('junho');setTimeout(()=>document.getElementById('postsJunho')?.scrollIntoView({behavior:'smooth'}),100)"><div class="stat-n" id="statFeedback">0</div><div class="stat-label">Feedbacks dados</div><div class="stat-sub">Avalie os conteúdos abaixo</div></div>
+        <div class="stat-card green fade-in" onclick="switchTab('calendario')"><div class="stat-n">&#127942; &#129309; &#127919;</div><div class="stat-label">Reels por pilar</div><div class="stat-sub">4 · 6 · 2</div></div>
+        <div class="stat-card orange fade-in" onclick="switchTab('calendario')"><div class="stat-n">3</div><div class="stat-label">Reels / semana</div><div class="stat-sub">3×/semana · 12 no mês</div></div>
+        <div class="stat-card amber fade-in" onclick="switchTab('calendario');setTimeout(()=>document.getElementById('postsJunho')?.scrollIntoView({behavior:'smooth'}),100)"><div class="stat-n" id="statFeedback">0</div><div class="stat-label">Feedbacks dados</div><div class="stat-sub">Avalie os conteúdos abaixo</div></div>
       </div>
 
       <div class="grid-2">
@@ -374,55 +374,89 @@
     </div>
 
     <!-- TAB: JUNHO -->
-    <div class="tab-panel" id="panel-junho">
-      <div style="background:linear-gradient(135deg,#4C1D95,var(--purple),#7C3AED);border-radius:var(--r-lg);padding:24px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 8px 24px rgba(124,58,237,.2)">
-        <div>
-          <span class="tag tag-purple" style="margin-bottom:10px;display:inline-flex">&#9679; Fase Teste</span>
-          <div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:5px;font-family:var(--font-heading)">Junho 2026 — Descoberta de Narrativa</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.65)">12 reels · Início 03/06 · 3 pilares · 3×/semana</div>
-        </div>
-        <div style="text-align:right;flex-shrink:0">
-          <div style="font-size:30px;font-weight:800;color:#fff;font-family:var(--font-heading)">R$ 1.200</div>
-          <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-weight:600">Honorário — mês único</div>
-        </div>
+    <div class="tab-panel" id="panel-calendario">
+      <div style="background:linear-gradient(135deg,#1E3A5F 0%,#0F172A 50%,#1E293B 100%);border-radius:var(--r-lg);padding:24px 28px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
+        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Planejamento de Conteúdo</div>
+        <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:5px;font-family:var(--font-heading)">Calendário Editorial</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Selecione um mês para ver o calendário, posts e cronograma editorial completo.</div>
       </div>
 
-      <div class="grid-4">
-        <div class="stat-card purple"><div class="stat-n">12</div><div class="stat-label">Reels planejados</div></div>
-        <div class="stat-card blue"><div class="stat-n" id="sJunhoPub">0</div><div class="stat-label">Publicados</div></div>
-        <div class="stat-card green"><div class="stat-n">4 &#127942; · 6 &#129309; · 2 &#127919;</div><div class="stat-label">Distribuição por pilar</div></div>
-        <div class="stat-card orange"><div class="stat-n">2</div><div class="stat-label">Datas especiais</div></div>
-      </div>
-
-      <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px">
-        <div style="font-size:12px;color:var(--text)">&#127916; <strong>12 roteiros detalhados</strong> com cortes, checklists de produção, legendas e stories.</div>
-        <a href="its_power_videos_junho2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros &#8594;</a>
-      </div>
-
-      <div class="card" id="card-calendario">
-        <div class="card-hdr collapsible" onclick="toggleCard('card-calendario')"><div class="card-title"><span class="card-title-icon">&#128198;</span>Calendário de Publicações</div><span class="card-collapse-arrow">&#9660;</span></div>
-        <div id="calJunho"></div>
-      </div>
-
-      <div class="card" id="card-posts">
-        <div class="card-hdr collapsible" onclick="toggleCard('card-posts')">
-          <div class="card-title"><span class="card-title-icon">&#128221;</span>Posts — Junho 2026</div>
-          <div style="display:flex;gap:6px;align-items:center">
-            <span class="tag tag-blue">&#127942; Autoridade</span>
-            <span class="tag tag-green">&#129309; Conexão</span>
-            <span class="tag tag-orange">&#127919; Conversão</span>
+      <!-- ═══ MÊS: JUNHO 2026 ═══ -->
+      <div class="card month-card" id="month-jun2026">
+        <div class="card-hdr collapsible" onclick="toggleCard('month-jun2026')">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="month-icon" style="background:linear-gradient(135deg,#4C1D95,#7C3AED)">&#9728;&#65039;</div>
+            <div>
+              <div style="font-size:15px;font-weight:800;color:var(--heading);font-family:var(--font-heading)">Junho 2026</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Descoberta de Narrativa · 12 reels · 3×/semana</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="tag tag-purple">Fase Teste</span>
+            <span class="tag tag-blue" id="monthJunPct">0%</span>
             <span class="card-collapse-arrow">&#9660;</span>
           </div>
         </div>
-        <div class="card-body" id="postsJunho"></div>
+        <div class="month-content">
+          <div style="background:linear-gradient(135deg,#4C1D95,var(--purple),#7C3AED);border-radius:var(--r-lg);padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 4px 16px rgba(124,58,237,.15)">
+            <div>
+              <span class="tag tag-purple" style="margin-bottom:8px;display:inline-flex">&#9679; Fase Teste</span>
+              <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;font-family:var(--font-heading)">Junho 2026 — Descoberta de Narrativa</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65)">12 reels · Início 03/06 · 3 pilares · 3×/semana</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div style="font-size:28px;font-weight:800;color:#fff;font-family:var(--font-heading)">R$ 1.200</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-weight:600">Honorário — mês único</div>
+            </div>
+          </div>
+
+          <div class="grid-4">
+            <div class="stat-card purple"><div class="stat-n">12</div><div class="stat-label">Reels planejados</div></div>
+            <div class="stat-card blue"><div class="stat-n" id="sJunhoPub">0</div><div class="stat-label">Publicados</div></div>
+            <div class="stat-card green"><div class="stat-n">4 &#127942; · 6 &#129309; · 2 &#127919;</div><div class="stat-label">Distribuição por pilar</div></div>
+            <div class="stat-card orange"><div class="stat-n">2</div><div class="stat-label">Datas especiais</div></div>
+          </div>
+
+          <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+            <div style="font-size:12px;color:var(--text)">&#127916; <strong>12 roteiros detalhados</strong> com cortes, checklists de produção, legendas e stories.</div>
+            <a href="its_power_videos_junho2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros &#8594;</a>
+          </div>
+
+          <div class="card" id="card-calendario">
+            <div class="card-hdr collapsible" onclick="toggleCard('card-calendario')"><div class="card-title"><span class="card-title-icon">&#128198;</span>Calendário de Publicações</div><span class="card-collapse-arrow">&#9660;</span></div>
+            <div id="calJunho"></div>
+          </div>
+
+          <div class="card" id="card-posts">
+            <div class="card-hdr collapsible" onclick="toggleCard('card-posts')">
+              <div class="card-title"><span class="card-title-icon">&#128221;</span>Posts — Junho 2026</div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <span class="tag tag-blue">&#127942; Autoridade</span>
+                <span class="tag tag-green">&#129309; Conexão</span>
+                <span class="tag tag-orange">&#127919; Conversão</span>
+                <span class="card-collapse-arrow">&#9660;</span>
+              </div>
+            </div>
+            <div class="card-body" id="postsJunho"></div>
+          </div>
+
+          <div class="cron-toggle" onclick="toggleCron('junho')">
+            <div class="cron-toggle-label">&#128203; Cronograma Editorial Completo — Junho 2026</div>
+            <span class="cron-arrow" id="cron-arrow-junho">&#9660;</span>
+          </div>
+          <div class="cron-frame-wrap" id="cron-wrap-junho">
+            <div class="cron-inline" id="cronInlineJunho"></div>
+          </div>
+        </div>
       </div>
 
-      <div class="cron-toggle" onclick="toggleCron('junho')">
-        <div class="cron-toggle-label">&#128203; Cronograma Editorial Completo — Junho 2026</div>
-        <span class="cron-arrow" id="cron-arrow-junho">&#9660;</span>
-      </div>
-      <div class="cron-frame-wrap" id="cron-wrap-junho">
-        <div class="cron-inline" id="cronInlineJunho"></div>
+      <!-- Placeholder: próximos meses -->
+      <div class="card months-coming">
+        <div class="card-body" style="text-align:center;padding:32px 20px">
+          <div style="font-size:32px;margin-bottom:10px;opacity:.4">&#128197;</div>
+          <div style="font-size:14px;font-weight:700;color:var(--heading);margin-bottom:6px">Próximos meses</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">Conforme novos meses forem planejados, eles aparecerão aqui.</div>
+        </div>
       </div>
     </div>
 
@@ -972,8 +1006,8 @@
 
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/router.js"></script>
-<script src="js/app.js?v=20260608b"></script>
+<script src="js/router.js?v=20260608c"></script>
+<script src="js/app.js?v=20260608c"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
