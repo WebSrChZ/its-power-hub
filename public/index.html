@@ -290,13 +290,7 @@
         <div class="card">
           <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128197;</span>Etapas do Projeto</div></div>
           <div class="card-body">
-            <div class="timeline">
-              <div class="tl-item"><div class="tl-dot done">&#10003;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Período de Teste</span><span class="tl-badge tl-b-done">Encerrado</span></div><div class="tl-desc">Análise inicial da academia, proposta aprovada e início do projeto.</div><div class="tl-date">Maio 2026</div></div></div>
-              <div class="tl-item"><div class="tl-dot active">&#9679;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Fase Teste — Descoberta</span><span class="tl-badge tl-b-active">Agora</span></div><div class="tl-desc">10 posts, 3 pilares, identificação das narrativas com maior engajamento. Relatório final em 30/06.</div><div class="tl-price">R$ 1.200 / mês único</div><div class="tl-date">08 Jun – 30 Jun 2026</div></div></div>
-              <div class="tl-item"><div class="tl-dot upcoming">&#10227;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Reunião de Alinhamento</span><span class="tl-badge tl-b-next">Próximo</span></div><div class="tl-desc">Apresentação dos resultados da Fase Teste. Decisão sobre continuidade e qual plano seguir.</div><div class="tl-date">Final de Junho 2026</div></div></div>
-              <div class="tl-item"><div class="tl-dot upcoming">&#9678;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Plano Essencial</span><span class="tl-badge tl-b-next">Aguardando aprovação</span></div><div class="tl-desc">12 vídeos/mês, reunião mensal, relatório de desempenho, stories estratégicos.</div><div class="tl-price">R$ 2.800 / mês · Meses 2 a 4</div><div class="tl-date">Jul – Set 2026 (após aprovação)</div></div></div>
-              <div class="tl-item"><div class="tl-dot locked">&#128274;</div><div class="tl-content"><div class="tl-header"><span class="tl-title">Plano Growth</span><span class="tl-badge tl-b-locked">Futuro</span></div><div class="tl-desc">Meta Ads, lookalike audience, stories diários, campanhas sazonais, relatório CPL/ROI.</div><div class="tl-price">R$ 4.500 / mês · Mês 5+</div><div class="tl-date">Out 2026 em diante</div></div></div>
-            </div>
+            <div class="timeline" id="timelineContainer"></div>
           </div>
         </div>
       </div>
@@ -561,7 +555,7 @@
             <div class="plan-feature"><span class="plan-feature-icon">&#129309;</span>Reunião mensal</div>
             <div class="plan-feature"><span class="plan-feature-icon">&#128202;</span>Relatório de desempenho</div>
           </div>
-          <div class="plan-cta"><button class="btn btn-primary" style="width:100%;justify-content:center" onclick="approvePhase('essencial')">&#10003; Aprovar Plano Essencial</button></div>
+          <div class="plan-cta"><button id="planBtnEssencial" class="btn btn-primary" style="width:100%;justify-content:center" onclick="approvePhase('essencial')">&#10003; Aprovar Plano Essencial</button></div>
         </div>
         <div class="plan-card">
           <div class="plan-hdr" style="background:linear-gradient(135deg,#92400E,var(--orange))">
@@ -578,6 +572,7 @@
             <div class="plan-feature"><span class="plan-feature-icon">&#128200;</span>Campanhas sazonais</div>
             <div class="plan-feature"><span class="plan-feature-icon">&#128176;</span>Relatório CPL e ROI</div>
           </div>
+          <div class="plan-cta"><button id="planBtnGrowth" class="btn btn-primary" style="width:100%;justify-content:center;background:var(--orange);border-color:var(--orange)" onclick="approvePhase('growth')">&#10003; Aprovar Plano Growth</button></div>
         </div>
       </div>
 
@@ -914,6 +909,50 @@
     <div class="lgpd-error" id="lgpdError">Voce precisa aceitar os termos para continuar.</div>
     <div class="modal-actions">
       <button class="btn btn-primary" onclick="acceptLGPD()">&#10003; Aceitar e Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: TIMELINE EDIT (admin) -->
+<div class="modal-bg" id="tlModal">
+  <div class="modal-box" style="width:500px">
+    <div class="modal-title" id="tlModalTitle">Editar Etapa</div>
+    <div class="form-row">
+      <label class="modal-label">Titulo *</label>
+      <input type="text" class="modal-input" id="tlStepTitle" placeholder="Ex: Plano Premium">
+    </div>
+    <div class="form-row">
+      <label class="modal-label">Descricao</label>
+      <textarea class="modal-input" id="tlStepDesc" placeholder="O que inclui esta etapa..."></textarea>
+    </div>
+    <div class="form-row" style="display:flex;gap:10px">
+      <div style="flex:1">
+        <label class="modal-label">Status</label>
+        <select class="modal-input" id="tlStepStatus">
+          <option value="done">Concluido</option>
+          <option value="active">Ativo</option>
+          <option value="upcoming">Proximo</option>
+          <option value="locked">Futuro</option>
+        </select>
+      </div>
+      <div style="flex:1">
+        <label class="modal-label">Badge</label>
+        <input type="text" class="modal-input" id="tlStepBadge" placeholder="Ex: Agora, Proximo...">
+      </div>
+    </div>
+    <div class="form-row" style="display:flex;gap:10px">
+      <div style="flex:1">
+        <label class="modal-label">Data / Periodo</label>
+        <input type="text" class="modal-input" id="tlStepDate" placeholder="Ex: Jul – Set 2026">
+      </div>
+      <div style="flex:1">
+        <label class="modal-label">Preco (opcional)</label>
+        <input type="text" class="modal-input" id="tlStepPrice" placeholder="Ex: R$ 2.800 / mes">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="document.getElementById('tlModal').classList.remove('open')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveTimelineStep()">&#10003; Salvar</button>
     </div>
   </div>
 </div>

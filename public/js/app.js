@@ -1,45 +1,45 @@
 /* ─── DATA ─── */
 const POSTS = [
   { id:'jun01',day:10,wday:'Ter',pillar:'c',num:'01/10',
-    title:'Chegamos. Veja como a ITS Power vai aparecer nas suas redes.',
-    desc:'Reel de abertura. A academia como ela e - professores, alunos, estrutura, rotina real.',
-    tags:['Reel de abertura','Tom autentico e direto','Apresenta o novo formato de conteudo']},
+    title:'Chegamos. E o que voce vai ver aqui e real.',
+    desc:'Reel de abertura. A academia sem filtro — professores, alunos, estrutura, rotina. O novo padrao de conteudo da It\'s Power.',
+    tags:['Reel de abertura','Autenticidade cinematografica','Primeiro contato com a marca']},
   { id:'jun02',day:12,wday:'Qui',pillar:'v',num:'02/10 - Namorados',
-    title:'Casais que treinam juntos tem algo que vai alem da academia.',
-    desc:'Casal treinando naturalmente. Texto: "Casais que treinam juntos..." Frase de impacto + logo.',
-    tags:['Data especial 12/06','Alto engajamento e reshare','Stories: enquete + marcacao']},
+    title:'O que casais que treinam juntos dividem — alem do treino.',
+    desc:'Cumplicidade real no esforco compartilhado. Sem cliche. Fechamento elegante para o Dia dos Namorados.',
+    tags:['Data especial 12/06','Estilo de vida e conexao','Alto reshare organico']},
   { id:'jun03',day:14,wday:'Sab',pillar:'a',num:'03/10',
-    title:'O exercicio que quase todo mundo faz errado - e como corrigir.',
-    desc:'Professor demonstra versao errada vs correta. Camera lateral e didatica. CTA: "salva esse video."',
-    tags:['Alto salvamento','Autoridade tecnica','TikTok: correcoes performam muito bem']},
+    title:'O exercicio que voce faz todo treino — provavelmente errado.',
+    desc:'Professor demonstra versao errada vs. correta. Camera lateral, didatica limpa. Informacao que vale o salvamento.',
+    tags:['Alto salvamento','Autoridade tecnica','Diferencial de acompanhamento']},
   { id:'jun04',day:17,wday:'Ter',pillar:'c',num:'04/10',
-    title:'Bastidores: como e uma manha real aqui dentro.',
-    desc:'Camera ativa desde a abertura. Professor preparando, alunos chegando. Estilo documental.',
-    tags:['Conexao e humanizacao','Mostra o cuidado invisivel da equipe','Stories: 4 bastidores']},
+    title:'O que acontece aqui quando ninguem esta filmando.',
+    desc:'Camera ativa desde a abertura. Professor preparando, alunos chegando pelo nome. O cuidado invisivel que define a experiencia.',
+    tags:['Humanizacao premium','Cuidado como diferencial','Estilo documental']},
   { id:'jun05',day:19,wday:'Qui',pillar:'a',num:'05/10',
-    title:'3 motivos para nao parar de treinar no inverno.',
-    desc:'"Inverno chegou. Bateu vontade de parar? Aqui vao 3 motivos pra nao."',
-    tags:['Timing sazonal perfeito','Viral: compartilhamento','CTA: "manda pro amigo"']},
+    title:'Tres razoes para nao abandonar o treino no frio.',
+    desc:'O inverno vai passar. A decisao de hoje, nao. Argumentos diretos com urgencia elegante — sem pressao.',
+    tags:['Timing sazonal','Compartilhamento organico','Construcao de longo prazo']},
   { id:'jun06',day:21,wday:'Sab',pillar:'c',num:'06/10 - Inverno',
-    title:'Primeiro dia oficial do inverno - e a academia ta cheia.',
-    desc:'Efeito de digitacao: "Hoje e o primeiro dia do inverno. E a ITS Power esta assim:"',
-    tags:['Data especial 21/06','Frase forte para reshare','Engajamento: contraste frio x movimento']},
+    title:'Primeiro dia de inverno. A It\'s Power esta assim.',
+    desc:'Contraste cinematografico: frio la fora, energia aqui dentro. Frase iconica para reshare: "Aqui o frio nao e desculpa. E combustivel."',
+    tags:['Data especial 21/06','Pertencimento visual','Frase iconica para reshare']},
   { id:'jun07',day:24,wday:'Ter',pillar:'v',num:'07/10',
-    title:'[Nome] - historia real de transformacao dentro da ITS Power.',
-    desc:'Aluno real conta o que mudou em 30s. Fala natural. Camera proxima. Legendado.',
-    tags:['Prova social poderosa','Legendado obrigatorio','Stories: enquete "voce se identifica?"']},
+    title:'[Nome] — uma historia que comecou aqui dentro.',
+    desc:'Depoimento real. Fala natural, camera proxima. Sem roteiro. A melhor prova do que a gente faz nao esta em numeros — esta nas pessoas.',
+    tags:['Prova social autentica','Legendado obrigatorio','Comunidade como diferencial']},
   { id:'jun08',day:26,wday:'Qui',pillar:'a',num:'08/10',
-    title:'Professor responde: as duvidas mais comuns sobre treino.',
-    desc:'Professor: "Sabe qual a pergunta que eu mais recebo?" Responde 3 duvidas reais.',
-    tags:['Q&A - alto engajamento','Pode virar serie semanal','CTA: "salva e manda"']},
+    title:'As 3 perguntas que todo aluno faz — respondidas sem filtro.',
+    desc:'Sem enrolacao. Sem resposta generica. So o que funciona. Autoridade acessivel — formato que pode virar serie semanal.',
+    tags:['Q&A — autoridade acessivel','Potencial de serie','Alto salvamento e compartilhamento']},
   { id:'jun09',day:28,wday:'Sab',pillar:'c',num:'09/10',
-    title:'30 segundos que resumem por que as pessoas nao conseguem parar de treinar aqui.',
-    desc:'Desafio de 30s ou compilacao de momentos espontaneos - risadas, conquistas, treinos puxados.',
-    tags:['Formato viral','Comentarios e marcacoes','Alta retencao e compartilhamento']},
+    title:'30 segundos. Sem pausar. Sem desculpa. Voce aguenta?',
+    desc:'Parece pouco — ate voce tentar. Desafio real com reacao genuina. Formato viral com alta retencao.',
+    tags:['Formato viral','Desafio com autenticidade','Alta retencao e marcacoes']},
   { id:'jun10',day:30,wday:'Seg',pillar:'v',num:'10/10',
-    title:'Junho foi assim. Julho tem mais. Voce ainda nao faz parte?',
-    desc:'Montagem rapida dos melhores momentos. CTA: "Primeira visita por nossa conta. Link na bio."',
-    tags:['Fechamento de mes','CTA direto para visita','Antecipa julho com expectativa']},
+    title:'Junho acabou. O que a gente construiu, fica.',
+    desc:'Montagem dos melhores momentos do mes. Gratidao genuina + convite direto: "Primeira visita por nossa conta."',
+    tags:['Fechamento com proposito','Convite — nao panfleto','Antecipacao para julho']},
 ];
 
 const PILLAR = {
@@ -76,7 +76,9 @@ async function loadData() {
       if (r.key==='month_note') MONTH_NOTE = r.value||'';
       if (r.key==='approved_essencial') APPROVED.essencial = r.value==='true';
       if (r.key==='approved_growth') APPROVED.growth = r.value==='true';
+      if (r.key==='timeline_steps') { try { TIMELINE = JSON.parse(r.value); } catch {} }
     });
+    if (!TIMELINE.length) TIMELINE = JSON.parse(JSON.stringify(DEFAULT_TIMELINE));
     if (reqs) renderRequests(reqs);
     if (acts) renderActivity(acts);
     setConnStatus('online');
@@ -247,12 +249,26 @@ function savePostNote() {
 }
 
 async function approvePhase(phase) {
-  APPROVED[phase] = true;
-  renderApprovalState();
-  showToast('Plano Essencial aprovado!');
-  await saveSetting('approved_'+phase, 'true');
-  await API.addActivity('Plano Essencial aprovado pelo cliente - proxima fase confirmada.', 'Plano Essencial aprovado');
-  await API.notify('admin', 'approval', 'Plano Essencial APROVADO!', 'O cliente confirmou a continuidade com o Plano Essencial (R$ 2.800/mes).');
+  if (APPROVED[phase]) {
+    APPROVED[phase] = false;
+    renderApprovalState();
+    const label = phase === 'essencial' ? 'Essencial' : 'Growth';
+    showToast('Aprovacao do Plano ' + label + ' revogada');
+    await saveSetting('approved_' + phase, 'false');
+    await API.addActivity('Aprovacao do Plano ' + label + ' revogada.', 'Plano revogado');
+    await API.notify('admin', 'approval', 'Aprovacao revogada', 'O cliente revogou o Plano ' + label + '.');
+  } else {
+    const other = phase === 'essencial' ? 'growth' : 'essencial';
+    APPROVED[phase] = true;
+    APPROVED[other] = false;
+    renderApprovalState();
+    const label = phase === 'essencial' ? 'Essencial' : 'Growth';
+    showToast('Plano ' + label + ' aprovado!');
+    await saveSetting('approved_' + phase, 'true');
+    await saveSetting('approved_' + other, 'false');
+    await API.addActivity('Plano ' + label + ' aprovado pelo cliente.', 'Plano ' + label + ' aprovado');
+    await API.notify('admin', 'approval', 'Plano ' + label + ' APROVADO!', 'O cliente confirmou a continuidade com o Plano ' + label + '.');
+  }
 }
 
 function scrollToPost(id) {
@@ -301,14 +317,60 @@ function activityHTML(r) {
   const t = new Date(r.created_at);
   const label = isNaN(t) ? 'agora' : t.toLocaleString('pt-BR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
   const msg = r.bold_part ? r.message.replace(r.bold_part, `<strong>${r.bold_part}</strong>`) : r.message;
-  return `<div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-content"><div class="act-text">${msg}</div><div class="act-time">${label}</div></div></div>`;
+  const delBtn = Auth.isAdmin() ? `<button class="act-del-btn admin-ctrl" onclick="deleteActivityItem('${r.id}')" title="Remover">&#10005;</button>` : '';
+  return `<div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-content"><div class="act-text">${msg}</div><div class="act-time">${label}</div></div>${delBtn}</div>`;
 }
 
 function renderApprovalState() {
   const ac = document.getElementById('approvalCard'), aok = document.getElementById('approvedCard');
   if (!ac||!aok) return;
-  if (APPROVED.essencial) { ac.style.display='none'; aok.style.display='flex'; }
-  else { ac.style.display=''; aok.style.display='none'; }
+  if (APPROVED.essencial || APPROVED.growth) {
+    ac.style.display = 'none';
+    aok.style.display = 'flex';
+    const plan = APPROVED.essencial ? 'Essencial' : 'Growth';
+    const price = APPROVED.essencial ? 'R$ 2.800' : 'R$ 4.500';
+    const phase = APPROVED.essencial ? 'essencial' : 'growth';
+    aok.innerHTML = `<span style="font-size:26px">&#9989;</span>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:700;color:#fff;font-family:var(--font-heading)">Plano ${plan} aprovado!</div>
+        <div style="font-size:11.5px;color:rgba(255,255,255,.75);margin-top:4px;line-height:1.6">O proximo ciclo esta confirmado (${price}/mes). Rafael entrara em contato para agendar a reuniao de inicio.</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="btn" style="padding:6px 14px;font-size:10px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-weight:600" onclick="switchTab('fases')">Alterar plano</button>
+        <button class="btn" style="padding:6px 14px;font-size:10px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-weight:600" onclick="approvePhase('${phase}')">Revogar</button>
+      </div>`;
+  } else {
+    ac.style.display = '';
+    aok.style.display = 'none';
+  }
+  updateFasesPlanCards();
+}
+
+function updateFasesPlanCards() {
+  const essBtn = document.getElementById('planBtnEssencial');
+  const growthBtn = document.getElementById('planBtnGrowth');
+  if (essBtn) {
+    if (APPROVED.essencial) {
+      essBtn.innerHTML = '&#9989; Aprovado — Clique para revogar';
+      essBtn.style.background = 'var(--green)';
+      essBtn.style.borderColor = 'var(--green)';
+    } else {
+      essBtn.innerHTML = '&#10003; Aprovar Plano Essencial';
+      essBtn.style.background = '';
+      essBtn.style.borderColor = '';
+    }
+  }
+  if (growthBtn) {
+    if (APPROVED.growth) {
+      growthBtn.innerHTML = '&#9989; Aprovado — Clique para revogar';
+      growthBtn.style.background = 'var(--green)';
+      growthBtn.style.borderColor = 'var(--green)';
+    } else {
+      growthBtn.innerHTML = '&#10003; Aprovar Plano Growth';
+      growthBtn.style.background = '';
+      growthBtn.style.borderColor = '';
+    }
+  }
 }
 
 /* ─── CLIENT REQUEST ─── */
@@ -405,6 +467,102 @@ function buildCronogramaInline() {
   });
   html += '</div>';
   el.innerHTML = html;
+}
+
+/* ─── TIMELINE (dynamic) ─── */
+const DEFAULT_TIMELINE = [
+  {title:'Periodo de Teste',status:'done',badge:'Encerrado',desc:'Analise inicial da academia, proposta aprovada e inicio do projeto.',date:'Maio 2026',price:''},
+  {title:'Fase Teste — Descoberta',status:'active',badge:'Agora',desc:'10 posts, 3 pilares, identificacao das narrativas com maior engajamento. Relatorio final em 30/06.',date:'08 Jun – 30 Jun 2026',price:'R$ 1.200 / mes unico'},
+  {title:'Reuniao de Alinhamento',status:'upcoming',badge:'Proximo',desc:'Apresentacao dos resultados da Fase Teste. Decisao sobre continuidade e qual plano seguir.',date:'Final de Junho 2026',price:''},
+  {title:'Plano Essencial',status:'upcoming',badge:'Aguardando aprovacao',desc:'12 videos/mes, reuniao mensal, relatorio de desempenho, stories estrategicos.',date:'Jul – Set 2026 (apos aprovacao)',price:'R$ 2.800 / mes · Meses 2 a 4'},
+  {title:'Plano Growth',status:'locked',badge:'Futuro',desc:'Meta Ads, lookalike audience, stories diarios, campanhas sazonais, relatorio CPL/ROI.',date:'Out 2026 em diante',price:'R$ 4.500 / mes · Mes 5+'},
+];
+let TIMELINE = [];
+
+function buildTimeline() {
+  const c = document.getElementById('timelineContainer');
+  if (!c) return;
+  const sm = {
+    done:{dot:'done',icon:'&#10003;',bcls:'tl-b-done'},
+    active:{dot:'active',icon:'&#9679;',bcls:'tl-b-active'},
+    upcoming:{dot:'upcoming',icon:'&#10227;',bcls:'tl-b-next'},
+    locked:{dot:'locked',icon:'&#128274;',bcls:'tl-b-locked'}
+  };
+  let html = '';
+  TIMELINE.forEach((s,i) => {
+    const m = sm[s.status]||sm.upcoming;
+    const adminBtns = Auth.isAdmin() ? `<div class="tl-admin-btns">
+      <button class="tl-edit-btn" onclick="editTimelineStep(${i})" title="Editar">&#9998;</button>
+      <button class="tl-del-btn" onclick="deleteTimelineStep(${i})" title="Remover">&#10005;</button>
+    </div>` : '';
+    html += `<div class="tl-item"><div class="tl-dot ${m.dot}">${m.icon}</div><div class="tl-content"><div class="tl-header"><span class="tl-title">${s.title}</span><span class="tl-badge ${m.bcls}">${s.badge}</span>${adminBtns}</div><div class="tl-desc">${s.desc}</div>${s.price?'<div class="tl-price">'+s.price+'</div>':''}<div class="tl-date">${s.date}</div></div></div>`;
+  });
+  if (Auth.isAdmin()) {
+    html += `<div style="padding:8px 0 0 42px"><button class="btn" style="font-size:10px;padding:6px 14px;background:var(--surface2);border:1.5px dashed var(--border);color:var(--muted);border-radius:8px;cursor:pointer;font-weight:600" onclick="addTimelineStep()">&#10133; Adicionar etapa</button></div>`;
+  }
+  c.innerHTML = html;
+}
+
+let _tlEditIdx = -1;
+function addTimelineStep() {
+  _tlEditIdx = -1;
+  document.getElementById('tlModalTitle').textContent = 'Adicionar Etapa';
+  document.getElementById('tlStepTitle').value = '';
+  document.getElementById('tlStepDesc').value = '';
+  document.getElementById('tlStepDate').value = '';
+  document.getElementById('tlStepPrice').value = '';
+  document.getElementById('tlStepStatus').value = 'upcoming';
+  document.getElementById('tlStepBadge').value = 'Proximo';
+  document.getElementById('tlModal').classList.add('open');
+}
+
+function editTimelineStep(i) {
+  _tlEditIdx = i;
+  const s = TIMELINE[i];
+  document.getElementById('tlModalTitle').textContent = 'Editar Etapa';
+  document.getElementById('tlStepTitle').value = s.title;
+  document.getElementById('tlStepDesc').value = s.desc;
+  document.getElementById('tlStepDate').value = s.date;
+  document.getElementById('tlStepPrice').value = s.price;
+  document.getElementById('tlStepStatus').value = s.status;
+  document.getElementById('tlStepBadge').value = s.badge;
+  document.getElementById('tlModal').classList.add('open');
+}
+
+async function saveTimelineStep() {
+  const step = {
+    title: document.getElementById('tlStepTitle').value.trim(),
+    desc: document.getElementById('tlStepDesc').value.trim(),
+    date: document.getElementById('tlStepDate').value.trim(),
+    price: document.getElementById('tlStepPrice').value.trim(),
+    status: document.getElementById('tlStepStatus').value,
+    badge: document.getElementById('tlStepBadge').value.trim()
+  };
+  if (!step.title) return;
+  if (_tlEditIdx >= 0) TIMELINE[_tlEditIdx] = step;
+  else TIMELINE.push(step);
+  document.getElementById('tlModal').classList.remove('open');
+  buildTimeline();
+  showToast(_tlEditIdx >= 0 ? 'Etapa atualizada' : 'Etapa adicionada');
+  await saveSetting('timeline_steps', JSON.stringify(TIMELINE));
+}
+
+async function deleteTimelineStep(i) {
+  if (!confirm('Remover esta etapa?')) return;
+  TIMELINE.splice(i, 1);
+  buildTimeline();
+  showToast('Etapa removida');
+  await saveSetting('timeline_steps', JSON.stringify(TIMELINE));
+}
+
+/* ─── ACTIVITY CRUD (admin) ─── */
+async function deleteActivityItem(id) {
+  if (!Auth.isAdmin()) return;
+  if (!confirm('Remover esta atividade?')) return;
+  await API.deleteActivity(id);
+  showToast('Atividade removida');
+  const acts = await API.getActivity();
+  if (acts) renderActivity(acts);
 }
 
 /* ─── STATS ─── */
@@ -585,12 +743,15 @@ function setupRealtimeNotifications() {
 async function checkLGPD() {
   try {
     const userId = Auth.user?.user || 'unknown';
+    const localKey = 'ip_lgpd_' + userId;
+    if (localStorage.getItem(localKey) === 'true') return true;
     const data = await API.lgpdStatus(userId);
-    if (data && !data.accepted) {
-      document.getElementById('lgpdModal').classList.add('open');
-      return false;
+    if (data && data.accepted) {
+      try { localStorage.setItem(localKey, 'true'); } catch {}
+      return true;
     }
-    return true;
+    document.getElementById('lgpdModal').classList.add('open');
+    return false;
   } catch { return true; }
 }
 
@@ -599,6 +760,7 @@ async function acceptLGPD() {
   if (!checkbox.checked) { document.getElementById('lgpdError').style.display = 'block'; return; }
   const userId = Auth.user?.user || 'unknown';
   await API.lgpdAccept(userId);
+  try { localStorage.setItem('ip_lgpd_' + userId, 'true'); } catch {}
   document.getElementById('lgpdModal').classList.remove('open');
   showToast('Termos aceitos com sucesso');
 }
@@ -827,8 +989,9 @@ function exportPDF() {
 /* ─── INIT ─── */
 async function initApp() {
   try { if (localStorage.getItem('ip3_dark')==='true') document.documentElement.dataset.theme = 'dark'; } catch {}
+  TIMELINE = JSON.parse(JSON.stringify(DEFAULT_TIMELINE));
   buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
-  buildGallery(); buildResultados();
+  buildGallery(); buildResultados(); buildTimeline();
   renderApprovalState();
   document.querySelectorAll('.modal-bg').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
@@ -836,7 +999,7 @@ async function initApp() {
   Router.init();
   await loadData();
   buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
-  buildGallery(); buildResultados();
+  buildGallery(); buildResultados(); buildTimeline();
   if (MONTH_NOTE) { const el = document.getElementById('monthNote'); if (el) el.value = MONTH_NOTE; }
   renderApprovalState();
   await updateNotifBadge();

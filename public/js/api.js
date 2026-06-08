@@ -57,6 +57,9 @@ const API = {
   async addActivity(message, bold_part) {
     await getDb().from('activity').insert({ message, bold_part: bold_part||'' });
   },
+  async deleteActivity(id) {
+    await getDb().from('activity').delete().eq('id', id);
+  },
 
   // LGPD
   async lgpdStatus(userId) {

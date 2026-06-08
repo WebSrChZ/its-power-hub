@@ -25,7 +25,7 @@ html{scroll-behavior:smooth}
   --green-light:rgba(5,150,105,.15);--purple-light:rgba(124,58,237,.15);
   --red-light:rgba(220,38,38,.15);
 }
-body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;transition:background .3s,color .3s}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
 
 /* ── SIDEBAR ── */
 .sidebar{width:var(--sw);background:var(--sb);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
@@ -94,11 +94,11 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
 .cdown-l{font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em}
 
 /* ── CALENDAR ── */
-.cal-box{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden}
-.cal-mhdr{background:var(--blue-dark);padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.cal-box{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.cal-mhdr{background:var(--blue-dark);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;min-width:700px}
 .cal-mhdr .t{font-size:13px;font-weight:700;color:#fff}
 .cal-mhdr .s{font-size:10px;color:rgba(255,255,255,.55)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(100px,1fr))}
 .cal-head{background:var(--blue);color:#fff;text-align:center;font-size:9px;font-weight:700;padding:8px 4px;letter-spacing:.05em;text-transform:uppercase}
 .cal-cell{min-height:68px;border:1px solid var(--border);padding:6px 8px;background:var(--surface);position:relative;transition:background .15s}
 .cal-cell.empty{background:var(--surface2);border-color:transparent}
@@ -318,7 +318,7 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
 const VIDEOS = [
   {
     id:'V01',num:1,date:'2026-06-03',dayFull:'Quarta · 03 de Junho',week:1,special:false,
-    title:"Você ainda não conhece a It's Power?",
+    title:"Existe um lugar em Cláudio que você ainda não conhece.",
     type:'Apresentação · Convite',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
@@ -329,12 +329,12 @@ const VIDEOS = [
       {n:5,t:'Grupo de alunos se cumprimentando ao entrar — clima de comunidade genuíno.',note:'2s · Pertencimento visível'},
       {n:6,t:"Logo It's Power + texto: \"Primeira visita por nossa conta. Link na bio.\" Fade suave.",note:'2s · CTA claro e sem pressão'},
     ],
-    caption:`Se você ainda não veio, a gente quer te convidar.\n\nA It's Power é mais do que uma academia — é o lugar onde Cláudio treina de verdade.\n\n👉 Primeira visita é por nossa conta. Link na bio.\n📍 Cláudio, MG`,
+    caption:`Não é só uma academia. É onde treino encontra propósito.\n\nEstrutura de verdade. Acompanhamento de verdade. Gente de verdade.\n\nA It's Power é o lugar que Cláudio ainda não tinha — até agora.\n\nPrimeira visita por nossa conta. Link na bio.\n📍 Cláudio, MG`,
     stories:['Recortar cortes 2 e 3 (10s) + sticker de link para WhatsApp','Story 2: enquete "Você já veio aqui?" Sim / Ainda não','Story 3: para quem respondeu "Ainda não" — swipe up ou link direto para agendar visita'],
   },
   {
     id:'V02',num:2,date:'2026-06-06',dayFull:'Sábado · 06 de Junho',week:1,special:false,
-    title:'O inverno filtra. E você?',
+    title:'O inverno separa intenção de compromisso.',
     type:'Engajamento Emocional',typeCss:'background:var(--red-light);color:#991B1B',
     numCss:'',metaCss:'',
     cuts:[
@@ -344,12 +344,12 @@ const VIDEOS = [
       {n:4,t:'Treino pesado — série intensa, determinação visível. Câmera próxima.',note:'3s · Clímax emocional'},
       {n:5,t:"Texto final na tela: \"O inverno filtra. Os comprometidos ficam.\" + logo It's Power.",note:'2s · Frase de impacto para reshare'},
     ],
-    caption:`Frio? Sim.\nVontade de ficar na cama? Também.\n\nMas quem está aqui escolheu diferente.\n\nO inverno filtra. Os comprometidos ficam.\n📍 It's Power · Cláudio, MG`,
-    stories:['Enquete: "Você treinou hoje apesar do frio?" Sim ✅ / Claro que sim 💪','Repostar stories de alunos que marcarem a academia treinando no frio','Caixa de texto: "Conta o que te fez sair da cama hoje"'],
+    caption:`Faz frio. Faz escuro. Faz vontade de ficar.\n\nMas tem gente que levanta, veste o casaco e escolhe o que é difícil.\n\nO inverno não é obstáculo — é filtro.\n\nQuem fica agora, constrói o que os outros vão querer depois.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Você treinou hoje apesar do frio?" Sim / Claro que sim','Repostar stories de alunos que marcarem a academia treinando no frio','Caixa de texto: "O que te fez sair da cama hoje?"'],
   },
   {
     id:'V03',num:3,date:'2026-06-09',dayFull:'Terça · 09 de Junho',week:2,special:false,
-    title:'Professor responde: qual a maior dúvida sobre treino?',
+    title:'As 3 perguntas que todo aluno faz — respondidas sem filtro.',
     type:'Educativo · Q&A',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
@@ -359,12 +359,12 @@ const VIDEOS = [
       {n:4,t:'Dúvida 3 — "Quanto tempo até ver resultado?" Resposta honesta: "Depende — mas 30 dias já dá pra sentir."',note:'5s · Realismo gera confiança'},
       {n:5,t:'Professor encerra: "Tem mais dúvida? Manda aqui nos comentários. Respondo tudo."',note:'3s · CTA de engajamento'},
     ],
-    caption:`As dúvidas mais comuns — respondidas sem enrolação. 💬\n\nSalva esse vídeo e manda pra quem tá cheio de dúvidas sobre treino.\n\nTem mais pergunta? Comenta aqui embaixo 👇\n📍 It's Power · Cláudio, MG`,
+    caption:`Sem enrolação. Sem resposta genérica. Só o que funciona.\n\nAs dúvidas mais comuns sobre treino — respondidas por quem vive isso todo dia.\n\nSalva e manda pra quem ainda treina no achismo.\n\nTem mais dúvida? Comenta aqui — a gente responde tudo.\n📍 It's Power · Cláudio, MG`,
     stories:['Caixa de perguntas: "Me manda sua dúvida sobre treino — o professor responde"','Responder as melhores dúvidas nos próximos stories com vídeos curtos de 15s','Essa dinâmica pode virar série semanal — "Professor responde" toda terça'],
   },
   {
     id:'V04',num:4,date:'2026-06-11',dayFull:'Quinta · 11 de Junho',week:2,special:false,
-    title:'Mito ou verdade: treinar em jejum emagrece mais?',
+    title:'Treinar em jejum emagrece mais — mito ou verdade?',
     type:'Educativo · Alto Salvamento',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
@@ -373,12 +373,12 @@ const VIDEOS = [
       {n:3,t:'"Mas se você se sentir melhor em jejum — pode funcionar pra você. O que não funciona é a desculpa de não treinar."',note:'5s · Virada com humor leve'},
       {n:4,t:"Finaliza: \"Aqui na It's Power a gente monta o treino certo pro seu corpo e rotina. Salva esse vídeo.\"",note:'3s · CTA de salvamento + autoridade'},
     ],
-    caption:`Mito ou verdade — você decidia baseado em achismo?\n\nSalva esse vídeo 💾 e para de inventar desculpa.\n\nPróxima semana tem mais.\n📍 It's Power · Cláudio, MG`,
+    caption:`Você decidia isso baseado em quê?\n\nA diferença entre resultado e frustração é informação de qualidade.\n\nAqui na It's Power, cada treino é pensado para o seu corpo e a sua rotina — não para uma regra genérica da internet.\n\nSalva esse vídeo. Próxima semana tem mais.\n📍 It's Power · Cláudio, MG`,
     stories:['Enquete antes de postar o vídeo: "Você acha que treinar em jejum emagrece mais?" Verdade / Mito','Depois do vídeo: mostrar resultado da enquete + reforçar a resposta correta','CTA: "Quer montar um treino certo pra sua rotina? Chama no WhatsApp"'],
   },
   {
     id:'V05',num:5,date:'2026-06-12',dayFull:'Sexta · 12 de Junho · Dia dos Namorados 💛',week:2,special:true,
-    title:'Casais que treinam juntos — têm isso em comum',
+    title:'O que casais que treinam juntos dividem — além do treino.',
     type:'Engajamento · Data Especial',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'or',metaCss:'or',
     cuts:[
@@ -388,12 +388,12 @@ const VIDEOS = [
       {n:4,t:'Após terminar a série — troca de olhares, sorriso genuíno, toque natural.',note:'2s · Recompensa emocional'},
       {n:5,t:'Texto final: "...têm algo que vai além da academia." + "Feliz Dia dos Namorados. 🤍" + logo.',note:'2s · Fecha com elegância — sem clichê'},
     ],
-    caption:`Pra quem divide o treino, o esforço e a evolução.\n\nFeliz Dia dos Namorados pra quem faz do cuidado com a saúde um ato de amor. 🤍\n\n📍 It's Power · Cláudio, MG`,
-    stories:['\"Marca aqui quem você quer treinar junto\" — caixa de menção','Enquete: "Você treinaria com seu par?" Quero demais / Ele/ela que lute 😂','Repostar os melhores comentários e marcações nos stories ao longo do dia'],
+    caption:`Não é sobre séries ou repetições.\n\nÉ sobre dividir o esforço, a disciplina e a decisão de cuidar de si — juntos.\n\nFeliz Dia dos Namorados para quem faz do cuidado com a saúde um ato de amor.\n\n📍 It's Power · Cláudio, MG`,
+    stories:['"Marca quem você quer treinar junto" — caixa de menção','Enquete: "Vocês treinariam juntos?" Com certeza / Ainda estou convencendo','Repostar os melhores comentários e marcações nos stories ao longo do dia'],
   },
   {
     id:'V06',num:6,date:'2026-06-16',dayFull:'Terça · 16 de Junho',week:3,special:false,
-    title:'3 motivos para não parar de treinar no inverno',
+    title:'Três razões para não abandonar o treino no frio.',
     type:'Educativo · Retenção',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
@@ -403,12 +403,12 @@ const VIDEOS = [
       {n:4,t:'Motivo 3: "O verão se constrói agora. Não em outubro, quando todos vão tentar começar do zero."',note:'4s · Urgência e vantagem competitiva'},
       {n:5,t:'Encerra: "Salva esse vídeo e manda pro amigo que tá pensando em dar uma pausa."',note:'3s · CTA de compartilhamento viral'},
     ],
-    caption:`Vai parar no inverno? Lê isso primeiro. 👇\n\nSalva 💾 e manda pro amigo que tá de molho.\n\n📍 It's Power · Cláudio, MG`,
+    caption:`O inverno vai passar. A decisão de hoje, não.\n\nQuem treina agora constrói o que os outros vão tentar começar em outubro.\n\nSalva esse vídeo — e manda pra quem está pensando em dar uma pausa.\n📍 It's Power · Cláudio, MG`,
     stories:['3 stories separados — um por motivo, cada um com design limpo e texto grande','Story final: enquete "Você ia parar de treinar no inverno?" Ia / Nunca passou pela minha cabeça','CTA: "Quer treinar com acompanhamento real esse inverno? Chama no WhatsApp"'],
   },
   {
     id:'V07',num:7,date:'2026-06-19',dayFull:'Sexta · 19 de Junho',week:3,special:false,
-    title:'Aluno em destaque — história real de transformação',
+    title:'[Nome] — uma história que começou aqui dentro.',
     type:'Depoimento · Prova Social',typeCss:'background:var(--red-light);color:#991B1B',
     numCss:'',metaCss:'',
     cuts:[
@@ -418,12 +418,12 @@ const VIDEOS = [
       {n:4,t:'Pergunta: "O que você diria pra quem ainda não começou?" Deixar a emoção genuína aparecer.',note:'5s · Clímax emocional do vídeo'},
       {n:5,t:'Texto final: "[Nome]. Parte da comunidade It\'s Power." + logo e localização.',note:'2s · Identidade e pertencimento'},
     ],
-    caption:`A melhor propaganda é quem já viveu.\n\n[Nome] faz parte da comunidade It's Power — e tem uma história pra contar.\n\nQual é a sua? 📍 Cláudio, MG`,
+    caption:`A melhor prova do que a gente faz não está em números. Está nas pessoas.\n\n[Nome] é parte da comunidade It's Power — e tem algo pra te contar.\n\nCada aluno que entra aqui carrega uma história. Qual é a sua?\n📍 Cláudio, MG`,
     stories:['Trecho mais impactante do depoimento (10–15s) com legenda grande para assistir sem som','Enquete: "Você se identifica com a história do [Nome]?" Sim muito / Quero começar a minha','Caixa de texto: "Me conta qual é o seu objetivo — a gente te ajuda a chegar lá"'],
   },
   {
     id:'V08',num:8,date:'2026-06-21',dayFull:'Domingo · 21 de Junho · Início do Inverno ❄️',week:3,special:true,
-    title:'Primeiro dia de inverno — e a academia tá cheia',
+    title:'Primeiro dia de inverno. A It\'s Power está assim.',
     type:'Sazonal · Engajamento',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'or',metaCss:'or',
     cuts:[
@@ -433,12 +433,12 @@ const VIDEOS = [
       {n:4,t:'Plano geral mais amplo — vários alunos simultaneamente. Energia coletiva evidente.',note:'2s · Pertencimento pela imagem'},
       {n:5,t:'Texto final: "Enquanto uns escolhem o sofá, outros escolhem evoluir. E você?" + logo.',note:'3s · Provoca sem ser agressivo'},
     ],
-    caption:`Inverno chegou. A desculpa também?\n\nAqui não. A It's Power está cheia no primeiro dia de inverno.\n\nEnquanto uns param, outros evoluem. ❄️💪\n📍 Cláudio, MG`,
-    stories:['Enquete: "Primeiro dia de inverno — você treinou hoje?" Treinei 🔥 / Tô de molho ❄️','Repostar quem respondeu "Treinei" e marcou a academia','CTA: "Quem não quer parar no inverno — chama a gente. Tem treino pra todo mundo aqui."'],
+    caption:`Lá fora, o frio. Aqui dentro, movimento.\n\nPrimeiro dia oficial do inverno — e a It's Power está cheia.\n\nEnquanto o mundo escolhe o conforto, quem está aqui escolheu evoluir.\n\nE você?\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Primeiro dia de inverno — você treinou hoje?" Treinei / Fiquei no conforto','Repostar quem respondeu "Treinei" e marcou a academia','CTA: "Quem escolheu não parar — a gente tem treino pra você. Link na bio."'],
   },
   {
     id:'V09',num:9,date:'2026-06-23',dayFull:'Terça · 23 de Junho',week:4,special:false,
-    title:'Bastidores: como é um dia aqui dentro',
+    title:'O que acontece aqui quando ninguém está filmando.',
     type:'Autêntico · Humanização',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
@@ -448,12 +448,12 @@ const VIDEOS = [
       {n:4,t:'Horário de pico — academia cheia, múltiplos treinos simultâneos, energia no ar.',note:'4s · Prova social visual'},
       {n:5,t:'Último aluno saindo — professor despedindo com naturalidade. Texto: "Isso acontece todo dia aqui." + logo.',note:'3s · Consistência como mensagem'},
     ],
-    caption:`Você nunca viu por dentro?\n\nAqui é como é — todo dia, sem filtro.\n\nVem fazer parte. 📍 It's Power · Cláudio, MG`,
-    stories:['Série de 4 stories mostrando os bastidores em tempo real — sem edição pesada','Enquete: "Você sabia que a academia abre tão cedo?" Sabia / Que madrugada é essa 😅','Caixa: "Qual horário você prefere treinar? A gente quer saber."'],
+    caption:`6h da manhã. Porta aberta. Equipamento conferido. Professor pronto.\n\nIsso acontece todo dia — antes mesmo do primeiro aluno chegar.\n\nO que você vê quando treina aqui é resultado do que acontece quando ninguém está olhando.\n\n📍 It's Power · Cláudio, MG`,
+    stories:['Série de 4 stories mostrando os bastidores em tempo real — sem edição pesada','Enquete: "Você sabia que a academia abre tão cedo?" Sabia / Não fazia ideia','Caixa: "Qual horário você prefere treinar?"'],
   },
   {
     id:'V10',num:10,date:'2026-06-25',dayFull:'Quinta · 25 de Junho',week:4,special:false,
-    title:'O exercício que quase todo mundo faz errado',
+    title:'O exercício que você faz todo treino — provavelmente errado.',
     type:'Educativo · Alto Salvamento',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
@@ -463,12 +463,12 @@ const VIDEOS = [
       {n:4,t:'Dica técnica em 1 frase: "O segredo é [ativação do core / alinhamento do joelho / cotovelo travado]."',note:'4s · A informação que vale o salvamento'},
       {n:5,t:'"Salva esse vídeo. E se quiser aprender na prática com acompanhamento — é só vir aqui."',note:'3s · Salvamento + CTA orgânico'},
     ],
-    caption:`Você faz esse exercício todo treino.\nMas faz certo? 🤔\n\nSalva 💾 antes de esquecer — e manda pra quem precisa ver.\n\n📍 It's Power · Cláudio, MG`,
+    caption:`A diferença entre progresso e lesão pode estar num detalhe que ninguém te mostrou.\n\nAqui, cada movimento é corrigido. Cada execução, acompanhada.\n\nSalva esse vídeo — e manda pra quem precisa ver.\n📍 It's Power · Cláudio, MG`,
     stories:['Enquete antes do vídeo: "Você sabia dessa correção?" Sabia / Aprendi agora','Mostrar os resultados da enquete e comentar nos stories','CTA final: "Quer treinar com acompanhamento técnico de verdade? Chama no WhatsApp"'],
   },
   {
     id:'V11',num:11,date:'2026-06-27',dayFull:'Sábado · 27 de Junho',week:4,special:false,
-    title:'Desafio de 30 segundos: você consegue fazer?',
+    title:'30 segundos. Sem pausar. Sem desculpa. Você aguenta?',
     type:'Entretenimento · Viral',typeCss:'background:var(--purple-light);color:var(--purple)',
     numCss:'',metaCss:'',
     cuts:[
@@ -478,12 +478,12 @@ const VIDEOS = [
       {n:4,t:'Fim dos 30 segundos — reação genuína: alívio, comemoração, ou dificuldade honesta.',note:'4s · Humanidade gera comentários'},
       {n:5,t:'"Comenta aqui se você conseguiu. E marca um amigo pra tentar." + logo.',note:'3s · CTA de comentário e marcação'},
     ],
-    caption:`30 segundos. Você topa?\n\nComenta aqui se conseguiu ✅ e marca aquele amigo que acha que é fácil 😅\n\n📍 It's Power · Cláudio, MG`,
-    stories:['"Tenta fazer em casa e manda no direct!" — caixa de resposta aberta','Repostar os melhores vídeos de tentativas nos stories','Enquete: "Conseguiu fazer 30 segundos?" Consegui / Quase 😅 / Sonhei que consegui 😂'],
+    caption:`Parece pouco. Até você tentar.\n\n30 segundos que mostram o que disposição de verdade significa.\n\nComenta se conseguiu — e marca aquele amigo que jura que é fácil.\n📍 It's Power · Cláudio, MG`,
+    stories:['"Tenta fazer em casa e manda no direct" — caixa de resposta aberta','Repostar os melhores vídeos de tentativas nos stories','Enquete: "Conseguiu os 30 segundos?" Consegui / Preciso treinar mais'],
   },
   {
     id:'V12',num:12,date:'2026-06-30',dayFull:'Terça · 30 de Junho · Fechamento do Mês',week:4,special:false,
-    title:"Junho na It's Power — obrigado por fazer parte",
+    title:"Junho acabou. O que a gente construiu, fica.",
     type:'Comunidade · Fechamento',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
@@ -493,8 +493,8 @@ const VIDEOS = [
       {n:4,t:'"Obrigado por fazer parte disso." Pausa. "Julho vem aí — e a gente não para."',note:'4s · Gratidão genuína + antecipação'},
       {n:5,t:"Logo It's Power + localização. Fade.",note:'2s · Assinatura da marca'},
     ],
-    caption:`Junho foi de treino, superação e comunidade.\n\nObrigado a cada aluno que fez parte desse mês. 🤍\n\nJulho vem aí — e a gente não para.\n📍 It's Power · Cláudio, MG`,
-    stories:['Enquete: "Como foi o seu junho de treino?" Arrasou 🔥 / Poderia ter sido melhor','Caixa de texto: "Qual foi o melhor momento do seu junho de treino?"','Story final: "Julho começa segunda. A gente tem treino pra você. 💪 Link na bio."'],
+    caption:`Um mês de treino, superação e comunidade.\n\nCada gota de suor, cada manhã fria, cada série a mais — tudo isso construiu algo.\n\nObrigado a cada pessoa que fez parte.\n\nJulho vem aí. E a gente não para.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Como foi o seu junho de treino?" Evolui / Poderia ter sido melhor','Caixa de texto: "Qual foi o melhor momento do seu junho?"','Story final: "Julho começa segunda. A gente não para. Link na bio."'],
   },
 ];
 
