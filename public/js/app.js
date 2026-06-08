@@ -620,6 +620,18 @@ function toggleCron(m) {
   const w = document.getElementById('cron-wrap-'+m), a = document.getElementById('cron-arrow-'+m);
   const o = w.classList.toggle('open'); a.classList.toggle('open', o);
 }
+function toggleCard(id, evt) {
+  if (evt && evt.target.closest('button')) return;
+  const card = document.getElementById(id);
+  if (!card) return;
+  const collapsed = card.classList.toggle('collapsed');
+  try { const key = 'ip3_card_' + id; if (collapsed) localStorage.setItem(key, '1'); else localStorage.removeItem(key); } catch {}
+}
+function restoreCardStates() {
+  document.querySelectorAll('.card[id]').forEach(c => {
+    try { if (localStorage.getItem('ip3_card_' + c.id) === '1') c.classList.add('collapsed'); } catch {}
+  });
+}
 function goBack() { Router.back(); }
 
 /* ─── DARK MODE ─── */
@@ -1000,7 +1012,7 @@ async function initApp() {
   TIMELINE = JSON.parse(JSON.stringify(DEFAULT_TIMELINE));
   buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
   buildGallery(); buildResultados(); buildTimeline();
-  renderApprovalState();
+  renderApprovalState(); restoreCardStates();
   document.querySelectorAll('.modal-bg').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
   });

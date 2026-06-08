@@ -80,7 +80,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sb-contact-switch{font-size:7px;color:rgba(255,255,255,.2);margin-top:1px;text-transform:uppercase;letter-spacing:.08em}
 
 /* ─── MAIN ─── */
-.main{margin-left:var(--sb-w);display:flex;flex-direction:column;min-height:100vh}
+.main{margin-left:var(--sb-w);display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
 .topbar{position:sticky;top:0;z-index:100;background:rgba(248,250,252,.85);border-bottom:1px solid var(--border);padding:0 32px;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;gap:14px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);overflow:hidden}
 [data-theme="dark"] .topbar{background:rgba(3,7,18,.85)}
 .tb-tabs{display:flex;gap:2px;background:var(--surface2);border-radius:10px;padding:3px;border:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -103,7 +103,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .breadcrumb-bar .breadcrumb-sep{color:var(--border2)}
 
 /* ─── CONTENT ─── */
-.content{padding:28px 32px 80px;display:flex;flex-direction:column;gap:24px;flex:1;max-width:1400px;width:100%}
+.content{padding:28px 32px 80px;display:flex;flex-direction:column;gap:24px;flex:1;max-width:100%;width:100%}
 .tab-panel{display:none;flex-direction:column;gap:24px;animation:fadeIn .35s ease}
 .tab-panel.active{display:flex}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -228,9 +228,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .cal-mhdr{background:linear-gradient(135deg,var(--purple-dark),var(--purple));padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:var(--r-lg) var(--r-lg) 0 0}
 .cal-mhdr .t{font-size:14px;font-weight:700;color:#fff;font-family:var(--font-heading)}
 .cal-mhdr .s{font-size:10px;color:rgba(255,255,255,.55)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);min-width:0;overflow:hidden}
 .cal-head{background:rgba(139,92,246,.85);color:#fff;text-align:center;font-size:8px;font-weight:700;padding:8px 2px;text-transform:uppercase;letter-spacing:.06em}
-.cal-cell{min-height:56px;border:1px solid var(--border);padding:6px 7px;background:var(--surface);position:relative;transition:all .15s}
+.cal-cell{min-height:56px;min-width:0;border:1px solid var(--border);padding:6px 7px;background:var(--surface);position:relative;transition:all .15s;overflow:hidden}
 .cal-cell.empty{background:var(--surface2);border-color:transparent}
 .cal-cell.inactive{background:var(--surface2);opacity:.35}
 .cal-cell.hp{cursor:pointer}
@@ -326,6 +326,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .cron-arrow.open{transform:rotate(180deg)}
 .cron-frame-wrap{display:none;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);margin-top:10px;box-shadow:var(--shadow);max-height:80vh;overflow-y:auto}
 .cron-frame-wrap.open{display:block}
+
+/* ─── COLLAPSIBLE CARDS ─── */
+.card-hdr.collapsible{cursor:pointer;user-select:none;transition:background .15s}
+.card-hdr.collapsible:hover{background:var(--surface2)}
+.card-collapse-arrow{font-size:11px;color:var(--muted);transition:transform .3s;flex-shrink:0;margin-left:8px;line-height:1}
+.card.collapsed .card-collapse-arrow{transform:rotate(-90deg)}
+.card.collapsed>.card-body{display:none}
+.card.collapsed>#calJunho{display:none}
+.card.collapsed>.card-hdr{border-bottom-color:transparent}
 
 /* ─── UTILS ─── */
 .tag{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:4px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
@@ -551,6 +560,8 @@ textarea.modal-input{resize:vertical;min-height:80px}
 /* ─── RESPONSIVE ─── */
 @media print{
   .sidebar,.topbar,.breadcrumb-bar,.post-actions,.cron-toggle,.sb-overlay,.modal-bg,.admin-ring,.toast,#landingPage,.notif-wrap,#connStatus,#authGate,.gallery-thumb-overlay{display:none!important}
+  .card.collapsed>.card-body,.card.collapsed>#calJunho{display:block!important}
+  .card-collapse-arrow{display:none!important}
   .main{margin-left:0}
   .content{padding:16px}
   .hero-card{background:#4C1D95!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}

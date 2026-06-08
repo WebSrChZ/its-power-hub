@@ -287,8 +287,8 @@
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128197;</span>Etapas do Projeto</div></div>
+        <div class="card" id="card-etapas">
+          <div class="card-hdr collapsible" onclick="toggleCard('card-etapas')"><div class="card-title"><span class="card-title-icon">&#128197;</span>Etapas do Projeto</div><span class="card-collapse-arrow">&#9660;</span></div>
           <div class="card-body">
             <div class="timeline" id="timelineContainer"></div>
           </div>
@@ -318,10 +318,13 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-hdr">
+      <div class="card" id="card-feedback">
+        <div class="card-hdr collapsible" onclick="toggleCard('card-feedback')">
           <div class="card-title"><span class="card-title-icon">&#11088;</span>Feedback dos Conteúdos</div>
-          <span class="card-badge" style="background:var(--purple-light);color:var(--purple-dark)">Interativo — avalie aqui</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="card-badge" style="background:var(--purple-light);color:var(--purple-dark)">Interativo — avalie aqui</span>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
         </div>
         <div class="card-body">
           <p style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.6">Avalie cada post planejado e deixe comentários. Seu feedback guia os próximos conteúdos.</p>
@@ -330,29 +333,36 @@
       </div>
 
       <div class="grid-2">
-        <div class="card">
-          <div class="card-hdr">
+        <div class="card" id="card-pedidos">
+          <div class="card-hdr collapsible" onclick="toggleCard('card-pedidos',event)">
             <div class="card-title"><span class="card-title-icon">&#128204;</span>Pedidos & Ações</div>
             <div style="display:flex;gap:6px;align-items:center">
-              <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--orange);color:#fff;border-radius:8px" onclick="document.getElementById('adminReqModal').classList.add('open')">&#10133; Criar pedido</button>
+              <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--orange);color:#fff;border-radius:8px" onclick="event.stopPropagation();document.getElementById('adminReqModal').classList.add('open')">&#10133; Criar pedido</button>
+              <span class="card-collapse-arrow">&#9660;</span>
             </div>
           </div>
           <div class="card-body" id="requestsBody"></div>
         </div>
 
-        <div class="card">
-          <div class="card-hdr">
+        <div class="card" id="card-atividade">
+          <div class="card-hdr collapsible" onclick="toggleCard('card-atividade',event)">
             <div class="card-title"><span class="card-title-icon">&#128225;</span>Atividade Recente</div>
-            <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--purple);color:#fff;border-radius:8px" onclick="document.getElementById('adminActModal').classList.add('open')">&#128225; Registrar</button>
+            <div style="display:flex;gap:6px;align-items:center">
+              <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--purple);color:#fff;border-radius:8px" onclick="event.stopPropagation();document.getElementById('adminActModal').classList.add('open')">&#128225; Registrar</button>
+              <span class="card-collapse-arrow">&#9660;</span>
+            </div>
           </div>
           <div class="card-body" id="activityFeed"></div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-hdr">
+      <div class="card" id="card-notas">
+        <div class="card-hdr collapsible" onclick="toggleCard('card-notas')">
           <div class="card-title"><span class="card-title-icon">&#128172;</span>Notas do Mês</div>
-          <span style="font-size:10px;color:var(--muted);font-weight:500">Salvo automaticamente</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:10px;color:var(--muted);font-weight:500">Salvo automaticamente</span>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
         </div>
         <div class="card-body">
           <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6">Use este espaço para registrar decisões, ajustes ou qualquer anotação importante.</p>
@@ -389,18 +399,19 @@
         <a href="its_power_videos_junho2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros &#8594;</a>
       </div>
 
-      <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128198;</span>Calendário de Publicações</div></div>
+      <div class="card" id="card-calendario">
+        <div class="card-hdr collapsible" onclick="toggleCard('card-calendario')"><div class="card-title"><span class="card-title-icon">&#128198;</span>Calendário de Publicações</div><span class="card-collapse-arrow">&#9660;</span></div>
         <div id="calJunho"></div>
       </div>
 
-      <div class="card">
-        <div class="card-hdr">
+      <div class="card" id="card-posts">
+        <div class="card-hdr collapsible" onclick="toggleCard('card-posts')">
           <div class="card-title"><span class="card-title-icon">&#128221;</span>Posts — Junho 2026</div>
-          <div style="display:flex;gap:6px">
+          <div style="display:flex;gap:6px;align-items:center">
             <span class="tag tag-blue">&#127942; Autoridade</span>
             <span class="tag tag-green">&#129309; Conexão</span>
             <span class="tag tag-orange">&#127919; Conversão</span>
+            <span class="card-collapse-arrow">&#9660;</span>
           </div>
         </div>
         <div class="card-body" id="postsJunho"></div>
