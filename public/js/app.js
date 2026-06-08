@@ -511,6 +511,28 @@ function buildTimeline() {
     html += `<div style="padding:8px 0 0 42px"><button class="btn" style="font-size:10px;padding:6px 14px;background:var(--surface2);border:1.5px dashed var(--border);color:var(--muted);border-radius:8px;cursor:pointer;font-weight:600" onclick="addTimelineStep()">&#10133; Adicionar etapa</button></div>`;
   }
   c.innerHTML = html;
+  buildEtapasSummary();
+}
+
+function buildEtapasSummary() {
+  const el = document.getElementById('etapasSummary');
+  if (!el || !TIMELINE.length) return;
+  const active = TIMELINE.find(s => s.status === 'active');
+  const doneCount = TIMELINE.filter(s => s.status === 'done').length;
+  const activeIdx = TIMELINE.findIndex(s => s.status === 'active');
+  const nextStep = TIMELINE.find((s,i) => i > activeIdx && (s.status === 'upcoming' || s.status === 'locked'));
+  const progressSteps = TIMELINE.map(s => `<div class="ep-step ${s.status}"></div>`).join('');
+  const stepLabel = active ? `Etapa ${activeIdx+1} de ${TIMELINE.length}` : `${doneCount} de ${TIMELINE.length} concluídas`;
+  let html = '<div class="etapas-summary">';
+  if (active) {
+    html += `<div class="etapas-summary-current"><div class="es-dot">&#9679;</div><div class="es-info"><div class="es-label">Etapa atual</div><div class="es-title">${active.title}</div><div class="es-date">${active.date}</div></div></div>`;
+  }
+  html += `<div><div class="etapas-progress-label"><span>${stepLabel}</span><span>${doneCount>0?doneCount+' concluída'+(doneCount>1?'s':''):''}</span></div><div class="etapas-progress">${progressSteps}</div></div>`;
+  if (nextStep) {
+    html += `<div class="etapas-next"><span class="en-icon">&#10132;</span><span><strong>Próximo:</strong> ${nextStep.title}${nextStep.date?' — '+nextStep.date:''}</span></div>`;
+  }
+  html += '</div>';
+  el.innerHTML = html;
 }
 
 let _tlEditIdx = -1;
