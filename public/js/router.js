@@ -56,7 +56,7 @@ const Router = {
         dashboard: 'Dashboard',
         calendario: 'Calendário',
         pilares: '3 Pilares',
-        fases: 'Proximas Fases',
+        fases: 'Próximas Fases',
         resultados: 'Resultados',
         galeria: 'Galeria',
         contrato: 'Contrato & Docs'

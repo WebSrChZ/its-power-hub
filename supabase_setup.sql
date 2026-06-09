@@ -117,6 +117,55 @@ insert into activity (message, bold_part, created_at) values
 on conflict do nothing;
 
 -- ============================================================
+-- 7. AUTENTICAÇÃO SEGURA — Tabela de usuários + RPC de login
+-- ============================================================
+
+-- Habilitar pgcrypto para bcrypt
+create extension if not exists pgcrypto;
+
+-- Tabela de usuários do portal (credenciais NUNCA expostas ao client)
+create table if not exists portal_users (
+  id            uuid default gen_random_uuid() primary key,
+  username      text unique not null,
+  password_hash text not null,
+  role          text not null check (role in ('admin', 'client')),
+  display_name  text not null,
+  description   text not null default '',
+  avatar        text not null default '',
+  created_at    timestamptz default now()
+);
+
+-- RLS: nenhuma policy = acesso direto bloqueado para anon/authenticated
+alter table portal_users enable row level security;
+
+-- Inserir usuários padrão (ALTERE AS SENHAS antes de rodar em produção!)
+insert into portal_users (username, password_hash, role, display_name, description, avatar) values
+  ('admin',   crypt('Admin@ITP2026', gen_salt('bf')), 'admin',  'Rafael Cordeiro', 'SrChZ Technologies', 'R'),
+  ('cliente', crypt('Cliente@ITP2026', gen_salt('bf')), 'client', 'ITS Power', 'Cliente — Academia ITS Power', 'I')
+on conflict (username) do nothing;
+
+-- Função RPC para verificação de login (SECURITY DEFINER = roda com permissão do owner)
+create or replace function verify_login(p_username text, p_password text)
+returns table(username text, role text, display_name text, description text, avatar text)
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  return query
+  select pu.username, pu.role, pu.display_name, pu.description, pu.avatar
+  from portal_users pu
+  where pu.username = lower(p_username)
+    and pu.password_hash = crypt(p_password, pu.password_hash);
+end;
+$$;
+
+-- Revogar acesso direto à tabela para o role anon
+revoke all on portal_users from anon;
+-- Permitir apenas execução da RPC
+grant execute on function verify_login(text, text) to anon;
+
+-- ============================================================
 -- PRONTO! Configure as variáveis de ambiente no arquivo .env:
 --   SUPABASE_URL=https://xxxx.supabase.co
 --   SUPABASE_ANON_KEY=eyJ...
