@@ -42,6 +42,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .sb-brand{font-family:var(--font-heading);font-size:20px;font-weight:700;color:#fff;letter-spacing:-.5px;line-height:1}
 .sb-brand em{color:var(--orange);font-style:normal}
 .sb-sub{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.16em;text-transform:uppercase;margin-top:3px;font-weight:500}
+.sb-collapse-btn{width:32px;height:32px;min-width:32px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;box-shadow:none}
+.sb-collapse-btn:hover{border-color:var(--orange);color:#fff;background:rgba(255,255,255,.12)}
+.sb-collapse-btn .lucide{width:16px;height:16px}
 .sb-phase{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0}
 .sb-phase-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.35);font-size:9px;font-weight:700;color:#C4B5FD;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
 .sb-phase-badge span{width:6px;height:6px;border-radius:50%;background:#A78BFA;animation:pulse 2s infinite}
