@@ -1,67 +1,67 @@
 /* ─── DATA ─── */
 const POSTS = [
   { id:'jun01',day:3,wday:'Qua',pillar:'v',num:'01/12',
-    title:'Existe um lugar em Claudio que voce ainda nao conhece.',
-    desc:'Reel de abertura. A academia revelada: estrutura real, profissionais reais, comunidade real. O primeiro convite — sem pressao.',
+    title:'Existe um lugar em Cláudio que você ainda não conhece.',
+    desc:'Reel de abertura. A academia revelada: estrutura real, profissionais reais, comunidade real. O primeiro convite — sem pressão.',
     tags:['Reel de abertura','Primeiro contato com a marca','CTA suave — link na bio']},
   { id:'jun02',day:6,wday:'Sab',pillar:'c',num:'02/12',
-    title:'O inverno separa intencao de compromisso.',
-    desc:'Quem levanta no frio escolhe o que e dificil. O inverno nao e obstaculo — e filtro. Engajamento emocional puro.',
-    tags:['Engajamento emocional','Frase iconica para reshare','Inverno como filtro']},
+    title:'O inverno separa intenção de compromisso.',
+    desc:'Quem levanta no frio escolhe o que é difícil. O inverno não é obstáculo — é filtro. Engajamento emocional puro.',
+    tags:['Engajamento emocional','Frase icônica para reshare','Inverno como filtro']},
   { id:'jun03',day:9,wday:'Ter',pillar:'a',num:'03/12',
     title:'As 3 perguntas que todo aluno faz — respondidas sem filtro.',
-    desc:'Professor responde as 3 duvidas mais comuns: whey, descanso e tempo de resultado. Sem enrolacao, sem resposta generica.',
-    tags:['Q&A — autoridade acessivel','Potencial de serie semanal','Alto salvamento']},
+    desc:'Professor responde as 3 dúvidas mais comuns: whey, descanso e tempo de resultado. Sem enrolação, sem resposta genérica.',
+    tags:['Q&A — autoridade acessível','Potencial de série semanal','Alto salvamento']},
   { id:'jun04',day:11,wday:'Qui',pillar:'a',num:'04/12',
     title:'Treinar em jejum emagrece mais — mito ou verdade?',
-    desc:'Formato quiz com suspense e resposta direta. A diferenca entre resultado e frustracao e informacao de qualidade.',
-    tags:['Formato quiz — alta retencao','Alto salvamento','Autoridade tecnica']},
+    desc:'Formato quiz com suspense e resposta direta. A diferença entre resultado e frustração é informação de qualidade.',
+    tags:['Formato quiz — alta retenção','Alto salvamento','Autoridade técnica']},
   { id:'jun05',day:12,wday:'Sex',pillar:'c',num:'05/12 — Namorados',
-    title:'O que casais que treinam juntos dividem — alem do treino.',
-    desc:'Cumplicidade real no esforco compartilhado. Sem cliche — o cuidado com a saude como ato de amor.',
-    tags:['Data especial 12/06','Estilo de vida e conexao','Alto reshare organico']},
+    title:'O que casais que treinam juntos dividem — além do treino.',
+    desc:'Cumplicidade real no esforço compartilhado. Sem clichê — o cuidado com a saúde como ato de amor.',
+    tags:['Data especial 12/06','Estilo de vida e conexão','Alto reshare orgânico']},
   { id:'jun06',day:16,wday:'Ter',pillar:'a',num:'06/12',
-    title:'Tres razoes para nao abandonar o treino no frio.',
-    desc:'Tres argumentos diretos para nao pausar no inverno. Metabolismo, atencao exclusiva e vantagem competitiva.',
-    tags:['Timing sazonal','Compartilhamento organico','Construcao de longo prazo']},
+    title:'Três razões para não abandonar o treino no frio.',
+    desc:'Três argumentos diretos para não pausar no inverno. Metabolismo, atenção exclusiva e vantagem competitiva.',
+    tags:['Timing sazonal','Compartilhamento orgânico','Construção de longo prazo']},
   { id:'jun07',day:19,wday:'Sex',pillar:'c',num:'07/12',
-    title:'[Nome] — uma historia que comecou aqui dentro.',
-    desc:'Depoimento real, fala natural, camera proxima. A melhor prova do que a academia faz — nao esta em numeros, esta nas pessoas.',
-    tags:['Prova social autentica','Legendado obrigatorio','Comunidade como diferencial']},
+    title:'[Nome] — uma história que começou aqui dentro.',
+    desc:'Depoimento real, fala natural, câmera próxima. A melhor prova do que a academia faz — não está em números, está nas pessoas.',
+    tags:['Prova social autêntica','Legendado obrigatório','Comunidade como diferencial']},
   { id:'jun08',day:21,wday:'Dom',pillar:'c',num:'08/12 — Inverno',
-    title:'Primeiro dia de inverno. A It\'s Power esta assim.',
-    desc:'Contraste cinematografico: frio la fora, energia aqui dentro. Frase iconica para reshare.',
-    tags:['Data especial 21/06','Pertencimento visual','Frase iconica para reshare']},
+    title:'Primeiro dia de inverno. A It\'s Power está assim.',
+    desc:'Contraste cinematográfico: frio lá fora, energia aqui dentro. Frase icônica para reshare.',
+    tags:['Data especial 21/06','Pertencimento visual','Frase icônica para reshare']},
   { id:'jun09',day:23,wday:'Ter',pillar:'c',num:'09/12',
-    title:'O que acontece aqui quando ninguem esta filmando.',
-    desc:'Camera ativa desde as 6h. Professor preparando, alunos chegando pelo nome. O cuidado invisivel que define a experiencia.',
-    tags:['Humanizacao premium','Cuidado como diferencial','Estilo documental']},
+    title:'O que acontece aqui quando ninguém está filmando.',
+    desc:'Câmera ativa desde as 6h. Professor preparando, alunos chegando pelo nome. O cuidado invisível que define a experiência.',
+    tags:['Humanização premium','Cuidado como diferencial','Estilo documental']},
   { id:'jun10',day:25,wday:'Qui',pillar:'a',num:'10/12',
-    title:'O exercicio que voce faz todo treino — provavelmente errado.',
-    desc:'Demonstracao errado vs. correto com camera lateral. Didatica limpa, informacao que vale o salvamento.',
-    tags:['Alto salvamento','Autoridade tecnica','Diferencial de acompanhamento']},
+    title:'O exercício que você faz todo treino — provavelmente errado.',
+    desc:'Demonstração errado vs. correto com câmera lateral. Didática limpa, informação que vale o salvamento.',
+    tags:['Alto salvamento','Autoridade técnica','Diferencial de acompanhamento']},
   { id:'jun11',day:27,wday:'Sab',pillar:'c',num:'11/12',
-    title:'30 segundos. Sem pausar. Sem desculpa. Voce aguenta?',
-    desc:'Parece pouco — ate tentar. Desafio real com reacao genuina. Formato viral com alta retencao e marcacoes.',
-    tags:['Formato viral','Desafio com autenticidade','Alta retencao e marcacoes']},
+    title:'30 segundos. Sem pausar. Sem desculpa. Você aguenta?',
+    desc:'Parece pouco — até tentar. Desafio real com reação genuína. Formato viral com alta retenção e marcações.',
+    tags:['Formato viral','Desafio com autenticidade','Alta retenção e marcações']},
   { id:'jun12',day:30,wday:'Ter',pillar:'v',num:'12/12',
     title:'Junho acabou. O que a gente construiu, fica.',
-    desc:'Montagem dos melhores momentos do mes. Gratidao genuina e convite direto para julho.',
-    tags:['Fechamento com proposito','Convite — nao panfleto','Antecipacao para julho']},
+    desc:'Montagem dos melhores momentos do mês. Gratidão genuína e convite direto para julho.',
+    tags:['Fechamento com propósito','Convite — não panfleto','Antecipação para julho']},
 ];
 
 const PILLAR = {
   a:{label:'Autoridade',icon:'\u{1F3C6}',badge:'cb-a',calCls:'a-p',
      typeCss:'background:var(--blue-light);color:var(--blue-dark)',dateBg:'background:linear-gradient(135deg,#1D4ED8,#2563EB)',stripe:'background:linear-gradient(180deg,var(--blue),#60A5FA)'},
-  c:{label:'Conexao',icon:'\u{1F91D}',badge:'cb-c',calCls:'c-p',
+  c:{label:'Conexão',icon:'\u{1F91D}',badge:'cb-c',calCls:'c-p',
      typeCss:'background:var(--green-light);color:var(--green-dark)',dateBg:'background:linear-gradient(135deg,#065F46,#10B981)',stripe:'background:linear-gradient(180deg,var(--green),#34D399)'},
-  v:{label:'Conversao',icon:'\u{1F3AF}',badge:'cb-v',calCls:'v-p',
+  v:{label:'Conversão',icon:'\u{1F3AF}',badge:'cb-v',calCls:'v-p',
      typeCss:'background:var(--orange-light);color:#92400E',dateBg:'background:linear-gradient(135deg,#C2410C,var(--orange))',stripe:'background:linear-gradient(180deg,var(--orange),#FB923C)'},
 };
 POSTS.forEach(p => { p.icon = PILLAR[p.pillar].icon; });
 
 const STATUS_OPT = ['pendente','producao','aprovado','publicado'];
-const STATUS_LBL = {pendente:'Pendente',producao:'Em producao',aprovado:'Aprovado',publicado:'Publicado'};
+const STATUS_LBL = {pendente:'Pendente',producao:'Em produção',aprovado:'Aprovado',publicado:'Publicado'};
 const STATUS_COLOR = {pendente:'#94A3B8',producao:'#8B5CF6',aprovado:'#F59E0B',publicado:'#10B981'};
 
 /* ─── STATE ─── */
@@ -113,7 +113,7 @@ function buildCalendar() {
   const byDay = {};
   POSTS.forEach(p => byDay[p.day] = p);
   const today = new Date().toISOString().slice(0,10);
-  let html = `<div class="cal-mhdr"><span class="t">Junho 2026</span><span class="s">12 reels · inicio 03/06 · 3×/semana</span></div><div class="cal-grid">`;
+  let html = `<div class="cal-mhdr"><span class="t">Junho 2026</span><span class="s">12 reels · início 03/06 · 3×/semana</span></div><div class="cal-grid">`;
   ['Seg','Ter','Qua','Qui','Sex','Sab','Dom'].forEach(d => html += `<div class="cal-head">${d}</div>`);
   for (let d=1;d<=30;d++) {
     const p = byDay[d], isToday = `2026-06-${String(d).padStart(2,'0')}` === today;
@@ -155,7 +155,7 @@ function buildPosts() {
       <div class="post-actions">
         <select class="s-sel" onchange="setStatus('${p.id}',this.value)">${opts}</select>
         <div class="post-fb-row">${starsHtml}</div>
-        <div class="post-note-btn" onclick="openNoteModal('${p.id}','${p.title.replace(/'/g,"\\'")}')">${note||'+ Observacao'}</div>
+        <div class="post-note-btn" onclick="openNoteModal('${p.id}','${p.title.replace(/'/g,"\\'")}')">${note||'+ Observação'}</div>
       </div></div>`;
   });
   c.innerHTML = html;
@@ -173,7 +173,7 @@ function buildFeedbackBoard() {
     html += `<div class="feedback-card" id="fbc_${p.id}">
       <div class="fb-post-title">${PILLAR[p.pillar].icon} ${p.title}</div>
       <div class="fb-stars">${starsHtml}</div>
-      <textarea class="fb-note" id="fbnote_${p.id}" placeholder="Comentario opcional sobre este conteudo..." oninput="setFbNote('${p.id}',this.value)">${fb}</textarea>
+      <textarea class="fb-note" id="fbnote_${p.id}" placeholder="Comentário opcional sobre este conteúdo..." oninput="setFbNote('${p.id}',this.value)">${fb}</textarea>
       <div class="fb-actions">
         <div class="fb-saved${saved?' show':''}" id="fbsaved_${p.id}">&#10003; Feedback salvo</div>
         <button class="btn btn-primary" style="padding:6px 14px;font-size:10px" onclick="saveFb('${p.id}')">Salvar</button>
@@ -229,7 +229,7 @@ function saveMonthNote(val) {
       setTimeout(() => { const el = document.getElementById('noteSavedLbl'); if (el) el.textContent = ''; }, 3000);
     });
     const target = Auth.isAdmin() ? 'client' : 'admin';
-    API.notify(target, 'note', 'Nota do mes atualizada', val.slice(0,80) + (val.length>80?'...':''));
+    API.notify(target, 'note', 'Nota do mês atualizada', val.slice(0,80) + (val.length>80?'...':''));
   }, 800);
 }
 
@@ -246,12 +246,12 @@ function savePostNote() {
   const val = document.getElementById('noteModalText').value;
   STATE[activeNote.id].note = val;
   document.querySelectorAll('.post-note-btn').forEach(n => {
-    if (n.getAttribute('onclick')?.includes(`'${activeNote.id}'`)) n.textContent = val || '+ Observacao';
+    if (n.getAttribute('onclick')?.includes(`'${activeNote.id}'`)) n.textContent = val || '+ Observação';
   });
-  showToast('Observacao salva');
+  showToast('Observação salva');
   const post = POSTS.find(p=>p.id===activeNote.id);
   const target = Auth.isAdmin() ? 'client' : 'admin';
-  API.notify(target, 'note', 'Observacao em post: ' + (post?.title?.slice(0,30)||''), val.slice(0,80));
+  API.notify(target, 'note', 'Observação em post: ' + (post?.title?.slice(0,30)||''), val.slice(0,80));
   closeNoteModal();
   savePost(activeNote.id);
 }
@@ -261,10 +261,10 @@ async function approvePhase(phase) {
     APPROVED[phase] = false;
     renderApprovalState();
     const label = phase === 'essencial' ? 'Essencial' : 'Growth';
-    showToast('Aprovacao do Plano ' + label + ' revogada');
+    showToast('Aprovação do Plano ' + label + ' revogada');
     await saveSetting('approved_' + phase, 'false');
-    await API.addActivity('Aprovacao do Plano ' + label + ' revogada.', 'Plano revogado');
-    await API.notify('admin', 'approval', 'Aprovacao revogada', 'O cliente revogou o Plano ' + label + '.');
+    await API.addActivity('Aprovação do Plano ' + label + ' revogada.', 'Plano revogado');
+    await API.notify('admin', 'approval', 'Aprovação revogada', 'O cliente revogou o Plano ' + label + '.');
   } else {
     const other = phase === 'essencial' ? 'growth' : 'essencial';
     APPROVED[phase] = true;
@@ -293,7 +293,7 @@ function renderRequests(reqs) {
   const icons = {pendente:'\u{1F4CC}',done:'\u{2705}',novo:'\u{1F514}'};
   const statusCls = {pendente:'rs-pendente',done:'rs-done',novo:'rs-novo'};
   const statusLbl = {pendente:'Pendente',done:'Feito',novo:'Novo'};
-  const priLabel = {normal:'',urgente:'\u{1F7E1} Urgente',critico:'\u{1F534} Critico'};
+  const priLabel = {normal:'',urgente:'\u{1F7E1} Urgente',critico:'\u{1F534} Crítico'};
   const sorted = [...reqs].sort((a,b) => {
     if (a.status==='done'&&b.status!=='done') return 1;
     if (a.status!=='done'&&b.status==='done') return -1;
@@ -310,7 +310,7 @@ function renderRequests(reqs) {
         <div class="req-desc">${r.description}</div>
         <div class="req-date">\u{23F0} ${r.due_date}</div>
         <div class="req-admin-btns">
-          ${r.status!=='done'?`<button onclick="markRequestDone('${r.id}')" style="font-size:9px;padding:3px 10px;border-radius:6px;border:none;background:var(--green-light);color:var(--green-dark);cursor:pointer;font-weight:700">Concluido</button>`:''}
+          ${r.status!=='done'?`<button onclick="markRequestDone('${r.id}')" style="font-size:9px;padding:3px 10px;border-radius:6px;border:none;background:var(--green-light);color:var(--green-dark);cursor:pointer;font-weight:700">Concluído</button>`:''}
           <button onclick="deleteRequest('${r.id}')" style="font-size:9px;padding:3px 10px;border-radius:6px;border:none;background:var(--red-light);color:var(--red);cursor:pointer;font-weight:700">Remover</button>
         </div>
       </div>
@@ -327,7 +327,7 @@ function activityHTML(r) {
   const t = new Date(r.created_at);
   const label = isNaN(t) ? 'agora' : t.toLocaleString('pt-BR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
   const msg = r.bold_part ? r.message.replace(r.bold_part, `<strong>${r.bold_part}</strong>`) : r.message;
-  const delBtn = Auth.isAdmin() ? `<button class="act-del-btn admin-ctrl" onclick="deleteActivityItem('${r.id}')" title="Remover">&#10005;</button>` : '';
+  const delBtn = Auth.isAdmin() ? `<button class="act-del-btn admin-ctrl" onclick="deleteActivityItem('${r.id}')" title="Remover"><i data-lucide="x"></i></button>` : '';
   return `<div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-content"><div class="act-text">${msg}</div><div class="act-time">${label}</div></div>${delBtn}</div>`;
 }
 
@@ -340,10 +340,10 @@ function renderApprovalState() {
     const plan = APPROVED.essencial ? 'Essencial' : 'Growth';
     const price = APPROVED.essencial ? 'R$ 2.800' : 'R$ 4.500';
     const phase = APPROVED.essencial ? 'essencial' : 'growth';
-    aok.innerHTML = `<span style="font-size:26px">&#9989;</span>
+    aok.innerHTML = `<span style="font-size:26px"><i data-lucide="check-circle"></i></span>
       <div style="flex:1">
         <div style="font-size:15px;font-weight:700;color:#fff;font-family:var(--font-heading)">Plano ${plan} aprovado!</div>
-        <div style="font-size:11.5px;color:rgba(255,255,255,.75);margin-top:4px;line-height:1.6">O proximo ciclo esta confirmado (${price}/mes). Rafael entrara em contato para agendar a reuniao de inicio.</div>
+        <div style="font-size:11.5px;color:rgba(255,255,255,.75);margin-top:4px;line-height:1.6">O próximo ciclo está confirmado (${price}/mês). Rafael entrará em contato para agendar a reunião de início.</div>
       </div>
       <div style="display:flex;gap:8px;flex-shrink:0">
         <button class="btn" style="padding:6px 14px;font-size:10px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-weight:600" onclick="switchTab('fases')">Alterar plano</button>
@@ -361,26 +361,27 @@ function updateFasesPlanCards() {
   const growthBtn = document.getElementById('planBtnGrowth');
   if (essBtn) {
     if (APPROVED.essencial) {
-      essBtn.innerHTML = '&#9989; Aprovado — Clique para revogar';
+      essBtn.innerHTML = '<i data-lucide="check-circle"></i> Aprovado — Clique para revogar';
       essBtn.style.background = 'var(--green)';
       essBtn.style.borderColor = 'var(--green)';
     } else {
-      essBtn.innerHTML = '&#10003; Aprovar Plano Essencial';
+      essBtn.innerHTML = '<i data-lucide="check"></i> Aprovar Plano Essencial';
       essBtn.style.background = '';
       essBtn.style.borderColor = '';
     }
   }
   if (growthBtn) {
     if (APPROVED.growth) {
-      growthBtn.innerHTML = '&#9989; Aprovado — Clique para revogar';
+      growthBtn.innerHTML = '<i data-lucide="check-circle"></i> Aprovado — Clique para revogar';
       growthBtn.style.background = 'var(--green)';
       growthBtn.style.borderColor = 'var(--green)';
     } else {
-      growthBtn.innerHTML = '&#10003; Aprovar Plano Growth';
+      growthBtn.innerHTML = '<i data-lucide="check"></i> Aprovar Plano Growth';
       growthBtn.style.background = '';
       growthBtn.style.borderColor = '';
     }
   }
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons({nameAttr:'data-lucide'}); } catch {} }
 }
 
 /* ─── CLIENT REQUEST ─── */
@@ -399,14 +400,14 @@ async function submitClientRequest() {
   const desc = document.getElementById('clientReqDesc').value.trim();
   const priority = document.getElementById('clientReqPriority').value;
   if (!title) { document.getElementById('clientReqError').style.display = 'block'; return; }
-  const dueMap = {normal:'Quando possivel',urgente:'Urgente - esta semana',critico:'Critico - hoje'};
+  const dueMap = {normal:'Quando possível',urgente:'Urgente — esta semana',critico:'Crítico — hoje'};
   const btn = document.getElementById('clientReqSendBtn');
   btn.disabled = true; btn.textContent = 'Enviando...';
   try {
     await API.createRequest({title, description:desc||'-', due_date:dueMap[priority], priority, source:'client'});
     closeClientReqModal();
     showToast('Pedido enviado! Responderemos em breve.');
-    await API.notify('admin', 'request', 'Novo pedido do cliente: ' + title.slice(0,40), desc.slice(0,80) || 'Sem descricao');
+    await API.notify('admin', 'request', 'Novo pedido do cliente: ' + title.slice(0,40), desc.slice(0,80) || 'Sem descrição');
     await API.addActivity('Cliente enviou pedido: "' + title.slice(0,40) + '"', 'pedido');
     const reqs = await API.getRequests();
     if (reqs) renderRequests(reqs);
@@ -418,8 +419,8 @@ async function submitClientRequest() {
 async function markRequestDone(id) {
   if (!Auth.isAdmin()) return;
   await API.updateRequest(id, {status:'done'});
-  showToast('Pedido concluido');
-  await API.notify('client', 'request', 'Pedido concluido pelo admin', 'Um dos seus pedidos foi marcado como feito.');
+  showToast('Pedido concluído');
+  await API.notify('client', 'request', 'Pedido concluído pelo admin', 'Um dos seus pedidos foi marcado como feito.');
   const reqs = await API.getRequests();
   if (reqs) renderRequests(reqs);
 }
@@ -441,7 +442,7 @@ async function submitAdminRequest() {
   await API.createRequest({title, description:desc||'-', due_date:date||'Sem prazo definido', priority:'normal', source:'admin'});
   document.getElementById('adminReqModal').classList.remove('open');
   ['adminReqTitle','adminReqDesc','adminReqDate'].forEach(id => { document.getElementById(id).value = ''; });
-  showToast('Pedido criado');
+  showToast('Pedido criado com sucesso');
   await API.notify('client', 'request', 'Novo pedido do admin: ' + title.slice(0,40), desc.slice(0,80) || title);
   await API.addActivity('Admin criou pedido: "' + title.slice(0,40) + '"', 'pedido');
   const reqs = await API.getRequests();
@@ -464,7 +465,7 @@ async function submitAdminActivity() {
 function buildCronogramaInline() {
   const el = document.getElementById('cronInlineJunho');
   if (!el) return;
-  const ps = {a:{bg:'var(--blue-light)',color:'var(--blue-dark)',label:'Autoridade'},c:{bg:'var(--green-light)',color:'var(--green-dark)',label:'Conexao'},v:{bg:'var(--orange-light)',color:'#92400E',label:'Conversao'}};
+  const ps = {a:{bg:'var(--blue-light)',color:'var(--blue-dark)',label:'Autoridade'},c:{bg:'var(--green-light)',color:'var(--green-dark)',label:'Conexão'},v:{bg:'var(--orange-light)',color:'#92400E',label:'Conversão'}};
   let html = '<div class="cron-inline-grid">';
   POSTS.forEach(p => {
     const s = ps[p.pillar]||ps.a, st = STATE[p.id]||{status:'pendente'};
@@ -481,11 +482,11 @@ function buildCronogramaInline() {
 
 /* ─── TIMELINE (dynamic) ─── */
 const DEFAULT_TIMELINE = [
-  {title:'Periodo de Teste',status:'done',badge:'Encerrado',desc:'Analise inicial da academia, proposta aprovada e inicio do projeto.',date:'Maio 2026',price:''},
-  {title:'Fase Teste — Descoberta',status:'active',badge:'Agora',desc:'12 reels, 3 pilares, identificacao das narrativas com maior engajamento. Relatorio final em 30/06.',date:'03 Jun – 30 Jun 2026',price:'R$ 1.200 / mes unico'},
-  {title:'Reuniao de Alinhamento',status:'upcoming',badge:'Proximo',desc:'Apresentacao dos resultados da Fase Teste. Decisao sobre continuidade e qual plano seguir.',date:'Final de Junho 2026',price:''},
-  {title:'Plano Essencial',status:'upcoming',badge:'Aguardando aprovacao',desc:'12 videos/mes, reuniao mensal, relatorio de desempenho, stories estrategicos.',date:'Jul – Set 2026 (apos aprovacao)',price:'R$ 2.800 / mes · Meses 2 a 4'},
-  {title:'Plano Growth',status:'locked',badge:'Futuro',desc:'Meta Ads, lookalike audience, stories diarios, campanhas sazonais, relatorio CPL/ROI.',date:'Out 2026 em diante',price:'R$ 4.500 / mes · Mes 5+'},
+  {title:'Período de Teste',status:'done',badge:'Encerrado',desc:'Análise inicial da academia, proposta aprovada e início do projeto.',date:'Maio 2026',price:''},
+  {title:'Fase Teste — Descoberta',status:'active',badge:'Agora',desc:'12 reels, 3 pilares, identificação das narrativas com maior engajamento. Relatório final em 30/06.',date:'03 Jun – 30 Jun 2026',price:'R$ 1.200 / mês único'},
+  {title:'Reunião de Alinhamento',status:'upcoming',badge:'Próximo',desc:'Apresentação dos resultados da Fase Teste. Decisão sobre continuidade e qual plano seguir.',date:'Final de Junho 2026',price:''},
+  {title:'Plano Essencial',status:'upcoming',badge:'Aguardando aprovação',desc:'12 vídeos/mês, reunião mensal, relatório de desempenho, stories estratégicos.',date:'Jul – Set 2026 (após aprovação)',price:'R$ 2.800 / mês · Meses 2 a 4'},
+  {title:'Plano Growth',status:'locked',badge:'Futuro',desc:'Meta Ads, lookalike audience, stories diários, campanhas sazonais, relatório CPL/ROI.',date:'Out 2026 em diante',price:'R$ 4.500 / mês · Mês 5+'},
 ];
 let TIMELINE = [];
 
@@ -493,24 +494,25 @@ function buildTimeline() {
   const c = document.getElementById('timelineContainer');
   if (!c) return;
   const sm = {
-    done:{dot:'done',icon:'&#10003;',bcls:'tl-b-done'},
-    active:{dot:'active',icon:'&#9679;',bcls:'tl-b-active'},
-    upcoming:{dot:'upcoming',icon:'&#10227;',bcls:'tl-b-next'},
-    locked:{dot:'locked',icon:'&#128274;',bcls:'tl-b-locked'}
+    done:{dot:'done',icon:'<i data-lucide="check"></i>',bcls:'tl-b-done'},
+    active:{dot:'active',icon:'<i data-lucide="circle-dot"></i>',bcls:'tl-b-active'},
+    upcoming:{dot:'upcoming',icon:'<i data-lucide="clock"></i>',bcls:'tl-b-next'},
+    locked:{dot:'locked',icon:'<i data-lucide="lock"></i>',bcls:'tl-b-locked'}
   };
   let html = '';
   TIMELINE.forEach((s,i) => {
     const m = sm[s.status]||sm.upcoming;
     const adminBtns = Auth.isAdmin() ? `<div class="tl-admin-btns">
-      <button class="tl-edit-btn" onclick="editTimelineStep(${i})" title="Editar">&#9998;</button>
-      <button class="tl-del-btn" onclick="deleteTimelineStep(${i})" title="Remover">&#10005;</button>
+      <button class="tl-edit-btn" onclick="editTimelineStep(${i})" title="Editar"><i data-lucide="pencil"></i></button>
+      <button class="tl-del-btn" onclick="deleteTimelineStep(${i})" title="Remover"><i data-lucide="x"></i></button>
     </div>` : '';
     html += `<div class="tl-item"><div class="tl-dot ${m.dot}">${m.icon}</div><div class="tl-content"><div class="tl-header"><span class="tl-title">${s.title}</span><span class="tl-badge ${m.bcls}">${s.badge}</span>${adminBtns}</div><div class="tl-desc">${s.desc}</div>${s.price?'<div class="tl-price">'+s.price+'</div>':''}<div class="tl-date">${s.date}</div></div></div>`;
   });
   if (Auth.isAdmin()) {
-    html += `<div style="padding:8px 0 0 42px"><button class="btn" style="font-size:10px;padding:6px 14px;background:var(--surface2);border:1.5px dashed var(--border);color:var(--muted);border-radius:8px;cursor:pointer;font-weight:600" onclick="addTimelineStep()">&#10133; Adicionar etapa</button></div>`;
+    html += `<div style="padding:8px 0 0 42px"><button class="btn" style="font-size:10px;padding:6px 14px;background:var(--surface2);border:1.5px dashed var(--border);color:var(--muted);border-radius:8px;cursor:pointer;font-weight:600" onclick="addTimelineStep()"><i data-lucide="plus"></i> Adicionar etapa</button></div>`;
   }
   c.innerHTML = html;
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons({nameAttr:'data-lucide'}); } catch {} }
   buildEtapasSummary();
 }
 
@@ -525,11 +527,11 @@ function buildEtapasSummary() {
   const stepLabel = active ? `Etapa ${activeIdx+1} de ${TIMELINE.length}` : `${doneCount} de ${TIMELINE.length} concluídas`;
   let html = '<div class="etapas-summary">';
   if (active) {
-    html += `<div class="etapas-summary-current"><div class="es-dot">&#9679;</div><div class="es-info"><div class="es-label">Etapa atual</div><div class="es-title">${active.title}</div><div class="es-date">${active.date}</div></div></div>`;
+    html += `<div class="etapas-summary-current"><div class="es-dot"><i data-lucide="circle-dot"></i></div><div class="es-info"><div class="es-label">Etapa atual</div><div class="es-title">${active.title}</div><div class="es-date">${active.date}</div></div></div>`;
   }
   html += `<div><div class="etapas-progress-label"><span>${stepLabel}</span><span>${doneCount>0?doneCount+' concluída'+(doneCount>1?'s':''):''}</span></div><div class="etapas-progress">${progressSteps}</div></div>`;
   if (nextStep) {
-    html += `<div class="etapas-next"><span class="en-icon">&#10132;</span><span><strong>Próximo:</strong> ${nextStep.title}${nextStep.date?' — '+nextStep.date:''}</span></div>`;
+    html += `<div class="etapas-next"><span class="en-icon"><i data-lucide="arrow-right"></i></span><span><strong>Próximo:</strong> ${nextStep.title}${nextStep.date?' — '+nextStep.date:''}</span></div>`;
   }
   html += '</div>';
   el.innerHTML = html;
@@ -629,7 +631,7 @@ function setConnStatus(state) {
   if (!el) return;
   const cfg = {
     online:{dot:'#22C55E',label:'Online',title:'Conectado ao servidor'},
-    offline:{dot:'#EF4444',label:'Offline',title:'Sem conexao'},
+    offline:{dot:'#EF4444',label:'Offline',title:'Sem conexão'},
     connecting:{dot:'#F59E0B',label:'Conectando...',title:'Conectando ao servidor'},
   };
   const c = cfg[state]||cfg.offline;
@@ -721,7 +723,7 @@ async function updateNotifBadge() {
 function renderNotifications(notifs) {
   const list = document.getElementById('notifList');
   if (!list) return;
-  if (!notifs.length) { list.innerHTML = '<div class="notif-empty">Nenhuma notificacao ainda.</div>'; return; }
+  if (!notifs.length) { list.innerHTML = '<div class="notif-empty">Nenhuma notificação ainda.</div>'; return; }
   list.innerHTML = notifs.map(n => {
     const ic = NOTIF_ICONS[n.type] || NOTIF_ICONS.activity;
     const t = new Date(n.created_at);
@@ -739,8 +741,8 @@ function renderNotifications(notifs) {
 function timeAgo(date) {
   const diff = (Date.now() - date.getTime()) / 1000;
   if (diff < 60) return 'Agora';
-  if (diff < 3600) return Math.floor(diff/60) + ' min atras';
-  if (diff < 86400) return Math.floor(diff/3600) + 'h atras';
+  if (diff < 3600) return Math.floor(diff/60) + ' min atrás';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h atrás';
   return date.toLocaleString('pt-BR', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
 }
 
@@ -762,7 +764,7 @@ function setupRealtimeNotifications() {
   const role = Auth.user?.role || 'client';
   API.subscribeNotifications(role, (notif) => {
     updateNotifBadge();
-    showToast('\u{1F514} ' + (notif.title||'Nova notificacao'));
+    showToast('\u{1F514} ' + (notif.title||'Nova notificação'));
     const panel = document.getElementById('notifPanel');
     if (panel?.classList.contains('open')) loadNotifications();
   });
@@ -903,7 +905,7 @@ function buildGallery() {
     html += `<div class="gallery-card fade-in" data-type="${t}">
       <div class="gallery-thumb" style="${pl.dateBg}">
         <span style="font-size:42px;color:rgba(255,255,255,.9)">${pl.icon}</span>
-        <div class="gallery-thumb-overlay"><span>&#128065;</span></div>
+        <div class="gallery-thumb-overlay"><span><i data-lucide="eye"></i></span></div>
       </div>
       <div class="gallery-info">
         <div class="gallery-title">${p.title}</div>
@@ -916,6 +918,7 @@ function buildGallery() {
     </div>`;
   });
   grid.innerHTML = html;
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons({nameAttr:'data-lucide'}); } catch {} }
 }
 
 /* ─── RESULTADOS (computed from post data) ─── */
@@ -970,7 +973,7 @@ function buildResultados() {
   if (top) {
     const ranked = [...POSTS].filter(p => (STATE[p.id]?.stars||0) > 0).sort((a,b) => (STATE[b.id]?.stars||0) - (STATE[a.id]?.stars||0));
     if (ranked.length === 0) {
-      top.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#127942;</div><div class="empty-state-title">Sem feedbacks ainda</div><div class="empty-state-desc">Avalie os posts na aba Junho para ver o ranking aqui.</div></div>';
+      top.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><i data-lucide="trophy"></i></div><div class="empty-state-title">Sem feedbacks ainda</div><div class="empty-state-desc">Avalie os posts na aba Junho para ver o ranking aqui.</div></div>';
     } else {
       let html = '<div style="display:flex;flex-direction:column;gap:8px">';
       ranked.slice(0,5).forEach((p, i) => {
@@ -1012,7 +1015,7 @@ function buildResultados() {
           <div style="height:100%;border-radius:3px;width:${pct}%;${pl.stripe};transition:width .6s"></div>
         </div>
         <div style="display:flex;justify-content:space-between;margin-top:6px">
-          <span style="font-size:10px;color:var(--muted)">Media: ${s.avg.toFixed(1)} &#9733;</span>
+          <span style="font-size:10px;color:var(--muted)">Média: ${s.avg.toFixed(1)} &#9733;</span>
           <span style="font-size:10px;font-weight:600;color:var(--heading)">${pct}%</span>
         </div>
       </div>`;
@@ -1020,32 +1023,85 @@ function buildResultados() {
     html += '</div>';
     pilares.innerHTML = html;
   }
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons({nameAttr:'data-lucide'}); } catch {} }
 }
 
 /* ─── PDF EXPORT ─── */
 function exportPDF() {
-  // Add a class to optimize print layout
-  document.body.classList.add('pdf-export');
-  window.print();
-  setTimeout(() => document.body.classList.remove('pdf-export'), 1000);
+  if (typeof html2pdf === 'undefined') {
+    // Fallback to print if html2pdf not loaded
+    document.body.classList.add('pdf-export');
+    window.print();
+    setTimeout(() => document.body.classList.remove('pdf-export'), 1000);
+    return;
+  }
+  const panel = document.querySelector('.tab-panel.active');
+  if (!panel) return;
+  const tabName = panel.id.replace('panel-', '');
+  const labels = { dashboard:'Dashboard', calendario:'Calendário', pilares:'3 Pilares', fases:'Próximas Fases', resultados:'Resultados', galeria:'Galeria', contrato:'Contrato' };
+  const fileName = `ITS_Power_${labels[tabName] || tabName}_${new Date().toISOString().slice(0,10)}.pdf`;
+
+  // Temporarily expand collapsed cards for export
+  const collapsed = panel.querySelectorAll('.card.collapsed');
+  collapsed.forEach(c => c.classList.remove('collapsed'));
+
+  showToast('Gerando PDF...');
+  const opt = {
+    margin: [10, 10, 10, 10],
+    filename: fileName,
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+  html2pdf().set(opt).from(panel).save().then(() => {
+    // Restore collapsed state
+    collapsed.forEach(c => c.classList.add('collapsed'));
+    showToast('PDF exportado com sucesso!');
+  }).catch(() => {
+    collapsed.forEach(c => c.classList.add('collapsed'));
+    showToast('Erro ao gerar PDF. Tentando impressão...');
+    document.body.classList.add('pdf-export');
+    window.print();
+    setTimeout(() => document.body.classList.remove('pdf-export'), 1000);
+  });
 }
 
 /* ─── INIT ─── */
 async function initApp() {
   try { if (localStorage.getItem('ip3_dark')==='true') document.documentElement.dataset.theme = 'dark'; } catch {}
   TIMELINE = JSON.parse(JSON.stringify(DEFAULT_TIMELINE));
-  buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
-  buildGallery(); buildResultados(); buildTimeline();
-  renderApprovalState(); restoreCardStates();
+
+  // Show skeleton loading while data loads
+  document.querySelectorAll('.card-body').forEach(el => {
+    if (!el.children.length) el.innerHTML = '<div class="skeleton skeleton-card"></div>';
+  });
+
+  // Setup modal close on backdrop click and Escape key
   document.querySelectorAll('.modal-bg').forEach(m => {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
   });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      const open = document.querySelector('.modal-bg.open');
+      if (open) { open.classList.remove('open'); e.preventDefault(); }
+    }
+  });
+
+  // Initialize Lucide icons
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch {} }
+
+  restoreCardStates();
   Router.init();
+
+  // Load data FIRST, then render once (fixes double render)
   await loadData();
-  buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
+  buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
   buildGallery(); buildResultados(); buildTimeline();
   if (MONTH_NOTE) { const el = document.getElementById('monthNote'); if (el) el.value = MONTH_NOTE; }
   renderApprovalState();
+  // Re-render Lucide icons for dynamically generated content
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch {} }
   await updateNotifBadge();
   setupRealtimeNotifications();
   await checkLGPD();
@@ -1058,8 +1114,8 @@ async function logSession() {
     const user = Auth.user?.user || 'unknown';
     const role = Auth.user?.role || 'unknown';
     await API.addActivity(
-      `${Auth.user?.name || 'Usuario'} acessou o portal.`,
-      Auth.user?.name || 'Usuario'
+      `${Auth.user?.name || 'Usuário'} acessou o portal.`,
+      Auth.user?.name || 'Usuário'
     );
   } catch {}
 }
@@ -1067,6 +1123,8 @@ async function logSession() {
 /* ─── BOOT ─── */
 (function boot() {
   try { if (localStorage.getItem('ip3_dark')==='true') document.documentElement.dataset.theme = 'dark'; } catch {}
+  // Initialize Lucide icons on page load (landing + auth)
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch {} }
   const hasSession = Auth.checkSession();
   if (hasSession) {
     Auth.applyRole();

@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>It's Power × SrChZ — Portal do Projeto</title>
-<meta name="description" content="Portal do cliente — Academia ITS Power × SrChZ Technologies. Gestao de conteudo digital, calendario editorial, feedback e acompanhamento de projeto.">
+<meta name="description" content="Portal do cliente — Academia ITS Power × SrChZ Technologies. Gestão de conteúdo digital, calendário editorial, feedback e acompanhamento de projeto.">
 <meta name="theme-color" content="#0F172A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <!-- Open Graph -->
 <meta property="og:title" content="It's Power × SrChZ — Portal do Projeto">
-<meta property="og:description" content="Portal de gestao de conteudo digital da Academia ITS Power. Calendario editorial, feedback em tempo real e acompanhamento de projeto.">
+<meta property="og:description" content="Portal de gestão de conteúdo digital da Academia ITS Power. Calendário editorial, feedback em tempo real e acompanhamento de projeto.">
 <meta property="og:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
 <meta property="og:url" content="https://websrchz.github.io/its-power-hub/">
 <meta property="og:type" content="website">
@@ -18,7 +18,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="It's Power × SrChZ — Portal do Projeto">
-<meta name="twitter:description" content="Portal de gestao de conteudo digital da Academia ITS Power.">
+<meta name="twitter:description" content="Portal de gestão de conteúdo digital da Academia ITS Power.">
 <meta name="twitter:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
 <!-- Favicon -->
 <link rel="icon" type="image/jpeg" href="assets/LogoItsPower.jpg">
@@ -28,8 +28,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260608e">
+<link rel="stylesheet" href="css/styles.css?v=20260609b">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -41,28 +43,28 @@
     <div class="landing-title">it's <em>power</em></div>
     <div class="landing-sub">Portal do Projeto · SrChZ Technologies</div>
     <p class="landing-desc">
-      Gestao de conteudo digital para a <strong>Academia ITS Power</strong>.
-      Calendario editorial, feedback em tempo real, acompanhamento de projeto
-      e resultados — tudo em um so lugar.
+      Gestão de conteúdo digital para a <strong>Academia ITS Power</strong>.
+      Calendário editorial, feedback em tempo real, acompanhamento de projeto
+      e resultados — tudo em um só lugar.
     </p>
     <div class="landing-features">
       <div class="landing-feat">
-        <div class="landing-feat-icon">&#128197;</div>
-        <div class="landing-feat-title">Calendario Editorial</div>
-        <div class="landing-feat-desc">Planejamento mensal com 3 pilares estrategicos</div>
+        <div class="landing-feat-icon"><i data-lucide="calendar"></i></div>
+        <div class="landing-feat-title">Calendário Editorial</div>
+        <div class="landing-feat-desc">Planejamento mensal com 3 pilares estratégicos</div>
       </div>
       <div class="landing-feat">
-        <div class="landing-feat-icon">&#11088;</div>
+        <div class="landing-feat-icon"><i data-lucide="star"></i></div>
         <div class="landing-feat-title">Feedback em Tempo Real</div>
-        <div class="landing-feat-desc">Avalie conteudos e acompanhe o progresso</div>
+        <div class="landing-feat-desc">Avalie conteúdos e acompanhe o progresso</div>
       </div>
       <div class="landing-feat">
-        <div class="landing-feat-icon">&#128202;</div>
+        <div class="landing-feat-icon"><i data-lucide="bar-chart-2"></i></div>
         <div class="landing-feat-title">Resultados</div>
-        <div class="landing-feat-desc">Metricas de engajamento e crescimento</div>
+        <div class="landing-feat-desc">Métricas de engajamento e crescimento</div>
       </div>
     </div>
-    <button class="landing-cta" onclick="showLoginFromLanding()">&#128274; Acessar Portal</button>
+    <button class="landing-cta" onclick="showLoginFromLanding()"><i data-lucide="lock"></i> Acessar Portal</button>
     <div class="landing-footer">
       <a href="https://instagram.com/websrchz" target="_blank">@websrchz</a> · SrChZ Technologies · 2026
     </div>
@@ -111,7 +113,7 @@
   </div>
   <div class="sb-phase">
     <div class="sb-phase-badge"><span class="sb-phase-badge-dot"></span> Fase Teste · Ativa</div>
-    <div class="admin-badge-sb">&#128275; Modo Admin · Rafael</div>
+    <div class="admin-badge-sb"><i data-lucide="shield-check"></i> Modo Admin · Rafael</div>
     <div class="sb-phase-title">Junho 2026 — Descoberta de Narrativa</div>
     <div class="sb-phase-sub">R$ 1.200 · 12 reels · Início 03/06</div>
   </div>
@@ -122,49 +124,49 @@
   <div class="sb-nav">
     <div class="sb-nav-section">Projeto</div>
     <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
-      <span class="nav-icon">&#127968;</span>
+      <span class="nav-icon"><i data-lucide="layout-dashboard"></i></span>
       <div class="nav-info"><div class="nav-label">Dashboard</div></div>
       <span class="nav-badge nb-new" id="actionsBadge" style="display:none">!</span>
     </button>
     <button class="nav-item" data-tab="calendario" onclick="switchTab('calendario')">
-      <span class="nav-icon">&#128197;</span>
+      <span class="nav-icon"><i data-lucide="calendar"></i></span>
       <div class="nav-info"><div class="nav-label">Calendário</div></div>
       <span class="nav-badge nb-info" id="pctJunho">0%</span>
     </button>
     <div class="sb-nav-section">Estratégia</div>
     <button class="nav-item" data-tab="pilares" onclick="switchTab('pilares')">
-      <span class="nav-icon">&#127919;</span>
+      <span class="nav-icon"><i data-lucide="target"></i></span>
       <div class="nav-info"><div class="nav-label">3 Pilares</div></div>
     </button>
     <div class="sb-nav-section">Crescimento</div>
     <button class="nav-item" data-tab="fases" onclick="switchTab('fases')">
-      <span class="nav-icon">&#128640;</span>
+      <span class="nav-icon"><i data-lucide="rocket"></i></span>
       <div class="nav-info"><div class="nav-label">Próximas Fases</div></div>
       <span class="nav-badge nb-new">Novo</span>
     </button>
     <div class="sb-nav-section">Resultados</div>
     <button class="nav-item" data-tab="resultados" onclick="switchTab('resultados')">
-      <span class="nav-icon">&#128200;</span>
+      <span class="nav-icon"><i data-lucide="trending-up"></i></span>
       <div class="nav-info"><div class="nav-label">Resultados</div></div>
       <span class="nav-badge nb-info">Novo</span>
     </button>
     <button class="nav-item" data-tab="galeria" onclick="switchTab('galeria')">
-      <span class="nav-icon">&#128247;</span>
+      <span class="nav-icon"><i data-lucide="camera"></i></span>
       <div class="nav-info"><div class="nav-label">Galeria</div></div>
     </button>
     <div class="sb-nav-section">Documentos</div>
     <button class="nav-item" data-tab="contrato" onclick="switchTab('contrato')">
-      <span class="nav-icon">&#128203;</span>
+      <span class="nav-icon"><i data-lucide="clipboard-list"></i></span>
       <div class="nav-info"><div class="nav-label">Contrato & Docs</div></div>
     </button>
     <button class="nav-item" onclick="window.open('its_power_videos_junho2026.html','_blank')">
-      <span class="nav-icon">&#127916;</span>
+      <span class="nav-icon"><i data-lucide="film"></i></span>
       <div class="nav-info"><div class="nav-label">Roteiros de Vídeo</div></div>
-      <span class="nav-badge nb-info">&#8599;</span>
+      <span class="nav-badge nb-info"><i data-lucide="external-link"></i></span>
     </button>
     <div class="sb-nav-section" style="margin-top:auto"></div>
     <button class="nav-item" onclick="toggleSidebarCollapse()" title="Recolher menu lateral">
-      <span class="nav-icon">&#11013;</span>
+      <span class="nav-icon"><i data-lucide="chevron-left"></i></span>
       <div class="nav-info"><div class="nav-label">Recolher Menu</div></div>
     </button>
   </div>
@@ -174,7 +176,7 @@
       <div class="sb-contact-info">
         <div class="sb-contact-name" id="sbContactName">Rafael Cordeiro</div>
         <div class="sb-contact-role" id="sbContactRole">SrChZ Technologies</div>
-        <div class="sb-contact-switch">&#128260; Trocar conta</div>
+        <div class="sb-contact-switch"><i data-lucide="repeat"></i> Trocar conta</div>
       </div>
     </div>
   </div>
@@ -183,45 +185,45 @@
 <!-- MAIN -->
 <div class="main">
   <div class="topbar">
-    <div style="display:flex;align-items:center;gap:12px">
-      <button class="ico-btn mob-menu" onclick="smartToggleSidebar()">&#9776;</button>
+    <div class="flex-center gap-12">
+      <button class="ico-btn mob-menu" onclick="smartToggleSidebar()" aria-label="Abrir menu lateral"><i data-lucide="menu"></i></button>
       <div class="tb-tabs">
-        <button class="tb-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">&#127968; Dashboard</button>
-        <button class="tb-tab" data-tab="calendario" onclick="switchTab('calendario')">&#128197; Calendário</button>
-        <button class="tb-tab" data-tab="pilares" onclick="switchTab('pilares')">&#127919; Pilares</button>
-        <button class="tb-tab" data-tab="fases" onclick="switchTab('fases')">&#128640; Fases</button>
-        <button class="tb-tab" data-tab="resultados" onclick="switchTab('resultados')">&#128200; Resultados</button>
-        <button class="tb-tab" data-tab="galeria" onclick="switchTab('galeria')">&#128247; Galeria</button>
-        <button class="tb-tab" data-tab="contrato" onclick="switchTab('contrato')">&#128203; Contrato</button>
+        <button class="tb-tab active" data-tab="dashboard" onclick="switchTab('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+        <button class="tb-tab" data-tab="calendario" onclick="switchTab('calendario')"><i data-lucide="calendar"></i> Calendário</button>
+        <button class="tb-tab" data-tab="pilares" onclick="switchTab('pilares')"><i data-lucide="target"></i> Pilares</button>
+        <button class="tb-tab" data-tab="fases" onclick="switchTab('fases')"><i data-lucide="rocket"></i> Fases</button>
+        <button class="tb-tab" data-tab="resultados" onclick="switchTab('resultados')"><i data-lucide="trending-up"></i> Resultados</button>
+        <button class="tb-tab" data-tab="galeria" onclick="switchTab('galeria')"><i data-lucide="camera"></i> Galeria</button>
+        <button class="tb-tab" data-tab="contrato" onclick="switchTab('contrato')"><i data-lucide="clipboard-list"></i> Contrato</button>
       </div>
     </div>
     <div class="tb-right">
-      <button onclick="openClientReqModal()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:10px;border:1.5px solid var(--orange);background:var(--orange-light);color:var(--orange);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font);box-shadow:var(--shadow-sm)" title="Enviar pedido ou observação">&#128236; <span>Pedido</span></button>
-      <button class="ico-btn admin-ctrl" onclick="document.getElementById('adminActModal').classList.add('open')" title="Registrar atividade" style="font-size:14px">&#128225;</button>
+      <button class="tb-request-btn" onclick="openClientReqModal()" title="Enviar pedido ou observação"><i data-lucide="mail-plus"></i> <span>Pedido</span></button>
+      <button class="ico-btn admin-ctrl" onclick="document.getElementById('adminActModal').classList.add('open')" title="Registrar atividade"><i data-lucide="radio"></i></button>
       <div class="notif-wrap">
-        <button class="notif-bell" onclick="toggleNotifPanel()" title="Notificacoes">&#128276;<span class="notif-count" id="notifCount" style="display:none">0</span></button>
+        <button class="notif-bell" onclick="toggleNotifPanel()" title="Notificações" aria-label="Notificações"><i data-lucide="bell"></i><span class="notif-count" id="notifCount" style="display:none">0</span></button>
         <div class="notif-panel" id="notifPanel">
           <div class="notif-hdr">
-            <span class="notif-hdr-title">Notificacoes</span>
+            <span class="notif-hdr-title">Notificações</span>
             <button class="notif-mark-read" onclick="markAllNotifRead()">Marcar todas como lidas</button>
           </div>
           <div class="notif-list" id="notifList">
-            <div class="notif-empty">Nenhuma notificacao ainda.</div>
+            <div class="notif-empty">Nenhuma notificação ainda.</div>
           </div>
         </div>
       </div>
-      <div id="connStatus" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:default;box-shadow:var(--shadow-sm)" title="Status da conexão">
-        <span class="conn-dot" style="width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;transition:background .3s"></span>
-        <span class="conn-label" style="font-size:10px;font-weight:600;color:var(--muted);white-space:nowrap">Conectando...</span>
+      <div class="conn-badge" id="connStatus" title="Status da conexão">
+        <span class="conn-dot"></span>
+        <span class="conn-label">Conectando...</span>
       </div>
-      <button class="ico-btn" onclick="toggleDark()" title="Tema">&#127769;</button>
-      <button class="ico-btn" onclick="exportPDF()" title="Exportar PDF">&#128196;</button>
+      <button class="ico-btn" onclick="toggleDark()" title="Tema" aria-label="Alternar tema claro/escuro"><i data-lucide="moon"></i></button>
+      <button class="ico-btn" onclick="exportPDF()" title="Exportar PDF" aria-label="Exportar como PDF"><i data-lucide="file-text"></i></button>
     </div>
   </div>
 
   <!-- BREADCRUMB / BACK NAV -->
   <div class="breadcrumb-bar">
-    <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none">&#8592; Voltar</button>
+    <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none"><i data-lucide="arrow-left"></i> Voltar</button>
     <span class="breadcrumb-sep">&#187;</span>
     <span class="breadcrumb-text" id="breadcrumb">Dashboard</span>
   </div>
@@ -237,8 +239,8 @@
           <div class="hero-title">Junho 2026 — Descoberta de Narrativa</div>
           <div class="hero-sub">Identificando quais conteúdos geram maior alcance, engajamento e percepção de valor para a ITS Power. Ao fim do mês, apresentamos os resultados e a recomendação para a próxima fase.</div>
           <div class="hero-actions">
-            <button class="btn btn-white" onclick="switchTab('calendario')">&#128197; Ver calendário</button>
-            <button class="btn btn-ghost-white" onclick="switchTab('fases')">&#128640; Ver próximas fases</button>
+            <button class="btn btn-white" onclick="switchTab('calendario')"><i data-lucide="calendar"></i> Ver calendário</button>
+            <button class="btn btn-ghost-white" onclick="switchTab('fases')"><i data-lucide="rocket"></i> Ver próximas fases</button>
           </div>
         </div>
         <div class="hero-right">
@@ -257,7 +259,7 @@
 
       <div class="grid-2">
         <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Progresso de Publicação</div></div>
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="bar-chart-2"></i></span>Progresso de Publicação</div></div>
           <div class="card-body">
             <div style="display:flex;justify-content:center;gap:32px;margin-bottom:20px">
               <div class="ring-wrap">
@@ -288,7 +290,7 @@
         </div>
 
         <div class="card" id="card-etapas">
-          <div class="card-hdr collapsible" onclick="toggleCard('card-etapas')"><div class="card-title"><span class="card-title-icon">&#128197;</span>Etapas do Projeto</div><span class="card-collapse-arrow">&#9660;</span></div>
+          <div class="card-hdr collapsible" onclick="toggleCard('card-etapas')"><div class="card-title"><span class="card-title-icon"><i data-lucide="calendar-check"></i></span>Etapas do Projeto</div><span class="card-collapse-arrow">&#9660;</span></div>
           <div class="card-summary" id="etapasSummary"></div>
           <div class="card-body">
             <div class="timeline" id="timelineContainer"></div>
@@ -298,7 +300,7 @@
 
       <div class="approval-card" id="approvalCard">
         <div class="approval-info">
-          <div class="lbl">&#128640; Próxima etapa disponível</div>
+          <div class="lbl"><i data-lucide="rocket"></i> Próxima etapa disponível</div>
           <div class="ttl">Aprovar continuidade com o Plano Essencial</div>
           <div class="sub">Após a reunião de alinhamento ao fim de junho, confirme aqui para ativar o Plano Essencial.</div>
         </div>
@@ -306,13 +308,13 @@
           <div class="approval-price">R$ 2.800</div>
           <div class="approval-price-l">por mês · Plano Essencial</div>
           <div style="display:flex;gap:10px">
-            <button class="btn btn-white" onclick="approvePhase('essencial')">&#10003; Aprovar Essencial</button>
+            <button class="btn btn-white" onclick="approvePhase('essencial')"><i data-lucide="check"></i> Aprovar Essencial</button>
             <button class="btn btn-ghost-white" onclick="switchTab('fases')">Ver detalhes</button>
           </div>
         </div>
       </div>
-      <div style="display:none;background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:var(--r-lg);padding:18px 28px;align-items:center;gap:16px;box-shadow:0 4px 16px rgba(16,185,129,.2)" id="approvedCard">
-        <span style="font-size:26px">&#9989;</span>
+      <div class="info-banner" id="approvedCard" style="display:none;background:linear-gradient(135deg,var(--green-dark),var(--green));border-color:transparent;box-shadow:0 4px 16px rgba(16,185,129,.2)">
+        <span style="font-size:26px"><i data-lucide="check-circle"></i></span>
         <div>
           <div style="font-size:15px;font-weight:700;color:#fff;font-family:var(--font-heading)">Plano Essencial aprovado!</div>
           <div style="font-size:11.5px;color:rgba(255,255,255,.75);margin-top:4px;line-height:1.6">Parabéns! O próximo ciclo está confirmado. Rafael entrará em contato para agendar a reunião de início.</div>
@@ -321,14 +323,14 @@
 
       <div class="card" id="card-feedback">
         <div class="card-hdr collapsible" onclick="toggleCard('card-feedback')">
-          <div class="card-title"><span class="card-title-icon">&#11088;</span>Feedback dos Conteúdos</div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="card-badge" style="background:var(--purple-light);color:var(--purple-dark)">Interativo — avalie aqui</span>
+          <div class="card-title"><span class="card-title-icon"><i data-lucide="star"></i></span>Feedback dos Conteúdos</div>
+          <div class="flex-center gap-8">
+            <span class="card-badge card-badge-interactive">Interativo — avalie aqui</span>
             <span class="card-collapse-arrow">&#9660;</span>
           </div>
         </div>
         <div class="card-body">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.6">Avalie cada post planejado e deixe comentários. Seu feedback guia os próximos conteúdos.</p>
+          <p class="text-helper">Avalie cada post planejado e deixe comentários. Seu feedback guia os próximos conteúdos.</p>
           <div class="grid-2" id="feedbackGrid"></div>
         </div>
       </div>
@@ -336,9 +338,9 @@
       <div class="grid-2">
         <div class="card" id="card-pedidos">
           <div class="card-hdr collapsible" onclick="toggleCard('card-pedidos',event)">
-            <div class="card-title"><span class="card-title-icon">&#128204;</span>Pedidos & Ações</div>
-            <div style="display:flex;gap:6px;align-items:center">
-              <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--orange);color:#fff;border-radius:8px" onclick="event.stopPropagation();document.getElementById('adminReqModal').classList.add('open')">&#10133; Criar pedido</button>
+            <div class="card-title"><span class="card-title-icon"><i data-lucide="pin"></i></span>Pedidos & Ações</div>
+            <div class="flex-center gap-6">
+              <button class="btn admin-ctrl card-hdr-action card-hdr-action-orange" onclick="event.stopPropagation();document.getElementById('adminReqModal').classList.add('open')"><i data-lucide="plus"></i> Criar pedido</button>
               <span class="card-collapse-arrow">&#9660;</span>
             </div>
           </div>
@@ -347,9 +349,9 @@
 
         <div class="card" id="card-atividade">
           <div class="card-hdr collapsible" onclick="toggleCard('card-atividade',event)">
-            <div class="card-title"><span class="card-title-icon">&#128225;</span>Atividade Recente</div>
-            <div style="display:flex;gap:6px;align-items:center">
-              <button class="btn admin-ctrl" style="font-size:10px;padding:6px 12px;background:var(--purple);color:#fff;border-radius:8px" onclick="event.stopPropagation();document.getElementById('adminActModal').classList.add('open')">&#128225; Registrar</button>
+            <div class="card-title"><span class="card-title-icon"><i data-lucide="radio"></i></span>Atividade Recente</div>
+            <div class="flex-center gap-6">
+              <button class="btn admin-ctrl card-hdr-action card-hdr-action-purple" onclick="event.stopPropagation();document.getElementById('adminActModal').classList.add('open')"><i data-lucide="radio"></i> Registrar</button>
               <span class="card-collapse-arrow">&#9660;</span>
             </div>
           </div>
@@ -359,16 +361,16 @@
 
       <div class="card" id="card-notas">
         <div class="card-hdr collapsible" onclick="toggleCard('card-notas')">
-          <div class="card-title"><span class="card-title-icon">&#128172;</span>Notas do Mês</div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-size:10px;color:var(--muted);font-weight:500">Salvo automaticamente</span>
+          <div class="card-title"><span class="card-title-icon"><i data-lucide="message-circle"></i></span>Notas do Mês</div>
+          <div class="flex-center gap-8">
+            <span class="text-auto-save">Salvo automaticamente</span>
             <span class="card-collapse-arrow">&#9660;</span>
           </div>
         </div>
         <div class="card-body">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6">Use este espaço para registrar decisões, ajustes ou qualquer anotação importante.</p>
-          <textarea id="monthNote" style="width:100%;min-height:110px;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--text);background:var(--surface2);resize:vertical;font-family:var(--font);line-height:1.6;transition:all .2s" placeholder="Ex: decidimos não publicar aos domingos..." oninput="saveMonthNote(this.value)" onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px rgba(37,99,235,.1)'" onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'"></textarea>
-          <div style="font-size:9px;color:var(--muted);margin-top:8px;font-weight:500" id="noteSavedLbl"></div>
+          <p class="text-helper" style="margin-bottom:12px">Use este espaço para registrar decisões, ajustes ou qualquer anotação importante.</p>
+          <textarea id="monthNote" class="textarea-notes" placeholder="Ex: decidimos não publicar aos domingos..." oninput="saveMonthNote(this.value)"></textarea>
+          <div class="text-auto-save" style="margin-top:8px" id="noteSavedLbl"></div>
         </div>
       </div>
 
@@ -376,10 +378,10 @@
 
     <!-- TAB: JUNHO -->
     <div class="tab-panel" id="panel-calendario">
-      <div style="background:linear-gradient(135deg,#1E3A5F 0%,#0F172A 50%,#1E293B 100%);border-radius:var(--r-lg);padding:24px 28px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
-        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Planejamento de Conteúdo</div>
-        <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:5px;font-family:var(--font-heading)">Calendário Editorial</div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Selecione um mês para ver o calendário, posts e cronograma editorial completo.</div>
+      <div class="section-hdr" style="background:linear-gradient(135deg,#1E3A5F 0%,#0F172A 50%,#1E293B 100%)">
+        <div class="section-hdr-label">Planejamento de Conteúdo</div>
+        <div class="section-hdr-title" style="font-size:22px">Calendário Editorial</div>
+        <div class="section-hdr-desc">Selecione um mês para ver o calendário, posts e cronograma editorial completo.</div>
       </div>
 
       <!-- ═══ MÊS: JUNHO 2026 ═══ -->
@@ -399,15 +401,15 @@
           </div>
         </div>
         <div class="month-content">
-          <div style="background:linear-gradient(135deg,#4C1D95,var(--purple),#7C3AED);border-radius:var(--r-lg);padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 4px 16px rgba(124,58,237,.15)">
+          <div class="month-hero" style="background:linear-gradient(135deg,#4C1D95,var(--purple),#7C3AED)">
             <div>
               <span class="tag tag-purple" style="margin-bottom:8px;display:inline-flex">&#9679; Fase Teste</span>
-              <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;font-family:var(--font-heading)">Junho 2026 — Descoberta de Narrativa</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65)">12 reels · Início 03/06 · 3 pilares · 3×/semana</div>
+              <div class="month-hero-title">Junho 2026 — Descoberta de Narrativa</div>
+              <div class="month-hero-sub">12 reels · Início 03/06 · 3 pilares · 3×/semana</div>
             </div>
-            <div style="text-align:right;flex-shrink:0">
-              <div style="font-size:28px;font-weight:800;color:#fff;font-family:var(--font-heading)">R$ 1.200</div>
-              <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-weight:600">Honorário — mês único</div>
+            <div class="text-right shrink-0">
+              <div class="month-hero-price">R$ 1.200</div>
+              <div class="month-hero-price-sub">Honorário — mês único</div>
             </div>
           </div>
 
@@ -418,19 +420,19 @@
             <div class="stat-card orange"><div class="stat-n">2</div><div class="stat-label">Datas especiais</div></div>
           </div>
 
-          <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px">
-            <div style="font-size:12px;color:var(--text)">&#127916; <strong>12 roteiros detalhados</strong> com cortes, checklists de produção, legendas e stories.</div>
-            <a href="its_power_videos_junho2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros &#8594;</a>
+          <div class="roteiros-banner">
+            <div style="font-size:12px;color:var(--text)"><i data-lucide="film"></i> <strong>12 roteiros detalhados</strong> com cortes, checklists de produção, legendas e stories.</div>
+            <a href="its_power_videos_junho2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros <i data-lucide="arrow-right"></i></a>
           </div>
 
           <div class="card" id="card-calendario">
-            <div class="card-hdr collapsible" onclick="toggleCard('card-calendario')"><div class="card-title"><span class="card-title-icon">&#128198;</span>Calendário de Publicações</div><span class="card-collapse-arrow">&#9660;</span></div>
+            <div class="card-hdr collapsible" onclick="toggleCard('card-calendario')"><div class="card-title"><span class="card-title-icon"><i data-lucide="calendar-days"></i></span>Calendário de Publicações</div><span class="card-collapse-arrow">&#9660;</span></div>
             <div id="calJunho"></div>
           </div>
 
           <div class="card" id="card-posts">
             <div class="card-hdr collapsible" onclick="toggleCard('card-posts')">
-              <div class="card-title"><span class="card-title-icon">&#128221;</span>Posts — Junho 2026</div>
+              <div class="card-title"><span class="card-title-icon"><i data-lucide="file-text"></i></span>Posts — Junho 2026</div>
               <div style="display:flex;gap:6px;align-items:center">
                 <span class="tag tag-blue">&#127942; Autoridade</span>
                 <span class="tag tag-green">&#129309; Conexão</span>
@@ -442,7 +444,7 @@
           </div>
 
           <div class="cron-toggle" onclick="toggleCron('junho')">
-            <div class="cron-toggle-label">&#128203; Cronograma Editorial Completo — Junho 2026</div>
+            <div class="cron-toggle-label"><i data-lucide="clipboard-list"></i> Cronograma Editorial Completo — Junho 2026</div>
             <span class="cron-arrow" id="cron-arrow-junho">&#9660;</span>
           </div>
           <div class="cron-frame-wrap" id="cron-wrap-junho">
@@ -453,109 +455,109 @@
 
       <!-- Placeholder: próximos meses -->
       <div class="card months-coming">
-        <div class="card-body" style="text-align:center;padding:32px 20px">
-          <div style="font-size:32px;margin-bottom:10px;opacity:.4">&#128197;</div>
-          <div style="font-size:14px;font-weight:700;color:var(--heading);margin-bottom:6px">Próximos meses</div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.6">Conforme novos meses forem planejados, eles aparecerão aqui.</div>
+        <div class="card-body months-placeholder">
+          <div class="months-placeholder-icon"><i data-lucide="calendar-plus"></i></div>
+          <div class="months-placeholder-title">Próximos meses</div>
+          <div class="months-placeholder-desc">Conforme novos meses forem planejados, eles aparecerão aqui.</div>
         </div>
       </div>
     </div>
 
     <!-- TAB: 3 PILARES -->
     <div class="tab-panel" id="panel-pilares">
-      <div style="background:linear-gradient(135deg,#1E3A5F 0%,#0F172A 50%,#1E293B 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
-        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Metodologia de Conteúdo</div>
-        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Os 3 Pilares Estratégicos</div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Cada conteúdo da ITS Power é baseado em um dos três pilares do <strong style="color:var(--orange)">Ecossistema de Desejo</strong>.</div>
+      <div class="section-hdr" style="background:linear-gradient(135deg,#1E3A5F 0%,#0F172A 50%,#1E293B 100%)">
+        <div class="section-hdr-label">Metodologia de Conteúdo</div>
+        <div class="section-hdr-title">Os 3 Pilares Estratégicos</div>
+        <div class="section-hdr-desc">Cada conteúdo da ITS Power é baseado em um dos três pilares do <strong>Ecossistema de Desejo</strong>.</div>
       </div>
 
       <div class="grid-3">
         <div class="card" style="border-top:3px solid var(--blue)">
-          <div class="card-body" style="text-align:center;padding:28px 20px">
-            <div style="font-size:42px;margin-bottom:12px">&#127942;</div>
-            <div style="font-size:18px;font-weight:800;color:var(--blue);margin-bottom:4px;font-family:var(--font-heading)">Autoridade</div>
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;font-weight:600">Pilar A · Confiança</div>
-            <div style="font-size:12.5px;color:var(--text);line-height:1.7;text-align:left">
-              <p style="margin-bottom:10px">Conteúdos que mostram <strong>conhecimento técnico</strong>, resultados concretos e experiência real.</p>
-              <div style="background:var(--blue-light);border-radius:var(--r);padding:12px;margin-top:8px">
-                <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Exemplos</div>
-                <div style="font-size:11px;color:var(--text);line-height:1.6">&#8226; Dicas de treino e nutrição<br>&#8226; Resultados de alunos<br>&#8226; Explicações técnicas<br>&#8226; Bastidores profissionais</div>
+          <div class="card-body pillar-detail-body">
+            <div class="pillar-icon-lg">&#127942;</div>
+            <div class="pillar-title-lg" style="color:var(--blue)">Autoridade</div>
+            <div class="pillar-subtitle">Pilar A · Confiança</div>
+            <div class="pillar-content">
+              <p>Conteúdos que mostram <strong>conhecimento técnico</strong>, resultados concretos e experiência real.</p>
+              <div class="pillar-examples" style="background:var(--blue-light)">
+                <div class="pillar-examples-label" style="color:var(--blue)">Exemplos</div>
+                <div class="pillar-examples-list">&#8226; Dicas de treino e nutrição<br>&#8226; Resultados de alunos<br>&#8226; Explicações técnicas<br>&#8226; Bastidores profissionais</div>
               </div>
             </div>
-            <div style="margin-top:14px"><span class="tag tag-blue">4 reels em junho</span></div>
+            <div class="pillar-tag-wrap"><span class="tag tag-blue">4 reels em junho</span></div>
           </div>
         </div>
         <div class="card" style="border-top:3px solid var(--green)">
-          <div class="card-body" style="text-align:center;padding:28px 20px">
-            <div style="font-size:42px;margin-bottom:12px">&#129309;</div>
-            <div style="font-size:18px;font-weight:800;color:var(--green);margin-bottom:4px;font-family:var(--font-heading)">Conexão</div>
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;font-weight:600">Pilar C · Proximidade</div>
-            <div style="font-size:12.5px;color:var(--text);line-height:1.7;text-align:left">
-              <p style="margin-bottom:10px">Conteúdos que criam <strong>vínculo emocional</strong> com o público.</p>
-              <div style="background:var(--green-light);border-radius:var(--r);padding:12px;margin-top:8px">
-                <div style="font-size:10px;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Exemplos</div>
-                <div style="font-size:11px;color:var(--text);line-height:1.6">&#8226; Depoimentos reais<br>&#8226; Dia a dia da academia<br>&#8226; Aluno em destaque<br>&#8226; Momentos descontraídos</div>
+          <div class="card-body pillar-detail-body">
+            <div class="pillar-icon-lg">&#129309;</div>
+            <div class="pillar-title-lg" style="color:var(--green)">Conexão</div>
+            <div class="pillar-subtitle">Pilar C · Proximidade</div>
+            <div class="pillar-content">
+              <p>Conteúdos que criam <strong>vínculo emocional</strong> com o público.</p>
+              <div class="pillar-examples" style="background:var(--green-light)">
+                <div class="pillar-examples-label" style="color:var(--green-dark)">Exemplos</div>
+                <div class="pillar-examples-list">&#8226; Depoimentos reais<br>&#8226; Dia a dia da academia<br>&#8226; Aluno em destaque<br>&#8226; Momentos descontraídos</div>
               </div>
             </div>
-            <div style="margin-top:14px"><span class="tag" style="background:var(--green-light);color:var(--green-dark)">6 reels em junho</span></div>
+            <div class="pillar-tag-wrap"><span class="tag" style="background:var(--green-light);color:var(--green-dark)">6 reels em junho</span></div>
           </div>
         </div>
         <div class="card" style="border-top:3px solid var(--orange)">
-          <div class="card-body" style="text-align:center;padding:28px 20px">
-            <div style="font-size:42px;margin-bottom:12px">&#127919;</div>
-            <div style="font-size:18px;font-weight:800;color:var(--orange);margin-bottom:4px;font-family:var(--font-heading)">Conversão</div>
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;font-weight:600">Pilar V · Ação</div>
-            <div style="font-size:12.5px;color:var(--text);line-height:1.7;text-align:left">
-              <p style="margin-bottom:10px">Conteúdos com <strong>chamada para ação direta</strong>.</p>
-              <div style="background:var(--orange-light);border-radius:var(--r);padding:12px;margin-top:8px">
-                <div style="font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Exemplos</div>
-                <div style="font-size:11px;color:var(--text);line-height:1.6">&#8226; Promoções especiais<br>&#8226; Tour pela academia<br>&#8226; Aula experimental<br>&#8226; Comparativos</div>
+          <div class="card-body pillar-detail-body">
+            <div class="pillar-icon-lg">&#127919;</div>
+            <div class="pillar-title-lg" style="color:var(--orange)">Conversão</div>
+            <div class="pillar-subtitle">Pilar V · Ação</div>
+            <div class="pillar-content">
+              <p>Conteúdos com <strong>chamada para ação direta</strong>.</p>
+              <div class="pillar-examples" style="background:var(--orange-light)">
+                <div class="pillar-examples-label" style="color:var(--orange)">Exemplos</div>
+                <div class="pillar-examples-list">&#8226; Promoções especiais<br>&#8226; Tour pela academia<br>&#8226; Aula experimental<br>&#8226; Comparativos</div>
               </div>
             </div>
-            <div style="margin-top:14px"><span class="tag" style="background:var(--orange-light);color:var(--orange)">2 reels em junho</span></div>
+            <div class="pillar-tag-wrap"><span class="tag" style="background:var(--orange-light);color:var(--orange)">2 reels em junho</span></div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Distribuição dos Pilares</div></div>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="pie-chart"></i></span>Distribuição dos Pilares</div></div>
         <div class="card-body">
-          <div style="display:flex;gap:6px;height:28px;border-radius:8px;overflow:hidden;margin-bottom:14px">
-            <div style="flex:4;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">33%</div>
-            <div style="flex:6;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">50%</div>
-            <div style="flex:2;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">17%</div>
+          <div class="dist-bar">
+            <div class="dist-segment" style="flex:4;background:var(--blue)">33%</div>
+            <div class="dist-segment" style="flex:6;background:var(--green)">50%</div>
+            <div class="dist-segment" style="flex:2;background:var(--orange)">17%</div>
           </div>
-          <div style="display:flex;justify-content:center;gap:20px;font-size:11px;color:var(--text)">
-            <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--blue);margin-right:5px;vertical-align:middle"></span>Autoridade (4)</span>
-            <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--green);margin-right:5px;vertical-align:middle"></span>Conexão (6)</span>
-            <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--orange);margin-right:5px;vertical-align:middle"></span>Conversão (2)</span>
+          <div class="dist-legend">
+            <span><span class="dist-dot" style="background:var(--blue)"></span>Autoridade (4)</span>
+            <span><span class="dist-dot" style="background:var(--green)"></span>Conexão (6)</span>
+            <span><span class="dist-dot" style="background:var(--orange)"></span>Conversão (2)</span>
           </div>
-          <div style="margin-top:16px;padding:14px 16px;background:var(--surface2);border-radius:var(--r);font-size:12px;color:var(--text);line-height:1.6">
+          <div class="dist-note">
             <strong style="color:var(--heading)">Por que essa proporção?</strong> Na Fase Teste, priorizamos <span style="color:var(--green);font-weight:600">Conexão</span> (50%) para criar vínculo emocional, reforçada por <span style="color:var(--blue);font-weight:600">Autoridade</span> (33%) para construir confiança — antes de converter.
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128279;</span>Pilares × Ecossistema de Desejo</div></div>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="link"></i></span>Pilares × Ecossistema de Desejo</div></div>
         <div class="card-body">
-          <div style="font-size:12.5px;color:var(--text);line-height:1.7">
-            <p style="margin-bottom:12px">O <strong>Ecossistema de Desejo</strong> é a metodologia que conecta os três pilares numa jornada contínua:</p>
-            <div style="display:flex;flex-direction:column;gap:10px;margin:14px 0">
-              <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--blue-light);border-radius:var(--r);border-left:3px solid var(--blue)">
-                <span style="font-size:20px">1&#65039;&#8419;</span>
+          <div class="pillar-content">
+            <p>O <strong>Ecossistema de Desejo</strong> é a metodologia que conecta os três pilares numa jornada contínua:</p>
+            <div class="flex-col gap-10" style="margin:14px 0">
+              <div class="eco-step" style="background:var(--blue-light);border-left:3px solid var(--blue)">
+                <span class="eco-step-num">1&#65039;&#8419;</span>
                 <div><strong style="color:var(--blue)">Autoridade</strong> atrai → o seguidor descobre a ITS Power e reconhece competência</div>
               </div>
-              <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--green-light);border-radius:var(--r);border-left:3px solid var(--green)">
-                <span style="font-size:20px">2&#65039;&#8419;</span>
+              <div class="eco-step" style="background:var(--green-light);border-left:3px solid var(--green)">
+                <span class="eco-step-num">2&#65039;&#8419;</span>
                 <div><strong style="color:var(--green-dark)">Conexão</strong> engaja → o seguidor se identifica, interage, cria vínculo emocional</div>
               </div>
-              <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--orange-light);border-radius:var(--r);border-left:3px solid var(--orange)">
-                <span style="font-size:20px">3&#65039;&#8419;</span>
+              <div class="eco-step" style="background:var(--orange-light);border-left:3px solid var(--orange)">
+                <span class="eco-step-num">3&#65039;&#8419;</span>
                 <div><strong style="color:var(--orange)">Conversão</strong> ativa → o seguidor vira aluno matriculado</div>
               </div>
             </div>
-            <p style="font-size:11px;color:var(--muted);margin-top:8px">O ciclo se repete: alunos matriculados geram mais conteúdo de conexão, que reforça a autoridade, que alimenta novas conversões.</p>
+            <p class="eco-note">O ciclo se repete: alunos matriculados geram mais conteúdo de conexão, que reforça a autoridade, que alimenta novas conversões.</p>
           </div>
         </div>
       </div>
@@ -563,10 +565,10 @@
 
     <!-- TAB: PRÓXIMAS FASES -->
     <div class="tab-panel" id="panel-fases">
-      <div style="background:linear-gradient(135deg,#0F172A 0%,#1E3A5F 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
-        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Crescimento planejado</div>
-        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Do teste à performance — os próximos passos</div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Após a Fase Teste de junho, a parceria evolui seguindo o contrato 001/2026.</div>
+      <div class="section-hdr" style="background:linear-gradient(135deg,#0F172A 0%,#1E3A5F 100%)">
+        <div class="section-hdr-label">Crescimento planejado</div>
+        <div class="section-hdr-title">Do teste à performance — os próximos passos</div>
+        <div class="section-hdr-desc">Após a Fase Teste de junho, a parceria evolui seguindo o contrato 001/2026.</div>
       </div>
 
       <div class="grid-3">
@@ -578,12 +580,12 @@
             <span class="tag tag-purple" style="margin-top:10px;display:inline-flex">&#9679; Ativa agora</span>
           </div>
           <div class="plan-body">
-            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>12 reels em junho</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Roteirização completa</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>3 pilares estratégicos</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Captação interna (vida real)</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Relatório de descoberta</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#9989;</span>Reunião de alinhamento final</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="check"></i></span>12 reels em junho</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="check"></i></span>Roteirização completa</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="check"></i></span>3 pilares estratégicos</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="check"></i></span>Captação interna (vida real)</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="check"></i></span>Relatório de descoberta</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="check"></i></span>Reunião de alinhamento final</div>
           </div>
         </div>
         <div class="plan-card featured">
@@ -594,45 +596,45 @@
             <span class="tag" style="background:rgba(255,255,255,.15);color:#fff;margin-top:10px;display:inline-flex">Recomendado</span>
           </div>
           <div class="plan-body">
-            <div class="plan-feature"><span class="plan-feature-icon">&#127916;</span>12 vídeos/mês</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#9997;</span>Roteirização + Captação + Edição</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#128197;</span>Planejamento editorial mensal</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#128241;</span>Suporte a stories</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#129309;</span>Reunião mensal</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#128202;</span>Relatório de desempenho</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="video"></i></span>12 vídeos/mês</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="pen-tool"></i></span>Roteirização + Captação + Edição</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="calendar"></i></span>Planejamento editorial mensal</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="smartphone"></i></span>Suporte a stories</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="users"></i></span>Reunião mensal</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="bar-chart-2"></i></span>Relatório de desempenho</div>
           </div>
-          <div class="plan-cta"><button id="planBtnEssencial" class="btn btn-primary" style="width:100%;justify-content:center" onclick="approvePhase('essencial')">&#10003; Aprovar Plano Essencial</button></div>
+          <div class="plan-cta"><button id="planBtnEssencial" class="btn btn-primary" style="width:100%;justify-content:center" onclick="approvePhase('essencial')"><i data-lucide="check"></i> Aprovar Plano Essencial</button></div>
         </div>
         <div class="plan-card">
           <div class="plan-hdr" style="background:linear-gradient(135deg,#92400E,var(--orange))">
             <div class="plan-name" style="color:rgba(255,255,255,.8)">Plano Growth</div>
             <div class="plan-price" style="color:#fff">R$ 4.500</div>
             <div class="plan-price-sub" style="color:rgba(255,255,255,.65)">por mês · Mês 5+</div>
-            <span class="tag" style="background:rgba(255,255,255,.12);color:#fff;margin-top:10px;display:inline-flex">&#128274; Após Essencial</span>
+            <span class="tag" style="background:rgba(255,255,255,.12);color:#fff;margin-top:10px;display:inline-flex"><i data-lucide="lock"></i> Após Essencial</span>
           </div>
           <div class="plan-body">
-            <div class="plan-feature"><span class="plan-feature-icon">&#128230;</span>Tudo do Essencial</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#128227;</span>Stories diários</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#127919;</span>Gestão de Meta Ads</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#129528;</span>Lookalike audience</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#128200;</span>Campanhas sazonais</div>
-            <div class="plan-feature"><span class="plan-feature-icon">&#128176;</span>Relatório CPL e ROI</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="package"></i></span>Tudo do Essencial</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="megaphone"></i></span>Stories diários</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="target"></i></span>Gestão de Meta Ads</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="scan-search"></i></span>Lookalike audience</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="trending-up"></i></span>Campanhas sazonais</div>
+            <div class="plan-feature"><span class="plan-feature-icon"><i data-lucide="coins"></i></span>Relatório CPL e ROI</div>
           </div>
-          <div class="plan-cta"><button id="planBtnGrowth" class="btn btn-primary" style="width:100%;justify-content:center;background:var(--orange);border-color:var(--orange)" onclick="approvePhase('growth')">&#10003; Aprovar Plano Growth</button></div>
+          <div class="plan-cta"><button id="planBtnGrowth" class="btn btn-primary" style="width:100%;justify-content:center;background:var(--orange);border-color:var(--orange)" onclick="approvePhase('growth')"><i data-lucide="check"></i> Aprovar Plano Growth</button></div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128176;</span>Investimento Total Estimado</div></div>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="wallet"></i></span>Investimento Total Estimado</div></div>
         <div class="card-body">
           <div class="payment-row"><div><div class="pr-phase">Fase Teste</div><div class="pr-period">Junho 2026 · 1 mês</div></div><div class="pr-amount">R$ 1.200</div><span class="pr-status" style="background:var(--purple-light);color:var(--purple-dark)">Em andamento</span></div>
           <div class="payment-row"><div><div class="pr-phase">Plano Essencial · 3 meses</div><div class="pr-period">Jul – Set 2026 · R$ 2.800/mês</div></div><div class="pr-amount">R$ 8.400</div><span class="pr-status" style="background:var(--blue-light);color:var(--blue-dark)">Aguardando</span></div>
           <div class="payment-row"><div><div class="pr-phase">Plano Growth · 4 meses</div><div class="pr-period">Out – Dez 2026 · R$ 4.500/mês</div></div><div class="pr-amount">R$ 18.000</div><span class="pr-status" style="background:var(--surface2);color:var(--muted)">Futuro</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:linear-gradient(135deg,var(--heading),#1E293B);border-radius:var(--r);margin-top:10px;box-shadow:var(--shadow-md)">
-            <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.8)">Total estimado (8 meses)</div>
-            <div style="font-size:22px;font-weight:800;color:#fff;font-family:var(--font-heading)">R$ 27.600</div>
+          <div class="total-row">
+            <div class="total-label">Total estimado (8 meses)</div>
+            <div class="total-value">R$ 27.600</div>
           </div>
-          <p style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.5">* Verba de tráfego pago (Meta Ads) não incluída. Estimativa: R$ 800–1.500/mês na Fase Growth.</p>
+          <p class="text-note">* Verba de tráfego pago (Meta Ads) não incluída. Estimativa: R$ 800–1.500/mês na Fase Growth.</p>
         </div>
       </div>
     </div>
@@ -641,7 +643,7 @@
     <div class="tab-panel" id="panel-contrato">
       <div class="grid-2">
         <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128196;</span>Contrato 001/2026 — Dados</div></div>
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="file-text"></i></span>Contrato 001/2026 — Dados</div></div>
           <div class="card-body">
             <div class="contract-section">
               <div class="contract-section-title">Partes</div>
@@ -660,7 +662,7 @@
           </div>
         </div>
         <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#9878;</span>Regras Importantes</div></div>
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="scale"></i></span>Regras Importantes</div></div>
           <div class="card-body">
             <div class="contract-section">
               <div class="contract-section-title">Pagamento</div>
@@ -685,31 +687,31 @@
       </div>
 
       <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128230;</span>Escopo dos Serviços</div></div>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="package"></i></span>Escopo dos Serviços</div></div>
         <div class="card-body">
           <div class="grid-2">
             <div>
-              <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Contratado (SrChZ)</div>
-              <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text);line-height:1.5">
-                <div style="display:flex;gap:10px"><span>&#127919;</span>Ideação e curadoria criativa</div>
-                <div style="display:flex;gap:10px"><span>&#9997;</span>Roteiros (hook → CTA)</div>
-                <div style="display:flex;gap:10px"><span>&#128197;</span>Planejamento editorial mensal</div>
-                <div style="display:flex;gap:10px"><span>&#128241;</span>Gestão de redes sociais</div>
-                <div style="display:flex;gap:10px"><span>&#128221;</span>Copies e legendas</div>
-                <div style="display:flex;gap:10px"><span>&#128202;</span>Relatório mensal</div>
-                <div style="display:flex;gap:10px"><span>&#129309;</span>Reunião mensal</div>
+              <div class="scope-label" style="color:var(--blue)">Contratado (SrChZ)</div>
+              <div class="scope-list">
+                <div class="scope-item"><span><i data-lucide="target"></i></span>Ideação e curadoria criativa</div>
+                <div class="scope-item"><span><i data-lucide="pen-tool"></i></span>Roteiros (hook → CTA)</div>
+                <div class="scope-item"><span><i data-lucide="calendar"></i></span>Planejamento editorial mensal</div>
+                <div class="scope-item"><span><i data-lucide="smartphone"></i></span>Gestão de redes sociais</div>
+                <div class="scope-item"><span><i data-lucide="file-text"></i></span>Copies e legendas</div>
+                <div class="scope-item"><span><i data-lucide="bar-chart-2"></i></span>Relatório mensal</div>
+                <div class="scope-item"><span><i data-lucide="users"></i></span>Reunião mensal</div>
               </div>
             </div>
             <div>
-              <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Contratante (ITS Power)</div>
-              <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text);line-height:1.5">
-                <div style="display:flex;gap:10px"><span>&#128179;</span>Pagamento até dia 5</div>
-                <div style="display:flex;gap:10px"><span>&#128273;</span>Acesso às redes sociais</div>
-                <div style="display:flex;gap:10px"><span>&#128248;</span>Espaço para captação</div>
-                <div style="display:flex;gap:10px"><span>&#9989;</span>Aprovar conteúdos em 48h</div>
-                <div style="display:flex;gap:10px"><span>&#128176;</span>Verba de tráfego pago</div>
-                <div style="display:flex;gap:10px"><span>&#128220;</span>Autorizações de imagem</div>
-                <div style="display:flex;gap:10px"><span>&#128100;</span>Responsável interno</div>
+              <div class="scope-label" style="color:var(--orange)">Contratante (ITS Power)</div>
+              <div class="scope-list">
+                <div class="scope-item"><span><i data-lucide="credit-card"></i></span>Pagamento até dia 5</div>
+                <div class="scope-item"><span><i data-lucide="key"></i></span>Acesso às redes sociais</div>
+                <div class="scope-item"><span><i data-lucide="camera"></i></span>Espaço para captação</div>
+                <div class="scope-item"><span><i data-lucide="check-circle"></i></span>Aprovar conteúdos em 48h</div>
+                <div class="scope-item"><span><i data-lucide="coins"></i></span>Verba de tráfego pago</div>
+                <div class="scope-item"><span><i data-lucide="shield-check"></i></span>Autorizações de imagem</div>
+                <div class="scope-item"><span><i data-lucide="user"></i></span>Responsável interno</div>
               </div>
             </div>
           </div>
@@ -717,21 +719,21 @@
       </div>
 
       <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128194;</span>Documentos</div></div>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="folder-open"></i></span>Documentos</div></div>
         <div class="card-body">
           <div class="grid-3">
-            <a href="#" onclick="showToast('Documento disponível em breve.');return false" style="text-decoration:none;display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface2);transition:all .2s;box-shadow:var(--shadow-sm);cursor:pointer">
-              <span style="font-size:30px">&#128203;</span>
-              <div><div style="font-size:13px;font-weight:700;color:var(--heading)">Contrato 001/2026</div><div style="font-size:10px;color:var(--muted);margin-top:2px">SrChZ × ITS Power</div></div>
+            <a href="#" onclick="showToast('Documento disponível em breve.');return false" class="doc-link">
+              <span class="doc-icon"><i data-lucide="clipboard-list"></i></span>
+              <div><div class="doc-title">Contrato 001/2026</div><div class="doc-meta">SrChZ × ITS Power</div></div>
             </a>
-            <a href="#" onclick="showToast('Documento em preparação.');return false" style="text-decoration:none;display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface2);transition:all .2s;box-shadow:var(--shadow-sm);cursor:pointer;position:relative">
-              <span style="font-size:30px">&#128214;</span>
-              <div><div style="font-size:13px;font-weight:700;color:var(--heading)">Ecossistema de Desejo</div><div style="font-size:10px;color:var(--muted);margin-top:2px">Metodologia · Em preparação</div></div>
-              <span style="position:absolute;top:8px;right:10px;font-size:8px;padding:2px 8px;border-radius:10px;background:rgba(249,115,22,.15);color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Em breve</span>
+            <a href="#" onclick="showToast('Documento em preparação.');return false" class="doc-link">
+              <span class="doc-icon"><i data-lucide="book-open"></i></span>
+              <div><div class="doc-title">Ecossistema de Desejo</div><div class="doc-meta">Metodologia · Em preparação</div></div>
+              <span class="doc-soon-badge">Em breve</span>
             </a>
-            <a href="its_power_videos_junho2026.html" target="_blank" style="text-decoration:none;display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface2);transition:all .2s;box-shadow:var(--shadow-sm)">
-              <span style="font-size:30px">&#127916;</span>
-              <div><div style="font-size:13px;font-weight:700;color:var(--heading)">Roteiros de Vídeo</div><div style="font-size:10px;color:var(--muted);margin-top:2px">12 roteiros · Junho</div></div>
+            <a href="its_power_videos_junho2026.html" target="_blank" class="doc-link">
+              <span class="doc-icon"><i data-lucide="film"></i></span>
+              <div><div class="doc-title">Roteiros de Vídeo</div><div class="doc-meta">12 roteiros · Junho</div></div>
             </a>
           </div>
         </div>
@@ -740,15 +742,15 @@
 
     <!-- TAB: RESULTADOS -->
     <div class="tab-panel" id="panel-resultados">
-      <div style="background:linear-gradient(135deg,#064E3B 0%,#065F46 50%,var(--green) 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(16,185,129,.2)">
-        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Metricas de Desempenho</div>
-        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Resultados da Fase Teste</div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Acompanhe o impacto dos conteudos produzidos para a ITS Power.</div>
+      <div class="section-hdr" style="background:linear-gradient(135deg,#064E3B 0%,#065F46 50%,var(--green) 100%);box-shadow:0 8px 24px rgba(16,185,129,.2)">
+        <div class="section-hdr-label">Métricas de Desempenho</div>
+        <div class="section-hdr-title">Resultados da Fase Teste</div>
+        <div class="section-hdr-desc">Acompanhe o impacto dos conteúdos produzidos para a ITS Power.</div>
       </div>
 
       <div class="grid-4">
         <div class="metric-highlight fade-in">
-          <div class="metric-icon" style="background:var(--blue-light)">&#128101;</div>
+          <div class="metric-icon" style="background:var(--blue-light)"><i data-lucide="users"></i></div>
           <div class="metric-data">
             <div class="metric-value" id="metricFollowers">--</div>
             <div class="metric-label">Seguidores</div>
@@ -756,7 +758,7 @@
           <span class="metric-change metric-neutral">Fase Teste</span>
         </div>
         <div class="metric-highlight fade-in">
-          <div class="metric-icon" style="background:var(--green-light)">&#128065;</div>
+          <div class="metric-icon" style="background:var(--green-light)"><i data-lucide="eye"></i></div>
           <div class="metric-data">
             <div class="metric-value" id="metricReach">--</div>
             <div class="metric-label">Alcance Total</div>
@@ -764,7 +766,7 @@
           <span class="metric-change metric-neutral">Fase Teste</span>
         </div>
         <div class="metric-highlight fade-in">
-          <div class="metric-icon" style="background:var(--purple-light)">&#128172;</div>
+          <div class="metric-icon" style="background:var(--purple-light)"><i data-lucide="message-circle"></i></div>
           <div class="metric-data">
             <div class="metric-value" id="metricEngagement">--</div>
             <div class="metric-label">Engajamento</div>
@@ -772,7 +774,7 @@
           <span class="metric-change metric-neutral">Fase Teste</span>
         </div>
         <div class="metric-highlight fade-in">
-          <div class="metric-icon" style="background:var(--orange-light)">&#127919;</div>
+          <div class="metric-icon" style="background:var(--orange-light)"><i data-lucide="mouse-pointer-click"></i></div>
           <div class="metric-data">
             <div class="metric-value" id="metricConversions">--</div>
             <div class="metric-label">Visitas Geradas</div>
@@ -782,42 +784,42 @@
       </div>
 
       <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128202;</span>Status de Producao</div></div>
+        <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="bar-chart-2"></i></span>Status de Produção</div></div>
         <div class="card-body" id="resultadosPostList"></div>
       </div>
 
       <div class="grid-2">
         <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#127942;</span>Top Posts por Feedback</div></div>
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="trophy"></i></span>Top Posts por Feedback</div></div>
           <div class="card-body" id="resultadosTopPosts"></div>
         </div>
         <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon">&#128200;</span>Resumo por Pilar</div></div>
+          <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="trending-up"></i></span>Resumo por Pilar</div></div>
           <div class="card-body" id="resultadosPilares"></div>
         </div>
       </div>
 
-      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;gap:14px">
-        <span style="font-size:20px">&#128161;</span>
-        <div style="font-size:12px;color:var(--text);line-height:1.6">
-          <strong>Nota:</strong> As metricas do Instagram serao preenchidas manualmente ou via integracao apos as publicacoes de junho. O relatorio completo sera apresentado na reuniao de alinhamento ao fim do mes.
+      <div class="info-banner">
+        <span class="info-banner-icon"><i data-lucide="lightbulb"></i></span>
+        <div class="info-banner-text">
+          <strong>Nota:</strong> As métricas do Instagram serão preenchidas manualmente ou via integração após as publicações de junho. O relatório completo será apresentado na reunião de alinhamento ao fim do mês.
         </div>
       </div>
     </div>
 
     <!-- TAB: GALERIA -->
     <div class="tab-panel" id="panel-galeria">
-      <div style="background:linear-gradient(135deg,#1E293B 0%,#334155 50%,#475569 100%);border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(0,0,0,.15)">
-        <div style="font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600">Producao Visual</div>
-        <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)">Galeria de Conteudos</div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6">Fotos, videos e materiais produzidos para a ITS Power.</div>
+      <div class="section-hdr" style="background:linear-gradient(135deg,#1E293B 0%,#334155 50%,#475569 100%)">
+        <div class="section-hdr-label">Produção Visual</div>
+        <div class="section-hdr-title">Galeria de Conteúdos</div>
+        <div class="section-hdr-desc">Fotos, vídeos e materiais produzidos para a ITS Power.</div>
       </div>
 
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
-        <button class="btn btn-outline gallery-filter active" data-filter="all" onclick="filterGallery('all',this)" style="font-size:11px;padding:6px 14px">Todos</button>
-        <button class="btn btn-outline gallery-filter" data-filter="video" onclick="filterGallery('video',this)" style="font-size:11px;padding:6px 14px">&#127916; Videos</button>
-        <button class="btn btn-outline gallery-filter" data-filter="foto" onclick="filterGallery('foto',this)" style="font-size:11px;padding:6px 14px">&#128247; Fotos</button>
-        <button class="btn btn-outline gallery-filter" data-filter="design" onclick="filterGallery('design',this)" style="font-size:11px;padding:6px 14px">&#127912; Design</button>
+      <div class="gallery-filters">
+        <button class="btn btn-outline gallery-filter gallery-filter-btn active" data-filter="all" onclick="filterGallery('all',this)">Todos</button>
+        <button class="btn btn-outline gallery-filter gallery-filter-btn" data-filter="video" onclick="filterGallery('video',this)"><i data-lucide="film"></i> Vídeos</button>
+        <button class="btn btn-outline gallery-filter gallery-filter-btn" data-filter="foto" onclick="filterGallery('foto',this)"><i data-lucide="camera"></i> Fotos</button>
+        <button class="btn btn-outline gallery-filter gallery-filter-btn" data-filter="design" onclick="filterGallery('design',this)"><i data-lucide="palette"></i> Design</button>
       </div>
 
       <div class="gallery-grid" id="galleryGrid"></div>
@@ -827,7 +829,7 @@
 </div>
 
 <!-- NOTE MODAL -->
-<div class="modal-bg" id="noteModal">
+<div class="modal-bg" id="noteModal" role="dialog" aria-modal="true" aria-label="Observação do post">
   <div class="modal-box">
     <div class="modal-title" id="noteModalTitle">Observação</div>
     <textarea id="noteModalText" placeholder="Adicione uma observação..."></textarea>
@@ -839,9 +841,9 @@
 </div>
 
 <!-- MODAL: CLIENTE PEDIDO -->
-<div class="modal-bg" id="clientReqModal">
+<div class="modal-bg" id="clientReqModal" role="dialog" aria-modal="true" aria-label="Enviar pedido">
   <div class="modal-box" style="width:520px">
-    <div class="modal-title">&#128236; Enviar Pedido ou Observação</div>
+    <div class="modal-title"><i data-lucide="send"></i> Enviar Pedido ou Observação</div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.6">Use este espaço para solicitar algo, deixar uma observação ou tirar dúvidas. Respondemos em até 24h.</p>
     <div class="form-row">
       <label class="modal-label">Assunto *</label>
@@ -862,15 +864,15 @@
     <div class="pin-error" id="clientReqError">Preencha o assunto antes de enviar.</div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeClientReqModal()">Cancelar</button>
-      <button class="btn btn-primary" id="clientReqSendBtn" onclick="submitClientRequest()">&#128236; Enviar pedido</button>
+      <button class="btn btn-primary" id="clientReqSendBtn" onclick="submitClientRequest()"><i data-lucide="send"></i> Enviar pedido</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL: ADMIN PEDIDO -->
-<div class="modal-bg" id="adminReqModal">
+<div class="modal-bg" id="adminReqModal" role="dialog" aria-modal="true" aria-label="Criar pedido">
   <div class="modal-box" style="width:500px">
-    <div class="modal-title">&#10133; Criar Pedido ao Cliente</div>
+    <div class="modal-title"><i data-lucide="plus-circle"></i> Criar Pedido ao Cliente</div>
     <div class="form-row">
       <label class="modal-label">Título *</label>
       <input type="text" class="modal-input" id="adminReqTitle" placeholder="Ex: Enviar autorização de uso de imagem">
@@ -885,130 +887,130 @@
     </div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="document.getElementById('adminReqModal').classList.remove('open')">Cancelar</button>
-      <button class="btn btn-primary" onclick="submitAdminRequest()">&#10003; Criar pedido</button>
+      <button class="btn btn-primary" onclick="submitAdminRequest()"><i data-lucide="check"></i> Criar pedido</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL: ADMIN ATIVIDADE -->
-<div class="modal-bg" id="adminActModal">
+<div class="modal-bg" id="adminActModal" role="dialog" aria-modal="true" aria-label="Registrar atividade">
   <div class="modal-box" style="width:460px">
-    <div class="modal-title">&#128225; Registrar Atividade</div>
+    <div class="modal-title"><i data-lucide="radio"></i> Registrar Atividade</div>
     <div class="form-row">
       <label class="modal-label">Mensagem</label>
       <textarea class="modal-input" id="adminActMsg" placeholder="Ex: Vídeo do post 05 entregue..."></textarea>
     </div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="document.getElementById('adminActModal').classList.remove('open')">Cancelar</button>
-      <button class="btn btn-primary" onclick="submitAdminActivity()">&#128225; Registrar</button>
+      <button class="btn btn-primary" onclick="submitAdminActivity()"><i data-lucide="radio"></i> Registrar</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL: LGPD CONSENT -->
-<div class="modal-bg" id="lgpdModal">
+<div class="modal-bg" id="lgpdModal" role="dialog" aria-modal="true" aria-label="Termos de uso e privacidade">
   <div class="modal-box" style="width:560px">
-    <div class="modal-title">&#128274; Termos de Uso e Política de Privacidade (LGPD)</div>
+    <div class="modal-title"><i data-lucide="shield"></i> Termos de Uso e Política de Privacidade (LGPD)</div>
     <div class="lgpd-content">
       <h4>1. Dados Coletados</h4>
       <p>Para o funcionamento deste portal, coletamos e armazenamos os seguintes dados:</p>
       <ul>
-        <li>Nome de usuario e credenciais de acesso (criptografadas)</li>
-        <li>Feedbacks e avaliacoes sobre conteudos</li>
-        <li>Pedidos e observacoes enviados pelo formulario</li>
-        <li>Notas e anotacoes do projeto</li>
-        <li>Registro de atividades e interacoes no portal</li>
-        <li>Endereco IP e informacoes do navegador (para seguranca)</li>
+        <li>Nome de usuário e credenciais de acesso (criptografadas)</li>
+        <li>Feedbacks e avaliações sobre conteúdos</li>
+        <li>Pedidos e observações enviados pelo formulário</li>
+        <li>Notas e anotações do projeto</li>
+        <li>Registro de atividades e interações no portal</li>
+        <li>Endereço IP e informações do navegador (para segurança)</li>
       </ul>
 
       <h4>2. Finalidade do Tratamento</h4>
-      <p>Os dados sao utilizados exclusivamente para:</p>
+      <p>Os dados são utilizados exclusivamente para:</p>
       <ul>
-        <li>Gestao do projeto de conteudo entre ITS Power e SrChZ Technologies</li>
-        <li>Acompanhamento de aprovacoes, feedbacks e status de producao</li>
-        <li>Comunicacao e registro de decisoes do projeto</li>
-        <li>Seguranca e controle de acesso ao portal</li>
+        <li>Gestão do projeto de conteúdo entre ITS Power e SrChZ Technologies</li>
+        <li>Acompanhamento de aprovações, feedbacks e status de produção</li>
+        <li>Comunicação e registro de decisões do projeto</li>
+        <li>Segurança e controle de acesso ao portal</li>
       </ul>
 
       <h4>3. Compartilhamento</h4>
-      <p>Os dados <strong>nao sao compartilhados</strong> com terceiros. O acesso e restrito as partes envolvidas no contrato 001/2026 (SrChZ Technologies e Academia ITS Power).</p>
+      <p>Os dados <strong>não são compartilhados</strong> com terceiros. O acesso é restrito às partes envolvidas no contrato 001/2026 (SrChZ Technologies e Academia ITS Power).</p>
 
       <h4>4. Armazenamento e Seguranca</h4>
-      <p>Os dados sao armazenados em servidores seguros (Supabase/PostgreSQL) com criptografia em transito (TLS) e em repouso. Senhas sao armazenadas com hash bcrypt.</p>
+      <p>Os dados são armazenados em servidores seguros (Supabase/PostgreSQL) com criptografia em trânsito (TLS) e em repouso. Senhas são armazenadas com hash bcrypt.</p>
 
       <h4>5. Seus Direitos (Lei 13.709/2018)</h4>
       <ul>
         <li>Acesso aos seus dados pessoais</li>
-        <li>Correcao de dados incompletos ou inexatos</li>
-        <li>Eliminacao dos dados (mediante solicitacao)</li>
-        <li>Revogacao do consentimento a qualquer momento</li>
+        <li>Correção de dados incompletos ou inexatos</li>
+        <li>Eliminação dos dados (mediante solicitação)</li>
+        <li>Revogação do consentimento a qualquer momento</li>
       </ul>
       <p>Para exercer seus direitos, entre em contato: <strong>rafaelhenriquecsantosz@gmail.com</strong></p>
 
       <h4>6. Base Legal</h4>
-      <p>O tratamento dos dados e realizado com base no <strong>consentimento do titular</strong> (Art. 7, I da LGPD) e na <strong>execucao de contrato</strong> (Art. 7, V da LGPD).</p>
+      <p>O tratamento dos dados é realizado com base no <strong>consentimento do titular</strong> (Art. 7º, I da LGPD) e na <strong>execução de contrato</strong> (Art. 7º, V da LGPD).</p>
     </div>
     <div class="lgpd-checkbox-row">
       <input type="checkbox" id="lgpdCheckbox">
-      <label for="lgpdCheckbox">Li e aceito os Termos de Uso e a Politica de Privacidade conforme a Lei Geral de Protecao de Dados (LGPD - Lei 13.709/2018).</label>
+      <label for="lgpdCheckbox">Li e aceito os Termos de Uso e a Política de Privacidade conforme a Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018).</label>
     </div>
-    <div class="lgpd-error" id="lgpdError">Voce precisa aceitar os termos para continuar.</div>
+    <div class="lgpd-error" id="lgpdError">Você precisa aceitar os termos para continuar.</div>
     <div class="modal-actions">
-      <button class="btn btn-primary" onclick="acceptLGPD()">&#10003; Aceitar e Continuar</button>
+      <button class="btn btn-primary" onclick="acceptLGPD()"><i data-lucide="check"></i> Aceitar e Continuar</button>
     </div>
   </div>
 </div>
 
 <!-- MODAL: TIMELINE EDIT (admin) -->
-<div class="modal-bg" id="tlModal">
+<div class="modal-bg" id="tlModal" role="dialog" aria-modal="true" aria-label="Editar etapa">
   <div class="modal-box" style="width:500px">
     <div class="modal-title" id="tlModalTitle">Editar Etapa</div>
     <div class="form-row">
-      <label class="modal-label">Titulo *</label>
+      <label class="modal-label">Título *</label>
       <input type="text" class="modal-input" id="tlStepTitle" placeholder="Ex: Plano Premium">
     </div>
     <div class="form-row">
-      <label class="modal-label">Descricao</label>
+      <label class="modal-label">Descrição</label>
       <textarea class="modal-input" id="tlStepDesc" placeholder="O que inclui esta etapa..."></textarea>
     </div>
-    <div class="form-row" style="display:flex;gap:10px">
-      <div style="flex:1">
+    <div class="form-row form-row-flex">
+      <div>
         <label class="modal-label">Status</label>
         <select class="modal-input" id="tlStepStatus">
-          <option value="done">Concluido</option>
+          <option value="done">Concluído</option>
           <option value="active">Ativo</option>
-          <option value="upcoming">Proximo</option>
+          <option value="upcoming">Próximo</option>
           <option value="locked">Futuro</option>
         </select>
       </div>
-      <div style="flex:1">
+      <div>
         <label class="modal-label">Badge</label>
-        <input type="text" class="modal-input" id="tlStepBadge" placeholder="Ex: Agora, Proximo...">
+        <input type="text" class="modal-input" id="tlStepBadge" placeholder="Ex: Agora, Próximo...">
       </div>
     </div>
-    <div class="form-row" style="display:flex;gap:10px">
-      <div style="flex:1">
-        <label class="modal-label">Data / Periodo</label>
+    <div class="form-row form-row-flex">
+      <div>
+        <label class="modal-label">Data / Período</label>
         <input type="text" class="modal-input" id="tlStepDate" placeholder="Ex: Jul – Set 2026">
       </div>
-      <div style="flex:1">
-        <label class="modal-label">Preco (opcional)</label>
-        <input type="text" class="modal-input" id="tlStepPrice" placeholder="Ex: R$ 2.800 / mes">
+      <div>
+        <label class="modal-label">Preço (opcional)</label>
+        <input type="text" class="modal-input" id="tlStepPrice" placeholder="Ex: R$ 2.800 / mês">
       </div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="document.getElementById('tlModal').classList.remove('open')">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveTimelineStep()">&#10003; Salvar</button>
+      <button class="btn btn-primary" onclick="saveTimelineStep()"><i data-lucide="check"></i> Salvar</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast">&#10003; Salvo</div>
+<div class="toast" id="toast"><i data-lucide="check"></i> Salvo</div>
 
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/router.js?v=20260608e"></script>
-<script src="js/app.js?v=20260608e"></script>
+<script src="js/router.js?v=20260609b"></script>
+<script src="js/app.js?v=20260609b"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});

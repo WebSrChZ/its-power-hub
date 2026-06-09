@@ -535,6 +535,153 @@ textarea.modal-input{resize:vertical;min-height:80px}
 .skeleton-circle{width:88px;height:88px;border-radius:50%}
 .skeleton-wrap{display:flex;flex-direction:column;gap:16px}
 
+/* ─── SECTION HEADERS (tab hero banners) ─── */
+.section-hdr{border-radius:var(--r-lg);padding:28px 32px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.section-hdr-label{font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:600}
+.section-hdr-title{font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;font-family:var(--font-heading)}
+.section-hdr-desc{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6}
+.section-hdr-desc strong{color:var(--orange)}
+
+/* ─── TOPBAR INLINE CONTROLS ─── */
+.tb-request-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:10px;border:1.5px solid var(--orange);background:var(--orange-light);color:var(--orange);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font);box-shadow:var(--shadow-sm)}
+.tb-request-btn:hover{background:var(--orange);color:#fff;transform:translateY(-1px);box-shadow:var(--shadow)}
+.conn-badge{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:default;box-shadow:var(--shadow-sm)}
+.conn-dot{width:7px;height:7px;border-radius:50%;background:#F59E0B;flex-shrink:0;transition:background .3s}
+.conn-label{font-size:10px;font-weight:600;color:var(--muted);white-space:nowrap}
+
+/* ─── PILLAR DETAIL CARDS ─── */
+.pillar-detail-body{text-align:center;padding:28px 20px}
+.pillar-icon-lg{font-size:42px;margin-bottom:12px}
+.pillar-title-lg{font-size:18px;font-weight:800;margin-bottom:4px;font-family:var(--font-heading)}
+.pillar-subtitle{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:14px;font-weight:600}
+.pillar-content{font-size:12.5px;color:var(--text);line-height:1.7;text-align:left}
+.pillar-content p{margin-bottom:10px}
+.pillar-examples{border-radius:var(--r);padding:12px;margin-top:8px}
+.pillar-examples-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.pillar-examples-list{font-size:11px;color:var(--text);line-height:1.6}
+.pillar-tag-wrap{margin-top:14px}
+
+/* ─── DOCUMENT LINK CARDS ─── */
+.doc-link{text-decoration:none;display:flex;gap:14px;align-items:center;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface2);transition:all .2s;box-shadow:var(--shadow-sm);cursor:pointer;position:relative}
+.doc-link:hover{border-color:var(--blue-mid);box-shadow:var(--shadow)}
+.doc-icon{font-size:30px;flex-shrink:0}
+.doc-title{font-size:13px;font-weight:700;color:var(--heading)}
+.doc-meta{font-size:10px;color:var(--muted);margin-top:2px}
+.doc-soon-badge{position:absolute;top:8px;right:10px;font-size:8px;padding:2px 8px;border-radius:10px;background:rgba(249,115,22,.15);color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+
+/* ─── INFO BANNERS ─── */
+.info-banner{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r)}
+.info-banner-icon{font-size:20px;flex-shrink:0}
+.info-banner-text{font-size:12px;color:var(--text);line-height:1.6}
+.roteiros-banner{background:var(--blue-light);border-color:var(--blue-mid);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+
+/* ─── SCOPE LISTS ─── */
+.scope-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.scope-list{display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text);line-height:1.5}
+.scope-item{display:flex;gap:10px}
+
+/* ─── MONTH HERO BANNER ─── */
+.month-hero{border-radius:var(--r-lg);padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 4px 16px rgba(124,58,237,.15)}
+.month-hero-title{font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;font-family:var(--font-heading)}
+.month-hero-sub{font-size:12px;color:rgba(255,255,255,.65)}
+.month-hero-price{font-size:28px;font-weight:800;color:#fff;font-family:var(--font-heading)}
+.month-hero-price-sub{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+
+/* ─── TOTAL ROW ─── */
+.total-row{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:linear-gradient(135deg,var(--heading),#1E293B);border-radius:var(--r);margin-top:10px;box-shadow:var(--shadow-md)}
+.total-label{font-size:13px;font-weight:700;color:rgba(255,255,255,.8)}
+.total-value{font-size:22px;font-weight:800;color:#fff;font-family:var(--font-heading)}
+
+/* ─── PILLAR DISTRIBUTION BAR ─── */
+.dist-bar{display:flex;gap:6px;height:28px;border-radius:8px;overflow:hidden;margin-bottom:14px}
+.dist-segment{border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.dist-legend{display:flex;justify-content:center;gap:20px;font-size:11px;color:var(--text)}
+.dist-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:middle}
+.dist-note{margin-top:16px;padding:14px 16px;background:var(--surface2);border-radius:var(--r);font-size:12px;color:var(--text);line-height:1.6}
+
+/* ─── ECOSYSTEM STEPS ─── */
+.eco-step{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--r)}
+.eco-step-num{font-size:20px;flex-shrink:0}
+.eco-note{font-size:11px;color:var(--muted);margin-top:8px}
+
+/* ─── GALLERY FILTERS ─── */
+.gallery-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.gallery-filter-btn{font-size:11px;padding:6px 14px}
+
+/* ─── FORM HELPERS ─── */
+.form-row-flex{display:flex;gap:10px}
+.form-row-flex>div{flex:1}
+
+/* ─── MONTH CARD PLACEHOLDERS ─── */
+.months-placeholder{text-align:center;padding:32px 20px}
+.months-placeholder-icon{font-size:32px;margin-bottom:10px;opacity:.4}
+.months-placeholder-title{font-size:14px;font-weight:700;color:var(--heading);margin-bottom:6px}
+.months-placeholder-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ─── ADMIN ACTION BUTTONS (card header) ─── */
+.card-hdr-action{font-size:10px;padding:6px 12px;border-radius:8px;color:#fff;border:none;cursor:pointer;font-weight:700;transition:all .2s;font-family:var(--font)}
+.card-hdr-action:hover{opacity:.85;transform:translateY(-1px)}
+.card-hdr-action-orange{background:var(--orange)}
+.card-hdr-action-purple{background:var(--purple)}
+
+/* ─── MISC HELPERS ─── */
+.text-note{font-size:10px;color:var(--muted);line-height:1.5;margin-top:10px}
+.text-helper{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.6}
+.text-auto-save{font-size:10px;color:var(--muted);font-weight:500}
+.card-badge-interactive{background:var(--purple-light);color:var(--purple-dark)}
+.textarea-notes{width:100%;min-height:110px;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--text);background:var(--surface2);resize:vertical;font-family:var(--font);line-height:1.6;transition:all .2s}
+.textarea-notes:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+
+/* ─── LAYOUT UTILITIES ─── */
+.flex-center{display:flex;align-items:center}
+.flex-col{display:flex;flex-direction:column}
+.gap-6{gap:6px}.gap-8{gap:8px}.gap-10{gap:10px}.gap-12{gap:12px}.gap-14{gap:14px}.gap-16{gap:16px}
+.text-right{text-align:right}.shrink-0{flex-shrink:0}
+
+/* ─── LUCIDE ICON SIZING ─── */
+.lucide{vertical-align:-.125em;stroke-width:2}
+.nav-icon .lucide{width:16px;height:16px}
+.tb-tab .lucide{width:13px;height:13px}
+.ico-btn .lucide{width:16px;height:16px}
+.tb-request-btn .lucide{width:14px;height:14px}
+.notif-bell .lucide{width:18px;height:18px}
+.card-title-icon .lucide{width:15px;height:15px}
+.card-hdr-action .lucide{width:12px;height:12px}
+.plan-feature-icon .lucide{width:14px;height:14px}
+.scope-item .lucide{width:14px;height:14px;flex-shrink:0}
+.landing-feat-icon .lucide{width:28px;height:28px}
+.metric-icon .lucide{width:24px;height:24px}
+.doc-icon .lucide{width:28px;height:28px;color:var(--muted)}
+.info-banner-icon .lucide{width:20px;height:20px;color:var(--amber)}
+.months-placeholder-icon .lucide{width:32px;height:32px}
+.gallery-filter-btn .lucide{width:14px;height:14px}
+.nav-badge .lucide{width:10px;height:10px}
+.eco-step-num .lucide{width:20px;height:20px}
+.modal-title .lucide{width:18px;height:18px;vertical-align:-3px}
+.btn .lucide{width:14px;height:14px;vertical-align:-2px}
+.landing-cta .lucide{width:16px;height:16px;vertical-align:-3px}
+.tl-dot .lucide{width:14px;height:14px}
+.tl-edit-btn .lucide,.tl-del-btn .lucide{width:12px;height:12px}
+.act-del-btn .lucide{width:12px;height:12px}
+.es-dot .lucide{width:14px;height:14px}
+.en-icon .lucide{width:14px;height:14px}
+.gallery-thumb-overlay .lucide{width:24px;height:24px}
+.empty-state-icon .lucide{width:36px;height:36px}
+.admin-badge-sb .lucide{width:12px;height:12px;vertical-align:-2px}
+.sb-contact-switch .lucide{width:11px;height:11px;vertical-align:-2px}
+.back-btn .lucide{width:14px;height:14px;vertical-align:-2px}
+.cron-toggle-label .lucide{width:14px;height:14px;vertical-align:-2px}
+.lbl .lucide{width:14px;height:14px;vertical-align:-2px}
+.tag .lucide{width:12px;height:12px;vertical-align:-2px}
+.toast .lucide{width:14px;height:14px;vertical-align:-2px}
+.btn-white .lucide,.btn-ghost-white .lucide{width:14px;height:14px;vertical-align:-2px}
+
+/* ─── ACCESSIBILITY ─── */
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+.ico-btn:focus-visible,.nav-item:focus-visible,.tb-tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.modal-bg.open{overflow-y:auto}
+[role="dialog"]{outline:none}
+
 /* ─── EMPTY STATES ─── */
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;min-height:180px}
 .empty-state-icon{font-size:48px;margin-bottom:14px;opacity:.6}
@@ -610,14 +757,24 @@ textarea.modal-input{resize:vertical;min-height:80px}
   .breadcrumb-bar{padding:8px 16px}
   .content{padding:16px 16px 80px}.grid-5,.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
   .post-item{grid-template-columns:46px 4px 1fr}.post-actions{display:none}
-  .mob-menu{display:flex;flex-shrink:0;margin-right:10px;min-width:36px;min-height:36px;justify-content:center;align-items:center}.tb-tab{padding:6px 10px;font-size:10px}.tb-tab .tb-ico{display:none}
+  .mob-menu{display:flex;flex-shrink:0;margin-right:10px;min-width:36px;min-height:36px;justify-content:center;align-items:center}
+  /* Mobile topbar: horizontal scroll with snap */
+  .tb-tabs{padding:2px;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;max-width:calc(100vw - 160px)}
+  .tb-tabs::-webkit-scrollbar{display:none}
+  .tb-tab{padding:6px 10px;font-size:10px;flex-shrink:0;scroll-snap-align:start}.tb-tab .tb-ico{display:none}
   .hero-card{padding:22px}.hero-title{font-size:18px}.hero-val{font-size:30px}
   .approval-card{padding:20px;flex-direction:column}.approval-right{text-align:left}
-  .tb-tabs{padding:2px;gap:1px}
   .toast{left:16px;right:16px;bottom:16px}
   .landing-features{grid-template-columns:1fr}.landing-title{font-size:28px}
   .gallery-grid{grid-template-columns:repeat(2,1fr)!important}
+  /* Mobile modal adjustments */
+  .modal-box{width:calc(100vw - 32px)!important;max-height:85vh;overflow-y:auto}
 }
 @media(max-width:480px){
   .gallery-grid{grid-template-columns:1fr!important}
+  .tb-tabs{max-width:calc(100vw - 120px)}
+  .tb-tab{padding:5px 8px;font-size:9px}
+  .tb-right{gap:4px}
+  .tb-right .btn,.tb-right button span{display:none}
+  .tb-right .ico-btn{min-width:32px;min-height:32px;font-size:14px}
 }
