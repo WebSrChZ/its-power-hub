@@ -641,7 +641,7 @@ function setConnStatus(state) {
 }
 
 /* ─── NAVIGATION ─── */
-function switchTab(tab) { Router.navigate(tab); }
+function switchTab(tab) { Router.navigate(tab); if (window.innerWidth <= 900) closeSidebar(); }
 function toggleCron(m) {
   const w = document.getElementById('cron-wrap-'+m), a = document.getElementById('cron-arrow-'+m);
   const o = w.classList.toggle('open'); a.classList.toggle('open', o);

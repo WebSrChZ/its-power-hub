@@ -462,8 +462,8 @@ textarea.modal-input{resize:vertical;min-height:80px}
 .lgpd-error{display:none;font-size:10px;color:var(--red);margin-bottom:10px;font-weight:500}
 
 /* ─── SB OVERLAY ─── */
-.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:190;opacity:0;transition:opacity .35s;backdrop-filter:blur(4px)}
-.sb-overlay.show{opacity:1}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:190;opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(4px)}
+.sb-overlay.show{opacity:1;pointer-events:auto}
 
 /* ─── NOTIFICATIONS ─── */
 .notif-wrap{position:relative}
