@@ -149,7 +149,7 @@ create or replace function verify_login(p_username text, p_password text)
 returns table(username text, role text, display_name text, description text, avatar text)
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 begin
   return query
