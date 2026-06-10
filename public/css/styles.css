@@ -263,6 +263,29 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .post-type-badge{font-size:8px;padding:3px 8px;border-radius:6px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 .post-num{font-size:8px;color:var(--muted);font-weight:500}
 .sede-badge{font-size:8px;padding:2px 7px;border-radius:5px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+/* ─── INSTAGRAM METRICS TABLE ─── */
+.ig-table{width:100%;border-collapse:collapse;font-size:12px;min-width:820px}
+.ig-table th{position:sticky;top:0;background:var(--surface2);padding:10px 12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:right;border-bottom:2px solid var(--border);white-space:nowrap}
+.ig-table th:first-child{text-align:left}
+.ig-table th .lucide{width:11px;height:11px;vertical-align:-1px;margin-right:2px}
+.ig-table td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:right;color:var(--text);font-variant-numeric:tabular-nums}
+.ig-table td:first-child{text-align:left}
+.ig-table tbody tr{transition:background .1s}
+.ig-table tbody tr:hover{background:var(--surface2)}
+.ig-table tbody tr[data-ig-hidden]{display:none}
+.ig-table tfoot td{padding:12px;font-weight:700;color:var(--heading);border-top:2px solid var(--border);background:var(--surface2)}
+.ig-post-cell{display:flex;align-items:center;gap:10px;min-width:0}
+.ig-post-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ig-post-info{min-width:0}
+.ig-post-title{font-size:11px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+.ig-post-meta{font-size:9px;color:var(--muted);margin-top:1px}
+.ig-val{font-weight:600}
+.ig-val.zero{color:var(--muted);opacity:.4}
+.ig-eng{font-weight:700;padding:3px 8px;border-radius:10px;font-size:10px;display:inline-block}
+.ig-eng.high{background:var(--green-light);color:#065F46}
+.ig-eng.mid{background:var(--orange-light);color:#92400E}
+.ig-eng.low{background:var(--surface2);color:var(--muted)}
+.ig-sede-badge{font-size:8px;padding:2px 7px;border-radius:5px;font-weight:700;letter-spacing:.04em;white-space:nowrap;display:inline-block}
 .post-title{font-size:12px;font-weight:700;color:var(--heading);margin-bottom:4px;line-height:1.35}
 .post-desc{font-size:10.5px;color:var(--muted);line-height:1.5}
 .post-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}

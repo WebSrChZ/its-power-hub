@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260610a">
+<link rel="stylesheet" href="css/styles.css?v=20260610b">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -867,67 +867,126 @@
 
     <!-- TAB: RESULTADOS -->
     <div class="tab-panel" id="panel-resultados">
-      <div class="section-hdr" style="background:linear-gradient(135deg,#064E3B 0%,#065F46 50%,var(--green) 100%);box-shadow:0 8px 24px rgba(16,185,129,.2)">
-        <div class="section-hdr-label">Métricas de Desempenho</div>
-        <div class="section-hdr-title">Resultados da Fase Teste</div>
-        <div class="section-hdr-desc">Acompanhe o impacto dos conteúdos produzidos para a ITS Power.</div>
+      <div class="section-hdr" style="background:linear-gradient(135deg,#E1306C 0%,#F77737 40%,#FCAF45 70%,#405DE6 100%);box-shadow:0 8px 24px rgba(225,48,108,.2)">
+        <div class="section-hdr-label">Métricas do Instagram</div>
+        <div class="section-hdr-title">Resultados · @itspoweracademia</div>
+        <div class="section-hdr-desc">Dados reais de desempenho dos conteúdos publicados no Instagram.</div>
       </div>
 
-      <div class="grid-4">
+      <!-- ACCOUNT OVERVIEW -->
+      <div class="grid-4" id="igAccountGrid">
         <div class="metric-highlight fade-in">
-          <div class="metric-icon" style="background:var(--blue-light)"><i data-lucide="users"></i></div>
+          <div class="metric-icon" style="background:linear-gradient(135deg,#E1306C22,#405DE622)"><i data-lucide="users"></i></div>
           <div class="metric-data">
-            <div class="metric-value" id="metricFollowers">--</div>
+            <div class="metric-value" id="igFollowers">--</div>
             <div class="metric-label">Seguidores</div>
           </div>
-          <span class="metric-change metric-neutral">Fase Teste</span>
+          <span class="metric-change metric-neutral" id="igFollowersChange">--</span>
         </div>
         <div class="metric-highlight fade-in">
           <div class="metric-icon" style="background:var(--green-light)"><i data-lucide="eye"></i></div>
           <div class="metric-data">
-            <div class="metric-value" id="metricReach">--</div>
-            <div class="metric-label">Alcance Total</div>
+            <div class="metric-value" id="igReach">--</div>
+            <div class="metric-label">Alcance (30d)</div>
           </div>
-          <span class="metric-change metric-neutral">Fase Teste</span>
+          <span class="metric-change metric-neutral" id="igReachChange">--</span>
         </div>
         <div class="metric-highlight fade-in">
-          <div class="metric-icon" style="background:var(--purple-light)"><i data-lucide="message-circle"></i></div>
+          <div class="metric-icon" style="background:var(--purple-light)"><i data-lucide="heart"></i></div>
           <div class="metric-data">
-            <div class="metric-value" id="metricEngagement">--</div>
+            <div class="metric-value" id="igEngagement">--</div>
             <div class="metric-label">Engajamento</div>
           </div>
-          <span class="metric-change metric-neutral">Fase Teste</span>
+          <span class="metric-change metric-neutral" id="igEngagementChange">--</span>
         </div>
         <div class="metric-highlight fade-in">
           <div class="metric-icon" style="background:var(--orange-light)"><i data-lucide="mouse-pointer-click"></i></div>
           <div class="metric-data">
-            <div class="metric-value" id="metricConversions">--</div>
-            <div class="metric-label">Visitas Geradas</div>
+            <div class="metric-value" id="igProfileVisits">--</div>
+            <div class="metric-label">Visitas ao Perfil</div>
           </div>
-          <span class="metric-change metric-neutral">Fase Teste</span>
+          <span class="metric-change metric-neutral" id="igProfileVisitsChange">--</span>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="bar-chart-2"></i></span>Status de Produção</div></div>
+      <!-- MONTH FILTER -->
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Filtrar por mês:</span>
+        <div class="ig-month-pills" id="igMonthPills" style="display:flex;gap:5px">
+          <button class="pill on" data-igm="todos" onclick="filterIgMonth('todos',this)">Todos</button>
+          <button class="pill" data-igm="jun" onclick="filterIgMonth('jun',this)">Junho</button>
+          <button class="pill" data-igm="jul" onclick="filterIgMonth('jul',this)">Julho</button>
+          <button class="pill" data-igm="ago" onclick="filterIgMonth('ago',this)">Agosto</button>
+        </div>
+      </div>
+
+      <!-- PER-POST INSTAGRAM METRICS -->
+      <div class="card" id="card-igPosts">
+        <div class="card-hdr collapsible" onclick="toggleCard('card-igPosts')">
+          <div class="card-title"><span class="card-title-icon"><i data-lucide="instagram"></i></span>Métricas por Post</div>
+          <span class="card-collapse-arrow">&#9660;</span>
+        </div>
+        <div class="card-body" style="padding:0;overflow-x:auto">
+          <table class="ig-table" id="igPostsTable">
+            <thead>
+              <tr>
+                <th style="min-width:200px">Vídeo</th>
+                <th>Sede</th>
+                <th><i data-lucide="play"></i> Views</th>
+                <th><i data-lucide="heart"></i> Curtidas</th>
+                <th><i data-lucide="message-circle"></i> Coment.</th>
+                <th><i data-lucide="share-2"></i> Compart.</th>
+                <th><i data-lucide="bookmark"></i> Salvos</th>
+                <th><i data-lucide="eye"></i> Alcance</th>
+                <th>Eng. %</th>
+              </tr>
+            </thead>
+            <tbody id="igPostsBody"></tbody>
+            <tfoot id="igPostsFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- TOP POSTS BY ENGAGEMENT -->
+      <div class="card" id="card-igTop">
+        <div class="card-hdr collapsible" onclick="toggleCard('card-igTop')">
+          <div class="card-title"><span class="card-title-icon"><i data-lucide="trophy"></i></span>Top Posts por Engajamento</div>
+          <span class="card-collapse-arrow">&#9660;</span>
+        </div>
+        <div class="card-body" id="igTopPosts"></div>
+      </div>
+
+      <!-- PILLAR + SEDE BREAKDOWN -->
+      <div class="grid-2">
+        <div class="card" id="card-igPilares">
+          <div class="card-hdr collapsible" onclick="toggleCard('card-igPilares')">
+            <div class="card-title"><span class="card-title-icon"><i data-lucide="trending-up"></i></span>Desempenho por Pilar</div>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
+          <div class="card-body" id="igPilares"></div>
+        </div>
+        <div class="card" id="card-igSedes">
+          <div class="card-hdr collapsible" onclick="toggleCard('card-igSedes')">
+            <div class="card-title"><span class="card-title-icon"><i data-lucide="map-pin"></i></span>Desempenho por Sede</div>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
+          <div class="card-body" id="igSedes"></div>
+        </div>
+      </div>
+
+      <!-- PRODUCTION STATUS (collapsible) -->
+      <div class="card" id="card-statusProd">
+        <div class="card-hdr collapsible" onclick="toggleCard('card-statusProd')">
+          <div class="card-title"><span class="card-title-icon"><i data-lucide="list-checks"></i></span>Status de Produção</div>
+          <span class="card-collapse-arrow">&#9660;</span>
+        </div>
         <div class="card-body" id="resultadosPostList"></div>
       </div>
 
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="trophy"></i></span>Top Posts por Feedback</div></div>
-          <div class="card-body" id="resultadosTopPosts"></div>
-        </div>
-        <div class="card">
-          <div class="card-hdr"><div class="card-title"><span class="card-title-icon"><i data-lucide="trending-up"></i></span>Resumo por Pilar</div></div>
-          <div class="card-body" id="resultadosPilares"></div>
-        </div>
-      </div>
-
       <div class="info-banner">
-        <span class="info-banner-icon"><i data-lucide="lightbulb"></i></span>
+        <span class="info-banner-icon"><i data-lucide="database"></i></span>
         <div class="info-banner-text">
-          <strong>Nota:</strong> As métricas do Instagram serão preenchidas manualmente ou via integração após as publicações de junho. O relatório completo será apresentado na reunião de alinhamento ao fim do mês.
+          <strong>Dados reais:</strong> As métricas são puxadas do Supabase (tabela <code>instagram_metrics</code>). Atualize os dados via painel admin ou integração com a API do Instagram.
         </div>
       </div>
     </div>
@@ -963,7 +1022,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_agosto2026.html?v=20260610a" class="roteiro-iframe" id="iframeAgo" loading="lazy"></iframe>
+          <iframe src="its_power_videos_agosto2026.html?v=20260610b" class="roteiro-iframe" id="iframeAgo" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -983,7 +1042,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_julho2026.html?v=20260610a" class="roteiro-iframe" id="iframeJul" loading="lazy"></iframe>
+          <iframe src="its_power_videos_julho2026.html?v=20260610b" class="roteiro-iframe" id="iframeJul" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -1003,7 +1062,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_junho2026.html?v=20260610a" class="roteiro-iframe" id="iframeJun" loading="lazy"></iframe>
+          <iframe src="its_power_videos_junho2026.html?v=20260610b" class="roteiro-iframe" id="iframeJun" loading="lazy"></iframe>
         </div>
       </div>
     </div>
@@ -1210,8 +1269,8 @@
 
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/router.js?v=20260610a"></script>
-<script src="js/app.js?v=20260610a"></script>
+<script src="js/router.js?v=20260610b"></script>
+<script src="js/app.js?v=20260610b"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
