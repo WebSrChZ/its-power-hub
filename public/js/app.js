@@ -756,7 +756,8 @@ function updateStats() {
     sbPct:pct+'%', statPub:pub, statFeedback:fbCount,
     pctJunho:junPct+'%', monthJunPct:junPct+'%', sJunhoPub:junPub,
     pctJulho:julPct+'%', monthJulPct:julPct+'%', sJulhoPub:julPub,
-    ringTotalPct:pct+'%', ringFbPct:fbPct+'%'
+    ringTotalPct:pct+'%', ringFbPct:fbPct+'%',
+    statPillarSub:`${aTot} · ${cTot} · ${vTot}`
   };
   Object.entries(ids).forEach(([id,val]) => { const el=document.getElementById(id); if(el)el.textContent=val; });
   const sbFill = document.getElementById('sbFill'); if(sbFill) sbFill.style.width = pct+'%';
@@ -925,7 +926,7 @@ function setupRealtimeNotifications() {
     const posts = await API.getPosts();
     if (posts) {
       posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||''}; });
-      buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
+      buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
       syncAllStatusesToIframes();
     }
   });
