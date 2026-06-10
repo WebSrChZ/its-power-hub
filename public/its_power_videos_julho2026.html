@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>It's Power — Gestão de Vídeos · Julho 2026</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --blue:#1A7EC8;--blue-dark:#155FA0;--blue-light:#E8F3FB;--blue-mid:#C2DDF4;
+  --orange:#F07820;--orange-light:#FEF0E6;--orange-mid:#FACCA0;
+  --green:#059669;--green-light:#D1FAE5;--purple:#7C3AED;--purple-light:#EDE9FE;
+  --red:#DC2626;--red-light:#FEE2E2;
+  --sw:260px;--th:56px;
+  --bg:#EEF2F7;--surface:#FFFFFF;--surface2:#F7F8FA;--border:#E5E7EB;
+  --text:#374151;--muted:#6B7280;--heading:#111827;
+  --sb:#111827;--sb-text:rgba(255,255,255,.75);--sb-active:rgba(26,126,200,.25);
+}
+[data-theme="dark"]{
+  --bg:#0F172A;--surface:#1E293B;--surface2:#162032;--border:#334155;
+  --text:#CBD5E1;--muted:#94A3B8;--heading:#F1F5F9;
+  --blue-light:rgba(26,126,200,.15);--blue-mid:rgba(26,126,200,.3);
+  --orange-light:rgba(240,120,32,.15);--orange-mid:rgba(240,120,32,.3);
+  --green-light:rgba(5,150,105,.15);--purple-light:rgba(124,58,237,.15);
+  --red-light:rgba(220,38,38,.15);
+}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
+
+/* -- SIDEBAR -- */
+.sidebar{width:var(--sw);background:var(--sb);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
+.sb-logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.sb-brand{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.sb-brand span{color:var(--orange)}
+.sb-sub{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+.sb-prog-wrap{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.sb-prog-top{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.sb-prog-top strong{color:#fff}
+.prog-bar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:2px;transition:width .5s}
+.sb-nav{flex:1;overflow-y:auto;padding:4px 0 24px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent}
+.sb-nav::-webkit-scrollbar{width:3px}
+.sb-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+.sb-week{padding:12px 20px 4px;font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.14em}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:background .15s;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.05)}
+.nav-item.active{background:var(--sb-active)}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:background .2s}
+.nav-info{flex:1;min-width:0}
+.nav-title{font-size:11px;color:var(--sb-text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.nav-item.active .nav-title{color:#fff}
+.nav-date{font-size:9px;color:rgba(255,255,255,.28);margin-top:1px}
+.nav-check{font-size:11px;color:var(--green);opacity:0;transition:opacity .2s}
+.sb-month-link{display:flex;align-items:center;gap:8px;padding:10px 20px;font-size:10px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .15s;border-top:1px solid rgba(255,255,255,.06);margin-top:8px}
+.sb-month-link:hover{color:var(--orange)}
+
+/* -- MAIN -- */
+.main{margin-left:var(--sw);display:flex;flex-direction:column;min-width:0}
+.topbar{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:var(--th);display:flex;align-items:center;justify-content:space-between;gap:14px;backdrop-filter:blur(8px)}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{padding:5px 11px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--muted);transition:all .15s;white-space:nowrap}
+.pill:hover{border-color:var(--blue);color:var(--blue)}
+.pill.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.pill[data-f="pendente"].on{background:#9CA3AF;border-color:#9CA3AF}
+.pill[data-f="gravando"].on{background:var(--purple);border-color:var(--purple)}
+.pill[data-f="editando"].on{background:var(--orange);border-color:var(--orange)}
+.pill[data-f="pronto"].on{background:var(--green);border-color:var(--green)}
+.pill[data-f="publicado"].on{background:#065F46;border-color:#065F46}
+.topbar-right{display:flex;align-items:center;gap:7px}
+.ico-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:15px;transition:all .15s}
+.ico-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.mob-menu{display:none}
+.content{padding:24px 28px 60px;display:flex;flex-direction:column;gap:24px}
+
+/* -- STATS -- */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.stat{background:var(--surface);border-radius:10px;padding:14px 16px;border:1px solid var(--border);border-top:3px solid var(--blue);transition:transform .15s,box-shadow .15s}
+.stat:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat.or{border-top-color:var(--orange)}.stat.gr{border-top-color:var(--green)}.stat.pu{border-top-color:var(--purple)}.stat.re{border-top-color:var(--red)}
+.stat-n{font-size:28px;font-weight:800;color:var(--blue);line-height:1}
+.stat.or .stat-n{color:var(--orange)}.stat.gr .stat-n{color:var(--green)}.stat.pu .stat-n{color:var(--purple)}.stat.re .stat-n{color:var(--red)}
+.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+
+/* -- SECTION -- */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:11px;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:10px}
+.sec-title::after{content:'';width:36px;height:2px;background:var(--blue-mid);border-radius:1px}
+
+/* -- NEXT UP -- */
+.next-banner{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:12px;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.next-info .lbl{font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.next-info .ttl{font-size:15px;font-weight:700;color:#fff;line-height:1.3}
+.next-info .sub{font-size:10px;color:rgba(255,255,255,.6);margin-top:3px}
+.next-right{text-align:right;flex-shrink:0}
+.cdown-n{font-size:36px;font-weight:800;color:#fff;line-height:1}
+.cdown-l{font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em}
+
+/* -- CALENDAR -- */
+.cal-box{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.cal-mhdr{background:var(--blue-dark);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;min-width:700px}
+.cal-mhdr .t{font-size:13px;font-weight:700;color:#fff}
+.cal-mhdr .s{font-size:10px;color:rgba(255,255,255,.55)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(100px,1fr))}
+.cal-head{background:var(--blue);color:#fff;text-align:center;font-size:9px;font-weight:700;padding:8px 4px;letter-spacing:.05em;text-transform:uppercase}
+.cal-cell{min-height:68px;border:1px solid var(--border);padding:6px 8px;background:var(--surface);position:relative;transition:background .15s}
+.cal-cell.empty{background:var(--surface2);border-color:transparent}
+.cal-cell.hv{background:var(--blue-light);border-color:var(--blue-mid);cursor:pointer}
+.cal-cell.hv:hover{background:var(--blue-mid)}
+.cal-cell.today{box-shadow:inset 0 0 0 2px var(--orange)}
+.cal-dn{font-size:10px;font-weight:600;color:var(--heading);display:block;margin-bottom:3px}
+.cal-cell.empty .cal-dn{color:var(--muted)}
+.cal-badge{font-size:8px;padding:2px 6px;border-radius:3px;font-weight:700;display:inline-block;line-height:1.4;background:var(--blue);color:#fff}
+.cal-ev{font-size:7.5px;color:var(--muted);margin-top:3px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-sdot{position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;border:1.5px solid var(--surface)}
+
+/* -- WEEK DIVIDER -- */
+.wdiv{display:flex;align-items:center;gap:12px;margin:4px 0}
+.wdiv-line{flex:1;height:1px;background:var(--border)}
+.wdiv-lbl{font-size:10px;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.12em;background:var(--blue-light);padding:4px 14px;border-radius:20px;white-space:nowrap}
+
+/* -- VIDEO CARD -- */
+.vcard{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s}
+.vcard:hover{box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.vcard[data-hidden]{display:none}
+.vcard-hdr{display:grid;grid-template-columns:56px 1fr auto;align-items:stretch;cursor:pointer;user-select:none}
+.vcard-ncol{background:var(--blue);display:flex;align-items:center;justify-content:center;padding:16px 8px}
+.vcard-ncol.or{background:var(--orange)}
+.vcard-n{font-size:22px;font-weight:800;color:rgba(255,255,255,.92);line-height:1}
+.vcard-meta{background:var(--blue-dark);padding:13px 16px}
+.vcard-meta.or{background:#C04A10}
+.vcard-dt{font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.vcard-title{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
+.vcard-right{padding:12px 16px;background:var(--surface2);display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:10px;min-width:170px}
+.vcard-type{font-size:9px;padding:3px 8px;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.vcard-status-row{display:flex;align-items:center;gap:8px}
+.s-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.s-sel{font-size:10px;font-weight:700;padding:5px 24px 5px 10px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24'%3E%3Cpath fill='%236B7280' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:border-color .15s}
+.s-sel:focus{outline:none;border-color:var(--blue)}
+.expand-ico{font-size:12px;color:var(--muted);transition:transform .25s}
+
+/* -- CARD BODY -- */
+.vcard-body{display:none;padding:20px;border-top:1px solid var(--border);gap:20px;grid-template-columns:1fr 1fr}
+.vcard-body.open{display:grid}
+.r-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.r-lbl::after{content:'';flex:1;height:1px;background:var(--blue-mid)}
+.r-lbl.or{color:var(--orange)}.r-lbl.or::after{background:var(--orange-mid)}
+.r-lbl.gr{color:var(--green)}.r-lbl.gr::after{background:#A7F3D0}
+.cuts{display:flex;flex-direction:column;gap:8px}
+.cut{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start}
+.cut-n{width:22px;height:22px;background:var(--blue-light);color:var(--blue-dark);font-size:9px;font-weight:700;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.cut-txt{font-size:11px;color:var(--text);line-height:1.5}
+.cut-note{font-size:10px;color:var(--muted);font-style:italic;margin-top:2px}
+.cap-wrap{position:relative}
+.cap-box{background:var(--surface2);border-left:3px solid var(--blue);padding:10px 12px;font-size:11px;color:var(--text);line-height:1.7;white-space:pre-line;border-radius:0 6px 6px 0}
+.copy-btn{position:absolute;top:7px;right:7px;background:var(--blue);color:#fff;border:none;border-radius:4px;padding:4px 9px;font-size:9px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.04em;transition:background .15s,transform .1s}
+.copy-btn:hover{background:var(--blue-dark)}
+.copy-btn.copied{background:var(--green)}
+.copy-btn:active{transform:scale(.95)}
+.stories-box{background:var(--orange-light);border-left:3px solid var(--orange);padding:10px 12px;border-radius:0 6px 6px 0;display:flex;flex-direction:column;gap:6px}
+.story-item{font-size:11px;color:var(--text);line-height:1.6;display:flex;gap:8px;align-items:flex-start}
+.s-arr{color:var(--orange);flex-shrink:0;font-weight:700}
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chk{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;user-select:none}
+.chk:hover{border-color:var(--blue)}
+.chk.done{border-color:var(--green);background:var(--green-light)}
+.chk-box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .15s}
+.chk.done .chk-box{background:var(--green);border-color:var(--green);color:#fff}
+.chk-t{font-size:10px;font-weight:600;color:var(--text)}
+.chk.done .chk-t{color:#065F46;text-decoration:line-through}
+.notes-area{width:100%;min-height:56px;border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--text);background:var(--surface);resize:vertical;font-family:inherit;line-height:1.5;transition:border-color .15s}
+.notes-area:focus{outline:none;border-color:var(--blue)}
+.notes-area::placeholder{color:var(--muted)}
+.card-prog{display:flex;align-items:center;gap:10px;padding:10px 20px;background:var(--surface2);border-top:1px solid var(--border)}
+.cp-bar{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.cp-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:2px;transition:width .3s}
+.cp-lbl{font-size:9px;color:var(--muted);white-space:nowrap}
+
+/* -- STATUS COLORS -- */
+[data-status="pendente"]{--sc:#9CA3AF}[data-status="gravando"]{--sc:var(--purple)}[data-status="editando"]{--sc:var(--orange)}[data-status="pronto"]{--sc:var(--green)}[data-status="publicado"]{--sc:#065F46}
+
+/* -- TOAST -- */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--heading);color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* -- SIDEBAR OVERLAY (mobile) -- */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
+.sb-overlay.show{opacity:1;pointer-events:auto}
+
+/* -- PRINT -- */
+@media print{
+  .sidebar,.topbar,.copy-btn,.s-sel,.expand-ico,.mob-menu,.sb-overlay{display:none!important}
+  .main{margin-left:0}
+  .content{padding:16px}
+  .vcard-body{display:grid!important}
+}
+
+/* -- RESPONSIVE -- */
+@media(max-width:1200px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){:root{--sw:220px}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sb-overlay{display:block}
+  .main{margin-left:0}
+  .topbar{padding:0 14px}
+  .content{padding:14px 14px 60px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .vcard-hdr{grid-template-columns:44px 1fr}
+  .vcard-right{display:none}
+  .vcard-body{grid-template-columns:1fr!important}
+  .checklist{grid-template-columns:1fr}
+  .mob-menu{display:flex}
+  .cal-grid{grid-template-columns:repeat(7,1fr)}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .next-banner{flex-direction:column;align-items:flex-start}
+  .next-right{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-brand">it's <span>power</span></div>
+    <div class="sb-sub">Academia · Cláudio, MG</div>
+  </div>
+  <div class="sb-prog-wrap">
+    <div class="sb-prog-top">Progresso do mês <strong id="sbProgPct">0%</strong></div>
+    <div class="prog-bar"><div class="prog-fill" id="sbProgFill" style="width:0%"></div></div>
+  </div>
+  <div class="sb-nav" id="sbNav"><!-- preenchido por JS --></div>
+  <a class="sb-month-link" href="its_power_videos_junho2026.html" title="Ver roteiros de junho">&#8592; Junho 2026</a>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="ico-btn mob-menu" onclick="toggleSidebar()">&#9776;</button>
+      <div class="pills" id="filterPills">
+        <button class="pill on" data-f="todos">Todos</button>
+        <button class="pill" data-f="pendente">&#9679; Pendente</button>
+        <button class="pill" data-f="gravando">&#9679; Gravando</button>
+        <button class="pill" data-f="editando">&#9679; Editando</button>
+        <button class="pill" data-f="pronto">&#9679; Pronto</button>
+        <button class="pill" data-f="publicado">&#10003; Publicado</button>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="ico-btn" onclick="toggleDark()" title="Modo escuro">&#127769;</button>
+      <button class="ico-btn" onclick="collapseAll()" title="Recolher tudo">&#8863;</button>
+      <button class="ico-btn" onclick="expandAll()" title="Expandir tudo">&#8862;</button>
+      <button class="ico-btn" onclick="window.print()" title="Imprimir">&#128424;&#65039;</button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-n" id="sTot">12</div><div class="stat-l">Reels no mês</div></div>
+      <div class="stat or"><div class="stat-n" id="sSpec">0</div><div class="stat-l">Datas especiais</div></div>
+      <div class="stat gr"><div class="stat-n" id="sPub">0</div><div class="stat-l">Publicados</div></div>
+      <div class="stat pu"><div class="stat-n" id="sRdy">0</div><div class="stat-l">Prontos</div></div>
+      <div class="stat re"><div class="stat-n" id="sPend">12</div><div class="stat-l">Pendentes</div></div>
+    </div>
+
+    <!-- NEXT UP -->
+    <div class="next-banner" id="nextBanner">
+      <div class="next-info">
+        <div class="lbl">Próxima publicação</div>
+        <div class="ttl" id="nextTitle">—</div>
+        <div class="sub" id="nextSub">—</div>
+      </div>
+      <div class="next-right">
+        <div class="cdown-n" id="cdownN">—</div>
+        <div class="cdown-l">dias restantes</div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div>
+      <div class="sec-hdr"><div class="sec-title">Calendário — Julho 2026</div></div>
+      <div class="cal-box">
+        <div class="cal-mhdr">
+          <span class="t">Julho 2026</span>
+          <span class="s">3 reels/semana · 12 vídeos · Fase: Construção de Autoridade</span>
+        </div>
+        <div class="cal-grid" id="calGrid"><!-- JS --></div>
+      </div>
+    </div>
+
+    <!-- VIDEOS LIST -->
+    <div>
+      <div class="sec-hdr"><div class="sec-title">Roteiros & Gestão</div></div>
+      <div id="videosList" style="display:flex;flex-direction:column;gap:10px"><!-- JS --></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* =======================================
+   DATA — JULHO 2026
+   Fase: Construção de Autoridade
+======================================= */
+const VIDEOS = [
+  {
+    id:'V01',num:1,date:'2026-07-01',dayFull:'Quarta · 01 de Julho',week:1,special:false,
+    title:'Julho começou. A construção continua.',
+    type:'Comunidade · Abertura',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Texto na tela com fade: "Junho foi descoberta." Montagem rápida de 3 melhores clipes de junho.',note:'2s · Conecta com o mês anterior'},
+      {n:2,t:'Corte seco para a academia. Texto: "Julho é construção." Plano geral do espaço, novo ângulo, energia renovada.',note:'2s · Declara a nova fase'},
+      {n:3,t:'Rostos dos alunos que continuaram treinando no inverno — câmera passa por eles, reconhecimento.',note:'3s · Prova de consistência'},
+      {n:4,t:'Professor orientando um aluno com atenção total — foco no detalhe técnico, cuidado visível.',note:'2s · Diferencial em cena'},
+      {n:5,t:'"12 novos conteúdos. Mesmo compromisso. Vamos, julho." + logo It\'s Power.',note:'2s · Abre o mês com intenção'},
+    ],
+    caption:`Junho foi descoberta. Julho é construção.\n\nQuem ficou no inverno não ficou parado — evoluiu.\n\n12 novos vídeos. Mesmo compromisso com quem treina de verdade.\n\nBora, julho.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Pronto pra julho?" Sempre / Nunca parei','Sticker de contagem regressiva para o próximo conteúdo (V02, sábado)','Repost de stories de alunos treinando no primeiro dia de julho'],
+  },
+  {
+    id:'V02',num:2,date:'2026-07-04',dayFull:'Sábado · 04 de Julho',week:1,special:false,
+    title:'O que acontece no seu corpo quando você treina no frio.',
+    type:'Educativo · Ciência Acessível',typeCss:'background:var(--green-light);color:#065F46',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Abertura direta: "Você sabia que treinar no frio muda o que acontece dentro do seu corpo?" Câmera próxima, tom curioso.',note:'3s · Curiosidade imediata'},
+      {n:2,t:'Ponto 1 — texto na tela: "Termogênese." Professor explica: "Seu corpo queima gordura só pra te aquecer. Sem fazer nada a mais." Imagem de treino intenso.',note:'4s · Ciência em linguagem simples'},
+      {n:3,t:'Ponto 2 — "Circulação." "O coração trabalha mais eficiente. Seus vasos dilatam durante o exercício e contraem depois. É como um treino pro próprio coração."',note:'4s · Informação com imagem corporal'},
+      {n:4,t:'Ponto 3 — "Endorfina dobrada." "Você sai do treino no frio melhor do que sairia no verão. A recompensa é maior." Expressão de satisfação pós-treino.',note:'4s · Gatilho emocional'},
+      {n:5,t:'"Treinar no frio não é sacrifício. É estratégia. Salva esse vídeo." + logo.',note:'3s · Reframe + CTA de salvamento'},
+    ],
+    caption:`Treinar no frio não é sacrifício — é estratégia.\n\n→ Termogênese: seu corpo queima mais só pra se aquecer\n→ Circulação: coração mais eficiente\n→ Endorfina: sai do treino melhor do que no verão\n\nA ciência explica. O resultado, você sente.\n\nSalva e manda pra quem precisa dessa motivação.\n📍 It's Power · Cláudio, MG`,
+    stories:['Caixa de perguntas: "Você sente diferença treinando no frio?"','Responder as melhores respostas com comentário do professor em vídeo curto','Quiz: "Qual desses benefícios você não sabia?" Termogênese / Circulação / Endorfina'],
+  },
+  {
+    id:'V03',num:3,date:'2026-07-07',dayFull:'Terça · 07 de Julho',week:2,special:false,
+    title:'Eu achava que academia não era pra mim.',
+    type:'Depoimento · Prova Social',typeCss:'background:var(--red-light);color:#991B1B',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Aluna treinando com confiança — câmera natural, sem pose. Texto: "Essa é a [Nome]. 4 meses na It\'s Power."',note:'3s · Apresentação humana'},
+      {n:2,t:'Pergunta (off): "O que te impediu de começar antes?" Resposta genuína — vergonha, insegurança, medo de não dar conta. Sem ensaio.',note:'5–8s · Vulnerabilidade gera conexão'},
+      {n:3,t:'"E o que mudou quando você finalmente veio?" Momento de virada — como o ambiente acolheu, como o professor adaptou o treino.',note:'5s · A solução veio do acolhimento'},
+      {n:4,t:'"O que você diria pra quem está na dúvida?" Conselho direto, da experiência vivida. Câmera próxima, olho no olho.',note:'5s · CTA embutido no depoimento'},
+      {n:5,t:'Texto: "[Nome]. Parte da comunidade It\'s Power." + logo e localização.',note:'2s · Identidade e pertencimento'},
+    ],
+    caption:`"Eu achava que academia não era pra mim."\n\n[Nome] adiou por meses. Tinha vergonha. Tinha medo de não dar conta.\n\nAté que veio. E descobriu que o lugar certo faz toda a diferença.\n\nSe você está na dúvida — essa história é pra você.\n📍 It's Power · Cláudio, MG`,
+    stories:['Trecho mais impactante do depoimento (10–15s) com legenda grande','Enquete: "Você já sentiu isso antes de começar a treinar?" Sim / Estou sentindo agora','Caixa de texto: "Me conta o que te impede — sem julgamento"'],
+  },
+  {
+    id:'V04',num:4,date:'2026-07-09',dayFull:'Quinta · 09 de Julho',week:2,special:false,
+    title:'O erro de alimentação que sabota seu treino.',
+    type:'Educativo · Alto Salvamento',typeCss:'background:var(--green-light);color:#065F46',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Você treina certo, dorme certo, e mesmo assim não vê resultado?" Pausa. "Pode ser isso." Câmera no professor, tom sério.',note:'3s · Endereça frustração real'},
+      {n:2,t:'O erro: "Comer pouco demais." Texto na tela. "Seu corpo precisa de combustível. Sem ele, não constrói músculo — consome."',note:'5s · Informação contra-intuitiva para muitos'},
+      {n:3,t:'"A conta é simples: menos do que precisa = menos resultado. Não é sobre comer menos. É sobre comer certo."',note:'5s · Clareza sem jargão'},
+      {n:4,t:'Dica prática — texto: "2h antes do treino: proteína + carboidrato." Professor dá exemplo real: "Frango com batata. Ovo com pão. Simples."',note:'4s · Aplicável imediatamente'},
+      {n:5,t:'"Na dúvida, pergunta pra gente. Aqui ninguém treina no escuro." + logo.',note:'3s · Autoridade + CTA orgânico'},
+    ],
+    caption:`Treina certo, dorme certo — e o resultado não vem?\n\nO erro mais comum: comer pouco demais.\n\nSeu corpo precisa de combustível. Sem ele, não constrói — consome.\n\nDica simples: 2h antes do treino, proteína + carboidrato.\nFrango com batata. Ovo com pão. Simples.\n\nSalva e manda pra quem precisa ouvir isso.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Você come antes de treinar?" Sempre / Às vezes / Treino em jejum','Responder com dica curta dependendo da resposta mais votada','CTA: "Quer montar uma rotina alimentar pro seu treino? Pergunta pro professor"'],
+  },
+  {
+    id:'V05',num:5,date:'2026-07-11',dayFull:'Sábado · 11 de Julho',week:2,special:false,
+    title:'O turno das 6h. Você não conhece essa turma.',
+    type:'Comunidade · Identidade',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Relógio marcando 5:50 da manhã. Rua escura, frio visível no ar. Câmera caminha até a academia. Luz acesa dentro.',note:'3s · Atmosfera cinematográfica'},
+      {n:2,t:'Primeiro aluno empurra a porta. Segundo chega. Terceiro. Cumprimentos rápidos — todo mundo se conhece. Energia crescente.',note:'4s · A tribo se formando'},
+      {n:3,t:'Treino em andamento — grupo em sincronia, esforço visível, zero reclamação. O som real do ambiente: peso, respiração, conversa breve.',note:'4s · Autenticidade sonora'},
+      {n:4,t:'Professor no meio deles — corrigindo um agachamento, dando tapinha nas costas de outro, rindo junto. Faz parte.',note:'3s · Pertencimento pelo exemplo'},
+      {n:5,t:'"Essa turma existe todo dia. Antes do sol nascer. Quer fazer parte? É só aparecer." + logo.',note:'3s · Convite aberto'},
+    ],
+    caption:`5:50 da manhã. Escuro. Frio. Rua vazia.\n\nE a It's Power já está cheia.\n\nO turno das 6h não é pra qualquer um — é pra quem escolhe antes do sol nascer.\n\nEssa turma existe todo dia. Quer fazer parte? É só aparecer.\n📍 It's Power · Cláudio, MG`,
+    stories:['Série de 3 stories no escuro mostrando a jornada até a academia — storytelling visual','Enquete: "Você teria coragem de treinar às 6h no inverno?" Sim / Me convence','CTA: "Amanhã às 6h tem vaga. Quem vem?"'],
+  },
+  {
+    id:'V06',num:6,date:'2026-07-14',dayFull:'Terça · 14 de Julho',week:3,special:false,
+    title:'Agachamento livre — você provavelmente faz isso errado.',
+    type:'Educativo · Técnica',typeCss:'background:var(--green-light);color:#065F46',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Agachamento livre. O exercício mais feito — e mais mal feito — de qualquer academia." Tom direto, sem rodeio.',note:'3s · Gancho provocativo'},
+      {n:2,t:'Demonstra a versão ERRADA — joelhos passando demais, tronco caindo pra frente, calcanhar subindo. Câmera lateral clara. Texto: "ERRADO"',note:'4s · Visual didático inconfundível'},
+      {n:3,t:'Demonstra a versão CORRETA — mesmo ângulo, mesma câmera. Joelho alinhado, peito aberto, peso no calcanhar. Texto: "CORRETO"',note:'4s · Comparativo lado a lado mental'},
+      {n:4,t:'Detalhe técnico: "O segredo? Pense em sentar numa cadeira invisível. Peito pra cima. Empurre o chão com o calcanhar."',note:'4s · Metáfora memorável'},
+      {n:5,t:'"Salva esse vídeo. Semana que vem tem mais da série Correção de Exercício." + logo.',note:'3s · Salvamento + antecipação de série'},
+    ],
+    caption:`Agachamento livre. Você provavelmente faz errado.\n\nA diferença entre resultado e lesão está num detalhe:\n→ Joelho alinhado com a ponta do pé\n→ Peito aberto, tronco firme\n→ Peso no calcanhar, não na ponta\n\nPense em sentar numa cadeira. Empurre o chão.\n\nSalva e manda pra quem precisa corrigir.\n📍 It's Power · Cláudio, MG`,
+    stories:['Vídeo de 15s mostrando só a versão correta em câmera lenta com texto grande','Enquete: "Você fazia errado?" Fazia / Sempre fiz certo (hmm...)','CTA: "Quer corrigir seu agachamento ao vivo? Agende uma aula experimental"'],
+  },
+  {
+    id:'V07',num:7,date:'2026-07-16',dayFull:'Quinta · 16 de Julho',week:3,special:false,
+    title:'1 minuto. Sem parar. Sem desculpa. Você aguenta?',
+    type:'Entretenimento · Desafio',typeCss:'background:var(--purple-light);color:var(--purple)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Professor olha pra câmera com sorriso desafiador: "Lembra dos 30 segundos de junho? Agora é 1 minuto. Quem aguenta?"',note:'3s · Callback para V11 de junho'},
+      {n:2,t:'Mostra o desafio: prancha com toque no ombro alternado. Cronômetro grande na tela. "Valendo."',note:'5s · O desafio visual'},
+      {n:3,t:'Marca de 30 segundos — texto "METADE!" Expressão de esforço crescente. Respiração pesada.',note:'10s · Tensão em tempo real (speed up sutil)'},
+      {n:4,t:'Últimos 10 segundos — câmera próxima no rosto, braços tremendo. "3... 2... 1..." Reação genuína: alívio, grito, risada.',note:'8s · Clímax emocional'},
+      {n:5,t:'"Conseguiu? Comenta. Não conseguiu? Treina e volta semana que vem. A gente espera." + logo.',note:'3s · CTA duplo: comentário ou motivação'},
+    ],
+    caption:`Lembra dos 30 segundos? Agora é 1 minuto.\n\nPrancha com toque no ombro. Sem parar. Sem desculpa.\n\nParece fácil — até os 40 segundos.\n\nConseguiu? Comenta.\nNão conseguiu? Treina e volta semana que vem. 💪\n📍 It's Power · Cláudio, MG`,
+    stories:['"Tenta fazer em casa e manda no direct" — caixa de resposta com vídeo','Repostar os melhores vídeos de tentativas nos stories ao longo do dia','Enquete: "Conseguiu 1 minuto?" Consegui / Preciso treinar MUITO mais'],
+  },
+  {
+    id:'V08',num:8,date:'2026-07-18',dayFull:'Sábado · 18 de Julho',week:3,special:false,
+    title:'Por que esse professor acorda às 5h todos os dias.',
+    type:'Autoridade · Humanização',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'5h da manhã. Despertador tocando. Mão desliga. Câmera acompanha: café rápido, roupa, saída de casa no escuro. Inverno.',note:'4s · Rotina real, sem glamour'},
+      {n:2,t:'Chegando na academia antes de todo mundo. Acende as luzes. Confere equipamentos. Organiza o espaço. Sozinho.',note:'3s · O cuidado invisível'},
+      {n:3,t:'Pergunta (off): "Por que você faz isso todo dia?" Resposta autêntica — sobre propósito, sobre os alunos, sobre o que construiu.',note:'6–8s · Momento vulnerável do professor'},
+      {n:4,t:'Primeiro aluno empurrando a porta. Cumprimento com sorriso. O dia começa oficialmente.',note:'3s · A recompensa chega'},
+      {n:5,t:'"Quem cuida, aparece primeiro." + logo.',note:'2s · Frase-assinatura da marca'},
+    ],
+    caption:`5h da manhã. Despertador. Frio. Escuro.\n\nMas quem cuida de verdade aparece primeiro.\n\nAntes do primeiro aluno chegar, o espaço já está pronto. Os equipamentos, conferidos. A energia, preparada.\n\nIsso não é trabalho. É compromisso.\n📍 It's Power · Cláudio, MG`,
+    stories:['Bastidores da rotina da manhã em 4 stories sequenciais — storytelling cru','Caixa de perguntas: "O que você perguntaria pro professor?"','Selecionar as melhores perguntas e responder nos stories do dia seguinte'],
+  },
+  {
+    id:'V09',num:9,date:'2026-07-21',dayFull:'Terça · 21 de Julho',week:4,special:false,
+    title:'Dor no ombro? Pode ser isso — e tem solução.',
+    type:'Educativo · Alto Salvamento',typeCss:'background:var(--green-light);color:#065F46',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Se o seu ombro estala ou dói quando levanta o braço — para. Assiste isso antes do próximo treino." Tom urgente mas calmo.',note:'3s · Endereça uma dor real'},
+      {n:2,t:'Explica: "Na maioria dos casos, não é lesão. É falta de mobilidade." Demonstra teste simples: braço reto acima da cabeça, mão toca a parede?',note:'5s · Autodiagnóstico acessível'},
+      {n:3,t:'Exercício 1: rotação externa com elástico — demonstração lenta, ângulo claro, repetições contadas.',note:'4s · Solução prática 1'},
+      {n:4,t:'Exercício 2: face pull leve com corda — "Faça no aquecimento. Todo treino. Em 2 semanas, sente a diferença."',note:'4s · Solução prática 2 com prazo'},
+      {n:5,t:'"Ombro travado não é desculpa pra parar. É motivo pra treinar melhor." + logo.',note:'3s · Reframe poderoso'},
+    ],
+    caption:`Dor no ombro? Antes de parar — assiste isso.\n\nNa maioria dos casos, não é lesão. É falta de mobilidade.\n\nDois exercícios no aquecimento. Todo treino. 2 semanas.\n\n→ Rotação externa com elástico\n→ Face pull leve com corda\n\nOmbro travado não é desculpa. É motivo pra treinar melhor.\n\nSalva e manda pra quem precisa.\n📍 It's Power · Cláudio, MG`,
+    stories:['Demonstração lenta de cada exercício em story separado — com texto de instrução','Enquete: "Você sente dor ou estalo no ombro?" Sim / Não, mas salvei','CTA: "Quer uma avaliação do seu ombro? Fala com o professor na próxima aula"'],
+  },
+  {
+    id:'V10',num:10,date:'2026-07-23',dayFull:'Quinta · 23 de Julho',week:4,special:false,
+    title:'[Nome] — 90 dias depois. Os números mudaram. A atitude, mais.',
+    type:'Depoimento · Transformação',typeCss:'background:var(--red-light);color:#991B1B',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Texto: "[Nome]. Aluno há 90 dias." Imagem do aluno treinando com confiança e domínio técnico visível.',note:'3s · Apresentação com presença'},
+      {n:2,t:'"Quando comecei, eu [pesava X / não conseguia Y / tinha vergonha de Z]." Depoimento real, números concretos, emoção no olhar.',note:'5–8s · Ponto de partida honesto'},
+      {n:3,t:'"Hoje eu [faço X séries / perdi Y kg / ganhei Z de força]. Mas isso não é o mais importante." Pausa.',note:'5s · Dados + gancho emocional'},
+      {n:4,t:'"O que mais mudou não foi o corpo. Foi como eu me vejo." Momento de silêncio. Câmera segura o olhar.',note:'4s · Clímax emocional — o real resultado'},
+      {n:5,t:'"[Nome]. 90 dias. Parte da comunidade It\'s Power." + logo.',note:'2s · Assinatura de pertencimento'},
+    ],
+    caption:`90 dias. Os números mudaram.\n\nMas o que mais mudou não foi o corpo — foi como [Nome] se vê.\n\nCada treino, cada manhã, cada escolha construiu algo que vai além de medida.\n\nEssa é a transformação real. E ela acontece aqui.\n📍 It's Power · Cláudio, MG`,
+    stories:['Trecho mais emocional do depoimento (15s) com legenda grande para ver sem som','Enquete: "Você se identifica?" Muito / Quero começar minha transformação','Caixa: "Qual é o seu objetivo pra esse mês? Me conta"'],
+  },
+  {
+    id:'V11',num:11,date:'2026-07-28',dayFull:'Terça · 28 de Julho',week:5,special:false,
+    title:'Férias. Crianças em casa. E o seu treino?',
+    type:'Engajamento · Sazonal',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Férias escolares. Crianças em casa. Rotina toda bagunçada." Pausa. "E o treino?" Tom empático, sem cobrança.',note:'3s · Endereça realidade de julho'},
+      {n:2,t:'Mãe ou pai chegando na academia com determinação — troca o casaco, respira fundo. "Esses 50 minutos são meus."',note:'3s · Identificação imediata'},
+      {n:3,t:'Treino focado, eficiente, sem enrolação. Professor orientando com precisão. Cada minuto conta.',note:'3s · Mostra que é possível'},
+      {n:4,t:'Saindo da academia — sorriso largo, energia renovada. Texto: "Voltei melhor pra eles."',note:'3s · A recompensa do autocuidado'},
+      {n:5,t:'"Cuidar de si não é egoísmo. É exemplo." + logo.',note:'3s · Frase de impacto para reshare'},
+    ],
+    caption:`Férias. Crianças em casa. Rotina virada de cabeça pra baixo.\n\nE o treino?\n\n50 minutos. É tudo que você precisa.\n\nVocê volta pra casa com mais energia, mais paciência, mais presença.\n\nCuidar de si não é egoísmo. É exemplo.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Férias atrapalham seu treino?" Sim demais / Treino do mesmo jeito','Dica rápida: "3 treinos de 40 min na semana é suficiente pra manter o ritmo"','CTA: "Traz as crianças pra conhecer a academia — elas vão adorar"'],
+  },
+  {
+    id:'V12',num:12,date:'2026-07-31',dayFull:'Sexta · 31 de Julho · Fechamento do Mês',week:5,special:false,
+    title:'Dois meses. O que a gente construiu não se apaga.',
+    type:'Comunidade · Fechamento',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Dois meses atrás, isso aqui era só uma promessa." Clipe do V01 de junho — a primeira porta abrindo.',note:'2s · Volta à origem'},
+      {n:2,t:'Montagem no beat: melhores momentos de junho e julho — 6 a 8 clipes rápidos. Risos, suor, cumprimentos, esforço, celebração.',note:'8s · Emoção concentrada'},
+      {n:3,t:'Rostos dos alunos — quem ficou, quem evoluiu, quem não desistiu no frio. Câmera lenta em cada olhar.',note:'4s · Homenagem visual'},
+      {n:4,t:'"Obrigado por cada série, cada manhã gelada, cada escolha de vir." Pausa. "Agosto vem aí. E a gente não para."',note:'3s · Gratidão + antecipação'},
+      {n:5,t:'"It\'s Power. Dois meses de verdade." + logo. Fade suave.',note:'2s · Assinatura definitiva'},
+    ],
+    caption:`Dois meses.\n\nCada série. Cada manhã gelada. Cada escolha de vir quando era mais fácil ficar.\n\nTudo isso construiu algo que não se apaga.\n\nObrigado a cada pessoa que fez parte.\n\nAgosto vem aí. E a gente não para.\n\nPrimeira visita por nossa conta. Link na bio.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Como foi o seu julho de treino?" Forte / Poderia ter sido melhor','Caixa: "Qual foi o melhor momento do seu julho?"','Story final: "Agosto começa amanhã. A gente não para. Link na bio."'],
+  },
+];
+
+const CHECKS = ['Roteiro','Gravação','Edição','Legenda','Stories','Publicado'];
+const STATUS_OPT = ['pendente','gravando','editando','pronto','publicado'];
+const STATUS_LABEL = {pendente:'Pendente',gravando:'Gravando',editando:'Editando',pronto:'Pronto',publicado:'Publicado'};
+const STATUS_COLOR = {pendente:'#9CA3AF',gravando:'#7C3AED',editando:'#F07820',pronto:'#059669',publicado:'#065F46'};
+
+/* -- STORAGE -- */
+function save(k,v){localStorage.setItem('ip_jul_'+k,JSON.stringify(v))}
+function load(k,def){try{const v=localStorage.getItem('ip_jul_'+k);return v?JSON.parse(v):def}catch{return def}}
+
+let state = load('state', VIDEOS.reduce((acc,v)=>{
+  acc[v.id]={status:'pendente',checks:CHECKS.reduce((a,c)=>{a[c]=false;return a},{}),notes:''};
+  return acc;},{}));
+
+function saveState(){save('state',state)}
+
+/* -- CALENDAR -- */
+function buildCalendar(){
+  const grid = document.getElementById('calGrid');
+  const heads = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  let h = heads.map(d=>`<div class="cal-head">${d}</div>`).join('');
+
+  // July 2026 starts on Wednesday (3rd column, index 2)
+  const videoByDate = {};
+  VIDEOS.forEach(v=>videoByDate[v.date]=v);
+
+  let cells = '';
+  // 2 leading empties (Mon, Tue)
+  for(let i=0;i<2;i++) cells+=`<div class="cal-cell empty"><span class="cal-dn"></span></div>`;
+
+  for(let d=1;d<=31;d++){
+    const dateStr = `2026-07-${String(d).padStart(2,'0')}`;
+    const v = videoByDate[dateStr];
+    const today = new Date().toISOString().slice(0,10)===dateStr;
+    if(v){
+      const st = state[v.id].status;
+      cells += `<div class="cal-cell hv${today?' today':''}" onclick="scrollToVideo('${v.id}')">
+        <span class="cal-dn">${d}</span>
+        <span class="cal-badge">${v.id}</span>
+        <div class="cal-ev">${v.title.slice(0,28)}...</div>
+        <div class="cal-sdot" style="background:${STATUS_COLOR[st]}"></div>
+      </div>`;
+    } else {
+      cells += `<div class="cal-cell${today?' today':''}"><span class="cal-dn">${d}</span></div>`;
+    }
+  }
+  // 2 trailing empties (Sat, Sun after Jul 31 = Friday)
+  for(let i=0;i<2;i++) cells+=`<div class="cal-cell empty"><span class="cal-dn"></span></div>`;
+
+  grid.innerHTML = h + cells;
+}
+
+/* -- SIDEBAR -- */
+function buildSidebar(){
+  const nav = document.getElementById('sbNav');
+  let html = '';
+  let lastWeek = 0;
+  VIDEOS.forEach(v=>{
+    if(v.week!==lastWeek){
+      html+=`<div class="sb-week">Semana ${v.week}</div>`;
+      lastWeek=v.week;
+    }
+    const st=state[v.id].status;
+    const pub=st==='publicado';
+    html+=`<div class="nav-item" id="nav_${v.id}" onclick="scrollToVideo('${v.id}')">
+      <div class="nav-dot" style="background:${STATUS_COLOR[st]}"></div>
+      <div class="nav-info">
+        <div class="nav-title">${v.title}</div>
+        <div class="nav-date">${v.dayFull.split('·')[0].trim()}</div>
+      </div>
+      <span class="nav-check">${pub?'✓':''}</span>
+    </div>`;
+  });
+  nav.innerHTML=html;
+}
+
+/* -- VIDEO CARDS -- */
+function buildCards(){
+  const list = document.getElementById('videosList');
+  let html = '';
+  let lastWeek = 0;
+  const wlabels = {1:'Semana 1 · 01–05 jul',2:'Semana 2 · 06–12 jul',3:'Semana 3 · 13–19 jul',4:'Semana 4 · 20–26 jul',5:'Semana 5 · 27–31 jul'};
+
+  VIDEOS.forEach(v=>{
+    if(v.week!==lastWeek){
+      html+=`<div class="wdiv"><div class="wdiv-line"></div><div class="wdiv-lbl">${wlabels[v.week]}</div><div class="wdiv-line"></div></div>`;
+      lastWeek=v.week;
+    }
+    const st=state[v.id].status;
+    const chks=state[v.id].checks;
+    const notes=state[v.id].notes||'';
+    const done=Object.values(chks).filter(Boolean).length;
+    const total=CHECKS.length;
+    const pct=Math.round(done/total*100);
+
+    const selOpts=STATUS_OPT.map(s=>`<option value="${s}"${s===st?' selected':''}>${STATUS_LABEL[s]}</option>`).join('');
+    const cutHtml=v.cuts.map(c=>`<div class="cut">
+      <div class="cut-n">${c.n}</div>
+      <div><div class="cut-txt">${c.t}</div><div class="cut-note">${c.note}</div></div>
+    </div>`).join('');
+    const storyHtml=v.stories.map(s=>`<div class="story-item"><span class="s-arr">→</span>${s}</div>`).join('');
+    const chkHtml=CHECKS.map(c=>`<div class="chk${chks[c]?' done':''}" onclick="toggleCheck('${v.id}','${c}')">
+      <div class="chk-box">${chks[c]?'✓':''}</div>
+      <span class="chk-t">${c}</span>
+    </div>`).join('');
+
+    html+=`<div class="vcard" id="card_${v.id}" data-week="${v.week}" data-status="${st}">
+      <div class="vcard-hdr" onclick="toggleCard('${v.id}')">
+        <div class="vcard-ncol ${v.numCss}"><div class="vcard-n">${String(v.num).padStart(2,'0')}</div></div>
+        <div class="vcard-meta ${v.metaCss}">
+          <div class="vcard-dt">${v.dayFull}</div>
+          <div class="vcard-title">${v.title}</div>
+        </div>
+        <div class="vcard-right">
+          <span class="vcard-type" style="${v.typeCss}">${v.type}</span>
+          <div class="vcard-status-row">
+            <span class="s-lbl">Status</span>
+            <select class="s-sel" id="sel_${v.id}" onchange="setStatus('${v.id}',this.value)" onclick="e=>e.stopPropagation()">${selOpts}</select>
+          </div>
+          <span class="expand-ico" id="exp_${v.id}">&#9660;</span>
+        </div>
+      </div>
+      <div class="card-prog">
+        <div class="cp-bar"><div class="cp-fill" id="cpf_${v.id}" style="width:${pct}%"></div></div>
+        <span class="cp-lbl" id="cpl_${v.id}">${done}/${total} tarefas</span>
+      </div>
+      <div class="vcard-body" id="body_${v.id}">
+        <div class="r-block">
+          <div class="r-lbl">Roteiro — Cortes</div>
+          <div class="cuts">${cutHtml}</div>
+        </div>
+        <div>
+          <div class="r-block" style="margin-bottom:14px">
+            <div class="r-lbl">Legenda do Post</div>
+            <div class="cap-wrap">
+              <div class="cap-box">${v.caption}</div>
+              <button class="copy-btn" id="cpbtn_${v.id}" onclick="copyCaption('${v.id}')">Copiar</button>
+            </div>
+          </div>
+          <div class="r-block" style="margin-bottom:14px">
+            <div class="r-lbl or">Adaptação Stories</div>
+            <div class="stories-box">${storyHtml}</div>
+          </div>
+          <div class="r-block" style="margin-bottom:14px">
+            <div class="r-lbl gr">Checklist de Produção</div>
+            <div class="checklist">${chkHtml}</div>
+          </div>
+          <div class="r-block">
+            <div class="r-lbl">Observações</div>
+            <textarea class="notes-area" id="notes_${v.id}" placeholder="Anotações, ajustes, ideias..." oninput="saveNotes('${v.id}',this.value)">${notes}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  list.innerHTML=html;
+}
+
+/* -- INTERACTIONS -- */
+function toggleCard(id){
+  const body=document.getElementById('body_'+id);
+  const ico=document.getElementById('exp_'+id);
+  const open=body.classList.toggle('open');
+  ico.style.transform=open?'rotate(180deg)':'';
+  setActiveNav(id);
+}
+
+function scrollToVideo(id){
+  const el=document.getElementById('card_'+id);
+  if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>{
+    const body=document.getElementById('body_'+id);
+    if(!body.classList.contains('open'))toggleCard(id);
+  },400);
+  setActiveNav(id);
+}
+
+function setActiveNav(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const ni=document.getElementById('nav_'+id);
+  if(ni){ni.classList.add('active');ni.scrollIntoView({block:'nearest'})}
+}
+
+function setStatus(id,val){
+  state[id].status=val;
+  saveState();
+  updateCard(id);
+  updateStats();
+  updateCalendar();
+  updateProgress();
+  updateNextUp();
+}
+
+function toggleCheck(id,key){
+  state[id].checks[key]=!state[id].checks[key];
+  saveState();
+  updateCardChecks(id);
+  updateStats();
+  updateProgress();
+}
+
+function saveNotes(id,val){
+  state[id].notes=val;
+  saveState();
+}
+
+function copyCaption(id){
+  const v=VIDEOS.find(x=>x.id===id);
+  if(!v)return;
+  navigator.clipboard.writeText(v.caption).then(()=>{
+    const btn=document.getElementById('cpbtn_'+id);
+    btn.textContent='Copiado!';
+    btn.classList.add('copied');
+    showToast('Legenda copiada!');
+    setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('copied')},2000);
+  });
+}
+
+/* -- UPDATE HELPERS -- */
+function updateCard(id){
+  const st=state[id].status;
+  const card=document.getElementById('card_'+id);
+  card.dataset.status=st;
+  const sel=document.getElementById('sel_'+id);
+  if(sel)sel.value=st;
+  const navItem=document.getElementById('nav_'+id);
+  if(navItem){
+    navItem.querySelector('.nav-dot').style.background=STATUS_COLOR[st];
+    navItem.querySelector('.nav-check').textContent=st==='publicado'?'✓':'';
+  }
+  applyFilter(currentFilter);
+}
+
+function updateCardChecks(id){
+  const chks=state[id].checks;
+  const done=Object.values(chks).filter(Boolean).length;
+  const total=CHECKS.length;
+  const pct=Math.round(done/total*100);
+  document.getElementById('cpf_'+id).style.width=pct+'%';
+  document.getElementById('cpl_'+id).textContent=`${done}/${total} tarefas`;
+  CHECKS.forEach(c=>{
+    const items=document.querySelectorAll(`#card_${id} .chk`);
+    items.forEach(el=>{
+      if(el.querySelector('.chk-t').textContent===c){
+        el.classList.toggle('done',chks[c]);
+        el.querySelector('.chk-box').textContent=chks[c]?'✓':'';
+      }
+    });
+  });
+}
+
+function updateStats(){
+  const counts={pendente:0,gravando:0,editando:0,pronto:0,publicado:0};
+  VIDEOS.forEach(v=>counts[state[v.id].status]++);
+  document.getElementById('sPub').textContent=counts.publicado;
+  document.getElementById('sRdy').textContent=counts.pronto;
+  document.getElementById('sPend').textContent=counts.pendente+counts.gravando+counts.editando;
+}
+
+function updateProgress(){
+  const total=VIDEOS.length*CHECKS.length;
+  let done=0;
+  VIDEOS.forEach(v=>done+=Object.values(state[v.id].checks).filter(Boolean).length);
+  const pct=Math.round(done/total*100);
+  document.getElementById('sbProgFill').style.width=pct+'%';
+  document.getElementById('sbProgPct').textContent=pct+'%';
+}
+
+function updateCalendar(){
+  VIDEOS.forEach(v=>{
+    const cell=document.querySelector(`[onclick="scrollToVideo('${v.id}')"]`);
+    if(cell){
+      const dot=cell.querySelector('.cal-sdot');
+      if(dot)dot.style.background=STATUS_COLOR[state[v.id].status];
+    }
+  });
+}
+
+function updateNextUp(){
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  let next=null;
+  for(const v of VIDEOS){
+    if(state[v.id].status==='publicado')continue;
+    const d=new Date(v.date+'T00:00:00');
+    if(d>=today){next=v;break;}
+  }
+  if(!next){
+    document.getElementById('nextTitle').textContent='Todos publicados!';
+    document.getElementById('nextSub').textContent='Julho completo';
+    document.getElementById('cdownN').textContent='✓';
+    return;
+  }
+  const diff=Math.ceil((new Date(next.date+'T00:00:00')-today)/(1000*60*60*24));
+  document.getElementById('nextTitle').textContent=next.title;
+  document.getElementById('nextSub').textContent=next.dayFull;
+  document.getElementById('cdownN').textContent=diff<=0?'Hoje':diff;
+}
+
+/* -- FILTER -- */
+let currentFilter='todos';
+function applyFilter(f){
+  currentFilter=f;
+  VIDEOS.forEach(v=>{
+    const card=document.getElementById('card_'+v.id);
+    const st=state[v.id].status;
+    card.toggleAttribute('data-hidden',f!=='todos'&&st!==f);
+  });
+}
+
+document.getElementById('filterPills').addEventListener('click',e=>{
+  const btn=e.target.closest('.pill');
+  if(!btn)return;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  applyFilter(btn.dataset.f);
+});
+
+/* -- EXPAND/COLLAPSE ALL -- */
+function expandAll(){
+  VIDEOS.forEach(v=>{
+    const body=document.getElementById('body_'+v.id);
+    const ico=document.getElementById('exp_'+v.id);
+    body.classList.add('open');
+    ico.style.transform='rotate(180deg)';
+  });
+}
+function collapseAll(){
+  VIDEOS.forEach(v=>{
+    const body=document.getElementById('body_'+v.id);
+    const ico=document.getElementById('exp_'+v.id);
+    body.classList.remove('open');
+    ico.style.transform='';
+  });
+}
+
+/* -- DARK MODE -- */
+function toggleDark(){
+  const html=document.documentElement;
+  const isDark=html.dataset.theme==='dark';
+  html.dataset.theme=isDark?'light':'dark';
+  save('dark',!isDark);
+}
+
+/* -- SIDEBAR MOBILE -- */
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('show');
+}
+
+/* -- TOAST -- */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* -- INIT -- */
+(function init(){
+  if(load('dark',false)) document.documentElement.dataset.theme='dark';
+  buildCalendar();
+  buildSidebar();
+  buildCards();
+  updateStats();
+  updateProgress();
+  updateNextUp();
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id.replace('card_','');
+        setActiveNav(id);
+      }
+    });
+  },{threshold:0.3});
+  VIDEOS.forEach(v=>{
+    const el=document.getElementById('card_'+v.id);
+    if(el)observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
