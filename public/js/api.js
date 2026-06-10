@@ -107,5 +107,21 @@ const API = {
       .on('postgres_changes', { event: '*', schema: 'public', table }, payload => {
         callback(payload);
       }).subscribe();
+  },
+
+  // Instagram Metrics
+  async getIgAccount() {
+    const { data } = await getDb().from('instagram_account').select('*').order('date', { ascending: false }).limit(2);
+    return data || [];
+  },
+  async upsertIgAccount(row) {
+    await getDb().from('instagram_account').upsert(row, { onConflict: 'date' });
+  },
+  async getIgPosts() {
+    const { data } = await getDb().from('instagram_posts').select('*');
+    return data || [];
+  },
+  async upsertIgPost(row) {
+    await getDb().from('instagram_posts').upsert(row, { onConflict: 'post_id' });
   }
 };

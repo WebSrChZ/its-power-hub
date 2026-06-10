@@ -1146,108 +1146,224 @@ function buildGallery() {
   if (typeof lucide !== 'undefined') { try { lucide.createIcons({nameAttr:'data-lucide'}); } catch {} }
 }
 
-/* ─── RESULTADOS (computed from post data) ─── */
+/* ─── RESULTADOS (Instagram metrics + production status) ─── */
+let IG_POSTS_DATA = {};
+let IG_ACCOUNT_DATA = null;
+let IG_ACCOUNT_PREV = null;
+let igMonthFilter = 'todos';
+
+const MONTH_NUM = {jun:'06',jul:'07',ago:'08'};
+
+function fmtN(n) { if (n==null||n===0) return '-'; if (n>=1e6) return (n/1e6).toFixed(1)+'M'; if (n>=1e3) return (n/1e3).toFixed(1)+'K'; return String(n); }
+function fmtPct(n) { if (n==null) return '-'; return n.toFixed(1)+'%'; }
+function changeBadge(cur, prev, suffix) {
+  if (cur==null||prev==null||prev===0) return '<span class="metric-change metric-neutral">--</span>';
+  const diff = cur - prev; const pct = (diff/prev*100).toFixed(1);
+  if (diff > 0) return `<span class="metric-change metric-up">+${pct}%${suffix?' '+suffix:''}</span>`;
+  if (diff < 0) return `<span class="metric-change metric-down">${pct}%${suffix?' '+suffix:''}</span>`;
+  return '<span class="metric-change metric-neutral">0%</span>';
+}
+
+async function loadIgData() {
+  try {
+    const [acctRows, postRows] = await Promise.all([API.getIgAccount(), API.getIgPosts()]);
+    if (acctRows.length > 0) IG_ACCOUNT_DATA = acctRows[0];
+    if (acctRows.length > 1) IG_ACCOUNT_PREV = acctRows[1];
+    IG_POSTS_DATA = {};
+    postRows.forEach(r => { IG_POSTS_DATA[r.post_id] = r; });
+  } catch {}
+}
+
 function buildResultados() {
-  const pub = POSTS.filter(p => STATE[p.id]?.status === 'publicado').length;
-  const prod = POSTS.filter(p => STATE[p.id]?.status === 'producao').length;
-  const aprov = POSTS.filter(p => STATE[p.id]?.status === 'aprovado').length;
-  const pend = POSTS.filter(p => STATE[p.id]?.status === 'pendente').length;
-  const fbCount = POSTS.filter(p => (STATE[p.id]?.stars||0) > 0).length;
+  buildIgAccount();
+  buildIgPostsTable();
+  buildIgTopPosts();
+  buildIgPilares();
+  buildIgSedes();
+  buildProductionStatus();
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons({nameAttr:'data-lucide'}); } catch {} }
+}
 
-  // Update metric cards
-  const mf = document.getElementById('metricFollowers');
-  const mr = document.getElementById('metricReach');
-  const me = document.getElementById('metricEngagement');
-  const mc = document.getElementById('metricConversions');
-  if (mf) mf.textContent = pub + '/' + POSTS.length;
-  if (mr) mr.textContent = fbCount + '/' + POSTS.length;
-  if (me) me.textContent = Math.round((pub + aprov) / POSTS.length * 100) + '%';
-  if (mc) mc.textContent = prod + aprov + pub;
+function buildIgAccount() {
+  const a = IG_ACCOUNT_DATA;
+  const p = IG_ACCOUNT_PREV;
+  document.getElementById('igFollowers').textContent = a ? fmtN(a.followers) : '--';
+  document.getElementById('igReach').textContent = a ? fmtN(a.reach) : '--';
+  document.getElementById('igEngagement').textContent = a ? fmtPct(a.engagement_rate) : '--';
+  document.getElementById('igProfileVisits').textContent = a ? fmtN(a.profile_visits) : '--';
+  document.getElementById('igFollowersChange').innerHTML = a&&p ? changeBadge(a.followers, p.followers) : '<span class="metric-change metric-neutral">--</span>';
+  document.getElementById('igReachChange').innerHTML = a&&p ? changeBadge(a.reach, p.reach) : '<span class="metric-change metric-neutral">--</span>';
+  document.getElementById('igEngagementChange').innerHTML = a&&p ? changeBadge(a.engagement_rate, p.engagement_rate, 'pp') : '<span class="metric-change metric-neutral">--</span>';
+  document.getElementById('igProfileVisitsChange').innerHTML = a&&p ? changeBadge(a.profile_visits, p.profile_visits) : '<span class="metric-change metric-neutral">--</span>';
+}
 
-  // Update labels
-  const labels = document.querySelectorAll('#panel-resultados .metric-label');
-  if (labels[0]) labels[0].textContent = 'Publicados';
-  if (labels[1]) labels[1].textContent = 'Com Feedback';
-  if (labels[2]) labels[2].textContent = 'Aprovacao';
-  if (labels[3]) labels[3].textContent = 'Em Progresso';
+function buildIgPostsTable() {
+  const tbody = document.getElementById('igPostsBody');
+  const tfoot = document.getElementById('igPostsFoot');
+  if (!tbody) return;
+  let html = '';
+  let totals = {views:0,likes:0,comments:0,shares:0,saves:0,reach:0,count:0};
 
-  // Post status list
+  POSTS.forEach(p => {
+    const ig = IG_POSTS_DATA[p.id] || {};
+    const hasData = ig.views || ig.likes || ig.comments || ig.shares || ig.saves;
+    const v = (n) => n ? `<span class="ig-val">${fmtN(n)}</span>` : '<span class="ig-val zero">-</span>';
+    const sedeInfo = SEDE[p.sede] || SEDE.ambas;
+    const monthCode = p.month || p.id.replace(/\d+/,'');
+    const monthLabel = MONTH_NUM[monthCode] || '06';
+    const engRate = ig.reach > 0 ? ((ig.likes||0)+(ig.comments||0)+(ig.shares||0)+(ig.saves||0))/ig.reach*100 : 0;
+    const engClass = engRate >= 8 ? 'high' : engRate >= 3 ? 'mid' : 'low';
+
+    if (hasData) { totals.views+=(ig.views||0); totals.likes+=(ig.likes||0); totals.comments+=(ig.comments||0); totals.shares+=(ig.shares||0); totals.saves+=(ig.saves||0); totals.reach+=(ig.reach||0); totals.count++; }
+
+    const hidden = igMonthFilter !== 'todos' && monthCode !== igMonthFilter ? ' data-ig-hidden' : '';
+    html += `<tr${hidden}>
+      <td><div class="ig-post-cell">
+        <div class="ig-post-icon" style="background:${PILLAR[p.pillar]?.bg||'var(--surface2)'}">${PILLAR[p.pillar]?.icon||'&#128249;'}</div>
+        <div class="ig-post-info">
+          <div class="ig-post-title">${p.title}</div>
+          <div class="ig-post-meta">${String(p.day).padStart(2,'0')}/${monthLabel} · ${PILLAR[p.pillar]?.label||''}</div>
+        </div>
+      </div></td>
+      <td style="text-align:center"><span class="ig-sede-badge" style="background:${sedeInfo.bg};color:${sedeInfo.color};border:1px solid ${sedeInfo.border}">${sedeInfo.short}</span></td>
+      <td>${v(ig.views)}</td>
+      <td>${v(ig.likes)}</td>
+      <td>${v(ig.comments)}</td>
+      <td>${v(ig.shares)}</td>
+      <td>${v(ig.saves)}</td>
+      <td>${v(ig.reach)}</td>
+      <td><span class="ig-eng ${hasData?engClass:'low'}">${hasData?fmtPct(engRate):'-'}</span></td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+
+  if (tfoot) {
+    const totalEng = totals.reach > 0 ? (totals.likes+totals.comments+totals.shares+totals.saves)/totals.reach*100 : 0;
+    tfoot.innerHTML = totals.count > 0 ? `<tr>
+      <td colspan="2" style="text-align:left">Total (${totals.count} posts com dados)</td>
+      <td>${fmtN(totals.views)}</td><td>${fmtN(totals.likes)}</td><td>${fmtN(totals.comments)}</td>
+      <td>${fmtN(totals.shares)}</td><td>${fmtN(totals.saves)}</td><td>${fmtN(totals.reach)}</td>
+      <td><span class="ig-eng ${totalEng>=8?'high':totalEng>=3?'mid':'low'}">${fmtPct(totalEng)}</span></td>
+    </tr>` : `<tr><td colspan="9" style="text-align:center;color:var(--muted);font-weight:400;font-style:italic">Nenhum dado do Instagram ainda. Insira via Supabase (tabela instagram_posts).</td></tr>`;
+  }
+}
+
+function buildIgTopPosts() {
+  const el = document.getElementById('igTopPosts');
+  if (!el) return;
+  const withData = POSTS.filter(p => IG_POSTS_DATA[p.id]?.views > 0)
+    .map(p => ({...p, ig: IG_POSTS_DATA[p.id], eng: IG_POSTS_DATA[p.id].reach > 0 ? ((IG_POSTS_DATA[p.id].likes||0)+(IG_POSTS_DATA[p.id].comments||0)+(IG_POSTS_DATA[p.id].shares||0)+(IG_POSTS_DATA[p.id].saves||0))/IG_POSTS_DATA[p.id].reach*100 : 0}))
+    .sort((a,b) => b.eng - a.eng);
+
+  if (withData.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><i data-lucide="trophy"></i></div><div class="empty-state-title">Sem dados de engajamento</div><div class="empty-state-desc">Os posts aparecerão aqui quando tiverem métricas do Instagram.</div></div>';
+    return;
+  }
+  let html = '<div style="display:flex;flex-direction:column;gap:8px">';
+  withData.slice(0,5).forEach((p, i) => {
+    html += `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);background:var(--surface2)">
+      <span style="font-size:14px;font-weight:800;color:${i===0?'#E1306C':i===1?'var(--orange)':'var(--muted)'};width:22px;text-align:center">${i+1}</span>
+      <span>${PILLAR[p.pillar]?.icon||''}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:11px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+        <div style="font-size:9px;color:var(--muted);margin-top:2px">${fmtN(p.ig.views)} views · ${fmtN(p.ig.likes)} likes · ${fmtN(p.ig.saves)} salvos</div>
+      </div>
+      <span class="ig-eng ${p.eng>=8?'high':p.eng>=3?'mid':'low'}">${fmtPct(p.eng)}</span>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function buildIgPilares() {
+  const el = document.getElementById('igPilares');
+  if (!el) return;
+  let html = '<div style="display:flex;flex-direction:column;gap:12px">';
+  ['a','c','v'].forEach(k => {
+    const posts = POSTS.filter(p => p.pillar === k);
+    const withIg = posts.filter(p => IG_POSTS_DATA[p.id]?.views > 0);
+    const pl = PILLAR[k];
+    const sumViews = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.views||0), 0);
+    const sumLikes = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.likes||0), 0);
+    const sumReach = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.reach||0), 0);
+    const sumSaves = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.saves||0), 0);
+    const eng = sumReach > 0 ? (sumLikes+sumSaves)/sumReach*100 : 0;
+    html += `<div style="padding:14px 16px;border-radius:var(--r);background:var(--surface2);border:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-size:16px">${pl.icon}</span>
+        <span style="font-size:13px;font-weight:700;color:var(--heading)">${pl.label}</span>
+        <span style="margin-left:auto;font-size:10px;color:var(--muted)">${withIg.length}/${posts.length} com dados</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px">
+        <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--heading)">${fmtN(sumViews)}</div><div style="font-size:9px;color:var(--muted)">Views</div></div>
+        <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--heading)">${fmtN(sumLikes)}</div><div style="font-size:9px;color:var(--muted)">Likes</div></div>
+        <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:${eng>=8?'#065F46':eng>=3?'#92400E':'var(--muted)'}">${fmtPct(eng)}</div><div style="font-size:9px;color:var(--muted)">Eng.</div></div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function buildIgSedes() {
+  const el = document.getElementById('igSedes');
+  if (!el) return;
+  let html = '<div style="display:flex;flex-direction:column;gap:12px">';
+  ['bv','centro','ambas'].forEach(sk => {
+    const sedeInfo = SEDE[sk];
+    const posts = POSTS.filter(p => p.sede === sk);
+    const withIg = posts.filter(p => IG_POSTS_DATA[p.id]?.views > 0);
+    const sumViews = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.views||0), 0);
+    const sumLikes = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.likes||0), 0);
+    const sumReach = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.reach||0), 0);
+    const sumSaves = withIg.reduce((s,p) => s + (IG_POSTS_DATA[p.id]?.saves||0), 0);
+    const eng = sumReach > 0 ? (sumLikes+sumSaves)/sumReach*100 : 0;
+    html += `<div style="padding:14px 16px;border-radius:var(--r);background:var(--surface2);border:1px solid ${sedeInfo.border}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span class="ig-sede-badge" style="background:${sedeInfo.bg};color:${sedeInfo.color};border:1px solid ${sedeInfo.border}">${sedeInfo.short}</span>
+        <span style="font-size:13px;font-weight:700;color:var(--heading)">${sedeInfo.label}</span>
+        <span style="margin-left:auto;font-size:10px;color:var(--muted)">${withIg.length}/${posts.length} com dados</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px">
+        <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--heading)">${fmtN(sumViews)}</div><div style="font-size:9px;color:var(--muted)">Views</div></div>
+        <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--heading)">${fmtN(sumLikes)}</div><div style="font-size:9px;color:var(--muted)">Likes</div></div>
+        <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:${eng>=8?'#065F46':eng>=3?'#92400E':'var(--muted)'}">${fmtPct(eng)}</div><div style="font-size:9px;color:var(--muted)">Eng.</div></div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function buildProductionStatus() {
   const list = document.getElementById('resultadosPostList');
-  if (list) {
-    let html = '<div style="display:flex;flex-direction:column;gap:10px">';
-    POSTS.forEach(p => {
-      const st = STATE[p.id]?.status || 'pendente';
-      const stars = STATE[p.id]?.stars || 0;
-      const starsHtml = stars > 0 ? '&#9733;'.repeat(stars) + '<span style="opacity:.3">' + '&#9733;'.repeat(5 - stars) + '</span>' : '<span style="opacity:.3">&#9733;&#9733;&#9733;&#9733;&#9733;</span>';
-      html += `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r);background:var(--surface2);border:1px solid var(--border)">
-        <span style="font-size:16px">${PILLAR[p.pillar].icon}</span>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:12px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px">${String(p.day).padStart(2,'0')}/${p.month==='jul'?'07':'06'} · ${PILLAR[p.pillar].label}</div>
-        </div>
-        <div style="font-size:12px;color:#FBBF24">${starsHtml}</div>
-        <span style="font-size:9px;font-weight:700;padding:3px 10px;border-radius:10px;background:${STATUS_COLOR[st]}20;color:${STATUS_COLOR[st]};white-space:nowrap">${STATUS_LBL[st]}</span>
-      </div>`;
-    });
-    html += '</div>';
-    list.innerHTML = html;
-  }
+  if (!list) return;
+  let html = '<div style="display:flex;flex-direction:column;gap:10px">';
+  POSTS.forEach(p => {
+    const st = STATE[p.id]?.status || 'pendente';
+    const stars = STATE[p.id]?.stars || 0;
+    const monthCode = p.month || p.id.replace(/\d+/,'');
+    const monthLabel = MONTH_NUM[monthCode] || '06';
+    const starsHtml = stars > 0 ? '&#9733;'.repeat(stars) + '<span style="opacity:.3">' + '&#9733;'.repeat(5 - stars) + '</span>' : '<span style="opacity:.3">&#9733;&#9733;&#9733;&#9733;&#9733;</span>';
+    html += `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r);background:var(--surface2);border:1px solid var(--border)">
+      <span style="font-size:16px">${PILLAR[p.pillar]?.icon||'&#128249;'}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">${String(p.day).padStart(2,'0')}/${monthLabel} · ${PILLAR[p.pillar]?.label||''}</div>
+      </div>
+      <div style="font-size:12px;color:#FBBF24">${starsHtml}</div>
+      <span style="font-size:9px;font-weight:700;padding:3px 10px;border-radius:10px;background:${STATUS_COLOR[st]}20;color:${STATUS_COLOR[st]};white-space:nowrap">${STATUS_LBL[st]}</span>
+    </div>`;
+  });
+  html += '</div>';
+  list.innerHTML = html;
+}
 
-  // Top posts by feedback
-  const top = document.getElementById('resultadosTopPosts');
-  if (top) {
-    const ranked = [...POSTS].filter(p => (STATE[p.id]?.stars||0) > 0).sort((a,b) => (STATE[b.id]?.stars||0) - (STATE[a.id]?.stars||0));
-    if (ranked.length === 0) {
-      top.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><i data-lucide="trophy"></i></div><div class="empty-state-title">Sem feedbacks ainda</div><div class="empty-state-desc">Avalie os posts na aba Junho para ver o ranking aqui.</div></div>';
-    } else {
-      let html = '<div style="display:flex;flex-direction:column;gap:8px">';
-      ranked.slice(0,5).forEach((p, i) => {
-        const stars = STATE[p.id]?.stars || 0;
-        html += `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--r);background:var(--surface2)">
-          <span style="font-size:14px;font-weight:800;color:${i===0?'var(--orange)':i===1?'var(--blue)':'var(--muted)'};width:22px;text-align:center">${i+1}</span>
-          <span>${PILLAR[p.pillar].icon}</span>
-          <div style="flex:1;font-size:11px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
-          <div style="font-size:11px;color:#FBBF24">${'&#9733;'.repeat(stars)}</div>
-        </div>`;
-      });
-      html += '</div>';
-      top.innerHTML = html;
-    }
-  }
-
-  // Pillar summary
-  const pilares = document.getElementById('resultadosPilares');
-  if (pilares) {
-    const summary = {};
-    ['a','c','v'].forEach(k => {
-      const posts = POSTS.filter(p => p.pillar === k);
-      const pubCount = posts.filter(p => STATE[p.id]?.status === 'publicado').length;
-      const avgStars = posts.reduce((sum,p) => sum + (STATE[p.id]?.stars||0), 0) / posts.length;
-      summary[k] = { total: posts.length, pub: pubCount, avg: avgStars };
-    });
-    let html = '<div style="display:flex;flex-direction:column;gap:12px">';
-    ['a','c','v'].forEach(k => {
-      const s = summary[k];
-      const pl = PILLAR[k];
-      const pct = Math.round(s.pub / s.total * 100);
-      html += `<div style="padding:14px 16px;border-radius:var(--r);background:var(--surface2);border:1px solid var(--border)">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <span style="font-size:16px">${pl.icon}</span>
-          <span style="font-size:13px;font-weight:700;color:var(--heading)">${pl.label}</span>
-          <span style="margin-left:auto;font-size:10px;color:var(--muted)">${s.pub}/${s.total} publicados</span>
-        </div>
-        <div class="prog-bar" style="height:6px;background:var(--border)">
-          <div style="height:100%;border-radius:3px;width:${pct}%;${pl.stripe};transition:width .6s"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:6px">
-          <span style="font-size:10px;color:var(--muted)">Média: ${s.avg.toFixed(1)} &#9733;</span>
-          <span style="font-size:10px;font-weight:600;color:var(--heading)">${pct}%</span>
-        </div>
-      </div>`;
-    });
-    html += '</div>';
-    pilares.innerHTML = html;
-  }
+function filterIgMonth(month, btn) {
+  igMonthFilter = month;
+  document.querySelectorAll('#igMonthPills .pill').forEach(p => p.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  buildIgPostsTable();
   if (typeof lucide !== 'undefined') { try { lucide.createIcons({nameAttr:'data-lucide'}); } catch {} }
 }
 
@@ -1322,6 +1438,7 @@ async function initApp() {
 
   // Load data FIRST, then render once (fixes double render)
   await loadData();
+  await loadIgData();
   buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
   buildGallery(); buildResultados(); buildTimeline();
 
