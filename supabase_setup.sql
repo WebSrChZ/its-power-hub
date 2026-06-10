@@ -57,10 +57,16 @@ create policy "Public read/write project_settings" on project_settings for all u
 create policy "Public read/write requests"         on requests         for all using (true) with check (true);
 create policy "Public read/write activity"         on activity         for all using (true) with check (true);
 
--- ── Seed: posts de junho (10 posts pré-criados) ──
+-- ── Seed: posts de junho (12 posts) ──
 insert into post_data (post_id) values
-  ('jun01'),('jun02'),('jun03'),('jun04'),('jun05'),
-  ('jun06'),('jun07'),('jun08'),('jun09'),('jun10')
+  ('jun01'),('jun02'),('jun03'),('jun04'),('jun05'),('jun06'),
+  ('jun07'),('jun08'),('jun09'),('jun10'),('jun11'),('jun12')
+on conflict (post_id) do nothing;
+
+-- ── Seed: posts de julho (12 posts) ──
+insert into post_data (post_id) values
+  ('jul01'),('jul02'),('jul03'),('jul04'),('jul05'),('jul06'),
+  ('jul07'),('jul08'),('jul09'),('jul10'),('jul11'),('jul12')
 on conflict (post_id) do nothing;
 
 -- ── Seed: configurações iniciais ──

@@ -58,7 +58,59 @@ const PILLAR = {
   v:{label:'Conversão',icon:'\u{1F3AF}',badge:'cb-v',calCls:'v-p',
      typeCss:'background:var(--orange-light);color:#92400E',dateBg:'background:linear-gradient(135deg,#C2410C,var(--orange))',stripe:'background:linear-gradient(180deg,var(--orange),#FB923C)'},
 };
-POSTS.forEach(p => { p.icon = PILLAR[p.pillar].icon; });
+POSTS.forEach(p => { p.month = 'jun'; p.icon = PILLAR[p.pillar].icon; });
+
+/* ─── JULHO 2026 — Construção de Autoridade ─── */
+[
+  { id:'jul01',day:1,wday:'Qua',pillar:'c',num:'01/12',
+    title:'Julho começou. A construção continua.',
+    desc:'Abertura do mês. Montagem dos melhores momentos de junho + energia renovada para julho.',
+    tags:['Comunidade','Abertura do mês','Continuidade']},
+  { id:'jul02',day:4,wday:'Sab',pillar:'a',num:'02/12',
+    title:'O que acontece no seu corpo quando você treina no frio.',
+    desc:'Ciência acessível: termogênese, circulação e endorfina. Treinar no frio não é sacrifício — é estratégia.',
+    tags:['Ciência acessível','Alto salvamento','Inverno como vantagem']},
+  { id:'jul03',day:7,wday:'Ter',pillar:'c',num:'03/12',
+    title:'Eu achava que academia não era pra mim.',
+    desc:'Depoimento real: vergonha, insegurança e a descoberta de que o lugar certo faz toda a diferença.',
+    tags:['Prova social','Depoimento autêntico','Conexão emocional']},
+  { id:'jul04',day:9,wday:'Qui',pillar:'a',num:'04/12',
+    title:'O erro de alimentação que sabota seu treino.',
+    desc:'Comer pouco demais é o erro mais comum. Dica prática: 2h antes do treino, proteína + carboidrato.',
+    tags:['Educativo','Alto salvamento','Dica prática']},
+  { id:'jul05',day:11,wday:'Sab',pillar:'c',num:'05/12',
+    title:'O turno das 6h. Você não conhece essa turma.',
+    desc:'Cinematográfico: 5:50 da manhã, frio, rua vazia — e a academia já cheia. Pertencimento real.',
+    tags:['Identidade','Comunidade','Pertencimento']},
+  { id:'jul06',day:14,wday:'Ter',pillar:'a',num:'06/12',
+    title:'Agachamento livre — você provavelmente faz isso errado.',
+    desc:'Comparativo errado vs. correto com câmera lateral. Didática visual e metáfora memorável.',
+    tags:['Técnica','Correção de exercício','Alto salvamento']},
+  { id:'jul07',day:16,wday:'Qui',pillar:'c',num:'07/12',
+    title:'1 minuto. Sem parar. Sem desculpa. Você aguenta?',
+    desc:'Desafio escalado de 30s (junho) para 1 minuto. Prancha com toque no ombro. Alta retenção.',
+    tags:['Desafio','Entretenimento','Formato viral']},
+  { id:'jul08',day:18,wday:'Sab',pillar:'a',num:'08/12',
+    title:'Por que esse professor acorda às 5h todos os dias.',
+    desc:'Humanização do professor: rotina real, propósito e o cuidado invisível antes do primeiro aluno.',
+    tags:['Humanização','Autoridade','Bastidores']},
+  { id:'jul09',day:21,wday:'Ter',pillar:'a',num:'09/12',
+    title:'Dor no ombro? Pode ser isso — e tem solução.',
+    desc:'Diagnóstico acessível + 2 exercícios práticos. Ombro travado é motivo pra treinar melhor.',
+    tags:['Alto salvamento','Solução prática','Mobilidade']},
+  { id:'jul10',day:23,wday:'Qui',pillar:'c',num:'10/12',
+    title:'[Nome] — 90 dias depois. Os números mudaram. A atitude, mais.',
+    desc:'Depoimento de transformação com dados concretos. O que mais mudou não foi o corpo — foi a atitude.',
+    tags:['Depoimento','Transformação real','Prova social']},
+  { id:'jul11',day:28,wday:'Ter',pillar:'c',num:'11/12',
+    title:'Férias. Crianças em casa. E o seu treino?',
+    desc:'Conteúdo sazonal: férias escolares e rotina bagunçada. Cuidar de si não é egoísmo — é exemplo.',
+    tags:['Sazonal','Férias escolares','Reshare alto']},
+  { id:'jul12',day:31,wday:'Sex',pillar:'v',num:'12/12',
+    title:'Dois meses. O que a gente construiu não se apaga.',
+    desc:'Montagem dos melhores momentos de junho e julho. Gratidão genuína e convite para agosto.',
+    tags:['Fechamento','Compilação','CTA — antecipação agosto']},
+].forEach(p => { p.month = 'jul'; p.icon = PILLAR[p.pillar].icon; POSTS.push(p); });
 
 const STATUS_OPT = ['pendente','producao','aprovado','publicado'];
 const STATUS_LBL = {pendente:'Pendente',producao:'Em produção',aprovado:'Aprovado',publicado:'Publicado'};
@@ -108,16 +160,20 @@ async function saveSetting(key, value) {
 
 /* ─── CALENDAR ─── */
 function buildCalendar() {
-  const container = document.getElementById('calJunho');
+  buildMonthCalendar('jun','calJunho','Junho 2026',30,'06',0,5);
+  buildMonthCalendar('jul','calJulho','Julho 2026',31,'07',2,2);
+}
+function buildMonthCalendar(month,containerId,label,days,monthNum,leadEmpty,trailEmpty) {
+  const container = document.getElementById(containerId);
   if (!container) return;
-  const byDay = {};
-  POSTS.forEach(p => byDay[p.day] = p);
+  const mp = POSTS.filter(p=>p.month===month), byDay = {};
+  mp.forEach(p => byDay[p.day] = p);
   const today = new Date().toISOString().slice(0,10);
-  let html = `<div class="cal-mhdr"><span class="t">Junho 2026</span><span class="s">12 reels · início 03/06 · 3×/semana</span></div><div class="cal-grid">`;
+  let html = `<div class="cal-mhdr"><span class="t">${label}</span><span class="s">${mp.length} reels · 3×/semana</span></div><div class="cal-grid">`;
   ['Seg','Ter','Qua','Qui','Sex','Sab','Dom'].forEach(d => html += `<div class="cal-head">${d}</div>`);
-  for (let d=1;d<=30;d++) {
-    const p = byDay[d], isToday = `2026-06-${String(d).padStart(2,'0')}` === today;
-    const inactive = d < 8;
+  for (let i=0;i<leadEmpty;i++) html += '<div class="cal-cell empty"></div>';
+  for (let d=1;d<=days;d++) {
+    const p = byDay[d], isToday = `2026-${monthNum}-${String(d).padStart(2,'0')}` === today;
     if (p) {
       const pl = PILLAR[p.pillar], st = STATE[p.id]?.status||'pendente';
       html += `<div class="cal-cell hp ${pl.calCls}${isToday?' today':''}" onclick="scrollToPost('${p.id}')">
@@ -125,20 +181,25 @@ function buildCalendar() {
         <div class="cal-ev">${p.title.slice(0,20)}...</div>
         <div class="cal-sdot" style="background:${STATUS_COLOR[st]}"></div></div>`;
     } else {
-      html += `<div class="cal-cell${inactive?' inactive':''}${isToday?' today':''}"><span class="cal-dn">${d}</span></div>`;
+      html += `<div class="cal-cell${isToday?' today':''}"><span class="cal-dn">${d}</span></div>`;
     }
   }
-  for (let i=0;i<5;i++) html += '<div class="cal-cell empty"></div>';
+  for (let i=0;i<trailEmpty;i++) html += '<div class="cal-cell empty"></div>';
   html += '</div>';
   container.innerHTML = html;
 }
 
 /* ─── POST LIST ─── */
 function buildPosts() {
-  const c = document.getElementById('postsJunho');
+  buildMonthPosts('jun','postsJunho');
+  buildMonthPosts('jul','postsJulho');
+}
+function buildMonthPosts(month,containerId) {
+  const c = document.getElementById(containerId);
   if (!c) return;
+  const mp = POSTS.filter(p=>p.month===month);
   let html = '';
-  POSTS.forEach(p => {
+  mp.forEach(p => {
     const pl = PILLAR[p.pillar], st = STATE[p.id]?.status||'pendente';
     const note = STATE[p.id]?.note||'', stars = STATE[p.id]?.stars||0;
     const opts = STATUS_OPT.map(s => `<option value="${s}"${s===st?' selected':''}>${STATUS_LBL[s]}</option>`).join('');
@@ -281,7 +342,8 @@ async function approvePhase(phase) {
 
 function scrollToPost(id) {
   switchTab('calendario');
-  const mc = document.getElementById('month-jun2026');
+  const month = id.startsWith('jul') ? 'jul2026' : 'jun2026';
+  const mc = document.getElementById('month-'+month);
   if (mc && mc.classList.contains('collapsed')) mc.classList.remove('collapsed');
   setTimeout(() => { const el = document.getElementById('pi_'+id); if (el) el.scrollIntoView({behavior:'smooth',block:'center'}); }, 200);
 }
@@ -463,14 +525,19 @@ async function submitAdminActivity() {
 
 /* ─── CRONOGRAMA INLINE ─── */
 function buildCronogramaInline() {
-  const el = document.getElementById('cronInlineJunho');
+  buildMonthCronograma('jun','cronInlineJunho','Jun');
+  buildMonthCronograma('jul','cronInlineJulho','Jul');
+}
+function buildMonthCronograma(month,containerId,monthLabel) {
+  const el = document.getElementById(containerId);
   if (!el) return;
+  const mp = POSTS.filter(p=>p.month===month);
   const ps = {a:{bg:'var(--blue-light)',color:'var(--blue-dark)',label:'Autoridade'},c:{bg:'var(--green-light)',color:'var(--green-dark)',label:'Conexão'},v:{bg:'var(--orange-light)',color:'#92400E',label:'Conversão'}};
   let html = '<div class="cron-inline-grid">';
-  POSTS.forEach(p => {
+  mp.forEach(p => {
     const s = ps[p.pillar]||ps.a, st = STATE[p.id]||{status:'pendente'};
     html += `<div class="cron-inline-card" data-pillar="${p.pillar}">
-      <div class="cron-inline-hdr"><div><div class="cron-inline-day">${p.day} Jun</div><div class="cron-inline-wday">${p.wday} - Post ${p.num}</div></div>
+      <div class="cron-inline-hdr"><div><div class="cron-inline-day">${p.day} ${monthLabel}</div><div class="cron-inline-wday">${p.wday} - Post ${p.num}</div></div>
       <span class="cron-inline-pillar" style="background:${s.bg};color:${s.color}">${PILLAR[p.pillar].icon} ${s.label}</span></div>
       <div class="cron-inline-title">${p.title}</div><div class="cron-inline-desc">${p.desc}</div>
       <div class="cron-inline-tags">${p.tags.map(t=>'<span class="cron-inline-tag">'+t+'</span>').join('')}</div>
@@ -612,9 +679,20 @@ function updateStats() {
   });
   const pct = Math.round(pub/POSTS.length*100), fbPct = Math.round(fbCount/POSTS.length*100);
   const circ = 238.76;
-  const ids = {sbPct:pct+'%',pctJunho:pct+'%',monthJunPct:pct+'%',statPub:pub,sJunhoPub:pub,statFeedback:fbCount,ringTotalPct:pct+'%',ringFbPct:fbPct+'%'};
+  // Per-month stats
+  const junPosts = POSTS.filter(p=>p.month==='jun'), julPosts = POSTS.filter(p=>p.month==='jul');
+  const junPub = junPosts.filter(p=>(STATE[p.id]||{}).status==='publicado').length;
+  const julPub = julPosts.filter(p=>(STATE[p.id]||{}).status==='publicado').length;
+  const junPct = junPosts.length ? Math.round(junPub/junPosts.length*100) : 0;
+  const julPct = julPosts.length ? Math.round(julPub/julPosts.length*100) : 0;
+  const ids = {
+    sbPct:pct+'%', statPub:pub, statFeedback:fbCount,
+    pctJunho:junPct+'%', monthJunPct:junPct+'%', sJunhoPub:junPub,
+    pctJulho:julPct+'%', monthJulPct:julPct+'%', sJulhoPub:julPub,
+    ringTotalPct:pct+'%', ringFbPct:fbPct+'%'
+  };
   Object.entries(ids).forEach(([id,val]) => { const el=document.getElementById(id); if(el)el.textContent=val; });
-  document.getElementById('sbFill').style.width = pct+'%';
+  const sbFill = document.getElementById('sbFill'); if(sbFill) sbFill.style.width = pct+'%';
   setRing('ringTotal',pct,circ); setRing('ringFb',fbPct,circ);
   setPBar('a',aP,aTot); setPBar('c',cP,cTot); setPBar('v',vP,vTot);
 }
@@ -911,7 +989,7 @@ function buildGallery() {
         <div class="gallery-title">${p.title}</div>
         <div class="gallery-meta">
           <span class="gallery-badge" style="${typeBg[t]}">${typeLabels[t]}</span>
-          <span>${String(p.day).padStart(2,'0')}/06</span>
+          <span>${String(p.day).padStart(2,'0')}/${p.month==='jul'?'07':'06'}</span>
           <span style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:${STATUS_COLOR[st]}" title="${STATUS_LBL[st]}"></span>
         </div>
       </div>
@@ -958,7 +1036,7 @@ function buildResultados() {
         <span style="font-size:16px">${PILLAR[p.pillar].icon}</span>
         <div style="flex:1;min-width:0">
           <div style="font-size:12px;font-weight:600;color:var(--heading);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px">${String(p.day).padStart(2,'0')}/06 · ${PILLAR[p.pillar].label}</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px">${String(p.day).padStart(2,'0')}/${p.month==='jul'?'07':'06'} · ${PILLAR[p.pillar].label}</div>
         </div>
         <div style="font-size:12px;color:#FBBF24">${starsHtml}</div>
         <span style="font-size:9px;font-weight:700;padding:3px 10px;border-radius:10px;background:${STATUS_COLOR[st]}20;color:${STATUS_COLOR[st]};white-space:nowrap">${STATUS_LBL[st]}</span>
