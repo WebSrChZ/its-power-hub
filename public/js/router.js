@@ -55,6 +55,7 @@ const Router = {
       const labels = {
         dashboard: 'Dashboard',
         calendario: 'Calendário',
+        roteiros: 'Roteiros',
         pilares: '3 Pilares',
         fases: 'Próximas Fases',
         resultados: 'Resultados',
