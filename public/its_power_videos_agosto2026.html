@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>It's Power — Gestão de Vídeos · Agosto 2026</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --blue:#1A7EC8;--blue-dark:#155FA0;--blue-light:#E8F3FB;--blue-mid:#C2DDF4;
+  --orange:#F07820;--orange-light:#FEF0E6;--orange-mid:#FACCA0;
+  --green:#059669;--green-light:#D1FAE5;--purple:#7C3AED;--purple-light:#EDE9FE;
+  --red:#DC2626;--red-light:#FEE2E2;
+  --sw:260px;--th:56px;
+  --bg:#EEF2F7;--surface:#FFFFFF;--surface2:#F7F8FA;--border:#E5E7EB;
+  --text:#374151;--muted:#6B7280;--heading:#111827;
+  --sb:#111827;--sb-text:rgba(255,255,255,.75);--sb-active:rgba(26,126,200,.25);
+}
+[data-theme="dark"]{
+  --bg:#0F172A;--surface:#1E293B;--surface2:#162032;--border:#334155;
+  --text:#CBD5E1;--muted:#94A3B8;--heading:#F1F5F9;
+  --blue-light:rgba(26,126,200,.15);--blue-mid:rgba(26,126,200,.3);
+  --orange-light:rgba(240,120,32,.15);--orange-mid:rgba(240,120,32,.3);
+  --green-light:rgba(5,150,105,.15);--purple-light:rgba(124,58,237,.15);
+  --red-light:rgba(220,38,38,.15);
+}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
+
+/* -- SIDEBAR -- */
+.sidebar{width:var(--sw);background:var(--sb);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;overflow:hidden;transition:transform .3s}
+.sb-logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.sb-brand{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.sb-brand span{color:var(--orange)}
+.sb-sub{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+.sb-prog-wrap{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.sb-prog-top{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.sb-prog-top strong{color:#fff}
+.prog-bar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;transition:width .5s}
+.sb-nav{flex:1;overflow-y:auto;padding:4px 0 24px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent}
+.sb-nav::-webkit-scrollbar{width:3px}
+.sb-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+.sb-week{padding:12px 20px 4px;font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.14em}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:background .15s;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.05)}
+.nav-item.active{background:var(--sb-active)}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:background .2s}
+.nav-info{flex:1;min-width:0}
+.nav-title{font-size:11px;color:var(--sb-text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.nav-item.active .nav-title{color:#fff}
+.nav-date{font-size:9px;color:rgba(255,255,255,.28);margin-top:1px}
+.nav-check{font-size:11px;color:var(--green);opacity:0;transition:opacity .2s}
+.sb-month-link{display:flex;align-items:center;gap:8px;padding:10px 20px;font-size:10px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .15s;border-top:1px solid rgba(255,255,255,.06);margin-top:8px}
+.sb-month-link:hover{color:var(--orange)}
+
+/* -- MAIN -- */
+.main{margin-left:var(--sw);display:flex;flex-direction:column;min-width:0}
+.topbar{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:var(--th);display:flex;align-items:center;justify-content:space-between;gap:14px;backdrop-filter:blur(8px)}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{padding:5px 11px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--muted);transition:all .15s;white-space:nowrap}
+.pill:hover{border-color:var(--blue);color:var(--blue)}
+.pill.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.pill[data-f="pendente"].on{background:#9CA3AF;border-color:#9CA3AF}
+.pill[data-f="gravando"].on{background:var(--purple);border-color:var(--purple)}
+.pill[data-f="editando"].on{background:var(--orange);border-color:var(--orange)}
+.pill[data-f="pronto"].on{background:var(--green);border-color:var(--green)}
+.pill[data-f="publicado"].on{background:#065F46;border-color:#065F46}
+.topbar-right{display:flex;align-items:center;gap:7px}
+.ico-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:15px;transition:all .15s}
+.ico-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.mob-menu{display:none}
+.content{padding:24px 28px 60px;display:flex;flex-direction:column;gap:24px}
+
+/* -- STATS -- */
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.stat{background:var(--surface);border-radius:10px;padding:14px 16px;border:1px solid var(--border);border-top:3px solid var(--green);transition:transform .15s,box-shadow .15s}
+.stat:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat.or{border-top-color:var(--orange)}.stat.gr{border-top-color:var(--green)}.stat.pu{border-top-color:var(--purple)}.stat.re{border-top-color:var(--red)}
+.stat-n{font-size:28px;font-weight:800;color:var(--green);line-height:1}
+.stat.or .stat-n{color:var(--orange)}.stat.gr .stat-n{color:var(--green)}.stat.pu .stat-n{color:var(--purple)}.stat.re .stat-n{color:var(--red)}
+.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+
+/* -- SECTION -- */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:11px;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:10px}
+.sec-title::after{content:'';width:36px;height:2px;background:rgba(5,150,105,.3);border-radius:1px}
+
+/* -- NEXT UP -- */
+.next-banner{background:linear-gradient(135deg,#065F46,var(--green));border-radius:12px;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.next-info .lbl{font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.next-info .ttl{font-size:15px;font-weight:700;color:#fff;line-height:1.3}
+.next-info .sub{font-size:10px;color:rgba(255,255,255,.6);margin-top:3px}
+.next-right{text-align:right;flex-shrink:0}
+.cdown-n{font-size:36px;font-weight:800;color:#fff;line-height:1}
+.cdown-l{font-size:9px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em}
+
+/* -- CALENDAR -- */
+.cal-box{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.cal-mhdr{background:#065F46;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;min-width:700px}
+.cal-mhdr .t{font-size:13px;font-weight:700;color:#fff}
+.cal-mhdr .s{font-size:10px;color:rgba(255,255,255,.55)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(100px,1fr))}
+.cal-head{background:var(--green);color:#fff;text-align:center;font-size:9px;font-weight:700;padding:8px 4px;letter-spacing:.05em;text-transform:uppercase}
+.cal-cell{min-height:68px;border:1px solid var(--border);padding:6px 8px;background:var(--surface);position:relative;transition:background .15s}
+.cal-cell.empty{background:var(--surface2);border-color:transparent}
+.cal-cell.hv{background:var(--green-light);border-color:rgba(5,150,105,.3);cursor:pointer}
+.cal-cell.hv:hover{background:rgba(5,150,105,.2)}
+.cal-cell.today{box-shadow:inset 0 0 0 2px var(--orange)}
+.cal-dn{font-size:10px;font-weight:600;color:var(--heading);display:block;margin-bottom:3px}
+.cal-cell.empty .cal-dn{color:var(--muted)}
+.cal-badge{font-size:8px;padding:2px 6px;border-radius:3px;font-weight:700;display:inline-block;line-height:1.4;background:var(--green);color:#fff}
+.cal-ev{font-size:7.5px;color:var(--muted);margin-top:3px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-sdot{position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;border:1.5px solid var(--surface)}
+
+/* -- WEEK DIVIDER -- */
+.wdiv{display:flex;align-items:center;gap:12px;margin:4px 0}
+.wdiv-line{flex:1;height:1px;background:var(--border)}
+.wdiv-lbl{font-size:10px;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.12em;background:var(--green-light);padding:4px 14px;border-radius:20px;white-space:nowrap}
+
+/* -- VIDEO CARD -- */
+.vcard{background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s}
+.vcard:hover{box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.vcard[data-hidden]{display:none}
+.vcard-hdr{display:grid;grid-template-columns:56px 1fr auto;align-items:stretch;cursor:pointer;user-select:none}
+.vcard-ncol{background:var(--green);display:flex;align-items:center;justify-content:center;padding:16px 8px}
+.vcard-n{font-size:22px;font-weight:800;color:rgba(255,255,255,.92);line-height:1}
+.vcard-meta{background:#065F46;padding:13px 16px}
+.vcard-dt{font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.vcard-title{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
+.vcard-right{padding:12px 16px;background:var(--surface2);display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:10px;min-width:170px}
+.vcard-type{font-size:9px;padding:3px 8px;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.vcard-status-row{display:flex;align-items:center;gap:8px}
+.s-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.s-sel{font-size:10px;font-weight:700;padding:5px 24px 5px 10px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24'%3E%3Cpath fill='%236B7280' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:border-color .15s}
+.s-sel:focus{outline:none;border-color:var(--green)}
+.expand-ico{font-size:12px;color:var(--muted);transition:transform .25s}
+
+/* -- CARD BODY -- */
+.vcard-body{display:none;padding:20px;border-top:1px solid var(--border);gap:20px;grid-template-columns:1fr 1fr}
+.vcard-body.open{display:grid}
+.r-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--green);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.r-lbl::after{content:'';flex:1;height:1px;background:rgba(5,150,105,.3)}
+.r-lbl.or{color:var(--orange)}.r-lbl.or::after{background:var(--orange-mid)}
+.r-lbl.gr{color:var(--green)}.r-lbl.gr::after{background:#A7F3D0}
+.cuts{display:flex;flex-direction:column;gap:8px}
+.cut{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start}
+.cut-n{width:22px;height:22px;background:var(--green-light);color:#065F46;font-size:9px;font-weight:700;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.cut-txt{font-size:11px;color:var(--text);line-height:1.5}
+.cut-note{font-size:10px;color:var(--muted);font-style:italic;margin-top:2px}
+.cap-wrap{position:relative}
+.cap-box{background:var(--surface2);border-left:3px solid var(--green);padding:10px 12px;font-size:11px;color:var(--text);line-height:1.7;white-space:pre-line;border-radius:0 6px 6px 0}
+.copy-btn{position:absolute;top:7px;right:7px;background:var(--green);color:#fff;border:none;border-radius:4px;padding:4px 9px;font-size:9px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.04em;transition:background .15s,transform .1s}
+.copy-btn:hover{background:#065F46}
+.copy-btn.copied{background:var(--green)}
+.copy-btn:active{transform:scale(.95)}
+.stories-box{background:var(--orange-light);border-left:3px solid var(--orange);padding:10px 12px;border-radius:0 6px 6px 0;display:flex;flex-direction:column;gap:6px}
+.story-item{font-size:11px;color:var(--text);line-height:1.6;display:flex;gap:8px;align-items:flex-start}
+.s-arr{color:var(--orange);flex-shrink:0;font-weight:700}
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chk{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;user-select:none}
+.chk:hover{border-color:var(--green)}
+.chk.done{border-color:var(--green);background:var(--green-light)}
+.chk-box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .15s}
+.chk.done .chk-box{background:var(--green);border-color:var(--green);color:#fff}
+.chk-t{font-size:10px;font-weight:600;color:var(--text)}
+.chk.done .chk-t{color:#065F46;text-decoration:line-through}
+.notes-area{width:100%;min-height:56px;border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--text);background:var(--surface);resize:vertical;font-family:inherit;line-height:1.5;transition:border-color .15s}
+.notes-area:focus{outline:none;border-color:var(--green)}
+.notes-area::placeholder{color:var(--muted)}
+.card-prog{display:flex;align-items:center;gap:10px;padding:10px 20px;background:var(--surface2);border-top:1px solid var(--border)}
+.cp-bar{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.cp-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;transition:width .3s}
+.cp-lbl{font-size:9px;color:var(--muted);white-space:nowrap}
+
+/* -- STATUS COLORS -- */
+[data-status="pendente"]{--sc:#9CA3AF}[data-status="gravando"]{--sc:var(--purple)}[data-status="editando"]{--sc:var(--orange)}[data-status="pronto"]{--sc:var(--green)}[data-status="publicado"]{--sc:#065F46}
+
+/* -- TOAST -- */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--heading);color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;z-index:9999;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* -- SIDEBAR OVERLAY (mobile) -- */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
+.sb-overlay.show{opacity:1;pointer-events:auto}
+
+/* -- PRINT -- */
+@media print{
+  .sidebar,.topbar,.copy-btn,.s-sel,.expand-ico,.mob-menu,.sb-overlay{display:none!important}
+  .main{margin-left:0}
+  .content{padding:16px}
+  .vcard-body{display:grid!important}
+}
+
+/* -- RESPONSIVE -- */
+@media(max-width:1200px){.stats-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){:root{--sw:220px}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sb-overlay{display:block}
+  .main{margin-left:0}
+  .topbar{padding:0 14px}
+  .content{padding:14px 14px 60px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .vcard-hdr{grid-template-columns:44px 1fr}
+  .vcard-right{display:none}
+  .vcard-body{grid-template-columns:1fr!important}
+  .checklist{grid-template-columns:1fr}
+  .mob-menu{display:flex}
+  .cal-grid{grid-template-columns:repeat(7,1fr)}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .next-banner{flex-direction:column;align-items:flex-start}
+  .next-right{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-brand">it's <span>power</span></div>
+    <div class="sb-sub">Academia · Cláudio, MG</div>
+  </div>
+  <div class="sb-prog-wrap">
+    <div class="sb-prog-top">Progresso do mês <strong id="sbProgPct">0%</strong></div>
+    <div class="prog-bar"><div class="prog-fill" id="sbProgFill" style="width:0%"></div></div>
+  </div>
+  <div class="sb-nav" id="sbNav"></div>
+  <a class="sb-month-link" href="its_power_videos_julho2026.html" title="Ver roteiros de julho">&#8592; Julho 2026</a>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="ico-btn mob-menu" onclick="toggleSidebar()">&#9776;</button>
+      <div class="pills" id="filterPills">
+        <button class="pill on" data-f="todos">Todos</button>
+        <button class="pill" data-f="pendente">&#9679; Pendente</button>
+        <button class="pill" data-f="gravando">&#9679; Gravando</button>
+        <button class="pill" data-f="editando">&#9679; Editando</button>
+        <button class="pill" data-f="pronto">&#9679; Pronto</button>
+        <button class="pill" data-f="publicado">&#10003; Publicado</button>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="ico-btn" onclick="toggleDark()" title="Modo escuro">&#127769;</button>
+      <button class="ico-btn" onclick="collapseAll()" title="Recolher tudo">&#8863;</button>
+      <button class="ico-btn" onclick="expandAll()" title="Expandir tudo">&#8862;</button>
+      <button class="ico-btn" onclick="window.print()" title="Imprimir">&#128424;&#65039;</button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-n" id="sTot">12</div><div class="stat-l">Reels no mês</div></div>
+      <div class="stat or"><div class="stat-n" id="sSpec">0</div><div class="stat-l">Datas especiais</div></div>
+      <div class="stat gr"><div class="stat-n" id="sPub">0</div><div class="stat-l">Publicados</div></div>
+      <div class="stat pu"><div class="stat-n" id="sRdy">0</div><div class="stat-l">Prontos</div></div>
+      <div class="stat re"><div class="stat-n" id="sPend">12</div><div class="stat-l">Pendentes</div></div>
+    </div>
+
+    <!-- NEXT UP -->
+    <div class="next-banner" id="nextBanner">
+      <div class="next-info">
+        <div class="lbl">Próxima publicação</div>
+        <div class="ttl" id="nextTitle">—</div>
+        <div class="sub" id="nextSub">—</div>
+      </div>
+      <div class="next-right">
+        <div class="cdown-n" id="cdownN">—</div>
+        <div class="cdown-l">dias restantes</div>
+      </div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div>
+      <div class="sec-hdr"><div class="sec-title">Calendário — Agosto 2026</div></div>
+      <div class="cal-box">
+        <div class="cal-mhdr">
+          <span class="t">Agosto 2026</span>
+          <span class="s">3 reels/semana · 12 vídeos · Fase: Consolidação e Crescimento</span>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+    </div>
+
+    <!-- VIDEOS LIST -->
+    <div>
+      <div class="sec-hdr"><div class="sec-title">Roteiros & Gestão</div></div>
+      <div id="videosList" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* =======================================
+   DATA — AGOSTO 2026
+   Fase: Consolidação e Crescimento
+======================================= */
+const VIDEOS = [
+  {
+    id:'V01',num:1,date:'2026-08-01',dayFull:'Sábado · 01 de Agosto',week:1,special:false,
+    title:'Agosto. Três meses. A gente não para.',
+    type:'Comunidade · Abertura',typeCss:'background:var(--green-light);color:#065F46',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Texto na tela com fade: "Junho foi descoberta. Julho, construção." Montagem rápida dos melhores momentos dos dois meses.',note:'2s · Conecta a jornada'},
+      {n:2,t:'Corte seco: "Agosto é consolidação." Plano geral das duas sedes — energia de quem já sabe o caminho.',note:'2s · Declara a nova fase'},
+      {n:3,t:'Rostos dos alunos que já completaram 3 meses — reconhecimento visual. Câmera passa por cada um.',note:'3s · Prova de consistência'},
+      {n:4,t:'Novo ângulo: alunos das duas sedes. Montagem intercalada BV e Centro.',note:'2s · Reforça as duas unidades'},
+      {n:5,t:'"12 novos conteúdos. Duas sedes. Um compromisso." + logo It\'s Power.',note:'2s · Abre o mês com intenção'},
+    ],
+    caption:`Junho foi descoberta. Julho, construção. Agosto é consolidação.\n\nTrês meses. Quem ficou não ficou parado — evoluiu.\n\n12 novos vídeos. Duas sedes. Um compromisso.\n\nBora, agosto.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Pronto pra mais um mês?" Sempre / Nunca parei','Sticker de contagem regressiva para o próximo conteúdo (V02, terça)','Repost de stories de alunos treinando no primeiro dia de agosto'],
+  },
+  {
+    id:'V02',num:2,date:'2026-08-04',dayFull:'Terça · 04 de Agosto',week:1,special:false,
+    title:'O treino que mais muda o corpo — e ninguém faz.',
+    type:'Educativo · Autoridade',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Abertura direta: "Qual o treino que mais transforma o corpo? Não é abdômen. Não é bíceps." Suspense.',note:'3s · Curiosidade imediata'},
+      {n:2,t:'"É perna." Professor explica: proporção muscular, gasto calórico, hormônios anabólicos.',note:'4s · Ciência acessível'},
+      {n:3,t:'Demonstração na prática: agachamento, leg press, stiff. Câmera lateral, execução perfeita.',note:'4s · Prova visual'},
+      {n:4,t:'"80% das pessoas evitam esse treino. Os 20% que fazem — você percebe de longe."',note:'3s · Frase de impacto'},
+      {n:5,t:'"Salva esse vídeo. Manda pra quem pula o dia de perna." + logo.',note:'2s · CTA direto'},
+    ],
+    caption:`Qual o treino que mais transforma o corpo?\n\nNão é abdômen. Não é bíceps.\n\nÉ perna.\n\n→ Maior grupo muscular = maior gasto calórico\n→ Estimula hormônios anabólicos\n→ Melhora postura e equilíbrio\n\n80% das pessoas evitam. Os 20% que fazem — você percebe de longe.\n\nSalva e manda pra quem precisa.\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Quiz: "Quantas vezes por semana você treina perna?" 0 / 1 / 2+','Demonstração rápida do professor fazendo agachamento com dica técnica','Enquete: "Dia de perna é..." O melhor / O pior'],
+  },
+  {
+    id:'V03',num:3,date:'2026-08-06',dayFull:'Quinta · 06 de Agosto',week:1,special:false,
+    title:'[Nome] — antes e depois de 60 dias.',
+    type:'Depoimento · Prova Social',typeCss:'background:var(--red-light);color:#991B1B',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Foto "antes" com data na tela. Transição suave para o aluno treinando hoje — confiança visível.',note:'3s · Impacto visual imediato'},
+      {n:2,t:'Pergunta (off): "O que mudou nesses 60 dias?" Resposta genuína sobre corpo, disposição e autoestima.',note:'5s · Vulnerabilidade gera conexão'},
+      {n:3,t:'"Qual foi o momento mais difícil?" Honestidade sobre vontade de desistir e o que fez ficar.',note:'4s · Identificação'},
+      {n:4,t:'"O que você diria pra quem está no dia 1?" Conselho direto, da experiência.',note:'4s · CTA embutido'},
+      {n:5,t:'Texto: "[Nome]. 60 dias. It\'s Power Centro." + logo.',note:'2s · Identidade e pertencimento'},
+    ],
+    caption:`"Eu não acreditava que ia mudar em 60 dias."\n\n[Nome] começou inseguro(a). Quase desistiu na segunda semana.\n\nMas ficou. E o resultado fala por si.\n\nSe você está no dia 1 — essa história é pra você.\n📍 It's Power Centro · Cláudio, MG`,
+    stories:['Antes e depois em story com sticker de data','Enquete: "Você se imagina assim em 60 dias?" Sim / Vou tentar','Caixa de texto: "Me conta qual é o seu objetivo"'],
+  },
+  {
+    id:'V04',num:4,date:'2026-08-08',dayFull:'Sábado · 08 de Agosto',week:2,special:false,
+    title:'Cardio ou musculação? A resposta vai te surpreender.',
+    type:'Educativo · Formato Quiz',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Pergunta na tela: "Cardio ou musculação pra emagrecer?" Pausa dramática.',note:'2s · Gancho imediato'},
+      {n:2,t:'"A maioria responde cardio. A ciência responde: os dois." Explicação sobre EPOC e metabolismo basal.',note:'4s · Desmistificação'},
+      {n:3,t:'"Musculação constrói músculo. Músculo queima gordura 24h. Cardio queima durante. Os dois juntos? Potência."',note:'4s · Analogia clara'},
+      {n:4,t:'Demonstração: 20min de HIIT + 30min de musculação. O treino mais eficiente que existe.',note:'4s · Aplicação prática'},
+      {n:5,t:'"Não é um ou outro. É os dois com estratégia. Salva esse vídeo." + logo.',note:'2s · CTA de salvamento'},
+    ],
+    caption:`Cardio ou musculação pra emagrecer?\n\nA maioria responde cardio.\nA ciência responde: os dois.\n\n→ Musculação constrói músculo\n→ Músculo queima gordura 24h por dia\n→ Cardio potencializa o gasto durante\n→ Juntos = resultado máximo\n\nNão é um ou outro. É estratégia.\n\nSalva e compartilha.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Você prefere..." Cardio / Musculação / Os dois','Dica rápida do professor: "O erro mais comum é fazer só cardio"','Quiz: "EPOC significa..." A / B / C (resposta no próximo story)'],
+  },
+  {
+    id:'V05',num:5,date:'2026-08-11',dayFull:'Terça · 11 de Agosto',week:2,special:false,
+    title:'A turma da noite. Quem são essas pessoas.',
+    type:'Comunidade · Identidade',typeCss:'background:var(--green-light);color:#065F46',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Relógio na tela: 19:30. Rua escurecendo. Câmera caminha até a academia — luz acesa, som de peso.',note:'3s · Ambientação cinematográfica'},
+      {n:2,t:'Rostos da turma da noite. Câmera próxima, natural. Gente que veio direto do trabalho.',note:'3s · Humanização'},
+      {n:3,t:'Pergunta rápida para 3 alunos: "Por que você treina à noite?" Respostas genuínas, 5s cada.',note:'5s · Depoimentos curtos'},
+      {n:4,t:'Montagem de energia: treino intenso, risadas, high fives entre alunos.',note:'3s · Comunidade em ação'},
+      {n:5,t:'"Depois do trabalho, antes do descanso — tem quem escolha evoluir." + logo BV.',note:'2s · Frase + identidade'},
+    ],
+    caption:`19:30. Rua escurecendo. Dia acabando.\n\nMas aqui dentro, só começou.\n\nA turma da noite é diferente. Veio direto do trabalho. Cansada? Sim. Mas escolheu estar aqui.\n\nDepois do trabalho, antes do descanso — tem quem escolha evoluir.\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Enquete: "Você treina de manhã ou à noite?" Manhã / Noite / Varia','Time-lapse da academia enchendo entre 19h e 20h','Caixa de texto: "Me conta seu horário favorito de treino"'],
+  },
+  {
+    id:'V06',num:6,date:'2026-08-13',dayFull:'Quinta · 13 de Agosto',week:2,special:false,
+    title:'Você não precisa de 1 hora. Precisa de 40 minutos certos.',
+    type:'Educativo · Eficiência',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Não tenho tempo pra academia." A desculpa mais usada. Mas e se você não precisasse de 1 hora?',note:'3s · Confronta a objeção'},
+      {n:2,t:'Professor demonstra: aquecimento 5min, treino principal 30min, alongamento 5min. Total: 40 minutos.',note:'4s · Prova prática'},
+      {n:3,t:'"O segredo é intensidade, não duração." Comparativo: 1h enrolando vs. 40min focado.',note:'4s · Desmistificação'},
+      {n:4,t:'Dica prática: montar o treino antes de chegar, fone no ouvido, sem celular entre séries.',note:'3s · Aplicação imediata'},
+      {n:5,t:'"40 minutos. 3x por semana. Resultado garantido." + logo Centro.',note:'2s · CTA claro'},
+    ],
+    caption:`"Não tenho tempo."\n\nA desculpa mais usada. E a mais falsa.\n\nVocê não precisa de 1 hora. Precisa de 40 minutos certos.\n\n→ 5min aquecimento\n→ 30min treino focado\n→ 5min alongamento\n\nO segredo é intensidade, não duração.\n\n40 minutos. 3x por semana. Resultado garantido.\n📍 It's Power Centro · Cláudio, MG`,
+    stories:['Timer de 40min no story: "Esse é o tempo que separa você do resultado"','Enquete: "Quanto tempo dura seu treino?" <30min / 30-45min / 45-60min / 60min+','Dica: "Monta o treino ANTES de chegar. Isso muda tudo."'],
+  },
+  {
+    id:'V07',num:7,date:'2026-08-15',dayFull:'Sábado · 15 de Agosto',week:3,special:false,
+    title:'2 minutos. Sem parar. O desafio escalou.',
+    type:'Desafio · Formato Viral',typeCss:'background:var(--orange-light);color:#92400E',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Texto: "Junho: 30 segundos. Julho: 1 minuto. Agosto..." Pausa. "2 MINUTOS." Reação dos alunos.',note:'3s · Callback + escalada'},
+      {n:2,t:'Professor demonstra o exercício: prancha com toque alternado no ombro. Timer na tela.',note:'3s · Instrução clara'},
+      {n:3,t:'3 alunos tentam. Câmera no rosto, reações genuínas. Timer rodando. Torcida ao fundo.',note:'6s · O espetáculo'},
+      {n:4,t:'Quem completou, quem caiu, quem tentou de novo. Celebração coletiva.',note:'3s · Comunidade'},
+      {n:5,t:'"2 minutos. Parece pouco. Até tentar. Marca quem aguenta." + logo.',note:'2s · CTA de marcação'},
+    ],
+    caption:`Junho: 30 segundos.\nJulho: 1 minuto.\nAgosto: 2 MINUTOS.\n\nO desafio escalou. Prancha com toque no ombro. Sem parar.\n\nParece pouco. Até tentar.\n\nMarca quem você acha que aguenta.\n📍 It's Power · Cláudio, MG`,
+    stories:['Countdown: "Tenta aí. 2 minutos. Me marca fazendo."','Repost dos melhores que tentaram','Enquete: "Você aguentou?" Sim / Quase / Nem tenta'],
+  },
+  {
+    id:'V08',num:8,date:'2026-08-18',dayFull:'Terça · 18 de Agosto',week:3,special:false,
+    title:'Supino reto — o erro que trava seu peitoral.',
+    type:'Técnica · Correção',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Você faz supino reto? Provavelmente faz assim." Demonstração do erro mais comum (ombros avançados).',note:'3s · Identificação imediata'},
+      {n:2,t:'Câmera lateral: "Percebe? O ombro tá fazendo o trabalho que deveria ser do peito." Seta visual.',note:'3s · Diagnóstico visual'},
+      {n:3,t:'Correção: "Escápula retraída, peito pra cima, cotovelo a 45 graus." Demonstração lenta.',note:'4s · Solução passo a passo'},
+      {n:4,t:'Comparativo lado a lado: errado vs. correto. Diferença visível na ativação muscular.',note:'3s · Prova visual'},
+      {n:5,t:'"Um detalhe. Resultado completamente diferente. Salva e testa no próximo treino." + logo BV.',note:'2s · CTA'},
+    ],
+    caption:`Supino reto. O exercício mais popular da academia.\n\nE o mais mal executado.\n\nO erro: ombro avançado roubando o trabalho do peito.\n\nA correção:\n→ Escápula retraída\n→ Peito projetado pra cima\n→ Cotovelo a 45 graus\n\nUm detalhe. Resultado completamente diferente.\n\nSalva e testa no próximo treino.\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Slow motion da execução correta com seta mostrando a escápula','Enquete: "Você retrai a escápula no supino?" Sempre / Às vezes / O quê?','Antes e depois: "Experimente e me conta a diferença"'],
+  },
+  {
+    id:'V09',num:9,date:'2026-08-20',dayFull:'Quinta · 20 de Agosto',week:3,special:false,
+    title:'O que o professor faz quando o aluno quer desistir.',
+    type:'Humanização · Bastidores',typeCss:'background:var(--purple-light);color:#5B21B6',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Professor antes do expediente. Preparando a ficha de um aluno. Voz off: "Tem aluno que chega querendo ir embora."',note:'3s · Ambientação'},
+      {n:2,t:'"O primeiro instinto é convencer. Mas convencer não funciona. O que funciona é entender."',note:'3s · Filosofia de cuidado'},
+      {n:3,t:'Cena real: professor conversando com aluno no canto da academia. Tom baixo, atenção total.',note:'4s · Cena autêntica'},
+      {n:4,t:'"Às vezes é ajustar o treino. Às vezes é ajustar a expectativa. Às vezes é só ouvir."',note:'3s · Múltiplas respostas'},
+      {n:5,t:'"O diferencial de uma academia não é o equipamento. É o que acontece quando você quer parar." + logo Centro.',note:'3s · Frase de fechamento'},
+    ],
+    caption:`Tem aluno que chega querendo ir embora.\n\nO primeiro instinto é convencer. Mas convencer não funciona.\n\nO que funciona é entender.\n\nÀs vezes é ajustar o treino. Às vezes é ajustar a expectativa. Às vezes é só ouvir.\n\nO diferencial de uma academia não é o equipamento.\nÉ o que acontece quando você quer parar.\n📍 It's Power Centro · Cláudio, MG`,
+    stories:['Trecho mais impactante (10s) com legenda grande','Enquete: "Você já quis desistir de treinar?" Sim / Quase / Nunca','Caixa: "O que te fez continuar?"'],
+  },
+  {
+    id:'V10',num:10,date:'2026-08-22',dayFull:'Sábado · 22 de Agosto',week:4,special:false,
+    title:'[Nome] — de sedentário a 5 treinos por semana.',
+    type:'Depoimento · Transformação',typeCss:'background:var(--red-light);color:#991B1B',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Aluno treinando com intensidade. Texto: "5 treinos por semana. Há 6 meses, era zero."',note:'3s · Contraste imediato'},
+      {n:2,t:'Pergunta: "Como era antes?" Resposta sobre sedentarismo, preguiça, desculpas. Tom honesto.',note:'5s · Identificação'},
+      {n:3,t:'"O que mudou?" Não foi o corpo primeiro — foi a rotina. Acordar cedo, comer melhor, dormir melhor.',note:'4s · Transformação comportamental'},
+      {n:4,t:'"O que você diria pra quem tá no sofá agora?" Conselho direto e sem julgamento.',note:'4s · CTA natural'},
+      {n:5,t:'"[Nome]. De zero a 5. It\'s Power Bela Vista." + logo.',note:'2s · Fechamento'},
+    ],
+    caption:`5 treinos por semana. Há 6 meses, era zero.\n\n[Nome] não mudou o corpo primeiro. Mudou a rotina.\n\nAcordar cedo. Comer melhor. Dormir melhor. O treino foi consequência.\n\nSe você tá no sofá agora — essa história é pra você.\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Enquete: "Quantas vezes por semana você treina?" 0-1 / 2-3 / 4-5 / 6+','Trecho do depoimento mais impactante com legenda','Caixa: "Me conta sua evolução — de onde você veio?"'],
+  },
+  {
+    id:'V11',num:11,date:'2026-08-25',dayFull:'Terça · 25 de Agosto',week:4,special:false,
+    title:'A postura que sabota o seu treino de costas.',
+    type:'Técnica · Correção',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'"Treino de costas e não sente nada?" Identificação imediata. "O problema não é o exercício."',note:'3s · Gancho'},
+      {n:2,t:'Demonstração do erro: remada curvada com lombar arredondada e bíceps dominando.',note:'3s · Diagnóstico visual'},
+      {n:3,t:'Correção: "Peito pra frente, escápula ativada, puxa com o cotovelo — não com a mão."',note:'4s · Passo a passo'},
+      {n:4,t:'Mesmo exercício, antes e depois da correção. Diferença visível na contração das costas.',note:'3s · Prova visual'},
+      {n:5,t:'"Postura certa = costas trabalhando de verdade. Salva e testa." + logo Centro.',note:'2s · CTA'},
+    ],
+    caption:`Treino de costas e não sente nada?\n\nO problema não é o exercício. É a postura.\n\nO erro: lombar arredondada + bíceps fazendo o trabalho.\n\nA correção:\n→ Peito projetado pra frente\n→ Escápula ativada antes de puxar\n→ Puxa com o cotovelo, não com a mão\n\nPostura certa = costas trabalhando de verdade.\n\nSalva e testa no próximo treino.\n📍 It's Power Centro · Cláudio, MG`,
+    stories:['Slow motion da execução correta com destaque na escápula','Enquete: "Você sente as costas no treino?" Sim / Mais ou menos / Nunca','Dica: "Fecha os olhos e sente a contração. Isso muda tudo."'],
+  },
+  {
+    id:'V12',num:12,date:'2026-08-28',dayFull:'Sexta · 28 de Agosto',week:4,special:false,
+    title:'Três meses. O que começou como teste virou compromisso.',
+    type:'Fechamento · CTA',typeCss:'background:var(--orange-light);color:#92400E',
+    numCss:'',metaCss:'',
+    cuts:[
+      {n:1,t:'Montagem emotiva: melhores momentos de junho, julho e agosto. Rostos, treinos, risadas, conquistas.',note:'4s · Compilação emocional'},
+      {n:2,t:'Texto: "Junho: descoberta. Julho: construção. Agosto: consolidação."',note:'2s · Arco narrativo completo'},
+      {n:3,t:'Depoimentos rápidos (3s cada) de 4 alunos: uma frase sobre o que mudou em 3 meses.',note:'4s · Prova social múltipla'},
+      {n:4,t:'"O que começou como teste virou compromisso. E o compromisso vira resultado."',note:'3s · Frase de fechamento'},
+      {n:5,t:'"Setembro vem. E a gente não para. Link na bio." + logo ambas sedes.',note:'2s · CTA final'},
+    ],
+    caption:`Três meses.\n\nJunho: descoberta.\nJulho: construção.\nAgosto: consolidação.\n\nO que começou como teste virou compromisso.\nE o compromisso vira resultado.\n\nObrigado a cada aluno que ficou. A cada treino que doeu e valeu.\n\nSetembro vem. E a gente não para.\n📍 It's Power · Cláudio, MG`,
+    stories:['Montagem dos melhores stories dos 3 meses (repost)','Enquete: "Pronto pra setembro?" Sempre / Vamos','Story final: "Link na bio. Setembro começa na segunda."'],
+  },
+];
+
+const SEDE = {
+  bv:{label:'Bela Vista',short:'BV',color:'#8B5CF6',bg:'rgba(139,92,237,.12)',border:'rgba(139,92,237,.3)'},
+  centro:{label:'Centro',short:'Centro',color:'#0EA5E9',bg:'rgba(14,165,233,.12)',border:'rgba(14,165,233,.3)'},
+  ambas:{label:'Ambas',short:'Ambas',color:'#6B7280',bg:'rgba(107,114,128,.12)',border:'rgba(107,114,128,.3)'},
+};
+const SEDE_MAP = {V01:'ambas',V02:'bv',V03:'centro',V04:'ambas',V05:'bv',V06:'centro',V07:'ambas',V08:'bv',V09:'centro',V10:'bv',V11:'centro',V12:'ambas'};
+VIDEOS.forEach(v => { v.sede = SEDE_MAP[v.id] || 'ambas'; });
+
+const CHECKS = ['Roteiro','Gravação','Edição','Legenda','Stories','Publicado'];
+const STATUS_OPT = ['pendente','gravando','editando','pronto','publicado'];
+const STATUS_LABEL = {pendente:'Pendente',gravando:'Gravando',editando:'Editando',pronto:'Pronto',publicado:'Publicado'};
+const STATUS_COLOR = {pendente:'#9CA3AF',gravando:'#7C3AED',editando:'#F07820',pronto:'#059669',publicado:'#065F46'};
+
+/* -- STORAGE -- */
+function save(k,v){localStorage.setItem('ip_ago_'+k,JSON.stringify(v))}
+function load(k,def){try{const v=localStorage.getItem('ip_ago_'+k);return v?JSON.parse(v):def}catch{return def}}
+
+let state = load('state', VIDEOS.reduce((acc,v)=>{
+  acc[v.id]={status:'pendente',checks:CHECKS.reduce((a,c)=>{a[c]=false;return a},{}),notes:''};
+  return acc;},{}));
+
+function saveState(){save('state',state)}
+
+/* -- SYNC: Communicate with parent portal -- */
+const SYNC_MONTH = 'ago';
+let _syncFromPortal = false;
+
+function notifyParentStatusChange(videoId, roteiroStatus) {
+  if (_syncFromPortal) return;
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({
+      type: 'roteiro-status-change',
+      month: SYNC_MONTH,
+      videoId: videoId,
+      status: roteiroStatus,
+      source: 'roteiro'
+    }, '*');
+  }
+}
+
+function setupPortalSyncListener() {
+  window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (!data || data.type !== 'portal-status-change' || data.source !== 'portal') return;
+    const videoId = data.videoId;
+    const newStatus = data.status;
+    if (!state[videoId]) return;
+    if (state[videoId].status === newStatus) return;
+    _syncFromPortal = true;
+    state[videoId].status = newStatus;
+    saveState();
+    updateCard(videoId);
+    updateStats();
+    updateCalendar();
+    updateProgress();
+    updateNextUp();
+    _syncFromPortal = false;
+  });
+}
+setupPortalSyncListener();
+
+/* -- CALENDAR -- */
+function buildCalendar(){
+  const grid = document.getElementById('calGrid');
+  const heads = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  let h = heads.map(d=>`<div class="cal-head">${d}</div>`).join('');
+
+  const videoByDate = {};
+  VIDEOS.forEach(v=>videoByDate[v.date]=v);
+
+  let cells = '';
+  // August 2026 starts on Saturday (5 leading empties: Mon-Fri)
+  for(let i=0;i<5;i++) cells+=`<div class="cal-cell empty"><span class="cal-dn"></span></div>`;
+
+  for(let d=1;d<=31;d++){
+    const dateStr = `2026-08-${String(d).padStart(2,'0')}`;
+    const v = videoByDate[dateStr];
+    const today = new Date().toISOString().slice(0,10)===dateStr;
+    if(v){
+      const st = state[v.id].status;
+      cells += `<div class="cal-cell hv${today?' today':''}" onclick="scrollToVideo('${v.id}')">
+        <span class="cal-dn">${d}</span>
+        <span class="cal-badge">${v.id}</span>
+        <div class="cal-ev">${v.title.slice(0,28)}...</div>
+        <div class="cal-sdot" style="background:${STATUS_COLOR[st]}"></div>
+      </div>`;
+    } else {
+      cells += `<div class="cal-cell${today?' today':''}"><span class="cal-dn">${d}</span></div>`;
+    }
+  }
+  // 6 trailing empties (Aug 31 = Monday, fill Tue-Sun)
+  for(let i=0;i<6;i++) cells+=`<div class="cal-cell empty"><span class="cal-dn"></span></div>`;
+
+  grid.innerHTML = h + cells;
+}
+
+/* -- SIDEBAR -- */
+function buildSidebar(){
+  const nav = document.getElementById('sbNav');
+  let html = '';
+  let lastWeek = 0;
+  VIDEOS.forEach(v=>{
+    if(v.week!==lastWeek){
+      html+=`<div class="sb-week">Semana ${v.week}</div>`;
+      lastWeek=v.week;
+    }
+    const st=state[v.id].status;
+    const pub=st==='publicado';
+    html+=`<div class="nav-item${pub?' pub':''}" id="nav_${v.id}" onclick="scrollToVideo('${v.id}')">
+      <div class="nav-dot" style="background:${STATUS_COLOR[st]}"></div>
+      <div class="nav-info">
+        <div class="nav-title">${v.title}</div>
+        <div class="nav-date">${v.dayFull.split('·')[0].trim()}</div>
+      </div>
+      <span class="nav-check">${pub?'✓':''}</span>
+    </div>`;
+  });
+  nav.innerHTML=html;
+}
+
+/* -- VIDEO CARDS -- */
+function buildCards(){
+  const list = document.getElementById('videosList');
+  let html = '';
+  let lastWeek = 0;
+  const wlabels = {1:'Semana 1 · 01–09 ago',2:'Semana 2 · 10–16 ago',3:'Semana 3 · 17–23 ago',4:'Semana 4 · 24–31 ago'};
+
+  VIDEOS.forEach(v=>{
+    if(v.week!==lastWeek){
+      html+=`<div class="wdiv"><div class="wdiv-line"></div><div class="wdiv-lbl">${wlabels[v.week]}</div><div class="wdiv-line"></div></div>`;
+      lastWeek=v.week;
+    }
+    const st=state[v.id].status;
+    const chks=state[v.id].checks;
+    const notes=state[v.id].notes||'';
+    const done=Object.values(chks).filter(Boolean).length;
+    const total=CHECKS.length;
+    const pct=Math.round(done/total*100);
+
+    const selOpts=STATUS_OPT.map(s=>`<option value="${s}"${s===st?' selected':''}>${STATUS_LABEL[s]}</option>`).join('');
+    const cutHtml=v.cuts.map(c=>`<div class="cut">
+      <div class="cut-n">${c.n}</div>
+      <div><div class="cut-txt">${c.t}</div><div class="cut-note">${c.note}</div></div>
+    </div>`).join('');
+    const storyHtml=v.stories.map(s=>`<div class="story-item"><span class="s-arr">→</span>${s}</div>`).join('');
+    const chkHtml=CHECKS.map(c=>`<div class="chk${chks[c]?' done':''}" onclick="toggleCheck('${v.id}','${c}')">
+      <div class="chk-box">${chks[c]?'✓':''}</div>
+      <span class="chk-t">${c}</span>
+    </div>`).join('');
+
+    html+=`<div class="vcard" id="card_${v.id}" data-week="${v.week}" data-status="${st}">
+      <div class="vcard-hdr" onclick="toggleCard('${v.id}')">
+        <div class="vcard-ncol ${v.numCss}"><div class="vcard-n">${String(v.num).padStart(2,'0')}</div></div>
+        <div class="vcard-meta ${v.metaCss}">
+          <div class="vcard-dt">${v.dayFull}</div>
+          <div class="vcard-title">${v.title}</div>
+        </div>
+        <div class="vcard-right">
+          <span class="vcard-type" style="${v.typeCss}">${v.type}</span>
+          ${v.sede?`<span class="vcard-type" style="background:${SEDE[v.sede].bg};color:${SEDE[v.sede].color};border:1px solid ${SEDE[v.sede].border}">${SEDE[v.sede].short}</span>`:''}
+          <div class="vcard-status-row">
+            <span class="s-lbl">Status</span>
+            <select class="s-sel" id="sel_${v.id}" onchange="setStatus('${v.id}',this.value)" onclick="e=>e.stopPropagation()">${selOpts}</select>
+          </div>
+          <span class="expand-ico" id="exp_${v.id}">&#9660;</span>
+        </div>
+      </div>
+      <div class="card-prog">
+        <div class="cp-bar"><div class="cp-fill" id="cpf_${v.id}" style="width:${pct}%"></div></div>
+        <span class="cp-lbl" id="cpl_${v.id}">${done}/${total} tarefas</span>
+      </div>
+      <div class="vcard-body" id="body_${v.id}">
+        <div class="r-block">
+          <div class="r-lbl">Roteiro — Cortes</div>
+          <div class="cuts">${cutHtml}</div>
+        </div>
+        <div>
+          <div class="r-block" style="margin-bottom:14px">
+            <div class="r-lbl">Legenda do Post</div>
+            <div class="cap-wrap">
+              <div class="cap-box">${v.caption}</div>
+              <button class="copy-btn" id="cpbtn_${v.id}" onclick="copyCaption('${v.id}')">Copiar</button>
+            </div>
+          </div>
+          <div class="r-block" style="margin-bottom:14px">
+            <div class="r-lbl or">Adaptação Stories</div>
+            <div class="stories-box">${storyHtml}</div>
+          </div>
+          <div class="r-block" style="margin-bottom:14px">
+            <div class="r-lbl gr">Checklist de Produção</div>
+            <div class="checklist">${chkHtml}</div>
+          </div>
+          <div class="r-block">
+            <div class="r-lbl">Observações</div>
+            <textarea class="notes-area" id="notes_${v.id}" placeholder="Anotações, ajustes, ideias..." oninput="saveNotes('${v.id}',this.value)">${notes}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  list.innerHTML=html;
+}
+
+/* -- INTERACTIONS -- */
+function toggleCard(id){
+  const body=document.getElementById('body_'+id);
+  const ico=document.getElementById('exp_'+id);
+  const open=body.classList.toggle('open');
+  ico.style.transform=open?'rotate(180deg)':'';
+  setActiveNav(id);
+}
+
+function scrollToVideo(id){
+  const el=document.getElementById('card_'+id);
+  if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>{
+    const body=document.getElementById('body_'+id);
+    if(!body.classList.contains('open'))toggleCard(id);
+  },400);
+  setActiveNav(id);
+}
+
+function setActiveNav(id){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const ni=document.getElementById('nav_'+id);
+  if(ni){ni.classList.add('active');ni.scrollIntoView({block:'nearest'})}
+}
+
+function setStatus(id,val){
+  state[id].status=val;
+  saveState();
+  updateCard(id);
+  updateStats();
+  updateCalendar();
+  updateProgress();
+  notifyParentStatusChange(id, val);
+  updateNextUp();
+}
+
+function toggleCheck(id,key){
+  state[id].checks[key]=!state[id].checks[key];
+  saveState();
+  updateCardChecks(id);
+  updateStats();
+  updateProgress();
+}
+
+function saveNotes(id,val){
+  state[id].notes=val;
+  saveState();
+}
+
+function copyCaption(id){
+  const v=VIDEOS.find(x=>x.id===id);
+  if(!v)return;
+  navigator.clipboard.writeText(v.caption).then(()=>{
+    const btn=document.getElementById('cpbtn_'+id);
+    btn.textContent='Copiado!';
+    btn.classList.add('copied');
+    showToast('Legenda copiada!');
+    setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('copied')},2000);
+  });
+}
+
+/* -- UPDATE HELPERS -- */
+function updateCard(id){
+  const st=state[id].status;
+  const card=document.getElementById('card_'+id);
+  card.dataset.status=st;
+  const sel=document.getElementById('sel_'+id);
+  if(sel)sel.value=st;
+  const navItem=document.getElementById('nav_'+id);
+  if(navItem){
+    navItem.querySelector('.nav-dot').style.background=STATUS_COLOR[st];
+    navItem.querySelector('.nav-check').textContent=st==='publicado'?'✓':'';
+  }
+  applyFilter(currentFilter);
+}
+
+function updateCardChecks(id){
+  const chks=state[id].checks;
+  const done=Object.values(chks).filter(Boolean).length;
+  const total=CHECKS.length;
+  const pct=Math.round(done/total*100);
+  document.getElementById('cpf_'+id).style.width=pct+'%';
+  document.getElementById('cpl_'+id).textContent=`${done}/${total} tarefas`;
+  CHECKS.forEach(c=>{
+    const items=document.querySelectorAll(`#card_${id} .chk`);
+    items.forEach(el=>{
+      if(el.querySelector('.chk-t').textContent===c){
+        el.classList.toggle('done',chks[c]);
+        el.querySelector('.chk-box').textContent=chks[c]?'✓':'';
+      }
+    });
+  });
+}
+
+function updateStats(){
+  const counts={pendente:0,gravando:0,editando:0,pronto:0,publicado:0};
+  VIDEOS.forEach(v=>counts[state[v.id].status]++);
+  document.getElementById('sPub').textContent=counts.publicado;
+  document.getElementById('sRdy').textContent=counts.pronto;
+  document.getElementById('sPend').textContent=counts.pendente+counts.gravando+counts.editando;
+}
+
+function updateProgress(){
+  const total=VIDEOS.length*CHECKS.length;
+  let done=0;
+  VIDEOS.forEach(v=>done+=Object.values(state[v.id].checks).filter(Boolean).length);
+  const pct=Math.round(done/total*100);
+  document.getElementById('sbProgFill').style.width=pct+'%';
+  document.getElementById('sbProgPct').textContent=pct+'%';
+}
+
+function updateCalendar(){
+  VIDEOS.forEach(v=>{
+    const cell=document.querySelector(`[onclick="scrollToVideo('${v.id}')"]`);
+    if(cell){
+      const dot=cell.querySelector('.cal-sdot');
+      if(dot)dot.style.background=STATUS_COLOR[state[v.id].status];
+    }
+  });
+}
+
+function updateNextUp(){
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  let next=null;
+  for(const v of VIDEOS){
+    if(state[v.id].status==='publicado')continue;
+    const d=new Date(v.date+'T00:00:00');
+    if(d>=today){next=v;break;}
+  }
+  if(!next){
+    document.getElementById('nextTitle').textContent='Todos publicados!';
+    document.getElementById('nextSub').textContent='Agosto completo';
+    document.getElementById('cdownN').textContent='✓';
+    return;
+  }
+  const diff=Math.ceil((new Date(next.date+'T00:00:00')-today)/(1000*60*60*24));
+  document.getElementById('nextTitle').textContent=next.title;
+  document.getElementById('nextSub').textContent=next.dayFull;
+  document.getElementById('cdownN').textContent=diff<=0?'Hoje':diff;
+}
+
+/* -- FILTER -- */
+let currentFilter='todos';
+function applyFilter(f){
+  currentFilter=f;
+  VIDEOS.forEach(v=>{
+    const card=document.getElementById('card_'+v.id);
+    const st=state[v.id].status;
+    card.toggleAttribute('data-hidden',f!=='todos'&&st!==f);
+  });
+}
+
+document.getElementById('filterPills').addEventListener('click',e=>{
+  const btn=e.target.closest('.pill');
+  if(!btn)return;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  applyFilter(btn.dataset.f);
+});
+
+/* -- EXPAND/COLLAPSE ALL -- */
+function expandAll(){
+  VIDEOS.forEach(v=>{
+    const body=document.getElementById('body_'+v.id);
+    const ico=document.getElementById('exp_'+v.id);
+    body.classList.add('open');
+    ico.style.transform='rotate(180deg)';
+  });
+}
+function collapseAll(){
+  VIDEOS.forEach(v=>{
+    const body=document.getElementById('body_'+v.id);
+    const ico=document.getElementById('exp_'+v.id);
+    body.classList.remove('open');
+    ico.style.transform='';
+  });
+}
+
+/* -- DARK MODE -- */
+function toggleDark(){
+  const html=document.documentElement;
+  const isDark=html.dataset.theme==='dark';
+  html.dataset.theme=isDark?'light':'dark';
+  save('dark',!isDark);
+}
+
+/* -- SIDEBAR MOBILE -- */
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('show');
+}
+
+/* -- TOAST -- */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* -- INIT -- */
+(function init(){
+  if(load('dark',false)) document.documentElement.dataset.theme='dark';
+  buildCalendar();
+  buildSidebar();
+  buildCards();
+  updateStats();
+  updateProgress();
+  updateNextUp();
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id.replace('card_','');
+        setActiveNav(id);
+      }
+    });
+  },{threshold:0.3});
+  VIDEOS.forEach(v=>{
+    const el=document.getElementById('card_'+v.id);
+    if(el)observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

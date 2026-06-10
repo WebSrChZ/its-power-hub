@@ -60,6 +60,25 @@ const PILLAR = {
 };
 POSTS.forEach(p => { p.month = 'jun'; p.icon = PILLAR[p.pillar].icon; });
 
+const SEDE = {
+  bv:{label:'Bela Vista',short:'BV',color:'#8B5CF6',bg:'rgba(139,92,237,.12)',border:'rgba(139,92,237,.3)'},
+  centro:{label:'Centro',short:'Centro',color:'#0EA5E9',bg:'rgba(14,165,233,.12)',border:'rgba(14,165,233,.3)'},
+  ambas:{label:'Ambas',short:'Ambas',color:'#6B7280',bg:'rgba(107,114,128,.12)',border:'rgba(107,114,128,.3)'},
+};
+
+const SEDE_MAP = {
+  jun01:'centro',jun02:'ambas',jun03:'ambas',jun04:'ambas',jun05:'ambas',
+  jun06:'ambas',jun07:'centro',jun08:'centro',jun09:'centro',jun10:'ambas',
+  jun11:'ambas',jun12:'ambas',
+  jul01:'ambas',jul02:'ambas',jul03:'centro',jul04:'ambas',jul05:'bv',
+  jul06:'bv',jul07:'ambas',jul08:'centro',jul09:'bv',jul10:'bv',
+  jul11:'centro',jul12:'centro',
+  ago01:'ambas',ago02:'bv',ago03:'centro',ago04:'ambas',ago05:'bv',
+  ago06:'centro',ago07:'ambas',ago08:'bv',ago09:'centro',ago10:'bv',
+  ago11:'centro',ago12:'ambas',
+};
+POSTS.forEach(p => { p.sede = SEDE_MAP[p.id] || 'ambas'; });
+
 /* ─── JULHO 2026 — Construção de Autoridade ─── */
 [
   { id:'jul01',day:1,wday:'Qua',pillar:'c',num:'01/12',
@@ -112,6 +131,58 @@ POSTS.forEach(p => { p.month = 'jun'; p.icon = PILLAR[p.pillar].icon; });
     tags:['Fechamento','Compilação','CTA — antecipação agosto']},
 ].forEach(p => { p.month = 'jul'; p.icon = PILLAR[p.pillar].icon; POSTS.push(p); });
 
+/* ─── AGOSTO 2026 — Consolidação e Crescimento ─── */
+[
+  { id:'ago01',day:1,wday:'Sab',pillar:'c',num:'01/12',
+    title:'Agosto. Três meses. A gente não para.',
+    desc:'Abertura do terceiro mês. Montagem dos melhores momentos de julho + energia de continuidade.',
+    tags:['Comunidade','Abertura do mês','Continuidade']},
+  { id:'ago02',day:4,wday:'Ter',pillar:'a',num:'02/12',
+    title:'O treino que mais muda o corpo — e ninguém faz.',
+    desc:'Treino de pernas é o mais evitado e o mais transformador. Ciência + demonstração na prática.',
+    tags:['Educativo','Alto salvamento','Desmistificação']},
+  { id:'ago03',day:6,wday:'Qui',pillar:'c',num:'03/12',
+    title:'[Nome] — antes e depois de 60 dias.',
+    desc:'Depoimento real com fotos comparativas. Transformação visível, fala autêntica. A prova que convence.',
+    tags:['Depoimento','Transformação','Prova social']},
+  { id:'ago04',day:8,wday:'Sab',pillar:'a',num:'04/12',
+    title:'Cardio ou musculação? A resposta vai te surpreender.',
+    desc:'A combinação certa depende do objetivo. Desmistificação com ciência acessível.',
+    tags:['Formato quiz','Ciência acessível','Alto salvamento']},
+  { id:'ago05',day:11,wday:'Ter',pillar:'c',num:'05/12',
+    title:'A turma da noite. Quem são essas pessoas.',
+    desc:'Depois do trabalho, antes do descanso — quem escolhe treinar à noite tem uma energia diferente.',
+    tags:['Identidade','Comunidade','Pertencimento']},
+  { id:'ago06',day:13,wday:'Qui',pillar:'a',num:'06/12',
+    title:'Você não precisa de 1 hora. Precisa de 40 minutos certos.',
+    desc:'Eficiência no treino: como otimizar o tempo sem perder resultado. Dica prática e direta.',
+    tags:['Educativo','Produtividade','Dica prática']},
+  { id:'ago07',day:15,wday:'Sab',pillar:'c',num:'07/12',
+    title:'2 minutos. Sem parar. O desafio escalou.',
+    desc:'Terceira edição do desafio (30s → 1min → 2min). Prancha com variação. Alta retenção garantida.',
+    tags:['Desafio','Formato viral','Série recorrente']},
+  { id:'ago08',day:18,wday:'Ter',pillar:'a',num:'08/12',
+    title:'Supino reto — o erro que trava seu peitoral.',
+    desc:'Comparativo errado vs. correto com câmera frontal e lateral. O detalhe que muda tudo.',
+    tags:['Técnica','Correção de exercício','Alto salvamento']},
+  { id:'ago09',day:20,wday:'Qui',pillar:'c',num:'09/12',
+    title:'O que o professor faz quando o aluno quer desistir.',
+    desc:'Humanização do cuidado: como a equipe lida com desânimo. O diferencial invisível.',
+    tags:['Humanização','Bastidores','Cuidado']},
+  { id:'ago10',day:22,wday:'Sab',pillar:'c',num:'10/12',
+    title:'[Nome] — de sedentário a 5 treinos por semana.',
+    desc:'Transformação comportamental. Depoimento sobre hábito, rotina e o que mudou por dentro.',
+    tags:['Depoimento','Transformação','Prova social']},
+  { id:'ago11',day:25,wday:'Ter',pillar:'a',num:'11/12',
+    title:'A postura que sabota o seu treino de costas.',
+    desc:'Erro comum em remada e pulldown. Correção simples com resultado imediato.',
+    tags:['Técnica','Correção de exercício','Dica prática']},
+  { id:'ago12',day:28,wday:'Sex',pillar:'v',num:'12/12',
+    title:'Três meses. O que começou como teste virou compromisso.',
+    desc:'Fechamento do ciclo Fase Teste + Essencial. Compilação emocional e convite para o próximo capítulo.',
+    tags:['Fechamento','Compilação','CTA — antecipação setembro']},
+].forEach(p => { p.month = 'ago'; p.icon = PILLAR[p.pillar].icon; p.sede = SEDE_MAP[p.id] || 'ambas'; POSTS.push(p); });
+
 const STATUS_OPT = ['pendente','producao','aprovado','publicado'];
 const STATUS_LBL = {pendente:'Pendente',producao:'Em produção',aprovado:'Aprovado',publicado:'Publicado'};
 const STATUS_COLOR = {pendente:'#94A3B8',producao:'#8B5CF6',aprovado:'#F59E0B',publicado:'#10B981'};
@@ -121,12 +192,13 @@ const SYNC_ROTEIRO_TO_PORTAL = {pendente:'pendente',gravando:'producao',editando
 const SYNC_PORTAL_TO_ROTEIRO = {pendente:'pendente',producao:'gravando',aprovado:'pronto',publicado:'publicado'};
 
 function portalIdToVideoId(portalId) {
-  // jun01 → V01, jul05 → V05
-  const num = portalId.replace(/^(jun|jul)/, '');
+  const num = portalId.replace(/^(jun|jul|ago)/, '');
   return 'V' + num;
 }
 function portalIdToMonth(portalId) {
-  return portalId.startsWith('jul') ? 'jul' : 'jun';
+  if (portalId.startsWith('ago')) return 'ago';
+  if (portalId.startsWith('jul')) return 'jul';
+  return 'jun';
 }
 function videoIdToPortalId(videoId, month) {
   // V01 + jul → jul01
@@ -138,7 +210,7 @@ function notifyIframeStatusChange(portalId, portalStatus) {
   const month = portalIdToMonth(portalId);
   const videoId = portalIdToVideoId(portalId);
   const roteiroStatus = SYNC_PORTAL_TO_ROTEIRO[portalStatus] || portalStatus;
-  const iframeId = month === 'jul' ? 'iframeJul' : 'iframeJun';
+  const iframeId = month === 'ago' ? 'iframeAgo' : month === 'jul' ? 'iframeJul' : 'iframeJun';
   const iframe = document.getElementById(iframeId);
   if (iframe && iframe.contentWindow) {
     iframe.contentWindow.postMessage({
@@ -161,7 +233,7 @@ function setupIframeSyncListener() {
   window.addEventListener('message', (event) => {
     const data = event.data;
     if (!data || data.type !== 'roteiro-status-change' || data.source === 'portal') return;
-    const month = data.month; // 'jun' or 'jul'
+    const month = data.month; // 'jun', 'jul' or 'ago'
     const videoId = data.videoId; // 'V01'
     const roteiroStatus = data.status; // roteiro status
     const portalId = videoIdToPortalId(videoId, month);
@@ -227,6 +299,7 @@ async function saveSetting(key, value) {
 function buildCalendar() {
   buildMonthCalendar('jun','calJunho','Junho 2026',30,'06',0,5);
   buildMonthCalendar('jul','calJulho','Julho 2026',31,'07',2,2);
+  buildMonthCalendar('ago','calAgosto','Agosto 2026',31,'08',5,6);
 }
 function buildMonthCalendar(month,containerId,label,days,monthNum,leadEmpty,trailEmpty) {
   const container = document.getElementById(containerId);
@@ -258,6 +331,7 @@ function buildMonthCalendar(month,containerId,label,days,monthNum,leadEmpty,trai
 function buildPosts() {
   buildMonthPosts('jun','postsJunho');
   buildMonthPosts('jul','postsJulho');
+  buildMonthPosts('ago','postsAgosto');
 }
 function buildMonthPosts(month,containerId) {
   const c = document.getElementById(containerId);
@@ -274,7 +348,7 @@ function buildMonthPosts(month,containerId) {
       <div class="post-date" style="${pl.dateBg}"><div class="post-day-n">${String(p.day).padStart(2,'0')}</div><div class="post-wday">${p.wday}</div></div>
       <div class="post-stripe" style="${pl.stripe}"></div>
       <div class="post-body">
-        <div class="post-top"><span class="post-type-badge" style="${pl.typeCss}">${pl.icon} ${pl.label}</span><span class="post-num">${p.num}</span></div>
+        <div class="post-top"><span class="post-type-badge" style="${pl.typeCss}">${pl.icon} ${pl.label}</span>${p.sede?`<span class="sede-badge" style="background:${SEDE[p.sede].bg};color:${SEDE[p.sede].color};border:1px solid ${SEDE[p.sede].border}">${SEDE[p.sede].short}</span>`:''}<span class="post-num">${p.num}</span></div>
         <div class="post-title">${p.title}</div><div class="post-desc">${p.desc}</div>
         <div class="post-tags">${tags}</div>
       </div>
@@ -594,6 +668,7 @@ async function submitAdminActivity() {
 function buildCronogramaInline() {
   buildMonthCronograma('jun','cronInlineJunho','Jun');
   buildMonthCronograma('jul','cronInlineJulho','Jul');
+  buildMonthCronograma('ago','cronInlineAgosto','Ago');
 }
 function buildMonthCronograma(month,containerId,monthLabel) {
   const el = document.getElementById(containerId);
@@ -605,7 +680,7 @@ function buildMonthCronograma(month,containerId,monthLabel) {
     const s = ps[p.pillar]||ps.a, st = STATE[p.id]||{status:'pendente'};
     html += `<div class="cron-inline-card" data-pillar="${p.pillar}">
       <div class="cron-inline-hdr"><div><div class="cron-inline-day">${p.day} ${monthLabel}</div><div class="cron-inline-wday">${p.wday} - Post ${p.num}</div></div>
-      <span class="cron-inline-pillar" style="background:${s.bg};color:${s.color}">${PILLAR[p.pillar].icon} ${s.label}</span></div>
+      <span class="cron-inline-pillar" style="background:${s.bg};color:${s.color}">${PILLAR[p.pillar].icon} ${s.label}</span>${p.sede?`<span class="sede-badge" style="background:${SEDE[p.sede].bg};color:${SEDE[p.sede].color};border:1px solid ${SEDE[p.sede].border};font-size:9px;padding:1px 6px">${SEDE[p.sede].short}</span>`:''}</div>
       <div class="cron-inline-title">${p.title}</div><div class="cron-inline-desc">${p.desc}</div>
       <div class="cron-inline-tags">${p.tags.map(t=>'<span class="cron-inline-tag">'+t+'</span>').join('')}</div>
       <div class="cron-inline-status"><span class="cron-inline-status-dot" style="background:${STATUS_COLOR[st.status]||'#94A3B8'}"></span>${STATUS_LBL[st.status]||'Pendente'}</div></div>`;
@@ -747,15 +822,18 @@ function updateStats() {
   const pct = Math.round(pub/POSTS.length*100), fbPct = Math.round(fbCount/POSTS.length*100);
   const circ = 238.76;
   // Per-month stats
-  const junPosts = POSTS.filter(p=>p.month==='jun'), julPosts = POSTS.filter(p=>p.month==='jul');
+  const junPosts = POSTS.filter(p=>p.month==='jun'), julPosts = POSTS.filter(p=>p.month==='jul'), agoPosts = POSTS.filter(p=>p.month==='ago');
   const junPub = junPosts.filter(p=>(STATE[p.id]||{}).status==='publicado').length;
   const julPub = julPosts.filter(p=>(STATE[p.id]||{}).status==='publicado').length;
+  const agoPub = agoPosts.filter(p=>(STATE[p.id]||{}).status==='publicado').length;
   const junPct = junPosts.length ? Math.round(junPub/junPosts.length*100) : 0;
   const julPct = julPosts.length ? Math.round(julPub/julPosts.length*100) : 0;
+  const agoPct = agoPosts.length ? Math.round(agoPub/agoPosts.length*100) : 0;
   const ids = {
     sbPct:pct+'%', statPub:pub, statFeedback:fbCount,
     pctJunho:junPct+'%', monthJunPct:junPct+'%', sJunhoPub:junPub,
     pctJulho:julPct+'%', monthJulPct:julPct+'%', sJulhoPub:julPub,
+    pctAgosto:agoPct+'%', monthAgoPct:agoPct+'%', sAgostoPub:agoPub,
     ringTotalPct:pct+'%', ringFbPct:fbPct+'%',
     statPillarSub:`${aTot} · ${cTot} · ${vTot}`
   };
@@ -1248,7 +1326,7 @@ async function initApp() {
   buildGallery(); buildResultados(); buildTimeline();
 
   // Push portal state to roteiro iframes once they load
-  ['iframeJul','iframeJun'].forEach(id => {
+  ['iframeAgo','iframeJul','iframeJun'].forEach(id => {
     const iframe = document.getElementById(id);
     if (iframe) iframe.addEventListener('load', () => syncAllStatusesToIframes());
   });
