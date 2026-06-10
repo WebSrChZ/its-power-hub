@@ -336,7 +336,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14
 .card-collapse-arrow{font-size:11px;color:var(--muted);transition:transform .3s;flex-shrink:0;margin-left:8px;line-height:1}
 .card.collapsed .card-collapse-arrow{transform:rotate(-90deg)}
 .card.collapsed>.card-body{display:none}
-.card.collapsed>#calJunho{display:none}
+.card.collapsed>#calJunho,.card.collapsed>#calJulho{display:none}
 .card.collapsed>.month-content{display:none}
 .card.collapsed>.card-hdr{border-bottom-color:transparent}
 /* ─── CARD COLLAPSED SUMMARY ─── */
@@ -737,7 +737,7 @@ textarea.modal-input{resize:vertical;min-height:80px}
 /* ─── RESPONSIVE ─── */
 @media print{
   .sidebar,.topbar,.breadcrumb-bar,.post-actions,.cron-toggle,.sb-overlay,.modal-bg,.admin-ring,.toast,#landingPage,.notif-wrap,#connStatus,#authGate,.gallery-thumb-overlay{display:none!important}
-  .card.collapsed>.card-body,.card.collapsed>#calJunho,.card.collapsed>.month-content{display:block!important}
+  .card.collapsed>.card-body,.card.collapsed>#calJunho,.card.collapsed>#calJulho,.card.collapsed>.month-content{display:block!important}
   .card.collapsed>.month-content{display:flex!important}
   .card.collapsed>.card-summary{display:none!important}
   .card-collapse-arrow{display:none!important}
