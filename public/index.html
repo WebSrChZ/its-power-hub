@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260609h">
+<link rel="stylesheet" href="css/styles.css?v=20260609i">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -160,23 +160,10 @@
       <span class="nav-icon"><i data-lucide="clipboard-list"></i></span>
       <div class="nav-info"><div class="nav-label">Contrato & Docs</div></div>
     </button>
-    <button class="nav-item" onclick="toggleRoteiros()">
+    <button class="nav-item" data-tab="roteiros" onclick="switchTab('roteiros')">
       <span class="nav-icon"><i data-lucide="film"></i></span>
       <div class="nav-info"><div class="nav-label">Roteiros</div></div>
-      <span class="nav-arrow" id="roteirosArrow">&#9660;</span>
     </button>
-    <div class="sb-submenu" id="roteirosSubmenu">
-      <button class="nav-item nav-sub" onclick="window.open('its_power_videos_julho2026.html','_blank')">
-        <span class="nav-icon"><i data-lucide="snowflake"></i></span>
-        <div class="nav-info"><div class="nav-label">Julho 2026</div></div>
-        <span class="nav-badge nb-info"><i data-lucide="external-link"></i></span>
-      </button>
-      <button class="nav-item nav-sub" onclick="window.open('its_power_videos_junho2026.html','_blank')">
-        <span class="nav-icon"><i data-lucide="sun"></i></span>
-        <div class="nav-info"><div class="nav-label">Junho 2026</div></div>
-        <span class="nav-badge nb-info"><i data-lucide="external-link"></i></span>
-      </button>
-    </div>
   </div>
   <div class="sb-footer">
     <div class="sb-contact" id="sbContactLink" onclick="switchProfile()" title="Trocar de conta">
@@ -884,6 +871,62 @@
       </div>
     </div>
 
+    <!-- TAB: ROTEIROS -->
+    <div class="tab-panel" id="panel-roteiros">
+      <div class="section-hdr" style="background:linear-gradient(135deg,#7C3AED 0%,#4C1D95 50%,#1E293B 100%)">
+        <div class="section-hdr-label">Produção de Conteúdo</div>
+        <div class="section-hdr-title" style="font-size:22px">Roteiros & Gestão de Vídeos</div>
+        <div class="section-hdr-desc">Roteiros detalhados, checklists de produção, legendas e stories para cada vídeo planejado.</div>
+      </div>
+
+      <div class="grid-4">
+        <div class="stat-card purple"><div class="stat-n">24</div><div class="stat-label">Roteiros totais</div></div>
+        <div class="stat-card blue"><div class="stat-n">2</div><div class="stat-label">Meses planejados</div></div>
+        <div class="stat-card green"><div class="stat-n">5</div><div class="stat-label">Cortes por vídeo</div></div>
+        <div class="stat-card orange"><div class="stat-n">6</div><div class="stat-label">Checklists / vídeo</div></div>
+      </div>
+
+      <!-- ═══ ROTEIROS: JULHO 2026 ═══ -->
+      <div class="card month-card" id="roteiros-jul2026">
+        <div class="card-hdr collapsible" onclick="toggleCard('roteiros-jul2026')">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="month-icon" style="background:linear-gradient(135deg,#1E3A5F,#1A7EC8)">&#10052;&#65039;</div>
+            <div>
+              <div style="font-size:15px;font-weight:800;color:var(--heading);font-family:var(--font-heading)">Julho 2026</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Construção de Autoridade · 12 roteiros completos</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="tag tag-blue">Fase Essencial</span>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0">
+          <iframe src="its_power_videos_julho2026.html" class="roteiro-iframe" id="iframeJul" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- ═══ ROTEIROS: JUNHO 2026 ═══ -->
+      <div class="card month-card" id="roteiros-jun2026">
+        <div class="card-hdr collapsible" onclick="toggleCard('roteiros-jun2026')">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="month-icon" style="background:linear-gradient(135deg,#4C1D95,#7C3AED)">&#9728;&#65039;</div>
+            <div>
+              <div style="font-size:15px;font-weight:800;color:var(--heading);font-family:var(--font-heading)">Junho 2026</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Descoberta de Narrativa · 12 roteiros completos</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="tag tag-purple">Fase Teste</span>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0">
+          <iframe src="its_power_videos_junho2026.html" class="roteiro-iframe" id="iframeJun" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+
     <!-- TAB: GALERIA -->
     <div class="tab-panel" id="panel-galeria">
       <div class="section-hdr" style="background:linear-gradient(135deg,#1E293B 0%,#334155 50%,#475569 100%)">
@@ -1086,8 +1129,8 @@
 
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/router.js?v=20260609h"></script>
-<script src="js/app.js?v=20260609h"></script>
+<script src="js/router.js?v=20260609i"></script>
+<script src="js/app.js?v=20260609i"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});

@@ -750,12 +750,6 @@ function toggleSidebar() {document.getElementById('sidebar').classList.toggle('o
 function closeSidebar() {document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show');}
 function smartToggleSidebar() { if(window.innerWidth<=900) toggleSidebar(); else toggleSidebarCollapse(); }
 function toggleSidebarCollapse() { document.body.classList.toggle('sidebar-collapsed'); closeSidebar(); }
-function toggleRoteiros() {
-  const sub = document.getElementById('roteirosSubmenu');
-  const arrow = document.getElementById('roteirosArrow');
-  const open = sub.classList.toggle('open');
-  if (arrow) arrow.style.transform = open ? 'rotate(0deg)' : 'rotate(-90deg)';
-}
 function switchProfile() { Auth.logout(); }
 
 /* ─── TOAST ─── */
