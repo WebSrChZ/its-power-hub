@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260609l">
+<link rel="stylesheet" href="css/styles.css?v=20260610a">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -518,12 +518,72 @@
         </div>
       </div>
 
-      <!-- Placeholder: próximos meses -->
-      <div class="card months-coming">
-        <div class="card-body months-placeholder">
-          <div class="months-placeholder-icon"><i data-lucide="calendar-plus"></i></div>
-          <div class="months-placeholder-title">Próximos meses</div>
-          <div class="months-placeholder-desc">Conforme novos meses forem planejados, eles aparecerão aqui.</div>
+      <!-- ═══ MÊS: AGOSTO 2026 ═══ -->
+      <div class="card month-card" id="month-ago2026">
+        <div class="card-hdr collapsible" onclick="toggleCard('month-ago2026')">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="month-icon" style="background:linear-gradient(135deg,#065F46,#10B981)">&#127793;</div>
+            <div>
+              <div style="font-size:15px;font-weight:800;color:var(--heading);font-family:var(--font-heading)">Agosto 2026</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Consolidação e Crescimento · 12 reels · 3×/semana</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="tag tag-green">Fase Essencial</span>
+            <span class="tag tag-blue" id="monthAgoPct">0%</span>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
+        </div>
+        <div class="month-content">
+          <div class="month-hero" style="background:linear-gradient(135deg,#065F46,var(--green),#10B981)">
+            <div>
+              <span class="tag tag-green" style="margin-bottom:8px;display:inline-flex">&#9679; Fase Essencial</span>
+              <div class="month-hero-title">Agosto 2026 — Consolidação e Crescimento</div>
+              <div class="month-hero-sub">12 reels · Início 01/08 · 3 pilares · 3×/semana · 2 sedes</div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="month-hero-price">R$ 2.800</div>
+              <div class="month-hero-price-sub">Plano Essencial / mês</div>
+            </div>
+          </div>
+
+          <div class="grid-4">
+            <div class="stat-card green"><div class="stat-n">12</div><div class="stat-label">Reels planejados</div></div>
+            <div class="stat-card blue"><div class="stat-n" id="sAgostoPub">0</div><div class="stat-label">Publicados</div></div>
+            <div class="stat-card green"><div class="stat-n">5 &#127942; · 6 &#129309; · 1 &#127919;</div><div class="stat-label">Distribuição por pilar</div></div>
+            <div class="stat-card purple"><div class="stat-n">4 BV · 4 Centro · 4 Ambas</div><div class="stat-label">Distribuição por sede</div></div>
+          </div>
+
+          <div class="roteiros-banner">
+            <div style="font-size:12px;color:var(--text)"><i data-lucide="film"></i> <strong>12 roteiros detalhados</strong> com cortes, checklists de produção, legendas e stories.</div>
+            <a href="its_power_videos_agosto2026.html" target="_blank" class="btn btn-primary" style="white-space:nowrap">Roteiros <i data-lucide="arrow-right"></i></a>
+          </div>
+
+          <div class="card" id="card-calendario-ago">
+            <div class="card-hdr collapsible" onclick="toggleCard('card-calendario-ago')"><div class="card-title"><span class="card-title-icon"><i data-lucide="calendar-days"></i></span>Calendário de Publicações</div><span class="card-collapse-arrow">&#9660;</span></div>
+            <div id="calAgosto"></div>
+          </div>
+
+          <div class="card" id="card-posts-ago">
+            <div class="card-hdr collapsible" onclick="toggleCard('card-posts-ago')">
+              <div class="card-title"><span class="card-title-icon"><i data-lucide="file-text"></i></span>Posts — Agosto 2026</div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <span class="tag tag-blue">&#127942; Autoridade</span>
+                <span class="tag tag-green">&#129309; Conexão</span>
+                <span class="tag tag-orange">&#127919; Conversão</span>
+                <span class="card-collapse-arrow">&#9660;</span>
+              </div>
+            </div>
+            <div class="card-body" id="postsAgosto"></div>
+          </div>
+
+          <div class="cron-toggle" onclick="toggleCron('agosto')">
+            <div class="cron-toggle-label"><i data-lucide="clipboard-list"></i> Cronograma Editorial Completo — Agosto 2026</div>
+            <span class="cron-arrow" id="cron-arrow-agosto">&#9660;</span>
+          </div>
+          <div class="cron-frame-wrap" id="cron-wrap-agosto">
+            <div class="cron-inline" id="cronInlineAgosto"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -881,10 +941,30 @@
       </div>
 
       <div class="grid-4">
-        <div class="stat-card purple"><div class="stat-n">24</div><div class="stat-label">Roteiros totais</div></div>
-        <div class="stat-card blue"><div class="stat-n">2</div><div class="stat-label">Meses planejados</div></div>
+        <div class="stat-card purple"><div class="stat-n">36</div><div class="stat-label">Roteiros totais</div></div>
+        <div class="stat-card blue"><div class="stat-n">3</div><div class="stat-label">Meses planejados</div></div>
         <div class="stat-card green"><div class="stat-n">5</div><div class="stat-label">Cortes por vídeo</div></div>
         <div class="stat-card orange"><div class="stat-n">6</div><div class="stat-label">Checklists / vídeo</div></div>
+      </div>
+
+      <!-- ═══ ROTEIROS: AGOSTO 2026 ═══ -->
+      <div class="card month-card" id="roteiros-ago2026">
+        <div class="card-hdr collapsible" onclick="toggleCard('roteiros-ago2026')">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="month-icon" style="background:linear-gradient(135deg,#065F46,#10B981)">&#127793;</div>
+            <div>
+              <div style="font-size:15px;font-weight:800;color:var(--heading);font-family:var(--font-heading)">Agosto 2026</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Consolidação e Crescimento · 12 roteiros completos</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="tag tag-green">Fase Essencial</span>
+            <span class="card-collapse-arrow">&#9660;</span>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0">
+          <iframe src="its_power_videos_agosto2026.html?v=20260610a" class="roteiro-iframe" id="iframeAgo" loading="lazy"></iframe>
+        </div>
       </div>
 
       <!-- ═══ ROTEIROS: JULHO 2026 ═══ -->
@@ -903,7 +983,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_julho2026.html?v=20260609l" class="roteiro-iframe" id="iframeJul" loading="lazy"></iframe>
+          <iframe src="its_power_videos_julho2026.html?v=20260610a" class="roteiro-iframe" id="iframeJul" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -923,7 +1003,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_junho2026.html?v=20260609l" class="roteiro-iframe" id="iframeJun" loading="lazy"></iframe>
+          <iframe src="its_power_videos_junho2026.html?v=20260610a" class="roteiro-iframe" id="iframeJun" loading="lazy"></iframe>
         </div>
       </div>
     </div>
@@ -1130,8 +1210,8 @@
 
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
-<script src="js/router.js?v=20260609l"></script>
-<script src="js/app.js?v=20260609l"></script>
+<script src="js/router.js?v=20260610a"></script>
+<script src="js/app.js?v=20260610a"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
