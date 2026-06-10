@@ -513,6 +513,44 @@ let state = load('state', VIDEOS.reduce((acc,v)=>{
 
 function saveState(){save('state',state)}
 
+/* ── SYNC: Communicate with parent portal ── */
+const SYNC_MONTH = 'jun';
+let _syncFromPortal = false;
+
+function notifyParentStatusChange(videoId, roteiroStatus) {
+  if (_syncFromPortal) return;
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({
+      type: 'roteiro-status-change',
+      month: SYNC_MONTH,
+      videoId: videoId,
+      status: roteiroStatus,
+      source: 'roteiro'
+    }, '*');
+  }
+}
+
+function setupPortalSyncListener() {
+  window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (!data || data.type !== 'portal-status-change' || data.source !== 'portal') return;
+    const videoId = data.videoId;
+    const newStatus = data.status;
+    if (!state[videoId]) return;
+    if (state[videoId].status === newStatus) return;
+    _syncFromPortal = true;
+    state[videoId].status = newStatus;
+    saveState();
+    updateCard(videoId);
+    updateStats();
+    updateCalendar();
+    updateProgress();
+    updateNextUp();
+    _syncFromPortal = false;
+  });
+}
+setupPortalSyncListener();
+
 /* ── CALENDAR ── */
 function buildCalendar(){
   const grid = document.getElementById('calGrid');
@@ -689,6 +727,7 @@ function setStatus(id,val){
   updateCalendar();
   updateProgress();
   updateNextUp();
+  notifyParentStatusChange(id, val);
 }
 
 function toggleCheck(id,key){

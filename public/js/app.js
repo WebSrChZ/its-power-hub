@@ -116,6 +116,71 @@ const STATUS_OPT = ['pendente','producao','aprovado','publicado'];
 const STATUS_LBL = {pendente:'Pendente',producao:'Em produção',aprovado:'Aprovado',publicado:'Publicado'};
 const STATUS_COLOR = {pendente:'#94A3B8',producao:'#8B5CF6',aprovado:'#F59E0B',publicado:'#10B981'};
 
+/* ─── SYNC: Portal ↔ Roteiro Iframes ─── */
+const SYNC_ROTEIRO_TO_PORTAL = {pendente:'pendente',gravando:'producao',editando:'producao',pronto:'aprovado',publicado:'publicado'};
+const SYNC_PORTAL_TO_ROTEIRO = {pendente:'pendente',producao:'gravando',aprovado:'pronto',publicado:'publicado'};
+
+function portalIdToVideoId(portalId) {
+  // jun01 → V01, jul05 → V05
+  const num = portalId.replace(/^(jun|jul)/, '');
+  return 'V' + num;
+}
+function portalIdToMonth(portalId) {
+  return portalId.startsWith('jul') ? 'jul' : 'jun';
+}
+function videoIdToPortalId(videoId, month) {
+  // V01 + jul → jul01
+  const num = videoId.replace('V','');
+  return month + num;
+}
+
+function notifyIframeStatusChange(portalId, portalStatus) {
+  const month = portalIdToMonth(portalId);
+  const videoId = portalIdToVideoId(portalId);
+  const roteiroStatus = SYNC_PORTAL_TO_ROTEIRO[portalStatus] || portalStatus;
+  const iframeId = month === 'jul' ? 'iframeJul' : 'iframeJun';
+  const iframe = document.getElementById(iframeId);
+  if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage({
+      type: 'portal-status-change',
+      videoId: videoId,
+      status: roteiroStatus,
+      source: 'portal'
+    }, '*');
+  }
+}
+
+function syncAllStatusesToIframes() {
+  POSTS.forEach(p => {
+    const st = STATE[p.id]?.status || 'pendente';
+    notifyIframeStatusChange(p.id, st);
+  });
+}
+
+function setupIframeSyncListener() {
+  window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (!data || data.type !== 'roteiro-status-change' || data.source === 'portal') return;
+    const month = data.month; // 'jun' or 'jul'
+    const videoId = data.videoId; // 'V01'
+    const roteiroStatus = data.status; // roteiro status
+    const portalId = videoIdToPortalId(videoId, month);
+    const portalStatus = SYNC_ROTEIRO_TO_PORTAL[roteiroStatus] || 'pendente';
+    if (!STATE[portalId]) return;
+    if (STATE[portalId].status === portalStatus) return; // already in sync
+    // Update portal state silently (no re-notify iframe to avoid loop)
+    STATE[portalId].status = portalStatus;
+    const dot = document.querySelector(`[onclick="scrollToPost('${portalId}')"] .cal-sdot`);
+    if (dot) dot.style.background = STATUS_COLOR[portalStatus];
+    // Update select dropdowns in post list
+    const sel = document.querySelector(`#pi_${portalId} .s-sel`);
+    if (sel) sel.value = portalStatus;
+    updateStats();
+    buildCronogramaInline();
+    savePost(portalId);
+  });
+}
+
 /* ─── STATE ─── */
 let STATE = {};
 POSTS.forEach(p => { STATE[p.id] = {status:'pendente',note:'',stars:0,fb:''}; });
@@ -249,8 +314,10 @@ function setStatus(id, val) {
   const dot = document.querySelector(`[onclick="scrollToPost('${id}')"] .cal-sdot`);
   if (dot) dot.style.background = STATUS_COLOR[val];
   updateStats();
+  buildCronogramaInline();
   showToast('Status atualizado');
   savePost(id);
+  notifyIframeStatusChange(id, val);
   const post = POSTS.find(p=>p.id===id);
   const target = Auth.isAdmin() ? 'client' : 'admin';
   API.notify(target, 'status_change', 'Status alterado: ' + (post?.title?.slice(0,40)||id), 'Novo status: ' + (STATUS_LBL[val]||val));
@@ -859,6 +926,7 @@ function setupRealtimeNotifications() {
     if (posts) {
       posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||''}; });
       buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
+      syncAllStatusesToIframes();
     }
   });
 }
@@ -1171,11 +1239,18 @@ async function initApp() {
 
   restoreCardStates();
   Router.init();
+  setupIframeSyncListener();
 
   // Load data FIRST, then render once (fixes double render)
   await loadData();
   buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
   buildGallery(); buildResultados(); buildTimeline();
+
+  // Push portal state to roteiro iframes once they load
+  ['iframeJul','iframeJun'].forEach(id => {
+    const iframe = document.getElementById(id);
+    if (iframe) iframe.addEventListener('load', () => syncAllStatusesToIframes());
+  });
   if (MONTH_NOTE) { const el = document.getElementById('monthNote'); if (el) el.value = MONTH_NOTE; }
   renderApprovalState();
   // Re-render Lucide icons for dynamically generated content
