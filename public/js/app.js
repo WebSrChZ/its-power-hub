@@ -288,11 +288,21 @@ async function loadData() {
 /* ─── SAVE ─── */
 async function savePost(postId) {
   const s = STATE[postId];
-  await API.updatePost(postId, s);
+  try {
+    await API.updatePost(postId, s);
+  } catch (e) {
+    console.warn('Erro ao salvar post:', e);
+    showToast('Erro ao salvar. Verifique sua conexão.', true);
+  }
 }
 
 async function saveSetting(key, value) {
-  await API.updateSetting(key, value);
+  try {
+    await API.updateSetting(key, value);
+  } catch (e) {
+    console.warn('Erro ao salvar configuração:', e);
+    showToast('Erro ao salvar. Verifique sua conexão.', true);
+  }
 }
 
 /* ─── CALENDAR ─── */
@@ -614,6 +624,9 @@ async function submitClientRequest() {
     await API.addActivity('Cliente enviou pedido: "' + title.slice(0,40) + '"', 'pedido');
     const reqs = await API.getRequests();
     if (reqs) renderRequests(reqs);
+  } catch (e) {
+    console.warn('Erro ao enviar pedido:', e);
+    showToast('Erro ao enviar pedido. Tente novamente.', true);
   } finally {
     btn.disabled = false; btn.textContent = 'Enviar pedido';
   }
@@ -621,20 +634,30 @@ async function submitClientRequest() {
 
 async function markRequestDone(id) {
   if (!Auth.isAdmin()) return;
-  await API.updateRequest(id, {status:'done'});
-  showToast('Pedido concluído');
-  await API.notify('client', 'request', 'Pedido concluído pelo admin', 'Um dos seus pedidos foi marcado como feito.');
-  const reqs = await API.getRequests();
-  if (reqs) renderRequests(reqs);
+  try {
+    await API.updateRequest(id, {status:'done'});
+    showToast('Pedido concluído');
+    await API.notify('client', 'request', 'Pedido concluído pelo admin', 'Um dos seus pedidos foi marcado como feito.');
+    const reqs = await API.getRequests();
+    if (reqs) renderRequests(reqs);
+  } catch (e) {
+    console.warn('Erro ao concluir pedido:', e);
+    showToast('Erro ao atualizar pedido.', true);
+  }
 }
 
 async function deleteRequest(id) {
   if (!Auth.isAdmin()) return;
   if (!confirm('Remover este pedido permanentemente?')) return;
-  await API.deleteRequest(id);
-  showToast('Pedido removido');
-  const reqs = await API.getRequests();
-  if (reqs) renderRequests(reqs);
+  try {
+    await API.deleteRequest(id);
+    showToast('Pedido removido');
+    const reqs = await API.getRequests();
+    if (reqs) renderRequests(reqs);
+  } catch (e) {
+    console.warn('Erro ao remover pedido:', e);
+    showToast('Erro ao remover pedido.', true);
+  }
 }
 
 async function submitAdminRequest() {
@@ -642,26 +665,36 @@ async function submitAdminRequest() {
   const desc = document.getElementById('adminReqDesc').value.trim();
   const date = document.getElementById('adminReqDate').value.trim();
   if (!title) return;
-  await API.createRequest({title, description:desc||'-', due_date:date||'Sem prazo definido', priority:'normal', source:'admin'});
-  document.getElementById('adminReqModal').classList.remove('open');
-  ['adminReqTitle','adminReqDesc','adminReqDate'].forEach(id => { document.getElementById(id).value = ''; });
-  showToast('Pedido criado com sucesso');
-  await API.notify('client', 'request', 'Novo pedido do admin: ' + title.slice(0,40), desc.slice(0,80) || title);
-  await API.addActivity('Admin criou pedido: "' + title.slice(0,40) + '"', 'pedido');
-  const reqs = await API.getRequests();
-  if (reqs) renderRequests(reqs);
+  try {
+    await API.createRequest({title, description:desc||'-', due_date:date||'Sem prazo definido', priority:'normal', source:'admin'});
+    document.getElementById('adminReqModal').classList.remove('open');
+    ['adminReqTitle','adminReqDesc','adminReqDate'].forEach(id => { document.getElementById(id).value = ''; });
+    showToast('Pedido criado com sucesso');
+    await API.notify('client', 'request', 'Novo pedido do admin: ' + title.slice(0,40), desc.slice(0,80) || title);
+    await API.addActivity('Admin criou pedido: "' + title.slice(0,40) + '"', 'pedido');
+    const reqs = await API.getRequests();
+    if (reqs) renderRequests(reqs);
+  } catch (e) {
+    console.warn('Erro ao criar pedido:', e);
+    showToast('Erro ao criar pedido.', true);
+  }
 }
 
 async function submitAdminActivity() {
   const msg = document.getElementById('adminActMsg').value.trim();
   if (!msg) return;
-  await API.addActivity(msg, msg.slice(0,40));
-  document.getElementById('adminActModal').classList.remove('open');
-  document.getElementById('adminActMsg').value = '';
-  showToast('Atividade registrada');
-  await API.notify('client', 'activity', 'Nova atividade registrada', msg.slice(0,80));
-  const acts = await API.getActivity();
-  if (acts) renderActivity(acts);
+  try {
+    await API.addActivity(msg, msg.slice(0,40));
+    document.getElementById('adminActModal').classList.remove('open');
+    document.getElementById('adminActMsg').value = '';
+    showToast('Atividade registrada');
+    await API.notify('client', 'activity', 'Nova atividade registrada', msg.slice(0,80));
+    const acts = await API.getActivity();
+    if (acts) renderActivity(acts);
+  } catch (e) {
+    console.warn('Erro ao registrar atividade:', e);
+    showToast('Erro ao registrar atividade.', true);
+  }
 }
 
 /* ─── CRONOGRAMA INLINE ─── */
@@ -802,10 +835,15 @@ async function deleteTimelineStep(i) {
 async function deleteActivityItem(id) {
   if (!Auth.isAdmin()) return;
   if (!confirm('Remover esta atividade?')) return;
-  await API.deleteActivity(id);
-  showToast('Atividade removida');
-  const acts = await API.getActivity();
-  if (acts) renderActivity(acts);
+  try {
+    await API.deleteActivity(id);
+    showToast('Atividade removida');
+    const acts = await API.getActivity();
+    if (acts) renderActivity(acts);
+  } catch (e) {
+    console.warn('Erro ao remover atividade:', e);
+    showToast('Erro ao remover atividade.', true);
+  }
 }
 
 /* ─── STATS ─── */
@@ -900,11 +938,13 @@ function switchProfile() { Auth.logout(); }
 
 /* ─── TOAST ─── */
 let toastTimer;
-function showToast(msg) {
+function showToast(msg, isError) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
+  t.textContent = msg;
+  t.classList.toggle('toast-error', !!isError);
+  t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+  toastTimer = setTimeout(() => { t.classList.remove('show'); t.classList.remove('toast-error'); }, isError ? 4000 : 2500);
 }
 
 /* ─── NOTIFICATIONS ─── */
@@ -1471,7 +1511,15 @@ async function logSession() {
 
 /* ─── BOOT ─── */
 (function boot() {
-  try { if (localStorage.getItem('ip3_dark')==='true') document.documentElement.dataset.theme = 'dark'; } catch {}
+  try {
+    const saved = localStorage.getItem('ip3_dark');
+    if (saved === 'true') {
+      document.documentElement.dataset.theme = 'dark';
+    } else if (saved === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.dataset.theme = 'dark';
+    }
+    document.documentElement.setAttribute('data-theme-set', '');
+  } catch {}
   // Initialize Lucide icons on page load (landing + auth)
   if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch {} }
   const hasSession = Auth.checkSession();
