@@ -12,3 +12,12 @@ node_modules/
 *.doc
 *.docx
 *.pptx
+
+# Server antigo (morto — site é estático via GitHub Pages)
+server.js
+package.json
+package-lock.json
+
+# Pastas de produção (mídia pesada, não pertence ao repo)
+Audiovisual*/
+Cronograma*/

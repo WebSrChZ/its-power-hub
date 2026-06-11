@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>It's Power × SrChZ — Portal do Projeto</title>
-<meta name="description" content="Portal do cliente — Academia ITS Power × SrChZ Technologies. Gestão de conteúdo digital, calendário editorial, feedback e acompanhamento de projeto.">
+<title>It's Power — Portal do Projeto</title>
+<meta name="description" content="Portal do cliente — Academia It's Power. Gestão de conteúdo digital, calendário editorial, feedback e acompanhamento de projeto.">
 <meta name="theme-color" content="#0F172A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <!-- Open Graph -->
-<meta property="og:title" content="It's Power × SrChZ — Portal do Projeto">
+<meta property="og:title" content="It's Power — Portal do Projeto">
 <meta property="og:description" content="Portal de gestão de conteúdo digital da Academia ITS Power. Calendário editorial, feedback em tempo real e acompanhamento de projeto.">
 <meta property="og:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
 <meta property="og:url" content="https://websrchz.github.io/its-power-hub/">
@@ -17,11 +17,11 @@
 <meta property="og:locale" content="pt_BR">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="It's Power × SrChZ — Portal do Projeto">
+<meta name="twitter:title" content="It's Power — Portal do Projeto">
 <meta name="twitter:description" content="Portal de gestão de conteúdo digital da Academia ITS Power.">
 <meta name="twitter:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
 <!-- Favicon -->
-<link rel="icon" type="image/jpeg" href="assets/LogoItsPower.jpg">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/LogoItsPower.jpg">
 <!-- Manifest -->
 <link rel="manifest" href="manifest.json">
@@ -29,11 +29,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=20260610b">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#mainContent">Ir para o conteúdo principal</a>
 
 <!-- LANDING PAGE -->
 <div id="landingPage">
@@ -41,7 +42,7 @@
     <img class="landing-logo" src="assets/LogoItsPower.jpg" alt="It's Power"
          onerror="this.style.display='none'">
     <div class="landing-title">it's <em>power</em></div>
-    <div class="landing-sub">Portal do Projeto · SrChZ Technologies</div>
+    <div class="landing-sub">Portal do Projeto</div>
     <p class="landing-desc">
       Gestão de conteúdo digital para a <strong>Academia ITS Power</strong>.
       Calendário editorial, feedback em tempo real, acompanhamento de projeto
@@ -64,9 +65,9 @@
         <div class="landing-feat-desc">Métricas de engajamento e crescimento</div>
       </div>
     </div>
-    <button class="landing-cta" onclick="showLoginFromLanding()"><i data-lucide="lock"></i> Acessar Portal</button>
+    <button class="landing-cta" onclick="showLoginFromLanding()" aria-label="Acessar Portal"><i data-lucide="lock"></i> Acessar Portal</button>
     <div class="landing-footer">
-      <a href="https://instagram.com/websrchz" target="_blank">@websrchz</a> · SrChZ Technologies · 2026
+      <a href="https://instagram.com/itspoweracademia" target="_blank" rel="noopener">@itspoweracademia</a> · 2026
     </div>
   </div>
 </div>
@@ -78,7 +79,7 @@
          onerror="this.style.display='none';document.getElementById('authLogoFallback').style.display='flex'">
     <div class="auth-logo-fallback" id="authLogoFallback" style="display:none">&#128170;</div>
     <div class="auth-title">it's <span style="color:var(--orange)">power</span></div>
-    <div class="auth-sub">Portal restrito · SrChZ Technologies</div>
+    <div class="auth-sub">Portal restrito</div>
     <div class="auth-field-group">
       <div>
         <div class="auth-field-label">Login</div>
@@ -93,7 +94,7 @@
                onkeydown="if(event.key==='Enter')handleLogin()">
       </div>
     </div>
-    <button class="auth-btn" onclick="handleLogin()">Entrar</button>
+    <button class="auth-btn" onclick="handleLogin()" aria-label="Entrar no portal">Entrar</button>
     <div class="auth-err hide" id="authErr">Login ou senha incorretos.</div>
     <div class="auth-cooldown" id="authCooldown"></div>
   </div>
@@ -110,7 +111,7 @@
       <div class="sb-brand">it's <em>power</em></div>
       <div class="sb-sub">Portal do Projeto</div>
     </div>
-    <button class="ico-btn sb-collapse-btn" onclick="toggleSidebarCollapse()" title="Recolher menu lateral"><i data-lucide="panel-left-close"></i></button>
+    <button class="ico-btn sb-collapse-btn" onclick="toggleSidebarCollapse()" title="Recolher menu lateral" aria-label="Recolher menu lateral"><i data-lucide="panel-left-close"></i></button>
   </div>
   <div class="sb-phase">
     <div class="sb-phase-badge"><span class="sb-phase-badge-dot"></span> Fase Teste · Ativa</div>
@@ -170,7 +171,7 @@
       <div class="sb-contact-avatar" id="sbContactAvatar">R</div>
       <div class="sb-contact-info">
         <div class="sb-contact-name" id="sbContactName">Rafael Cordeiro</div>
-        <div class="sb-contact-role" id="sbContactRole">SrChZ Technologies</div>
+        <div class="sb-contact-role" id="sbContactRole">Gestor do projeto</div>
         <div class="sb-contact-switch"><i data-lucide="repeat"></i> Trocar conta</div>
       </div>
     </div>
@@ -178,7 +179,7 @@
 </aside>
 
 <!-- MAIN -->
-<div class="main">
+<main class="main" id="mainContent">
   <div class="topbar">
     <div class="flex-center gap-12">
       <button class="ico-btn mob-menu" onclick="smartToggleSidebar()" aria-label="Abrir menu lateral"><i data-lucide="menu"></i></button>
@@ -194,8 +195,8 @@
       </div>
     </div>
     <div class="tb-right">
-      <button class="tb-request-btn" onclick="openClientReqModal()" title="Enviar pedido ou observação"><i data-lucide="mail-plus"></i> <span>Pedido</span></button>
-      <button class="ico-btn admin-ctrl" onclick="document.getElementById('adminActModal').classList.add('open')" title="Registrar atividade"><i data-lucide="radio"></i></button>
+      <button class="tb-request-btn" onclick="openClientReqModal()" title="Enviar pedido ou observação" aria-label="Enviar pedido ou observação"><i data-lucide="mail-plus"></i> <span>Pedido</span></button>
+      <button class="ico-btn admin-ctrl" onclick="document.getElementById('adminActModal').classList.add('open')" title="Registrar atividade" aria-label="Registrar atividade"><i data-lucide="radio"></i></button>
       <div class="notif-wrap">
         <button class="notif-bell" onclick="toggleNotifPanel()" title="Notificações" aria-label="Notificações"><i data-lucide="bell"></i><span class="notif-count" id="notifCount" style="display:none">0</span></button>
         <div class="notif-panel" id="notifPanel">
@@ -1086,7 +1087,7 @@
     </div>
 
   </div>
-</div>
+</main>
 
 <!-- NOTE MODAL -->
 <div class="modal-bg" id="noteModal" role="dialog" aria-modal="true" aria-label="Observação do post">
@@ -1267,10 +1268,10 @@
 
 <div class="toast" id="toast"><i data-lucide="check"></i> Salvo</div>
 
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/router.js?v=20260610b"></script>
-<script src="js/app.js?v=20260610b"></script>
+<script defer src="js/api.js"></script>
+<script defer src="js/auth.js"></script>
+<script defer src="js/router.js?v=20260610b"></script>
+<script defer src="js/app.js?v=20260610b"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
