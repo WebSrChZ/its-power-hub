@@ -42,6 +42,7 @@ const Router = {
   },
 
   _activate(tab, updateUI) {
+    if (tab === 'roteiros' && typeof loadRoteiroIframes === 'function') loadRoteiroIframes();
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tb-tab, .nav-item').forEach(b => b.classList.remove('active'));
     const panel = document.getElementById('panel-' + tab);

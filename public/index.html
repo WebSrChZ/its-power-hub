@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260610b">
+<link rel="stylesheet" href="css/styles.css?v=20260612">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -341,7 +341,7 @@
               <span class="card-collapse-arrow">&#9660;</span>
             </div>
           </div>
-          <div class="card-body" id="requestsBody"></div>
+          <div class="card-body" id="requestsBody"><div class="empty-state">Carregando pedidos…</div></div>
         </div>
 
         <div class="card" id="card-atividade">
@@ -352,7 +352,7 @@
               <span class="card-collapse-arrow">&#9660;</span>
             </div>
           </div>
-          <div class="card-body" id="activityFeed"></div>
+          <div class="card-body" id="activityFeed"><div class="empty-state">Carregando atividades…</div></div>
         </div>
       </div>
 
@@ -924,7 +924,7 @@
       <!-- PER-POST INSTAGRAM METRICS -->
       <div class="card" id="card-igPosts">
         <div class="card-hdr collapsible" onclick="toggleCard('card-igPosts')">
-          <div class="card-title"><span class="card-title-icon"><i data-lucide="instagram"></i></span>Métricas por Post</div>
+          <div class="card-title"><span class="card-title-icon"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></span>Métricas por Post</div>
           <span class="card-collapse-arrow">&#9660;</span>
         </div>
         <div class="card-body" style="padding:0;overflow-x:auto">
@@ -1023,7 +1023,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_agosto2026.html?v=20260610b" class="roteiro-iframe" id="iframeAgo" loading="lazy"></iframe>
+          <iframe data-src="its_power_videos_agosto2026.html?v=20260612" class="roteiro-iframe" id="iframeAgo" loading="lazy" title="Roteiros de agosto"></iframe>
         </div>
       </div>
 
@@ -1043,7 +1043,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_julho2026.html?v=20260610b" class="roteiro-iframe" id="iframeJul" loading="lazy"></iframe>
+          <iframe data-src="its_power_videos_julho2026.html?v=20260612" class="roteiro-iframe" id="iframeJul" loading="lazy" title="Roteiros de julho"></iframe>
         </div>
       </div>
 
@@ -1063,7 +1063,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe src="its_power_videos_junho2026.html?v=20260610b" class="roteiro-iframe" id="iframeJun" loading="lazy"></iframe>
+          <iframe data-src="its_power_videos_junho2026.html?v=20260612" class="roteiro-iframe" id="iframeJun" loading="lazy" title="Roteiros de junho"></iframe>
         </div>
       </div>
     </div>
@@ -1268,10 +1268,10 @@
 
 <div class="toast" id="toast"><i data-lucide="check"></i> Salvo</div>
 
-<script defer src="js/api.js"></script>
-<script defer src="js/auth.js"></script>
-<script defer src="js/router.js?v=20260610b"></script>
-<script defer src="js/app.js?v=20260610b"></script>
+<script defer src="js/api.js?v=20260612"></script>
+<script defer src="js/auth.js?v=20260612"></script>
+<script defer src="js/router.js?v=20260612"></script>
+<script defer src="js/app.js?v=20260612"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});

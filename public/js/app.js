@@ -282,6 +282,12 @@ async function loadData() {
   } catch(e) {
     console.warn('Load error:', e);
     setConnStatus('offline');
+    showToast('Não foi possível carregar os dados. Verifique a conexão e recarregue.', true);
+    const offMsg = '<div class="empty-state">Sem conexão com o servidor — recarregue a página para tentar de novo.</div>';
+    const rb = document.getElementById('requestsBody');
+    const af = document.getElementById('activityFeed');
+    if (rb && !rb.querySelector('.request-item')) rb.innerHTML = offMsg;
+    if (af && !af.querySelector('.activity-item')) af.innerHTML = offMsg;
   }
 }
 
@@ -337,6 +343,11 @@ function buildMonthCalendar(month,containerId,label,days,monthNum,leadEmpty,trai
   container.innerHTML = html;
 }
 
+/* ─── HTML ESCAPE (anti-XSS para dados vindos do Supabase/cliente) ─── */
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
 /* ─── POST LIST ─── */
 function buildPosts() {
   buildMonthPosts('jun','postsJunho');
@@ -363,9 +374,9 @@ function buildMonthPosts(month,containerId) {
         <div class="post-tags">${tags}</div>
       </div>
       <div class="post-actions">
-        <select class="s-sel" onchange="setStatus('${p.id}',this.value)">${opts}</select>
+        <select class="s-sel" aria-label="Status de ${p.title.replace(/"/g,'&quot;')}" onchange="setStatus('${p.id}',this.value)">${opts}</select>
         <div class="post-fb-row">${starsHtml}</div>
-        <div class="post-note-btn" onclick="openNoteModal('${p.id}','${p.title.replace(/'/g,"\\'")}')">${note||'+ Observação'}</div>
+        <div class="post-note-btn" onclick="openNoteModal('${p.id}','${p.title.replace(/'/g,"\\'")}')">${note?esc(note):'+ Observação'}</div>
       </div></div>`;
   });
   c.innerHTML = html;
@@ -383,7 +394,7 @@ function buildFeedbackBoard() {
     html += `<div class="feedback-card" id="fbc_${p.id}">
       <div class="fb-post-title">${PILLAR[p.pillar].icon} ${p.title}</div>
       <div class="fb-stars">${starsHtml}</div>
-      <textarea class="fb-note" id="fbnote_${p.id}" placeholder="Comentário opcional sobre este conteúdo..." oninput="setFbNote('${p.id}',this.value)">${fb}</textarea>
+      <textarea class="fb-note" id="fbnote_${p.id}" placeholder="Comentário opcional sobre este conteúdo..." oninput="setFbNote('${p.id}',this.value)">${esc(fb)}</textarea>
       <div class="fb-actions">
         <div class="fb-saved${saved?' show':''}" id="fbsaved_${p.id}">&#10003; Feedback salvo</div>
         <button class="btn btn-primary" style="padding:6px 14px;font-size:10px" onclick="saveFb('${p.id}')">Salvar</button>
@@ -515,13 +526,17 @@ function renderRequests(reqs) {
   const pendingCount = sorted.filter(r => r.status !== 'done').length;
   const badge = document.getElementById('actionsBadge');
   if (badge) { badge.style.display = pendingCount ? 'inline-flex' : 'none'; badge.textContent = pendingCount; }
+  if (!sorted.length) {
+    c.innerHTML = '<div class="empty-state">Nenhum pedido por enquanto. Os pedidos enviados pelo formulário aparecem aqui.</div>';
+    return;
+  }
   c.innerHTML = sorted.map(r => `
     <div class="request-item${r.source==='client'?' req-item-client':''}">
       <div class="req-icon" style="background:${r.source==='client'?'var(--orange-light)':'var(--surface2)'}">${icons[r.status]||'\u{1F4CC}'}</div>
       <div class="req-content">
-        <div class="req-title">${r.source==='client'?'<span class="req-source-tag">CLIENTE</span>':''}${r.title}${r.priority&&r.priority!=='normal'?' <span style="font-size:9px;color:var(--amber)">'+priLabel[r.priority]+'</span>':''}</div>
-        <div class="req-desc">${r.description}</div>
-        <div class="req-date">\u{23F0} ${r.due_date}</div>
+        <div class="req-title">${r.source==='client'?'<span class="req-source-tag">CLIENTE</span>':''}${esc(r.title)}${r.priority&&r.priority!=='normal'?' <span style="font-size:9px;color:var(--amber)">'+priLabel[r.priority]+'</span>':''}</div>
+        <div class="req-desc">${esc(r.description)}</div>
+        <div class="req-date">\u{23F0} ${esc(r.due_date)}</div>
         <div class="req-admin-btns">
           ${r.status!=='done'?`<button onclick="markRequestDone('${r.id}')" style="font-size:9px;padding:3px 10px;border-radius:6px;border:none;background:var(--green-light);color:var(--green-dark);cursor:pointer;font-weight:700">Concluído</button>`:''}
           <button onclick="deleteRequest('${r.id}')" style="font-size:9px;padding:3px 10px;border-radius:6px;border:none;background:var(--red-light);color:var(--red);cursor:pointer;font-weight:700">Remover</button>
@@ -534,12 +549,18 @@ function renderRequests(reqs) {
 function renderActivity(acts) {
   const c = document.getElementById('activityFeed');
   if (!c) return;
+  if (!acts.length) {
+    c.innerHTML = '<div class="empty-state">Nenhuma atividade registrada ainda.</div>';
+    return;
+  }
   c.innerHTML = acts.map(r => activityHTML(r)).join('');
 }
 function activityHTML(r) {
   const t = new Date(r.created_at);
   const label = isNaN(t) ? 'agora' : t.toLocaleString('pt-BR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  const msg = r.bold_part ? r.message.replace(r.bold_part, `<strong>${r.bold_part}</strong>`) : r.message;
+  const msg = r.bold_part
+    ? esc(r.message).replace(esc(r.bold_part), `<strong>${esc(r.bold_part)}</strong>`)
+    : esc(r.message);
   const delBtn = Auth.isAdmin() ? `<button class="act-del-btn admin-ctrl" onclick="deleteActivityItem('${r.id}')" title="Remover"><i data-lucide="x"></i></button>` : '';
   return `<div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-content"><div class="act-text">${msg}</div><div class="act-time">${label}</div></div>${delBtn}</div>`;
 }
@@ -904,6 +925,15 @@ function setConnStatus(state) {
 
 /* ─── NAVIGATION ─── */
 function switchTab(tab) { Router.navigate(tab); if (window.innerWidth <= 900) closeSidebar(); }
+
+/* Lazy-load dos iframes de roteiro: só carregam na primeira visita à aba.
+   (loading="lazy" não basta — em abas display:none o Chromium carrega eager.) */
+function loadRoteiroIframes() {
+  document.querySelectorAll('iframe.roteiro-iframe[data-src]').forEach(f => {
+    f.src = f.dataset.src;
+    f.removeAttribute('data-src');
+  });
+}
 function toggleCron(m) {
   const w = document.getElementById('cron-wrap-'+m), a = document.getElementById('cron-arrow-'+m);
   const o = w.classList.toggle('open'); a.classList.toggle('open', o);
@@ -995,8 +1025,8 @@ function renderNotifications(notifs) {
     return `<div class="notif-item${n.read?'':' unread'}" onclick="markNotifRead('${n.id}',this)">
       <div class="notif-icon ${ic.cls}">${ic.icon}</div>
       <div class="notif-body">
-        <div class="notif-title">${n.title}</div>
-        ${n.message ? '<div class="notif-msg">' + n.message + '</div>' : ''}
+        <div class="notif-title">${esc(n.title)}</div>
+        ${n.message ? '<div class="notif-msg">' + esc(n.message) + '</div>' : ''}
         <div class="notif-time">${ago}</div>
       </div></div>`;
   }).join('');
