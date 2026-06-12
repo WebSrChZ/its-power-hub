@@ -1,25 +1,12 @@
-# V5 Junho (Dia dos Namorados) — Re-edição
 
-## Session 1 — 2026-06-11
+## Session 2 — 2026-06-12
 
-**Strategy:** Melhorar o render final do V5 (sem takes brutos disponíveis). Três queixas do Rafael: transições dos takes, posição/animação das legendas, música. Solução: crossfades suaves no lugar dos cortes secos, textos queimados removidos/contornados e recriados em Georgia serif com fade+rise na zona segura do Reels, trilha substituída por música gerada via ElevenLabs sound-generation.
+**Strategy:** Rafael trouxe export limpo (Jun.Vid05_NoCaptions.mp4, 27.6s/30fps, re-editado por eles com transições suaves e "Summertime Sadness" remix burned). Tarefa: só os textos — narrativa de conexão passiva (casais) + CTA, sincronizados com a música via timestamps do Scribe.
 
 **Decisions:**
-- Take 1 (0.25–3.42): texto do topo removido via **crop-zoom 1.31x** (crop 1653×2940 @ 253,900) — zero artefato, enquadramento melhorou.
-- Takes 2–5: intactos.
-- Take 6 (11.71–14.33): **descartado** — texto 2 entra em ~12.0s sobre legging estampada; remoção impossível com qualidade (delogo e inpaint testados, ambos mancham).
-- Take 7: usada só a fatia **15.62–16.85** (risada do casal) — texto 3 ("Feliz Dia dos Namorados" com máquina de escrever + drift) removido por **inpaint por glifo** (OpenCV Telea, máscara branca min-área 120, dilate 61px, edge-melt gaussian). Região t3: (505,1435,1745,2300).
-- Final: cartão branco (frame 19.4 congelado) + coração laranja + "Feliz Dia dos Namorados." Georgia Bold + logo — via xfade fadewhite 0.6s.
-- Transições: xfade fade 0.3s entre takes.
-- Textos novos: Georgia Italic 104px branco com sombra suave, y=62% (zona segura). t1 0.55–2.70s, t2 8.25–10.05s.
-- Música: ElevenLabs **/v1/sound-generation** (Music API = 402 no plano free). Prompt romântico acústico, 22s. Loudnorm -14 LUFS, fades 0.5/1.6s. Decay natural da trilha casa com o cartão.
-- Saída: 14.0s, 2160×3840@24, ~40MB. `edit/final.mp4` + cópia em Downloads.
+- 4 textos Georgia (itálico narrativa, bold CTA), fade+rise, y=62%: t1 1.0–4.9 "Eles podiam treinar em qualquer lugar." (sobre vocal de intro), t2 5.6–9.2 "Mas escolheram treinar juntos. Aqui." (cai no drop 5.44s), t3 12.0–14.8 "Na It's Power, eles encontraram algo diferente." (marca explícita — escolha do Rafael), CTA 22.2–25.1 "Marca quem treinaria contigo." + coração laranja (tag-CTA — escolha do Rafael).
+- 14.8–22.2 sem texto (respiro), cartão de logo deles fecha limpo.
+- Sombra reforçada (alpha 205/blur 24) em t3+CTA por causa da luz de janela.
+- Áudio -c:a copy (música intacta). Saída 27.6s 4K30.
 
-**Reasoning log:**
-- delogo box grande = mancha; inpaint por glifo sem dilate = fantasma escuro (sombra difusa das letras); dilate 61px resolve em bokeh, nunca em estampa.
-- Cortar o take 6 doeu menos que manchar a modelo; a risada do take 7 preserva o payoff emocional.
-- Timebase: xfade exige settb=AVTB em todos os branches quando um input vem de PNG-sequence re-encodada.
-
-**Outstanding:**
-- Se o Rafael não gostar da trilha gerada, ele pode mandar um MP3 — basta trocar o input 6 no render.sh e re-rodar.
-- Takes brutos permitiriam re-edição completa (transições com mais conteúdo, sem inpaint).
+**Outstanding:** legenda do post entregue no chat (combo: narrativa + marcação + direct/visita).
