@@ -21,3 +21,16 @@ package-lock.json
 # Pastas de produção (mídia pesada, não pertence ao repo)
 Audiovisual*/
 Cronograma*/
+
+# Midia de video (binarios grandes - workspace local de edicao)
+videos/*/edit/*.mp4
+videos/*/edit/*.mp3
+videos/*/edit/*.wav
+videos/*/edit/s6_raw/
+videos/*/edit/s6_clean/
+videos/*/edit/verify/
+videos/*/edit/transcripts/
+videos/*/*.mp4
+videos/*/*.MP4
+videos/*/*.mov
+videos/*/edit/*.png
