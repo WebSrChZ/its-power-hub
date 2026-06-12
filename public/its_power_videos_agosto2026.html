@@ -313,6 +313,10 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
 /* =======================================
    DATA — AGOSTO 2026
    Fase: Consolidação e Crescimento
+   8 pilares: ✓ Power Club (V06) · ✓ Dor (V03,V09) · ✓ Informativo (V01,V04,V12)
+             ✓ Engraçado (V07) · ✓ Diferenciais (V11) · ✓ Educativo (V02,V08)
+             ✓ Além da musc. (V05) · ✓ Campanha (V10)
+   Datas especiais: Dia dos Pais 09/08 (post véspera 08/08)
 ======================================= */
 const VIDEOS = [
   {
@@ -361,49 +365,49 @@ const VIDEOS = [
     stories:['Antes e depois em story com sticker de data','Enquete: "Você se imagina assim em 60 dias?" Sim / Vou tentar','Caixa de texto: "Me conta qual é o seu objetivo"'],
   },
   {
-    id:'V04',num:4,date:'2026-08-08',dayFull:'Sábado · 08 de Agosto',week:2,special:false,
-    title:'Cardio ou musculação? A resposta vai te surpreender.',
-    type:'Educativo · Formato Quiz',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
-    numCss:'',metaCss:'',
+    id:'V04',num:4,date:'2026-08-08',dayFull:'Sábado · 08 de Agosto · Véspera Dia dos Pais 👔',week:2,special:true,
+    title:'Dia dos Pais: a força que ele nunca pediu, mas sempre deu.',
+    type:'Data Especial · Dia dos Pais',typeCss:'background:var(--orange-light);color:#92400E',
+    numCss:'or',metaCss:'or',
     cuts:[
-      {n:1,t:'Pergunta na tela: "Cardio ou musculação pra emagrecer?" Pausa dramática.',note:'2s · Gancho imediato'},
-      {n:2,t:'"A maioria responde cardio. A ciência responde: os dois." Explicação sobre EPOC e metabolismo basal.',note:'4s · Desmistificação'},
-      {n:3,t:'"Musculação constrói músculo. Músculo queima gordura 24h. Cardio queima durante. Os dois juntos? Potência."',note:'4s · Analogia clara'},
-      {n:4,t:'Demonstração: 20min de HIIT + 30min de musculação. O treino mais eficiente que existe.',note:'4s · Aplicação prática'},
-      {n:5,t:'"Não é um ou outro. É os dois com estratégia. Salva esse vídeo." + logo.',note:'2s · CTA de salvamento'},
+      {n:1,t:'"Amanhã é Dia dos Pais." Imagem de um pai treinando na academia — câmera acompanha, tom respeitoso.',note:'3s · Abertura emotiva'},
+      {n:2,t:'Montagem: pais treinando com filhos, pais que começaram por causa dos filhos, pais que dão exemplo.',note:'4s · Conexão intergeracional'},
+      {n:3,t:'Depoimento rápido de 2 alunos: "O que ser pai tem a ver com treinar?" Respostas genuínas sobre saúde, disposição, presença.',note:'5s · Prova social emotiva'},
+      {n:4,t:'"A maior força de um pai não está na barra. Está em estar presente. Por muitos anos."',note:'3s · Frase de impacto'},
+      {n:5,t:'"Feliz Dia dos Pais. Presenteie com saúde." + logo + CTA.',note:'2s · Fechamento + convite'},
     ],
-    caption:`Cardio ou musculação pra emagrecer?\n\nA maioria responde cardio.\nA ciência responde: os dois.\n\n→ Musculação constrói músculo\n→ Músculo queima gordura 24h por dia\n→ Cardio potencializa o gasto durante\n→ Juntos = resultado máximo\n\nNão é um ou outro. É estratégia.\n\nSalva e compartilha.\n📍 It's Power · Cláudio, MG`,
-    stories:['Enquete: "Você prefere..." Cardio / Musculação / Os dois','Dica rápida do professor: "O erro mais comum é fazer só cardio"','Quiz: "EPOC significa..." A / B / C (resposta no próximo story)'],
+    caption:`Amanhã é Dia dos Pais.\n\nA maior força de um pai não está na barra.\nEstá em estar presente. Por muitos anos.\n\nPra cada pai que treina pra dar exemplo.\nPra cada pai que começou por causa dos filhos.\nPra cada pai que cuida de si pra cuidar de quem ama.\n\nFeliz Dia dos Pais.\n\nPresenteie com saúde. Link na bio.\n📍 It's Power · Cláudio, MG`,
+    stories:['Homenagem: "Posta uma foto treinando com seu pai e marca a gente"','Enquete: "Seu pai treina?" Sim / Quero incentivar','CTA: "Presente de Dia dos Pais: matrícula com condição especial. Link na bio"'],
   },
   {
     id:'V05',num:5,date:'2026-08-11',dayFull:'Terça · 11 de Agosto',week:2,special:false,
-    title:'A turma da noite. Quem são essas pessoas.',
-    type:'Comunidade · Identidade',typeCss:'background:var(--green-light);color:#065F46',
+    title:'4move: o treino que desafia até quem já treina há anos.',
+    type:'Além da Musculação · Modalidades',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Relógio na tela: 19:30. Rua escurecendo. Câmera caminha até a academia — luz acesa, som de peso.',note:'3s · Ambientação cinematográfica'},
-      {n:2,t:'Rostos da turma da noite. Câmera próxima, natural. Gente que veio direto do trabalho.',note:'3s · Humanização'},
-      {n:3,t:'Pergunta rápida para 3 alunos: "Por que você treina à noite?" Respostas genuínas, 5s cada.',note:'5s · Depoimentos curtos'},
-      {n:4,t:'Montagem de energia: treino intenso, risadas, high fives entre alunos.',note:'3s · Comunidade em ação'},
-      {n:5,t:'"Depois do trabalho, antes do descanso — tem quem escolha evoluir." + logo BV.',note:'2s · Frase + identidade'},
+      {n:1,t:'"Você acha que já viu tudo na academia?" Câmera revela uma aula de 4move em andamento — intensidade diferente.',note:'3s · Quebra de expectativa'},
+      {n:2,t:'O que é 4move: movimentos funcionais desafiadores, grupo pequeno, professor conduzindo. Texto: "4move — funcional de verdade."',note:'4s · Apresentação da modalidade'},
+      {n:3,t:'Outras opções: Power Training, LPF, aula de dança. Montagem rápida de cada uma com 2s.',note:'4s · Variedade de modalidades'},
+      {n:4,t:'Aluno que faz musculação E 4move: "Completou meu treino. Coisas que eu não trabalhava na musculação."',note:'4s · Depoimento curto'},
+      {n:5,t:'"Musculação é a base. O que vem além transforma." + logo + CTA.',note:'2s · Fechamento'},
     ],
-    caption:`19:30. Rua escurecendo. Dia acabando.\n\nMas aqui dentro, só começou.\n\nA turma da noite é diferente. Veio direto do trabalho. Cansada? Sim. Mas escolheu estar aqui.\n\nDepois do trabalho, antes do descanso — tem quem escolha evoluir.\n📍 It's Power Bela Vista · Cláudio, MG`,
-    stories:['Enquete: "Você treina de manhã ou à noite?" Manhã / Noite / Varia','Time-lapse da academia enchendo entre 19h e 20h','Caixa de texto: "Me conta seu horário favorito de treino"'],
+    caption:`Você acha que já viu tudo na academia?\n\nConhece o 4move?\n\n→ Funcional de verdade — desafia até quem já treina há anos\n→ Power Training — força e resistência em grupo\n→ LPF — postura, core e saúde pélvica\n→ Aula de dança — se divertir também é treinar\n\nMusculação é a base. O que vem além transforma.\n\nQuer experimentar? Link na bio.\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Vídeo de 15s de uma aula de 4move com música alta','Enquete: "Você já fez alguma aula coletiva?" Sim / Nunca / Quero tentar','CTA: "Primeira aula experimental grátis — chama no WhatsApp"'],
   },
   {
     id:'V06',num:6,date:'2026-08-13',dayFull:'Quinta · 13 de Agosto',week:2,special:false,
-    title:'Você não precisa de 1 hora. Precisa de 40 minutos certos.',
-    type:'Educativo · Eficiência',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    title:'Power Club em ação: acompanhamento que muda tudo.',
+    type:'Power Club · Metodologia',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'"Não tenho tempo pra academia." A desculpa mais usada. Mas e se você não precisasse de 1 hora?',note:'3s · Confronta a objeção'},
-      {n:2,t:'Professor demonstra: aquecimento 5min, treino principal 30min, alongamento 5min. Total: 40 minutos.',note:'4s · Prova prática'},
-      {n:3,t:'"O segredo é intensidade, não duração." Comparativo: 1h enrolando vs. 40min focado.',note:'4s · Desmistificação'},
-      {n:4,t:'Dica prática: montar o treino antes de chegar, fone no ouvido, sem celular entre séries.',note:'3s · Aplicação imediata'},
-      {n:5,t:'"40 minutos. 3x por semana. Resultado garantido." + logo Centro.',note:'2s · CTA claro'},
+      {n:1,t:'"Treino sem acompanhamento é tentativa. Com acompanhamento é método." Professor fala direto, tom confiante.',note:'3s · Abertura com autoridade'},
+      {n:2,t:'Cena real: professor do Power Club montando treino personalizado com aluno. Turma de 4 pessoas, atenção total.',note:'4s · Diferencial em ação'},
+      {n:3,t:'Bastidores: nutricionista revisando plano alimentar, bioimpedância mostrando evolução, sessão de Recovery.',note:'4s · Acompanhamento completo'},
+      {n:4,t:'Depoimento de membro: "Antes eu treinava. Agora eu tenho um plano." Resultado visível, tom genuíno.',note:'4s · Prova social'},
+      {n:5,t:'"Power Club. Turmas de 4. Nutri + fisio + recovery. 12 ou 6 meses." + logo + CTA.',note:'2s · Fechamento com oferta'},
     ],
-    caption:`"Não tenho tempo."\n\nA desculpa mais usada. E a mais falsa.\n\nVocê não precisa de 1 hora. Precisa de 40 minutos certos.\n\n→ 5min aquecimento\n→ 30min treino focado\n→ 5min alongamento\n\nO segredo é intensidade, não duração.\n\n40 minutos. 3x por semana. Resultado garantido.\n📍 It's Power Centro · Cláudio, MG`,
-    stories:['Timer de 40min no story: "Esse é o tempo que separa você do resultado"','Enquete: "Quanto tempo dura seu treino?" <30min / 30-45min / 45-60min / 60min+','Dica: "Monta o treino ANTES de chegar. Isso muda tudo."'],
+    caption:`Treino sem acompanhamento é tentativa.\nCom acompanhamento é método.\n\nPower Club — o que muda:\n\n→ Turmas de no máximo 4 alunos por professor\n→ Nutricionista + fisioterapeuta\n→ Bioimpedância mensal\n→ Sessão de Recovery\n→ Suplementação pré e pós-treino inclusa\n→ Gestão de resultados com metas reais\n\nPlano de 12 ou 6 meses. Quer saber mais? Link na bio.\n📍 It's Power Centro · Cláudio, MG`,
+    stories:['Bastidores: sessão de Recovery em 15s','Enquete: "O que mais te chamou atenção?" Turmas de 4 / Nutri / Recovery / Tudo','CTA: "Quer conhecer o Power Club? Manda DM com POWER"'],
   },
   {
     id:'V07',num:7,date:'2026-08-15',dayFull:'Sábado · 15 de Agosto',week:3,special:false,
@@ -452,33 +456,33 @@ const VIDEOS = [
   },
   {
     id:'V10',num:10,date:'2026-08-22',dayFull:'Sábado · 22 de Agosto',week:4,special:false,
-    title:'[Nome] — de sedentário a 5 treinos por semana.',
-    type:'Depoimento · Transformação',typeCss:'background:var(--red-light);color:#991B1B',
+    title:'Primavera se constrói agora. Condição especial de agosto.',
+    type:'Campanha · Pré-Primavera',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Aluno treinando com intensidade. Texto: "5 treinos por semana. Há 6 meses, era zero."',note:'3s · Contraste imediato'},
-      {n:2,t:'Pergunta: "Como era antes?" Resposta sobre sedentarismo, preguiça, desculpas. Tom honesto.',note:'5s · Identificação'},
-      {n:3,t:'"O que mudou?" Não foi o corpo primeiro — foi a rotina. Acordar cedo, comer melhor, dormir melhor.',note:'4s · Transformação comportamental'},
-      {n:4,t:'"O que você diria pra quem tá no sofá agora?" Conselho direto e sem julgamento.',note:'4s · CTA natural'},
-      {n:5,t:'"[Nome]. De zero a 5. It\'s Power Bela Vista." + logo.',note:'2s · Fechamento'},
+      {n:1,t:'"Falta pouco pra primavera. E o corpo que você quer em outubro, você constrói agora." Tom motivacional, imagens de treino.',note:'3s · Urgência positiva'},
+      {n:2,t:'Montagem: alunos que começaram no inverno mostrando evolução. "Quem começou em junho já sente a diferença."',note:'4s · Prova social temporal'},
+      {n:3,t:'"Agosto é o último mês completo antes da virada. Cada treino conta. Cada semana importa."',note:'3s · Escassez de tempo'},
+      {n:4,t:'A oferta: "Condição especial de agosto. Matrícula + primeiro mês com desconto." Texto limpo, destaque no benefício.',note:'4s · A promoção'},
+      {n:5,t:'"Não espere setembro. Comece agora. Link na bio." + logo ambas sedes.',note:'2s · CTA direto'},
     ],
-    caption:`5 treinos por semana. Há 6 meses, era zero.\n\n[Nome] não mudou o corpo primeiro. Mudou a rotina.\n\nAcordar cedo. Comer melhor. Dormir melhor. O treino foi consequência.\n\nSe você tá no sofá agora — essa história é pra você.\n📍 It's Power Bela Vista · Cláudio, MG`,
-    stories:['Enquete: "Quantas vezes por semana você treina?" 0-1 / 2-3 / 4-5 / 6+','Trecho do depoimento mais impactante com legenda','Caixa: "Me conta sua evolução — de onde você veio?"'],
+    caption:`Falta pouco pra primavera.\n\nO corpo que você quer em outubro, você constrói agora.\n\nQuem começou no inverno já sente a diferença.\nQuem começa agora ainda tem tempo.\n\nCondição especial de agosto:\nMatrícula + primeiro mês com desconto.\n\nNão espere setembro. Comece agora.\nLink na bio.\n📍 It's Power · Cláudio, MG`,
+    stories:['Countdown: "Primavera em X dias — você tá pronto?"','Enquete: "Quando você pretende começar?" Agora / Setembro / Janeiro (emoji de palhaço)','CTA: "Manda DM com PRIMAVERA pra saber a condição especial"'],
   },
   {
     id:'V11',num:11,date:'2026-08-25',dayFull:'Terça · 25 de Agosto',week:4,special:false,
-    title:'A postura que sabota o seu treino de costas.',
-    type:'Técnica · Correção',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    title:'O que faz a It\'s Power diferente de qualquer outra academia.',
+    type:'Diferenciais · Estrutura',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'"Treino de costas e não sente nada?" Identificação imediata. "O problema não é o exercício."',note:'3s · Gancho'},
-      {n:2,t:'Demonstração do erro: remada curvada com lombar arredondada e bíceps dominando.',note:'3s · Diagnóstico visual'},
-      {n:3,t:'Correção: "Peito pra frente, escápula ativada, puxa com o cotovelo — não com a mão."',note:'4s · Passo a passo'},
-      {n:4,t:'Mesmo exercício, antes e depois da correção. Diferença visível na contração das costas.',note:'3s · Prova visual'},
-      {n:5,t:'"Postura certa = costas trabalhando de verdade. Salva e testa." + logo Centro.',note:'2s · CTA'},
+      {n:1,t:'"O que faz uma academia ser diferente?" Câmera acompanha um aluno desde a entrada até o fim do treino.',note:'3s · Pergunta provocativa'},
+      {n:2,t:'Climatização: "Enquanto lá fora tá frio, aqui dentro a temperatura é ideal." Aluno treinando confortável.',note:'3s · Diferencial 1'},
+      {n:3,t:'Atendimento: "Aqui o professor chama pelo nome. Corrige, incentiva, adapta." Professor interagindo com aluno.',note:'3s · Diferencial 2'},
+      {n:4,t:'Estrutura: equipamentos modernos, cardio completo, área kids. Câmera passeia pelo espaço.',note:'3s · Diferencial 3'},
+      {n:5,t:'"Não é só treinar. É treinar no lugar certo." + logo + CTA.',note:'2s · Fechamento'},
     ],
-    caption:`Treino de costas e não sente nada?\n\nO problema não é o exercício. É a postura.\n\nO erro: lombar arredondada + bíceps fazendo o trabalho.\n\nA correção:\n→ Peito projetado pra frente\n→ Escápula ativada antes de puxar\n→ Puxa com o cotovelo, não com a mão\n\nPostura certa = costas trabalhando de verdade.\n\nSalva e testa no próximo treino.\n📍 It's Power Centro · Cláudio, MG`,
-    stories:['Slow motion da execução correta com destaque na escápula','Enquete: "Você sente as costas no treino?" Sim / Mais ou menos / Nunca','Dica: "Fecha os olhos e sente a contração. Isso muda tudo."'],
+    caption:`O que faz uma academia ser diferente?\n\nNão é só equipamento. É tudo junto:\n\n→ Climatização — treino confortável o ano todo\n→ Professor que chama pelo nome e corrige de verdade\n→ Estrutura moderna e bem cuidada\n→ Cardio completo\n→ Área kids para quem tem filhos\n→ Duas sedes para sua conveniência\n\nNão é só treinar. É treinar no lugar certo.\n\nPrimeira visita por nossa conta. Link na bio.\n📍 It's Power Centro · Cláudio, MG`,
+    stories:['Tour rápido de 15s pela academia com texto "Diferente por dentro"','Enquete: "O que mais importa pra você numa academia?" Atendimento / Estrutura / Localização / Preço','CTA: "Vem conhecer. Primeira visita grátis."'],
   },
   {
     id:'V12',num:12,date:'2026-08-28',dayFull:'Sexta · 28 de Agosto',week:4,special:false,
@@ -504,6 +508,10 @@ const SEDE = {
 };
 const SEDE_MAP = {V01:'ambas',V02:'bv',V03:'centro',V04:'ambas',V05:'bv',V06:'centro',V07:'ambas',V08:'bv',V09:'centro',V10:'bv',V11:'centro',V12:'ambas'};
 VIDEOS.forEach(v => { v.sede = SEDE_MAP[v.id] || 'ambas'; });
+
+const SPECIAL_DATES = {
+  '2026-08-09':'Dia dos Pais',
+};
 
 const CHECKS = ['Roteiro','Gravação','Edição','Legenda','Stories','Publicado'];
 const STATUS_OPT = ['pendente','gravando','editando','pronto','publicado'];
@@ -575,13 +583,19 @@ function buildCalendar(){
     const dateStr = `2026-08-${String(d).padStart(2,'0')}`;
     const v = videoByDate[dateStr];
     const today = new Date().toISOString().slice(0,10)===dateStr;
+    const sp = typeof SPECIAL_DATES!=='undefined' && SPECIAL_DATES[dateStr];
     if(v){
       const st = state[v.id].status;
-      cells += `<div class="cal-cell hv${today?' today':''}" onclick="scrollToVideo('${v.id}')">
-        <span class="cal-dn">${d}</span>
+      cells += `<div class="cal-cell hv${v.special?' cal-special':''}${today?' today':''}" onclick="scrollToVideo('${v.id}')">
+        <span class="cal-dn" ${v.special?'style="color:var(--orange);font-weight:700"':''}>${d}</span>
         <span class="cal-badge">${v.id}</span>
         <div class="cal-ev">${v.title.slice(0,28)}...</div>
         <div class="cal-sdot" style="background:${STATUS_COLOR[st]}"></div>
+      </div>`;
+    } else if(sp){
+      cells += `<div class="cal-cell${today?' today':''}">
+        <span class="cal-dn" style="color:var(--orange);font-weight:700">${d}</span>
+        <div class="cal-ev" style="color:var(--orange);font-size:.65rem;font-weight:600">${sp}</div>
       </div>`;
     } else {
       cells += `<div class="cal-cell${today?' today':''}"><span class="cal-dn">${d}</span></div>`;

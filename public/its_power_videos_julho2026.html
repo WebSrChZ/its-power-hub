@@ -315,24 +315,27 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
 /* =======================================
    DATA — JULHO 2026
    Fase: Construção de Autoridade
-   Datas especiais: Aniversário 15/07, Dia do Amigo 20/07, Dia dos Avós 26/07
-   Temas obrigatórios: Power Club, Campanha de Inverno
+   8 pilares: ✓ Power Club (V06) · ✓ Dor (V04) · ✓ Informativo (V07,V10,V11)
+             ✓ Engraçado (V09) · ✓ Diferenciais (V01) · ✓ Educativo (V03,V08)
+             ✓ Além da musc. (V05) · ✓ Campanha (V02)
+   Datas especiais: Campanha Inverno 03/07, Power Club 11/07,
+                    Aniversário 15/07, Dia do Amigo 20/07, Dia dos Avós 25/07
 ======================================= */
 const VIDEOS = [
   {
     id:'V01',num:1,date:'2026-07-01',dayFull:'Quarta · 01 de Julho',week:1,special:false,
-    title:'Julho começou. A construção continua.',
-    type:'Comunidade · Abertura',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    title:'Duas sedes. Um compromisso. Conheça a It\'s Power.',
+    type:'Diferenciais · Tour',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Texto na tela com fade: "Junho foi descoberta." Montagem rápida de 3 melhores clipes de junho.',note:'2s · Conecta com o mês anterior'},
-      {n:2,t:'Corte seco para a academia. Texto: "Julho é construção." Plano geral do espaço, energia renovada.',note:'2s · Declara a nova fase'},
-      {n:3,t:'Rostos dos alunos que continuaram treinando no inverno — câmera passa por eles, reconhecimento.',note:'3s · Prova de consistência'},
-      {n:4,t:'Professor orientando um aluno com atenção total — foco no detalhe técnico, cuidado visível.',note:'2s · Diferencial em cena'},
-      {n:5,t:'"12 novos conteúdos. Mesmo compromisso. Vamos, julho." + logo It\'s Power.',note:'2s · Abre o mês com intenção'},
+      {n:1,t:'"Você sabia que a It\'s Power tem duas sedes em Cláudio?" Texto na tela com mapa da cidade marcando os dois pontos.',note:'2s · Abertura informativa'},
+      {n:2,t:'Tour Bela Vista: equipamentos novos, espaço amplo, climatização, professor orientando aluno. Câmera em movimento.',note:'3s · Sede BV em ação'},
+      {n:3,t:'Tour Centro: mesma qualidade, localização acessível, comunidade acolhedora, turma engajada.',note:'3s · Sede Centro em ação'},
+      {n:4,t:'Diferenciais em texto rápido: "Climatização. Professor dedicado. Equipamentos de ponta. Área kids. Cardio completo."',note:'3s · Lista visual de diferenciais'},
+      {n:5,t:'"Escolha a sede. O compromisso é o mesmo." + logo + CTA link na bio.',note:'2s · Fechamento com convite'},
     ],
-    caption:`Junho foi descoberta. Julho é construção.\n\nQuem ficou no inverno não ficou parado — evoluiu.\n\n12 novos vídeos. Mesmo compromisso com quem treina de verdade.\n\nBora, julho.\n📍 It's Power · Cláudio, MG`,
-    stories:['Enquete: "Pronto pra julho?" Sempre / Nunca parei','Sticker de contagem regressiva para o próximo conteúdo','Repost de stories de alunos treinando no primeiro dia de julho'],
+    caption:`Você sabia que a It's Power tem duas sedes em Cláudio?\n\nBela Vista e Centro. Mesma qualidade. Mesmo compromisso.\n\n→ Climatização\n→ Professor dedicado\n→ Equipamentos de ponta\n→ Área kids\n→ Cardio completo\n\nEscolha a mais perto. O resultado é o mesmo.\n\nPrimeira visita por nossa conta. Link na bio.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Qual sede é mais perto de você?" Bela Vista / Centro','Tour rápido de 15s de cada sede em stories separados','CTA: "Agende sua visita gratuita — link na bio"'],
   },
   {
     id:'V02',num:2,date:'2026-07-03',dayFull:'Sexta · 03 de Julho · Campanha de Inverno ❄️',week:1,special:true,
@@ -381,18 +384,18 @@ const VIDEOS = [
   },
   {
     id:'V05',num:5,date:'2026-07-10',dayFull:'Sexta · 10 de Julho',week:2,special:false,
-    title:'O erro de alimentação que sabota seu treino.',
-    type:'Educativo · Alto Salvamento',typeCss:'background:var(--green-light);color:#065F46',
+    title:'Aqui tem muito mais que musculação.',
+    type:'Além da Musculação · Modalidades',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'"Você treina certo, dorme certo, e mesmo assim não vê resultado?" Pausa. "Pode ser isso." Câmera no professor, tom sério.',note:'3s · Endereça frustração real'},
-      {n:2,t:'O erro: "Comer pouco demais." Texto na tela. "Seu corpo precisa de combustível. Sem ele, não constrói músculo — consome."',note:'5s · Informação contra-intuitiva'},
-      {n:3,t:'"A conta é simples: menos do que precisa = menos resultado. Não é sobre comer menos. É sobre comer certo."',note:'5s · Clareza sem jargão'},
-      {n:4,t:'Dica prática — texto: "2h antes do treino: proteína + carboidrato." Professor dá exemplo: "Frango com batata. Ovo com pão. Simples."',note:'4s · Aplicável imediatamente'},
-      {n:5,t:'"Na dúvida, pergunta pra gente. Aqui ninguém treina no escuro." + logo.',note:'3s · Autoridade + CTA orgânico'},
+      {n:1,t:'"A It\'s Power não é só musculação." Câmera passeia por uma aula coletiva em andamento — energia, música, grupo.',note:'3s · Quebra de expectativa'},
+      {n:2,t:'Power Training: montagem de movimentos funcionais intensos. Texto: "Power Training — força e resistência em grupo."',note:'3s · Modalidade 1'},
+      {n:3,t:'LPF: aluna praticando com orientação. Texto: "LPF — postura, core e saúde pélvica."',note:'3s · Modalidade 2'},
+      {n:4,t:'Aula de dança / 4move: alegria, ritmo, gente sorrindo. Texto: "Dança e 4move — se divertir também é treinar."',note:'3s · Modalidade 3'},
+      {n:5,t:'"Personal, avaliação física, lojinha de suplementos. Tudo num lugar só." + logo + CTA.',note:'2s · Serviços extras + fechamento'},
     ],
-    caption:`Treina certo, dorme certo — e o resultado não vem?\n\nO erro mais comum: comer pouco demais.\n\nSeu corpo precisa de combustível. Sem ele, não constrói — consome.\n\nDica simples: 2h antes do treino, proteína + carboidrato.\nFrango com batata. Ovo com pão. Simples.\n\nSalva e manda pra quem precisa ouvir isso.\n📍 It's Power Bela Vista · Cláudio, MG`,
-    stories:['Enquete: "Você come antes de treinar?" Sempre / Às vezes / Treino em jejum','Responder com dica curta dependendo da resposta mais votada','CTA: "Quer montar uma rotina alimentar pro seu treino? Pergunta pro professor"'],
+    caption:`A It's Power não é só musculação.\n\nAqui dentro acontece muito mais:\n\n→ Power Training — força e resistência em grupo\n→ LPF — postura, core e saúde pélvica\n→ Aula de dança — se divertir também é treinar\n→ 4move — desafio funcional\n→ Personal trainer · Avaliação física · Lojinha\n\nMusculação é o começo. O que vem depois transforma.\n\nQuer conhecer? Link na bio.\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Vídeo curto de 10s de cada modalidade em stories separados','Enquete: "Qual modalidade você quer experimentar?" Power Training / LPF / Dança / 4move','CTA: "Primeira aula experimental grátis. Chama no WhatsApp"'],
   },
   {
     id:'V06',num:6,date:'2026-07-11',dayFull:'Sábado · 11 de Julho · Power Club',week:2,special:true,
