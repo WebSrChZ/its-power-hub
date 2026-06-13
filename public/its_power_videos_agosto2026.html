@@ -313,26 +313,26 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
 /* =======================================
    DATA — AGOSTO 2026
    Fase: Consolidação e Crescimento
-   8 pilares: ✓ Power Club (V06) · ✓ Dor (V03,V09) · ✓ Informativo (V01,V04,V12)
-             ✓ Engraçado (V07) · ✓ Diferenciais (V11) · ✓ Educativo (V02,V08)
-             ✓ Além da musc. (V05) · ✓ Campanha (V10)
+   8 pilares: ✓ Power Club (V06) · ✓ Dor (V03,V09) · ✓ Informativo (V01 operacional, V04 Dia dos Pais)
+             ✓ Engraçado (V12 humor real) · ✓ Diferenciais (V11) · ✓ Educativo (V02,V08)
+             ✓ Além da musc. (V05) · ✓ Campanha (V10) · reforço: V07 desafio (entretenimento)
    Datas especiais: Dia dos Pais 09/08 (post véspera 08/08)
 ======================================= */
 const VIDEOS = [
   {
     id:'V01',num:1,date:'2026-08-01',dayFull:'Sábado · 01 de Agosto',week:1,special:false,
-    title:'Agosto. Três meses. A gente não para.',
-    type:'Comunidade · Abertura',typeCss:'background:var(--green-light);color:#065F46',
+    title:'Agosto chegou: horários, equipe e as duas sedes.',
+    type:'Informativo · Funcionamento',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Texto na tela com fade: "Junho foi descoberta. Julho, construção." Montagem rápida dos melhores momentos dos dois meses.',note:'2s · Conecta a jornada'},
-      {n:2,t:'Corte seco: "Agosto é consolidação." Plano geral das duas sedes — energia de quem já sabe o caminho.',note:'2s · Declara a nova fase'},
-      {n:3,t:'Rostos dos alunos que já completaram 3 meses — reconhecimento visual. Câmera passa por cada um.',note:'3s · Prova de consistência'},
-      {n:4,t:'Novo ângulo: alunos das duas sedes. Montagem intercalada BV e Centro.',note:'2s · Reforça as duas unidades'},
-      {n:5,t:'"12 novos conteúdos. Duas sedes. Um compromisso." + logo It\'s Power.',note:'2s · Abre o mês com intenção'},
+      {n:1,t:'"Agosto começou — e a It\'s Power te espera nas duas unidades." Plano das fachadas: Bela Vista e Centro, com nome e endereço em texto.',note:'3s · Abertura informativa das 2 sedes'},
+      {n:2,t:'Horários na tela, claros e legíveis: "Segunda a sexta: 5h às 23h · Sábado: 8h às 14h · Domingo: fechado." Imagem da academia cheia em cada turno.',note:'4s · A informação operacional central'},
+      {n:3,t:'Apresentação da equipe: professores das duas sedes acenando/treinando alunos, com primeiro nome em legenda. "Quem cuida do seu treino."',note:'4s · Time/equipe (pilar informativo)'},
+      {n:4,t:'Dica útil: "Melhores horários pra treinar tranquilo: início da manhã e início da tarde." Texto com ícone de relógio.',note:'3s · Serviço ao aluno'},
+      {n:5,t:'"Qualquer dúvida de horário ou unidade, chama a gente no direct. Bom agosto!" + logo + @ das duas contas.',note:'2s · CTA leve + handles'},
     ],
-    caption:`Junho foi descoberta. Julho, construção. Agosto é consolidação.\n\nTrês meses. Quem ficou não ficou parado — evoluiu.\n\n12 novos vídeos. Duas sedes. Um compromisso.\n\nBora, agosto.\n📍 It's Power · Cláudio, MG`,
-    stories:['Enquete: "Pronto pra mais um mês?" Sempre / Nunca parei','Sticker de contagem regressiva para o próximo conteúdo (V02, terça)','Repost de stories de alunos treinando no primeiro dia de agosto'],
+    caption:`Agosto chegou! 📅\n\nPra começar o mês organizado, salva esses horários:\n\n🏋️ Segunda a sexta: 5h às 23h\n🏋️ Sábado: 8h às 14h\n🏋️ Domingo: descanso merecido\n\nDuas unidades pra ficar perto de você:\n📍 Bela Vista — @itspower.belavista\n📍 Centro — @academiaitspower\n\nNossa equipe tá pronta nas duas. Dúvida de horário? Chama no direct.`,
+    stories:['Card salvável só com os horários das duas sedes','Enquete: "Qual horário você treina?" Manhã / Tarde / Noite','Caixa: "Em qual unidade você treina?" Bela Vista / Centro'],
   },
   {
     id:'V02',num:2,date:'2026-08-04',dayFull:'Terça · 04 de Agosto',week:1,special:false,
@@ -486,18 +486,18 @@ const VIDEOS = [
   },
   {
     id:'V12',num:12,date:'2026-08-28',dayFull:'Sexta · 28 de Agosto',week:4,special:false,
-    title:'Três meses. O que começou como teste virou compromisso.',
-    type:'Fechamento · CTA',typeCss:'background:var(--orange-light);color:#92400E',
+    title:'Tipos de pessoa na academia: você é qual?',
+    type:'Vídeo Engraçado · Humor',typeCss:'background:var(--purple-light);color:#5B21B6',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Montagem emotiva: melhores momentos de junho, julho e agosto. Rostos, treinos, risadas, conquistas.',note:'4s · Compilação emocional'},
-      {n:2,t:'Texto: "Junho: descoberta. Julho: construção. Agosto: consolidação."',note:'2s · Arco narrativo completo'},
-      {n:3,t:'Depoimentos rápidos (3s cada) de 4 alunos: uma frase sobre o que mudou em 3 meses.',note:'4s · Prova social múltipla'},
-      {n:4,t:'"O que começou como teste virou compromisso. E o compromisso vira resultado."',note:'3s · Frase de fechamento'},
-      {n:5,t:'"Setembro vem. E a gente não para. Link na bio." + logo ambas sedes.',note:'2s · CTA final'},
+      {n:1,t:'"Tipo 1: o cronometrista." Aluno descansa entre séries olhando o relógio... e o descanso de 30s já virou 5 minutos rolando o feed. Texto cômico.',note:'3s · Personagem universal e carinhoso'},
+      {n:2,t:'"Tipo 2: o esquecido." Pessoa chega super animada, abre a mochila... esqueceu a toalha. De novo. Cara de "toda vez". Riso garantido.',note:'3s · Identificação imediata'},
+      {n:3,t:'"Tipo 3: o social." Aquele que conhece todo mundo, para pra conversar em cada aparelho. O treino de 40min vira 2 horas. Bem-humorado.',note:'3s · Ninguém é alvo, todos se reconhecem'},
+      {n:4,t:'"Tipo 4: o que tá começando hoje." Meio perdido, mas com brilho no olho. Professor se aproxima sorrindo pra ajudar. Texto: "esse é o melhor tipo."',note:'3s · Vira a chave pro acolhimento'},
+      {n:5,t:'"Tem espaço pra todos os tipos aqui. Marca em qual você se encaixa 👇" + logo It\'s Power.',note:'3s · CTA de marcação + pertencimento'},
     ],
-    caption:`Três meses.\n\nJunho: descoberta.\nJulho: construção.\nAgosto: consolidação.\n\nO que começou como teste virou compromisso.\nE o compromisso vira resultado.\n\nObrigado a cada aluno que ficou. A cada treino que doeu e valeu.\n\nSetembro vem. E a gente não para.\n📍 It's Power · Cláudio, MG`,
-    stories:['Montagem dos melhores stories dos 3 meses (repost)','Enquete: "Pronto pra setembro?" Sempre / Vamos','Story final: "Link na bio. Setembro começa na segunda."'],
+    caption:`Tipos de pessoa na academia (sem julgamento, só risada 😂):\n\n⏱️ O cronometrista — "30 segundos de descanso" = 5 minutos no celular\n🤦 O esquecido — adivinha quem esqueceu a toalha de novo\n💬 O social — treino de 40min, papo de 2 horas\n🌟 O que tá começando hoje — perdido, mas com brilho no olho (esse é o melhor tipo)\n\nTem espaço pra todos aqui. 🧡\n\nMarca em qual você se encaixa. 👇\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Qual tipo é você?" Cronometrista / Esquecido / Social / Iniciante','Caixa de marcação: "Marca o amigo que é cada tipo"','Repostar as respostas mais engraçadas dos alunos'],
   },
 ];
 

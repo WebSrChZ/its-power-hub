@@ -125,18 +125,18 @@ POSTS.forEach(p => { p.sede = SEDE_MAP[p.id] || 'ambas'; });
     title:'A força não tem idade. Feliz Dia dos Avós.',
     desc:'Homenagem à terceira idade. Representatividade, treino adaptado, conexão intergeracional.',
     tags:['Data especial 26/07','Dia dos Avós','Representatividade']},
-  { id:'jul12',day:31,wday:'Sex',pillar:'v',num:'12/12',
-    title:'Dois meses. O que a gente construiu não se apaga.',
-    desc:'Montagem dos melhores momentos de junho e julho. Gratidão genuína e convite para agosto.',
-    tags:['Fechamento','Compilação','CTA — antecipação agosto']},
+  { id:'jul12',day:31,wday:'Sex',pillar:'c',num:'12/12',
+    title:'As fases de quem promete treinar no inverno.',
+    desc:'Humor leve e universal: as 4 fases da preguiça do inverno, terminando no acolhimento. Sem julgamento, gera marcação.',
+    tags:['Vídeo engraçado','Humor','Marcação']},
 ].forEach(p => { p.month = 'jul'; p.icon = PILLAR[p.pillar].icon; POSTS.push(p); });
 
 /* ─── AGOSTO 2026 — Consolidação e Crescimento ─── */
 [
   { id:'ago01',day:1,wday:'Sab',pillar:'c',num:'01/12',
-    title:'Agosto. Três meses. A gente não para.',
-    desc:'Abertura do terceiro mês. Montagem dos melhores momentos de julho + energia de continuidade.',
-    tags:['Comunidade','Abertura do mês','Continuidade']},
+    title:'Agosto chegou: horários, equipe e as duas sedes.',
+    desc:'Informativo operacional: horários de funcionamento, apresentação da equipe e as duas unidades (BV + Centro). Card salvável.',
+    tags:['Informativo','Horários','Equipe','2 sedes']},
   { id:'ago02',day:4,wday:'Ter',pillar:'a',num:'02/12',
     title:'O treino que mais muda o corpo — e ninguém faz.',
     desc:'Treino de pernas é o mais evitado e o mais transformador. Ciência + demonstração na prática.',
@@ -177,10 +177,10 @@ POSTS.forEach(p => { p.sede = SEDE_MAP[p.id] || 'ambas'; });
     title:'O que faz a It\'s Power diferente de qualquer outra academia.',
     desc:'Climatização, atendimento personalizado, estrutura moderna, área kids, duas sedes. Diferenciais em cena.',
     tags:['Diferenciais','Estrutura','Atendimento']},
-  { id:'ago12',day:28,wday:'Sex',pillar:'v',num:'12/12',
-    title:'Três meses. O que começou como teste virou compromisso.',
-    desc:'Fechamento do ciclo Fase Teste + Essencial. Compilação emocional e convite para o próximo capítulo.',
-    tags:['Fechamento','Compilação','CTA — antecipação setembro']},
+  { id:'ago12',day:28,wday:'Sex',pillar:'c',num:'12/12',
+    title:'Tipos de pessoa na academia: você é qual?',
+    desc:'Humor leve e carinhoso: os 4 tipos universais de aluno, sem julgamento, terminando no pertencimento. Gera marcação.',
+    tags:['Vídeo engraçado','Humor','Marcação','Pertencimento']},
 ].forEach(p => { p.month = 'ago'; p.icon = PILLAR[p.pillar].icon; p.sede = SEDE_MAP[p.id] || 'ambas'; POSTS.push(p); });
 
 const STATUS_OPT = ['pendente','producao','aprovado','publicado'];
