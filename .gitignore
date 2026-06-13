@@ -34,3 +34,5 @@ videos/*/*.mp4
 videos/*/*.MP4
 videos/*/*.mov
 videos/*/edit/*.png
+videos/*/edit/__pycache__/
+__pycache__/
