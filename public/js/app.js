@@ -415,15 +415,23 @@ function setStatus(id, val) {
   notifyIframeStatusChange(id, val);
   const post = POSTS.find(p=>p.id===id);
   const target = Auth.isAdmin() ? 'client' : 'admin';
-  API.notify(target, 'status_change', 'Status alterado: ' + (post?.title?.slice(0,40)||id), 'Novo status: ' + (STATUS_LBL[val]||val));
-  API.addActivity('Status do post "' + (post?.title?.slice(0,35)||id) + '..." alterado para ' + (STATUS_LBL[val]||val) + '.', 'Status do post');
+  API.notify(target, 'status_change', 'Status alterado: ' + (post?.title?.slice(0,40)||id), 'Novo status: ' + (STATUS_LBL[val]||val)).catch(()=>{});
+  API.addActivity('Status do post "' + (post?.title?.slice(0,35)||id) + '..." alterado para ' + (STATUS_LBL[val]||val) + '.', 'Status do post').catch(()=>{});
+}
+
+function flashSaved(id) {
+  const saved = document.getElementById('fbsaved_'+id);
+  if (!saved) return;
+  saved.classList.add('show');
+  clearTimeout(saved._t);
+  saved._t = setTimeout(() => saved.classList.remove('show'), 2200);
 }
 
 function setStars(id, n, fromBoard) {
   STATE[id].stars = n;
   document.querySelectorAll(`[data-pid="${id}"]`).forEach(s => s.classList.toggle('active', parseInt(s.dataset.i) <= n));
   document.querySelectorAll(`#fbc_${id} .fb-star`).forEach((s,i) => s.classList.toggle('active', i < n));
-  if (fromBoard) { const saved = document.getElementById('fbsaved_'+id); if (saved) saved.classList.add('show'); }
+  if (fromBoard) flashSaved(id);
   updateStats();
   savePost(id);
 }
@@ -431,14 +439,13 @@ function setStars(id, n, fromBoard) {
 function setFbNote(id, val) { STATE[id].fb = val; }
 
 function saveFb(id) {
-  const saved = document.getElementById('fbsaved_'+id);
-  if (saved) saved.classList.add('show');
+  flashSaved(id);
   showToast('Feedback salvo');
   updateStats();
   savePost(id);
   const post = POSTS.find(p=>p.id===id);
   const stars = STATE[id]?.stars||0;
-  API.notify('admin', 'feedback', 'Feedback recebido: ' + (post?.title?.slice(0,35)||id), stars + ' estrelas' + (STATE[id]?.fb ? ' — "' + STATE[id].fb.slice(0,60) + '"' : ''));
+  API.notify('admin', 'feedback', 'Feedback recebido: ' + (post?.title?.slice(0,35)||id), stars + ' estrelas' + (STATE[id]?.fb ? ' — "' + STATE[id].fb.slice(0,60) + '"' : '')).catch(()=>{});
 }
 
 let noteDebounce = null;
@@ -504,7 +511,7 @@ async function approvePhase(phase) {
 
 function scrollToPost(id) {
   switchTab('calendario');
-  const month = id.startsWith('jul') ? 'jul2026' : 'jun2026';
+  const month = portalIdToMonth(id) + '2026';
   const mc = document.getElementById('month-'+month);
   if (mc && mc.classList.contains('collapsed')) mc.classList.remove('collapsed');
   setTimeout(() => { const el = document.getElementById('pi_'+id); if (el) el.scrollIntoView({behavior:'smooth',block:'center'}); }, 200);
@@ -936,6 +943,7 @@ function loadRoteiroIframes() {
 }
 function toggleCron(m) {
   const w = document.getElementById('cron-wrap-'+m), a = document.getElementById('cron-arrow-'+m);
+  if (!w || !a) return;
   const o = w.classList.toggle('open'); a.classList.toggle('open', o);
 }
 function toggleCard(id, evt) {
@@ -953,8 +961,16 @@ function restoreCardStates() {
 function goBack() { Router.back(); }
 
 /* ─── DARK MODE ─── */
+let _themeAnimTimer;
 function toggleDark() {
   const h = document.documentElement, d = h.dataset.theme==='dark';
+  // transição suave e coesa de cores durante a troca (removida após 320ms)
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if (!reduce) {
+    h.classList.add('theme-anim');
+    clearTimeout(_themeAnimTimer);
+    _themeAnimTimer = setTimeout(() => h.classList.remove('theme-anim'), 320);
+  }
   h.dataset.theme = d?'light':'dark';
   try { localStorage.setItem('ip3_dark', !d); } catch {}
 }
@@ -970,9 +986,13 @@ function switchProfile() { Auth.logout(); }
 let toastTimer;
 function showToast(msg, isError) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
+  if (!t) { console.warn('toast:', msg); return; }   // null-guard: não mascara o erro original
+  const icon = isError ? 'alert-triangle' : 'check';
+  t.innerHTML = `<i data-lucide="${icon}"></i> ${esc(msg)}`;
   t.classList.toggle('toast-error', !!isError);
+  t.setAttribute('aria-live', isError ? 'assertive' : 'polite');  // erros interrompem o leitor de tela
   t.classList.add('show');
+  if (typeof lucide !== 'undefined') { try { lucide.createIcons(); } catch {} }
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { t.classList.remove('show'); t.classList.remove('toast-error'); }, isError ? 4000 : 2500);
 }
@@ -989,14 +1009,27 @@ const NOTIF_ICONS = {
 
 function toggleNotifPanel() {
   const panel = document.getElementById('notifPanel');
-  panel.classList.toggle('open');
-  if (panel.classList.contains('open')) loadNotifications();
-  document.addEventListener('click', closeNotifOnOutside, { once: true });
+  if (!panel) return;
+  const opening = !panel.classList.contains('open');
+  panel.classList.toggle('open', opening);
+  const bell = document.querySelector('.notif-bell');
+  if (bell) bell.setAttribute('aria-expanded', opening ? 'true' : 'false');
+  if (opening) {
+    loadNotifications();
+    // adia o registro p/ o clique atual não fechar na hora; só 1 listener ativo
+    setTimeout(() => document.addEventListener('click', closeNotifOnOutside, { once: true }), 0);
+  } else {
+    document.removeEventListener('click', closeNotifOnOutside);
+  }
 }
 function closeNotifOnOutside(e) {
   const panel = document.getElementById('notifPanel');
   const wrap = panel?.closest('.notif-wrap');
-  if (wrap && !wrap.contains(e.target)) panel.classList.remove('open');
+  if (wrap && !wrap.contains(e.target)) {
+    panel.classList.remove('open');
+    const bell = document.querySelector('.notif-bell');
+    if (bell) bell.setAttribute('aria-expanded', 'false');
+  }
 }
 
 async function loadNotifications() {
@@ -1063,22 +1096,29 @@ function setupRealtimeNotifications() {
     if (panel?.classList.contains('open')) loadNotifications();
   });
   API.subscribeChanges('requests', async () => {
-    const reqs = await API.getRequests();
-    if (reqs) renderRequests(reqs);
+    try { const reqs = await API.getRequests(); if (reqs) renderRequests(reqs); }
+    catch (e) { console.warn('realtime requests:', e); }
   });
   API.subscribeChanges('activity', async () => {
-    const acts = await API.getActivity();
-    if (acts) renderActivity(acts);
+    try { const acts = await API.getActivity(); if (acts) renderActivity(acts); }
+    catch (e) { console.warn('realtime activity:', e); }
   });
-  API.subscribeChanges('post_data', async () => {
-    const posts = await API.getPosts();
-    if (posts) {
-      posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||''}; });
-      buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
-      syncAllStatusesToIframes();
-    }
+  // post_data: debounce p/ não re-renderizar a cada echo (evita flicker/perda de foco)
+  API.subscribeChanges('post_data', () => {
+    clearTimeout(_postDataTimer);
+    _postDataTimer = setTimeout(async () => {
+      try {
+        const posts = await API.getPosts();
+        if (posts) {
+          posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||''}; });
+          buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
+          syncAllStatusesToIframes();
+        }
+      } catch (e) { console.warn('realtime post_data:', e); }
+    }, 300);
   });
 }
+let _postDataTimer;
 
 /* ─── LGPD ─── */
 async function checkLGPD() {
@@ -1206,7 +1246,7 @@ function buildGallery() {
         <div class="gallery-title">${p.title}</div>
         <div class="gallery-meta">
           <span class="gallery-badge" style="${typeBg[t]}">${typeLabels[t]}</span>
-          <span>${String(p.day).padStart(2,'0')}/${p.month==='jul'?'07':'06'}</span>
+          <span>${String(p.day).padStart(2,'0')}/${MONTH_NUM[p.month]||'06'}</span>
           <span style="margin-left:auto;width:7px;height:7px;border-radius:50%;background:${STATUS_COLOR[st]}" title="${STATUS_LBL[st]}"></span>
         </div>
       </div>
@@ -1438,9 +1478,26 @@ function filterIgMonth(month, btn) {
 }
 
 /* ─── PDF EXPORT ─── */
-function exportPDF() {
-  if (typeof html2pdf === 'undefined') {
-    // Fallback to print if html2pdf not loaded
+// html2pdf (~200KB) é carregado só no 1º export, fora do boot.
+let _html2pdfPromise = null;
+function loadHtml2Pdf() {
+  if (typeof html2pdf !== 'undefined') return Promise.resolve(true);
+  if (_html2pdfPromise) return _html2pdfPromise;
+  _html2pdfPromise = new Promise((resolve) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    s.onload = () => resolve(true);
+    s.onerror = () => resolve(false);
+    document.head.appendChild(s);
+  });
+  return _html2pdfPromise;
+}
+
+async function exportPDF() {
+  showToast('Preparando exportação...');
+  const ok = await loadHtml2Pdf();
+  if (!ok || typeof html2pdf === 'undefined') {
+    // Fallback para impressão se o html2pdf não carregar
     document.body.classList.add('pdf-export');
     window.print();
     setTimeout(() => document.body.classList.remove('pdf-export'), 1000);

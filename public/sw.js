@@ -1,20 +1,30 @@
 /* ─── SERVICE WORKER — ITS Power Portal ─── */
-const CACHE_NAME = 'its-power-v2';
+/* Atualizar CACHE_NAME junto com o ?v dos assets em cada deploy. */
+const CACHE_NAME = 'its-power-v20260613';
+const BASE = '/its-power-hub/';
+const VER = '?v=20260613';
 const ASSETS = [
-  '/its-power-hub/',
-  '/its-power-hub/index.html',
-  '/its-power-hub/css/styles.css',
-  '/its-power-hub/js/api.js',
-  '/its-power-hub/js/auth.js',
-  '/its-power-hub/js/router.js',
-  '/its-power-hub/js/app.js',
-  '/its-power-hub/manifest.json',
-  '/its-power-hub/assets/LogoItsPower.jpg',
+  BASE,
+  BASE + 'index.html',
+  BASE + 'css/styles.css' + VER,
+  BASE + 'js/api.js' + VER,
+  BASE + 'js/auth.js' + VER,
+  BASE + 'js/router.js' + VER,
+  BASE + 'js/app.js' + VER,
+  BASE + 'manifest.json',
+  BASE + 'offline.html',
+  BASE + 'assets/LogoItsPower.jpg',
+  BASE + 'assets/favicon.png',
+  BASE + 'assets/icon-192.png',
+  BASE + 'assets/icon-512.png',
 ];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME)
+      // addAll falha tudo se 1 recurso 404; cacheamos individualmente p/ robustez
+      .then(cache => Promise.allSettled(ASSETS.map(u => cache.add(u))))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -27,29 +37,35 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
-  // Skip non-GET and Supabase API calls
-  if (e.request.method !== 'GET') return;
-  if (url.hostname.includes('supabase')) return;
-  if (url.hostname.includes('googleapis') || url.hostname.includes('gstatic')) return;
-  if (url.hostname.includes('cdn.jsdelivr.net')) return;
+  const req = e.request;
+  const url = new URL(req.url);
+  if (req.method !== 'GET') return;
+  // APIs e CDNs externos: deixar passar direto (sem cache)
+  if (url.origin !== self.location.origin) return;
 
+  // Navegação (index.html): network-first → pega o deploy mais novo, cai pro cache offline
+  if (req.mode === 'navigate') {
+    e.respondWith(
+      fetch(req).then(res => {
+        const clone = res.clone();
+        caches.open(CACHE_NAME).then(c => c.put(BASE + 'index.html', clone));
+        return res;
+      }).catch(() => caches.match(req).then(r => r || caches.match(BASE + 'index.html')).then(r => r || caches.match(BASE + 'offline.html')))
+    );
+    return;
+  }
+
+  // Estáticos same-origin: stale-while-revalidate (responde do cache na hora, revalida em background)
   e.respondWith(
-    fetch(e.request).then(response => {
-      // Cache successful responses
-      if (response.ok) {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
-      }
-      return response;
-    }).catch(() => {
-      // Serve from cache when offline
-      return caches.match(e.request).then(cached => {
-        if (cached) return cached;
-        // Fallback to index for navigation
-        if (e.request.mode === 'navigate') return caches.match('/its-power-hub/index.html');
-        return new Response('Offline', { status: 503 });
-      });
+    caches.match(req).then(cached => {
+      const network = fetch(req).then(res => {
+        if (res && res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put(req, clone));
+        }
+        return res;
+      }).catch(() => cached);
+      return cached || network;
     })
   );
 });
