@@ -1,5 +1,5 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent}
 :root{
   --blue:#2563EB;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;--blue-mid:#BFDBFE;
   --orange:#F97316;--orange-light:#FFF7ED;--orange-mid:#FED7AA;
@@ -9,7 +9,7 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smo
   --red:#EF4444;--red-light:#FEE2E2;
   --sb-w:268px;--top-h:60px;
   --bg:#F8FAFC;--surface:#FFFFFF;--surface2:#F1F5F9;--border:#E2E8F0;--border2:#CBD5E1;
-  --text:#475569;--muted:#94A3B8;--heading:#0F172A;--sb:#0F172A;
+  --text:#475569;--muted:#64748B;--heading:#0F172A;--sb:#0F172A;
   --r:12px;--r-lg:16px;
   --shadow-sm:0 1px 2px rgba(0,0,0,.05);
   --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
@@ -21,7 +21,7 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smo
 }
 [data-theme="dark"]{
   --bg:#030712;--surface:#111827;--surface2:#1F2937;--border:#1F2937;--border2:#374151;
-  --text:#D1D5DB;--muted:#6B7280;--heading:#F9FAFB;
+  --text:#D1D5DB;--muted:#8B95A5;--heading:#F9FAFB;
   --blue-light:rgba(37,99,235,.12);--blue-mid:rgba(37,99,235,.25);
   --orange-light:rgba(249,115,22,.1);--green-light:rgba(16,185,129,.1);
   --purple-light:rgba(139,92,246,.12);--amber-light:rgba(245,158,11,.1);--red-light:rgba(239,68,68,.1);
@@ -785,7 +785,9 @@ textarea.modal-input{resize:vertical;min-height:80px}
   .sb-overlay{display:block}.main{margin-left:0}.topbar{padding:0 16px}
   .breadcrumb-bar{padding:8px 16px}
   .content{padding:16px 16px 80px}.grid-5,.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
-  .post-item{grid-template-columns:46px 4px 1fr}.post-actions{display:none}
+  .post-item{grid-template-columns:46px 4px 1fr}
+  .post-actions{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;min-width:0;border-left:none;border-top:1px solid var(--border);padding:12px 14px;gap:14px}
+  .post-actions .s-sel{width:auto;flex:0 0 auto;min-width:140px}
   .mob-menu{display:flex;flex-shrink:0;margin-right:10px;min-width:36px;min-height:36px;justify-content:center;align-items:center}
   /* Mobile topbar: horizontal scroll with snap */
   .tb-tabs{padding:2px;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none;max-width:calc(100vw - 160px)}
@@ -798,6 +800,14 @@ textarea.modal-input{resize:vertical;min-height:80px}
   .gallery-grid{grid-template-columns:repeat(2,1fr)!important}
   /* Mobile modal adjustments */
   .modal-box{width:calc(100vw - 32px)!important;max-height:85vh;overflow-y:auto}
+  /* Inputs ≥16px evitam zoom automático no iOS */
+  .modal-input,textarea,.fb-note,.s-sel,.auth-field,.textarea-notes,input,select{font-size:16px}
+  /* Iframes de roteiro: altura e scroll suave no toque */
+  .roteiro-iframe{height:70vh;-webkit-overflow-scrolling:touch}
+  /* Safe-area (notch / home indicator) */
+  .topbar{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  .toast{bottom:max(16px,env(safe-area-inset-bottom))}
+  .content{padding-bottom:max(80px,calc(80px + env(safe-area-inset-bottom)))}
 }
 @media(max-width:480px){
   .gallery-grid{grid-template-columns:1fr!important}
@@ -805,7 +815,7 @@ textarea.modal-input{resize:vertical;min-height:80px}
   .tb-tab{padding:5px 8px;font-size:9px}
   .tb-right{gap:4px}
   .tb-right .btn,.tb-right button span{display:none}
-  .tb-right .ico-btn{min-width:32px;min-height:32px;font-size:14px}
+  .tb-right .ico-btn{min-width:40px;min-height:40px;font-size:14px}
 }
 
 /* ─── SKIP LINK (a11y) ─── */
@@ -818,16 +828,22 @@ textarea.modal-input{resize:vertical;min-height:80px}
 [data-theme="dark"] .sb-logo-img{border-radius:14px;background:transparent;box-shadow:0 4px 12px rgba(0,0,0,.4)}
 
 /* ─── LOADING SKELETON ─── */
-@keyframes skeleton-pulse{0%{opacity:.6}50%{opacity:.3}100%{opacity:.6}}
-.skeleton{background:var(--border);border-radius:var(--r);animation:skeleton-pulse 1.5s ease-in-out infinite}
-.skeleton-text{height:14px;width:60%;margin-bottom:8px}
+/* (definição premium com shimmer está em ~l.558; aqui só o bloco genérico) */
 .skeleton-block{height:80px;width:100%;margin-bottom:12px}
-.skeleton-circle{width:40px;height:40px;border-radius:50%}
 
 /* ─── PREFERS COLOR SCHEME (first visit) ─── */
 @media(prefers-color-scheme:dark){
   html:not([data-theme-set]) [data-theme="light"]{
     --bg:#030712;--surface:#111827;--surface2:#1F2937;--border:#1F2937;--border2:#374151;
-    --text:#D1D5DB;--muted:#6B7280;--heading:#F9FAFB;
+    --text:#D1D5DB;--muted:#8B95A5;--heading:#F9FAFB;
   }
+}
+
+/* ─── TRANSIÇÃO DE TEMA COESA (aplicada só durante o toggle) ─── */
+html.theme-anim,html.theme-anim *{transition:background-color .3s ease,border-color .3s ease,color .3s ease!important}
+
+/* ─── PREFERS-REDUCED-MOTION (acessibilidade) ─── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  html{scroll-behavior:auto}
 }

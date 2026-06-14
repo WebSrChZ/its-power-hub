@@ -2,36 +2,46 @@
 <html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>It's Power — Portal do Projeto</title>
 <meta name="description" content="Portal do cliente — Academia It's Power. Gestão de conteúdo digital, calendário editorial, feedback e acompanhamento de projeto.">
 <meta name="theme-color" content="#0F172A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <!-- Open Graph -->
+<link rel="canonical" href="https://websrchz.github.io/its-power-hub/">
+<meta name="robots" content="noindex, nofollow">
 <meta property="og:title" content="It's Power — Portal do Projeto">
 <meta property="og:description" content="Portal de gestão de conteúdo digital da Academia ITS Power. Calendário editorial, feedback em tempo real e acompanhamento de projeto.">
-<meta property="og:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
+<meta property="og:image" content="https://websrchz.github.io/its-power-hub/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="https://websrchz.github.io/its-power-hub/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="It's Power × SrChZ">
 <!-- Twitter Card -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="It's Power — Portal do Projeto">
 <meta name="twitter:description" content="Portal de gestão de conteúdo digital da Academia ITS Power.">
-<meta name="twitter:image" content="https://websrchz.github.io/its-power-hub/assets/LogoItsPower.jpg">
+<meta name="twitter:image" content="https://websrchz.github.io/its-power-hub/assets/og-image.png">
 <!-- Favicon -->
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/LogoItsPower.jpg">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <!-- Manifest -->
 <link rel="manifest" href="manifest.json">
+<link rel="preload" as="style" href="css/styles.css?v=20260613">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20260612">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=20260613">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"It's Power Academia","url":"https://websrchz.github.io/its-power-hub/","logo":"https://websrchz.github.io/its-power-hub/assets/icon-512.png","sameAs":["https://instagram.com/academiaitspower","https://instagram.com/itspower.belavista"],"address":{"@type":"PostalAddress","addressLocality":"Cláudio","addressRegion":"MG","addressCountry":"BR"}}
+</script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script defer src="https://unpkg.com/lucide@1.18.0/dist/umd/lucide.min.js"></script>
+<!-- html2pdf carregado sob demanda no 1º export (ver loadHtml2Pdf em app.js) -->
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Ir para o conteúdo principal</a>
@@ -1023,7 +1033,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe data-src="its_power_videos_agosto2026.html?v=20260612" class="roteiro-iframe" id="iframeAgo" loading="lazy" title="Roteiros de agosto"></iframe>
+          <iframe data-src="its_power_videos_agosto2026.html?v=20260613" class="roteiro-iframe" id="iframeAgo" loading="lazy" title="Roteiros de agosto"></iframe>
         </div>
       </div>
 
@@ -1043,7 +1053,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe data-src="its_power_videos_julho2026.html?v=20260612" class="roteiro-iframe" id="iframeJul" loading="lazy" title="Roteiros de julho"></iframe>
+          <iframe data-src="its_power_videos_julho2026.html?v=20260613" class="roteiro-iframe" id="iframeJul" loading="lazy" title="Roteiros de julho"></iframe>
         </div>
       </div>
 
@@ -1063,7 +1073,7 @@
           </div>
         </div>
         <div class="card-body" style="padding:0">
-          <iframe data-src="its_power_videos_junho2026.html?v=20260612" class="roteiro-iframe" id="iframeJun" loading="lazy" title="Roteiros de junho"></iframe>
+          <iframe data-src="its_power_videos_junho2026.html?v=20260613" class="roteiro-iframe" id="iframeJun" loading="lazy" title="Roteiros de junho"></iframe>
         </div>
       </div>
     </div>
@@ -1266,12 +1276,12 @@
   </div>
 </div>
 
-<div class="toast" id="toast"><i data-lucide="check"></i> Salvo</div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"><i data-lucide="check"></i> Salvo</div>
 
-<script defer src="js/api.js?v=20260612"></script>
-<script defer src="js/auth.js?v=20260612"></script>
-<script defer src="js/router.js?v=20260612"></script>
-<script defer src="js/app.js?v=20260612"></script>
+<script defer src="js/api.js?v=20260613"></script>
+<script defer src="js/auth.js?v=20260613"></script>
+<script defer src="js/router.js?v=20260613"></script>
+<script defer src="js/app.js?v=20260613"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});

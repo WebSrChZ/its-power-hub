@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Offline — It's Power</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#0F172A;color:#F9FAFB;
+       min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+       text-align:center;padding:32px;gap:18px}
+  img{width:96px;height:96px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.4);background:#fff}
+  h1{font-size:22px;font-weight:800}
+  p{color:#94A3B8;font-size:15px;line-height:1.6;max-width:380px}
+  button{margin-top:10px;padding:12px 28px;border:none;border-radius:12px;cursor:pointer;
+          background:#F97316;color:#fff;font-weight:700;font-size:15px}
+  button:active{transform:scale(.97)}
+</style>
+</head>
+<body>
+  <img src="assets/icon-192.png" alt="It's Power">
+  <h1>Você está offline</h1>
+  <p>Não foi possível conectar agora. Verifique sua internet — o portal volta assim que a conexão retornar.</p>
+  <button onclick="location.reload()">Tentar novamente</button>
+</body>
+</html>

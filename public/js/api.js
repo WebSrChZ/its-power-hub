@@ -11,7 +11,8 @@ function getDb() {
 const API = {
   // Posts
   async getPosts() {
-    const { data } = await getDb().from('post_data').select('*');
+    const { data, error } = await getDb().from('post_data').select('*');
+    if (error) throw error;
     return data || [];
   },
   async updatePost(id, d) {
@@ -23,7 +24,8 @@ const API = {
 
   // Settings
   async getSettings() {
-    const { data } = await getDb().from('project_settings').select('*');
+    const { data, error } = await getDb().from('project_settings').select('*');
+    if (error) throw error;
     return data || [];
   },
   async updateSetting(key, value) {
@@ -32,7 +34,8 @@ const API = {
 
   // Requests
   async getRequests() {
-    const { data } = await getDb().from('requests').select('*').order('created_at', { ascending: true });
+    const { data, error } = await getDb().from('requests').select('*').order('created_at', { ascending: true });
+    if (error) throw error;
     return data || [];
   },
   async createRequest(d) {
@@ -51,7 +54,8 @@ const API = {
 
   // Activity
   async getActivity() {
-    const { data } = await getDb().from('activity').select('*').order('created_at', { ascending: false }).limit(20);
+    const { data, error } = await getDb().from('activity').select('*').order('created_at', { ascending: false }).limit(20);
+    if (error) throw error;
     return data || [];
   },
   async addActivity(message, bold_part) {
