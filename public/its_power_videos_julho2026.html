@@ -315,57 +315,58 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
 /* =======================================
    DATA — JULHO 2026
    Fase: Construção de Autoridade
-   8 pilares: ✓ Power Club (V06) · ✓ Dor (V04) · ✓ Informativo (V07,V10,V11)
-             ✓ Engraçado (V12 humor real) · ✓ Diferenciais (V01) · ✓ Educativo (V03,V08)
-             ✓ Além da musc. (V05) · ✓ Campanha (V02) · reforço: V09 desafio (entretenimento)
+   8 pilares: ✓ Power Club (V06) · ✓ Dor (V04) · ✓ Informativo (V07,V11)
+             ✓ Engraçado (V12 humor real) · ✓ Diferenciais (V01) · ✓ Educativo (V08)
+             ✓ Além da musc. (V05) · ✓ Campanha (V02 Inverno · V10 Dia do Amigo) · Autoridade: V03 (24 anos)
+             reforço: V09 desafio (entretenimento)
    Datas especiais: Campanha Inverno 03/07, Power Club 11/07,
-                    Aniversário 15/07, Dia do Amigo 20/07, Dia dos Avós 25/07
+                    Aniversário 15/07 (24 anos), Dia do Amigo 20/07, Dia dos Avós 25/07
 ======================================= */
 const VIDEOS = [
   {
     id:'V01',num:1,date:'2026-07-01',dayFull:'Quarta · 01 de Julho',week:1,special:false,
-    title:'Duas sedes. Um compromisso. Conheça a It\'s Power.',
+    title:'Duas unidades. Um compromisso. Conheça a It\'s Power.',
     type:'Diferenciais · Tour',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'"Você sabia que a It\'s Power tem duas sedes em Cláudio?" Texto na tela com mapa da cidade marcando os dois pontos.',note:'2s · Abertura informativa'},
-      {n:2,t:'Tour Bela Vista: equipamentos novos, espaço amplo, climatização, professor orientando aluno. Câmera em movimento.',note:'3s · Sede BV em ação'},
-      {n:3,t:'Tour Centro: mesma qualidade, localização acessível, comunidade acolhedora, turma engajada.',note:'3s · Sede Centro em ação'},
-      {n:4,t:'Diferenciais em texto rápido: "Climatização. Professor dedicado. Equipamentos de ponta. Área kids. Cardio completo."',note:'3s · Lista visual de diferenciais'},
-      {n:5,t:'"Escolha a sede. O compromisso é o mesmo." + logo + CTA link na bio.',note:'2s · Fechamento com convite'},
+      {n:1,t:'"Você sabia que a It\'s Power tem duas unidades em Cláudio?" Texto na tela com mapa da cidade marcando os dois pontos.',note:'2s · Abertura informativa'},
+      {n:2,t:'Tour Bela Vista: equipamentos completos, espaço amplo, professor pronto para ajudar o aluno. Câmera em movimento.',note:'3s · Unidade BV em ação'},
+      {n:3,t:'Tour Centro: mesma qualidade, localização acessível, comunidade acolhedora, turma engajada.',note:'3s · Unidade Centro em ação'},
+      {n:4,t:'Pontos em comum em texto rápido: "Equipamentos completos. Atendimento humanizado. Professores prontos para ajudar. Cardio completo."',note:'3s · O que as duas unidades têm de igual'},
+      {n:5,t:'"Escolha a unidade. O compromisso é o mesmo." + logo + CTA link na bio.',note:'2s · Fechamento com convite'},
     ],
-    caption:`Você sabia que a It's Power tem duas sedes em Cláudio?\n\nBela Vista e Centro. Mesma qualidade. Mesmo compromisso.\n\n→ Climatização\n→ Professor dedicado\n→ Equipamentos de ponta\n→ Área kids\n→ Cardio completo\n\nEscolha a mais perto. O resultado é o mesmo.\n\nPrimeira visita por nossa conta. Link na bio.\n📍 It's Power · Cláudio, MG`,
-    stories:['Enquete: "Qual sede é mais perto de você?" Bela Vista / Centro','Tour rápido de 15s de cada sede em stories separados','CTA: "Agende sua visita gratuita — link na bio"'],
+    caption:`Você sabia que a It's Power tem duas unidades em Cláudio?\n\nBela Vista e Centro. Mesma qualidade. Mesmo compromisso.\n\n→ Equipamentos completos\n→ Atendimento humanizado\n→ Professores prontos para ajudar\n→ Cardio completo\n\nEscolha a mais perto. O resultado é o mesmo.\n\nPrimeira visita por nossa conta. Link na bio.\n📍 It's Power · Cláudio, MG`,
+    stories:['Enquete: "Qual unidade é mais perto de você?" Bela Vista / Centro','Tour rápido de 15s de cada unidade em stories separados','CTA: "Agende sua visita gratuita — link na bio"'],
   },
   {
     id:'V02',num:2,date:'2026-07-03',dayFull:'Sexta · 03 de Julho · Campanha de Inverno ❄️',week:1,special:true,
-    title:'Este inverno vai mudar o seu próximo verão.',
-    type:'Campanha de Inverno · Promoção',typeCss:'background:var(--orange-light);color:#92400E',
+    title:'O que acontece no seu corpo quando você treina no frio.',
+    type:'Campanha de Inverno · Conversão',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'or',metaCss:'or',
     cuts:[
-      {n:1,t:'"Todo ano a mesma história: inverno chega, treino para. Verão chega, correria pra recuperar." Montagem rápida de sofá vs academia.',note:'3s · Espelho da realidade'},
-      {n:2,t:'"E se esse inverno fosse diferente? E se, quando o verão vier, você já tivesse o resultado?" Professor falando direto, tom confiante.',note:'4s · Reframe poderoso'},
-      {n:3,t:'Montagem de alunos treinando no inverno — casacos na entrada, suor na academia. Texto: "Enquanto a maioria espera, quem treina agora constrói."',note:'4s · Prova social no frio'},
-      {n:4,t:'Texto na tela: "Campanha de Inverno It\'s Power. Condição especial para quem começa agora." Visual limpo, destaque na oferta.',note:'3s · A oferta'},
-      {n:5,t:'"O melhor investimento que você faz em julho, você colhe em dezembro." + logo + CTA.',note:'2s · Frase de fechamento + ação'},
+      {n:1,t:'Abertura direta: "Você sabia que treinar no frio muda o que acontece dentro do seu corpo?" Câmera próxima, tom curioso.',note:'3s · Curiosidade imediata'},
+      {n:2,t:'Ponto 1 — "Termogênese." Professor: "Seu corpo queima gordura só pra te aquecer. Sem fazer nada a mais."',note:'4s · Ciência em linguagem simples'},
+      {n:3,t:'Ponto 2 — "Circulação: coração mais eficiente." Ponto 3 — "Endorfina dobrada: você sai do treino melhor do que sairia no verão."',note:'4s · Benefícios encadeados'},
+      {n:4,t:'Texto na tela: "Treinar no frio não é sacrifício — é estratégia. E o melhor momento pra começar é agora: Campanha de Inverno It\'s Power."',note:'4s · Ponte ciência → oferta'},
+      {n:5,t:'"O melhor investimento que você faz em julho, você colhe em dezembro." + logo + CTA link na bio.',note:'2s · Fechamento + ação'},
     ],
-    caption:`Todo ano a mesma história: inverno chega, treino para. Verão chega, correria.\n\nE se esse inverno fosse diferente?\n\nCampanha de Inverno It's Power. Condição especial para quem começa agora.\n\nO melhor investimento que você faz em julho, você colhe em dezembro.\n\nLink na bio. Vagas limitadas.\n📍 It's Power · Cláudio, MG`,
-    stories:['Countdown: "Campanha de Inverno — vagas limitadas. Link na bio"','Enquete: "Você já treinou durante um inverno inteiro?" Sim / Nunca consegui','CTA direto: "Manda DM com INVERNO para saber as condições"'],
+    caption:`Treinar no frio não é sacrifício — é estratégia.\n\n→ Termogênese: seu corpo queima mais só pra se aquecer\n→ Circulação: coração mais eficiente\n→ Endorfina: você sai do treino melhor do que no verão\n\nE o melhor momento pra começar é agora.\n\nCampanha de Inverno It's Power — o melhor investimento que você faz em julho, você colhe em dezembro.\n\nLink na bio. Vagas limitadas.\n📍 It's Power · Cláudio, MG`,
+    stories:['Countdown: "Campanha de Inverno — vagas limitadas. Link na bio"','Quiz: "Qual benefício do treino no frio você não sabia?" Termogênese / Circulação / Endorfina','CTA direto: "Manda DM com INVERNO para saber as condições"'],
   },
   {
     id:'V03',num:3,date:'2026-07-04',dayFull:'Sábado · 04 de Julho',week:1,special:false,
-    title:'O que acontece no seu corpo quando você treina no frio.',
-    type:'Educativo · Ciência Acessível',typeCss:'background:var(--green-light);color:#065F46',
+    title:'24 anos construindo a maior referência fitness de Cláudio.',
+    type:'Autoridade · História da Marca',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Abertura direta: "Você sabia que treinar no frio muda o que acontece dentro do seu corpo?" Câmera próxima, tom curioso.',note:'3s · Curiosidade imediata'},
-      {n:2,t:'Ponto 1 — texto na tela: "Termogênese." Professor explica: "Seu corpo queima gordura só pra te aquecer. Sem fazer nada a mais."',note:'4s · Ciência em linguagem simples'},
-      {n:3,t:'Ponto 2 — "Circulação." "O coração trabalha mais eficiente. Seus vasos dilatam durante o exercício e contraem depois. Treino pro coração."',note:'4s · Informação com imagem corporal'},
-      {n:4,t:'Ponto 3 — "Endorfina dobrada." "Você sai do treino no frio melhor do que sairia no verão. A recompensa é maior."',note:'4s · Gatilho emocional'},
-      {n:5,t:'"Treinar no frio não é sacrifício. É estratégia. Salva esse vídeo." + logo.',note:'3s · Reframe + CTA de salvamento'},
+      {n:1,t:'Imagens da fachada/arquivo ao longo dos anos. Texto: "Há 24 anos, a It\'s Power abriu as portas em Cláudio." Tom de autoridade.',note:'3s · Abertura com peso histórico'},
+      {n:2,t:'"24 anos não se constrói com sorte — se constrói com consistência." Montagem: evolução do espaço, dos equipamentos e da equipe.',note:'4s · Autoridade pela trajetória'},
+      {n:3,t:'Marcos na tela: milhares de alunos, gerações treinando, duas unidades. "Enquanto muita academia abre e fecha, a gente fica."',note:'4s · Prova de solidez'},
+      {n:4,t:'Fala do fundador: "Já vimos muita gente passar por aqui — e voltar. Isso é confiança." Câmera próxima, olhar firme.',note:'4s · Confiança como diferencial'},
+      {n:5,t:'"24 anos transformando Cláudio. E a gente está só começando." + logo + CTA link na bio.',note:'3s · Fechamento aspiracional'},
     ],
-    caption:`Treinar no frio não é sacrifício — é estratégia.\n\n→ Termogênese: seu corpo queima mais só pra se aquecer\n→ Circulação: coração mais eficiente\n→ Endorfina: sai do treino melhor do que no verão\n\nA ciência explica. O resultado, você sente.\n\nSalva e manda pra quem precisa dessa motivação.\n📍 It's Power Bela Vista · Cláudio, MG`,
-    stories:['Caixa de perguntas: "Você sente diferença treinando no frio?"','Quiz: "Qual desses benefícios você não sabia?" Termogênese / Circulação / Endorfina','Responder as melhores respostas com comentário do professor em vídeo curto'],
+    caption:`24 anos.\n\nNão é só tempo — é confiança construída treino após treino, geração após geração.\n\nEnquanto muita academia abre e fecha, a It's Power continua sendo a referência fitness de Cláudio. Duas unidades, milhares de histórias, uma só marca.\n\n24 anos transformando vidas. E a gente está só começando.\n\nFaça parte dessa história. Link na bio.\n📍 It's Power · Cláudio, MG`,
+    stories:['Sequência: foto antiga × foto atual da academia (a evolução em 24 anos)','Enquete: "Há quanto tempo você conhece a It\'s Power?" Anos / Acabei de descobrir','Caixa: "Você ou sua família já treinou aqui? Conta pra gente"'],
   },
   {
     id:'V04',num:4,date:'2026-07-08',dayFull:'Quarta · 08 de Julho',week:2,special:false,
@@ -404,74 +405,74 @@ const VIDEOS = [
     numCss:'or',metaCss:'or',
     cuts:[
       {n:1,t:'"Você já conhece a It\'s Power. Mas conhece o Power Club?" Texto na tela com revelação. Tom: isso muda tudo.',note:'3s · Gancho de curiosidade'},
-      {n:2,t:'Diferencial 1 — "Turmas de no máximo 4 alunos por professor. Aqui ninguém é invisível." Imagem real de treino em grupo pequeno.',note:'4s · Atenção individual'},
+      {n:2,t:'Diferencial 1 — "Professor dedicado para no máximo 3 alunos. Aqui ninguém é invisível." Imagem real de treino em grupo pequeno.',note:'4s · Atenção individual'},
       {n:3,t:'Diferencial 2 — "Nutricionista, fisioterapeuta, bioimpedância mensal, sessão de Recovery. Tudo incluso." Texto rápido com ícones.',note:'4s · Acompanhamento completo'},
       {n:4,t:'Diferencial 3 — "Suplementação, kit banho, aula coletiva por semana — Power Training, Jump ou Pump." Montagem de conveniências.',note:'4s · Conveniência real'},
       {n:5,t:'Depoimento curto de membro: "O treino ficou outro. Eu tenho acompanhamento de verdade." Câmera próxima, genuíno.',note:'4s · Prova social'},
-      {n:6,t:'"Power Club. 12 meses de metodologia. Ou 6, se preferir. O próximo nível do seu treino." + logo + CTA.',note:'2s · Fechamento + opções'},
+      {n:6,t:'"Power Club. O próximo nível do seu treino — com acompanhamento que muda o resultado." + logo + CTA.',note:'2s · Fechamento'},
     ],
-    caption:`Você conhece a It's Power. Mas conhece o Power Club?\n\nNão é só matrícula — é uma metodologia de 12 meses (ou 6) com acompanhamento completo:\n\n→ Turmas de no máximo 4 alunos por professor\n→ Nutricionista + fisioterapeuta + bioimpedância mensal\n→ Sessão de Recovery todo mês\n→ Suplementação pré e pós-treino inclusa\n→ Kit banho + toalha individual\n→ 1 aula coletiva por semana: Power Training, Jump ou Pump\n→ Gestão de resultados com metas reais\n\nEmagrecimento. Hipertrofia. Qualidade de vida.\nVocê escolhe o foco — a gente entrega a estrutura.\n\nQuer saber mais? Link na bio.\n📍 It's Power · Cláudio, MG`,
-    stories:['Carrossel de 5 stories revelando 1 benefício por slide: turmas pequenas → nutri → recovery → suplementação → CTA','Enquete: "O que mais te chamou atenção no Power Club?" Turmas de 4 / Nutri inclusa / Recovery / Tudo','Depoimento de membro do Power Club em story (15s): resultado real + como é o dia a dia'],
+    caption:`Você conhece a It's Power. Mas conhece o Power Club?\n\nNão é só matrícula — é acompanhamento completo de verdade:\n\n→ Professor dedicado para no máximo 3 alunos\n→ Nutricionista + fisioterapeuta + bioimpedância mensal\n→ Sessão de Recovery todo mês\n→ Suplementação pré e pós-treino inclusa\n→ Kit banho + toalha individual\n→ 1 aula coletiva por semana: Power Training, Jump ou Pump\n→ Gestão de resultados com metas reais\n\nEmagrecimento. Hipertrofia. Qualidade de vida.\nVocê escolhe o foco — a gente entrega a estrutura.\n\nQuer saber mais? Link na bio.\n📍 It's Power · Cláudio, MG`,
+    stories:['Carrossel de 5 stories revelando 1 benefício por slide: professor p/ 3 alunos → nutri → recovery → suplementação → CTA','Enquete: "O que mais te chamou atenção no Power Club?" Professor p/ 3 alunos / Nutri inclusa / Recovery / Tudo','Depoimento de membro do Power Club em story (15s): resultado real + como é o dia a dia'],
   },
   {
     id:'V07',num:7,date:'2026-07-15',dayFull:'Quarta · 15 de Julho · Aniversário It\'s Power 🎂',week:3,special:true,
-    title:'Aniversário It\'s Power — anos transformando vidas em Cláudio.',
+    title:'Aniversário It\'s Power — 24 anos transformando vidas em Cláudio.',
     type:'Aniversário · Celebração',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'or',metaCss:'or',
     cuts:[
-      {n:1,t:'Fachada da academia. Texto aparece com fade: "15 de julho." Pausa. "Aniversário It\'s Power." Música emotiva.',note:'3s · Abertura solene'},
+      {n:1,t:'Fachada da academia. Texto aparece com fade: "15 de julho." Pausa. "24 anos de It\'s Power." Música emotiva.',note:'3s · Abertura solene'},
       {n:2,t:'Montagem emotiva: primeiros dias da academia × hoje. Evolução do espaço, dos equipamentos, das pessoas. Antes e depois.',note:'5s · A jornada visual'},
       {n:3,t:'Depoimentos rápidos (3s cada) de 3–4 alunos: "O que a It\'s Power significa pra mim?" Respostas genuínas, sem ensaio.',note:'5s · Prova social emotiva'},
       {n:4,t:'Professor/dono: "Quando a gente começou, era só um sonho. Hoje é uma comunidade." Pausa emotiva, olhar pro espaço.',note:'4s · Vulnerabilidade do fundador'},
-      {n:5,t:'"Obrigado a cada aluno que fez parte dessa história. A gente não para." + logo + data do aniversário.',note:'2s · Gratidão + marco'},
+      {n:5,t:'"Obrigado a cada aluno que fez parte desses 24 anos. A gente não para." + logo + data do aniversário.',note:'2s · Gratidão + marco'},
     ],
-    caption:`15 de julho. Aniversário It's Power.\n\nO que começou como um sonho se transformou em comunidade.\n\nCada aluno que passou por aqui deixou uma marca. Cada treino construiu algo maior.\n\nObrigado por fazer parte dessa história.\n\nA gente não para. 💪\n📍 It's Power · Cláudio, MG`,
+    caption:`15 de julho. 24 anos de It's Power.\n\nO que começou como um sonho se transformou em comunidade.\n\nCada aluno que passou por aqui em 24 anos deixou uma marca. Cada treino construiu algo maior.\n\nObrigado por fazer parte dessa história.\n\nA gente não para. 💪\n📍 It's Power · Cláudio, MG`,
     stories:['Countdown no dia 14: "Amanhã é dia especial"','Série de stories com fotos/vídeos antigos vs. atuais da academia','Caixa: "O que a It\'s Power significa pra você? Me conta"','Repost das melhores respostas com agradecimento'],
   },
   {
     id:'V08',num:8,date:'2026-07-17',dayFull:'Sexta · 17 de Julho',week:3,special:false,
-    title:'Agachamento livre — você provavelmente faz isso errado.',
+    title:'O exercício mais feito é o mais mal feito.',
     type:'Educativo · Técnica',typeCss:'background:var(--green-light);color:#065F46',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'"Agachamento livre. O exercício mais feito — e mais mal feito — de qualquer academia." Tom direto, sem rodeio.',note:'3s · Gancho provocativo'},
+      {n:1,t:'"O exercício mais feito em qualquer academia é também o mais mal feito. O agachamento livre." Tom direto, sem rodeio.',note:'3s · Gancho provocativo'},
       {n:2,t:'Demonstra a versão ERRADA — joelhos passando demais, tronco caindo, calcanhar subindo. Câmera lateral. Texto: "ERRADO"',note:'4s · Visual didático'},
       {n:3,t:'Demonstra a versão CORRETA — mesmo ângulo. Joelho alinhado, peito aberto, peso no calcanhar. Texto: "CORRETO"',note:'4s · Comparativo claro'},
       {n:4,t:'Detalhe técnico: "O segredo? Pense em sentar numa cadeira invisível. Peito pra cima. Empurre o chão com o calcanhar."',note:'4s · Metáfora memorável'},
       {n:5,t:'"Salva esse vídeo. Semana que vem tem mais da série Correção de Exercício." + logo.',note:'3s · Salvamento + antecipação'},
     ],
-    caption:`Agachamento livre. Você provavelmente faz errado.\n\nA diferença entre resultado e lesão está num detalhe:\n→ Joelho alinhado com a ponta do pé\n→ Peito aberto, tronco firme\n→ Peso no calcanhar, não na ponta\n\nPense em sentar numa cadeira. Empurre o chão.\n\nSalva e manda pra quem precisa corrigir.\n📍 It's Power Centro · Cláudio, MG`,
+    caption:`O exercício mais feito é o mais mal feito.\n\nO agachamento livre — você provavelmente faz errado. E a diferença entre resultado e lesão está num detalhe:\n→ Joelho alinhado com a ponta do pé\n→ Peito aberto, tronco firme\n→ Peso no calcanhar, não na ponta\n\nPense em sentar numa cadeira. Empurre o chão.\n\nSalva e manda pra quem precisa corrigir.\n📍 It's Power Centro · Cláudio, MG`,
     stories:['Vídeo de 15s mostrando só a versão correta em câmera lenta com texto grande','Enquete: "Você fazia errado?" Fazia / Sempre fiz certo (hmm...)','CTA: "Quer corrigir seu agachamento ao vivo? Agende uma aula experimental"'],
   },
   {
     id:'V09',num:9,date:'2026-07-18',dayFull:'Sábado · 18 de Julho',week:3,special:false,
-    title:'1 minuto. Sem parar. Sem desculpa. Você aguenta?',
+    title:'Cadeira na parede. 1 minuto. Você aguenta?',
     type:'Entretenimento · Desafio',typeCss:'background:var(--purple-light);color:var(--purple)',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Professor olha pra câmera com sorriso desafiador: "Lembra dos 30 segundos de junho? Agora é 1 minuto. Quem aguenta?"',note:'3s · Callback para V11 de junho'},
-      {n:2,t:'Mostra o desafio: prancha com toque no ombro alternado. Cronômetro grande na tela. "Valendo."',note:'5s · O desafio visual'},
-      {n:3,t:'Marca de 30 segundos — texto "METADE!" Expressão de esforço crescente. Respiração pesada.',note:'10s · Tensão em tempo real'},
-      {n:4,t:'Últimos 10 segundos — câmera próxima no rosto, braços tremendo. "3... 2... 1..." Reação genuína: alívio, grito, risada.',note:'8s · Clímax emocional'},
+      {n:1,t:'Professor olha pra câmera com sorriso desafiador: "Lembra do desafio de junho? Esse mês o jogo virou. 1 minuto. Quem aguenta?"',note:'3s · Callback para o desafio de junho'},
+      {n:2,t:'Mostra o desafio: cadeira na parede (wall sit) — costas na parede, joelhos a 90°, sem descer. Cronômetro grande na tela. "Valendo."',note:'5s · O desafio visual'},
+      {n:3,t:'Marca de 30 segundos — texto "METADE!" Coxas tremendo, expressão de esforço. Respiração pesada.',note:'10s · Tensão em tempo real'},
+      {n:4,t:'Últimos 10 segundos — câmera próxima no rosto e nas pernas tremendo. "3... 2... 1..." Reação genuína: alívio, grito, risada.',note:'8s · Clímax emocional'},
       {n:5,t:'"Conseguiu? Comenta. Não conseguiu? Treina e volta semana que vem." + logo.',note:'3s · CTA duplo'},
     ],
-    caption:`Lembra dos 30 segundos? Agora é 1 minuto.\n\nPrancha com toque no ombro. Sem parar. Sem desculpa.\n\nParece fácil — até os 40 segundos.\n\nConseguiu? Comenta.\nNão conseguiu? Treina e volta semana que vem. 💪\n📍 It's Power Bela Vista · Cláudio, MG`,
-    stories:['"Tenta fazer em casa e manda no direct" — caixa de resposta com vídeo','Repostar os melhores vídeos de tentativas nos stories','Enquete: "Conseguiu 1 minuto?" Consegui / Preciso treinar MUITO mais'],
+    caption:`Esse mês o desafio virou: 1 minuto de cadeira na parede.\n\nCostas na parede, joelhos a 90°, sem descer. Sem parar. Sem desculpa.\n\nParece fácil — até os 30 segundos, quando a coxa começa a tremer.\n\nConseguiu? Comenta.\nNão conseguiu? Treina e volta semana que vem. 💪\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['"Tenta fazer em casa e manda no direct" — caixa de resposta com vídeo','Repostar os melhores vídeos de tentativas nos stories','Enquete: "Quanto tempo você aguentou na cadeira?" 1 minuto / Minhas pernas desistiram'],
   },
   {
     id:'V10',num:10,date:'2026-07-20',dayFull:'Segunda · 20 de Julho · Dia do Amigo 🤝',week:4,special:true,
     title:'Dia do Amigo: quem treina junto, evolui junto.',
-    type:'Data Especial · Dia do Amigo',typeCss:'background:var(--orange-light);color:#92400E',
+    type:'Campanha · Dia do Amigo',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'or',metaCss:'or',
     cuts:[
       {n:1,t:'"Hoje é Dia do Amigo." Pausa. "E aqui na It\'s Power, amigo é quem..." Câmera segue duplas treinando juntas.',note:'3s · Abertura temática'},
       {n:2,t:'Montagem: amigos se cumprimentando na entrada, ajudando na série, rindo entre os sets, dando tapinha nas costas.',note:'4s · Amizade no treino'},
       {n:3,t:'Depoimentos rápidos de 2–3 duplas: "Como vocês começaram a treinar juntos?" Respostas genuínas e divertidas.',note:'5s · Prova social em dupla'},
       {n:4,t:'"Amigo é quem te puxa quando você quer parar. Quem acorda no frio junto. Quem celebra cada kilo a mais na barra."',note:'4s · Definição poderosa'},
-      {n:5,t:'"Marca aquele amigo que precisa vir treinar. Primeira visita da dupla por nossa conta." + logo.',note:'2s · CTA de marcação + oferta'},
+      {n:5,t:'"Marca aquele amigo que precisa vir treinar. Essa semana, cada aluno traz um amigo pra treinar grátis." + logo.',note:'2s · CTA de marcação + campanha'},
     ],
-    caption:`Feliz Dia do Amigo.\n\nAmigo de verdade é quem acorda no frio junto. Quem puxa quando você quer parar. Quem celebra cada conquista.\n\nNa It's Power, amizade se constrói na série, no suor e na superação.\n\nMarca aquele amigo que precisa começar. Primeira visita da dupla por nossa conta. 💪\n📍 It's Power Centro · Cláudio, MG`,
-    stories:['Enquete: "Você tem um amigo de treino?" Sim / Preciso de um','Caixa de marcação: "Marca quem precisa vir treinar contigo"','CTA: "Dia do Amigo = visita grátis pra dupla. Chama no WhatsApp"'],
+    caption:`Feliz Dia do Amigo.\n\nAmigo de verdade é quem acorda no frio junto. Quem puxa quando você quer parar. Quem celebra cada conquista.\n\nNa It's Power, amizade se constrói na série, no suor e na superação.\n\n🎁 Campanha Dia do Amigo: traga um amigo pra treinar com você — a visita dele é por nossa conta.\n\nMarca aquele amigo que precisa começar. 💪\n📍 It's Power Centro · Cláudio, MG`,
+    stories:['Enquete: "Você tem um amigo de treino?" Sim / Preciso de um','Caixa de marcação: "Marca quem você vai trazer pra treinar grátis"','CTA: "Dia do Amigo = traga um amigo pra treinar grátis. Chama no WhatsApp"'],
   },
   {
     id:'V11',num:11,date:'2026-07-25',dayFull:'Sábado · 25 de Julho · Dia dos Avós',week:4,special:true,
@@ -510,7 +511,7 @@ const SEDE = {
   centro:{label:'Centro',short:'Centro',color:'#0EA5E9',bg:'rgba(14,165,233,.12)',border:'rgba(14,165,233,.3)'},
   ambas:{label:'Ambas',short:'Ambas',color:'#6B7280',bg:'rgba(107,114,128,.12)',border:'rgba(107,114,128,.3)'},
 };
-const SEDE_MAP = {V01:'ambas',V02:'ambas',V03:'bv',V04:'centro',V05:'bv',V06:'ambas',V07:'ambas',V08:'centro',V09:'bv',V10:'centro',V11:'bv',V12:'centro'};
+const SEDE_MAP = {V01:'ambas',V02:'ambas',V03:'ambas',V04:'centro',V05:'bv',V06:'ambas',V07:'ambas',V08:'centro',V09:'bv',V10:'centro',V11:'bv',V12:'centro'};
 VIDEOS.forEach(v => { v.sede = SEDE_MAP[v.id] || 'ambas'; });
 
 const SPECIAL_DATES = {
