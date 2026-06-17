@@ -314,8 +314,9 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
    DATA — AGOSTO 2026
    Fase: Consolidação e Crescimento
    8 pilares: ✓ Power Club (V06) · ✓ Dor (V03,V09) · ✓ Informativo (V01 operacional, V04 Dia dos Pais)
-             ✓ Engraçado (V12 humor real) · ✓ Diferenciais (V11) · ✓ Educativo (V02,V08)
-             ✓ Além da musc. (V05) · ✓ Campanha (V10) · reforço: V07 desafio (entretenimento)
+             ✓ Engraçado (V12 humor real) · ✓ Diferenciais (V11) · ✓ Educativo (V02,V08 — quadros fixos)
+             ✓ Além da musc. (V05) · ✓ Campanha (V10) · reforço: V07 Desafio
+   Quadros fixos (recorrentes todo mês): V07 Desafio do Mês (exercício novo/mês) · V08 Professor Responde · V02 Mito ou Verdade
    Datas especiais: Dia dos Pais 09/08 (post véspera 08/08)
 ======================================= */
 const VIDEOS = [
@@ -337,18 +338,18 @@ const VIDEOS = [
   },
   {
     id:'V02',num:2,date:'2026-08-04',dayFull:'Terça · 04 de Agosto',week:1,special:false,
-    title:'O treino que mais muda o corpo — e ninguém faz.',
-    type:'Educativo · Autoridade',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    title:'Mito ou Verdade: pular o dia de perna não faz diferença?',
+    type:'Mito ou Verdade · Quadro Fixo',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Abertura direta: "Qual o treino que mais transforma o corpo? Não é abdômen. Não é bíceps." Suspense.',note:'3s · Curiosidade imediata'},
-      {n:2,t:'"É perna." Professor explica: proporção muscular, gasto calórico, hormônios anabólicos.',note:'4s · Ciência acessível'},
-      {n:3,t:'Demonstração na prática: agachamento, leg press, stiff. Câmera lateral, execução perfeita.',note:'4s · Prova visual'},
-      {n:4,t:'"80% das pessoas evitam esse treino. Os 20% que fazem — você percebe de longe."',note:'3s · Frase de impacto'},
-      {n:5,t:'"Salva esse vídeo. Manda pra quem pula o dia de perna." + logo.',note:'2s · CTA direto'},
+      {n:1,t:'Vinheta fixa do quadro "MITO OU VERDADE?". Texto na tela: "Pular o dia de perna não faz diferença." Professor com cara de suspense.',note:'3s · Vinheta do quadro + a afirmação'},
+      {n:2,t:'"MITO." Professor direto, sem rodeio: "Perna é o maior grupo muscular do corpo — e mexe com tudo."',note:'3s · O veredito'},
+      {n:3,t:'A ciência: maior gasto calórico, hormônios anabólicos, postura e equilíbrio. Demonstração: agachamento, leg press, stiff.',note:'4s · A explicação'},
+      {n:4,t:'"80% evitam o dia de perna. Os 20% que treinam — você percebe de longe."',note:'3s · Frase de impacto'},
+      {n:5,t:'"Mito derrubado. Salva e manda pra quem pula o dia de perna." + logo.',note:'2s · CTA'},
     ],
-    caption:`Qual o treino que mais transforma o corpo?\n\nNão é abdômen. Não é bíceps.\n\nÉ perna.\n\n→ Maior grupo muscular = maior gasto calórico\n→ Estimula hormônios anabólicos\n→ Melhora postura e equilíbrio\n\n80% das pessoas evitam. Os 20% que fazem — você percebe de longe.\n\nSalva e manda pra quem precisa.\n📍 It's Power Bela Vista · Cláudio, MG`,
-    stories:['Quiz: "Quantas vezes por semana você treina perna?" 0 / 1 / 2+','Demonstração rápida do professor fazendo agachamento com dica técnica','Enquete: "Dia de perna é..." O melhor / O pior'],
+    caption:`MITO OU VERDADE? 🤔\n\n"Pular o dia de perna não faz diferença."\n\n→ MITO.\n\nPerna é o maior grupo muscular do corpo:\n→ Maior gasto calórico\n→ Estimula hormônios anabólicos\n→ Melhora postura e equilíbrio\n\n80% das pessoas evitam. Os 20% que treinam — você percebe de longe.\n\nSalva e manda pra quem precisa ver isso.\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Vinheta "Mito ou Verdade?" com a afirmação na tela','Enquete: "Você acha que é mito ou verdade?" Mito / Verdade','Demonstração rápida do professor com dica de execução do agachamento'],
   },
   {
     id:'V03',num:3,date:'2026-08-06',dayFull:'Quinta · 06 de Agosto',week:1,special:false,
@@ -412,33 +413,33 @@ const VIDEOS = [
   },
   {
     id:'V07',num:7,date:'2026-08-15',dayFull:'Sábado · 15 de Agosto',week:3,special:false,
-    title:'2 minutos. Sem parar. O desafio escalou.',
-    type:'Desafio · Formato Viral',typeCss:'background:var(--orange-light);color:#92400E',
+    title:'Desafio do mês: quantos agachamentos em 30 segundos?',
+    type:'Desafio do Mês · Quadro Fixo',typeCss:'background:var(--orange-light);color:#92400E',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'Texto: "Junho: 30 segundos. Julho: 1 minuto. Agosto..." Pausa. "2 MINUTOS." Reação dos alunos.',note:'3s · Callback + escalada'},
-      {n:2,t:'Professor demonstra o exercício: prancha com toque alternado no ombro. Timer na tela.',note:'3s · Instrução clara'},
-      {n:3,t:'3 alunos tentam. Câmera no rosto, reações genuínas. Timer rodando. Torcida ao fundo.',note:'6s · O espetáculo'},
-      {n:4,t:'Quem completou, quem caiu, quem tentou de novo. Celebração coletiva.',note:'3s · Comunidade'},
-      {n:5,t:'"2 minutos. Parece pouco. Até tentar. Marca quem aguenta." + logo.',note:'2s · CTA de marcação'},
+      {n:1,t:'Vinheta fixa "DESAFIO DO MÊS". Texto: "Todo mês um desafio novo. O de agosto:" Pausa. "AGACHAMENTO." Reação dos alunos.',note:'3s · Vinheta do quadro fixo'},
+      {n:2,t:'Professor mostra a execução correta — postura, profundidade, ritmo. "Só vale o que for feito direito." Timer de 30s na tela.',note:'4s · Regra + execução'},
+      {n:3,t:'3 alunos encaram. Câmera nos rostos e nas pernas, reações genuínas, contagem subindo na tela. Torcida ao fundo.',note:'6s · O espetáculo'},
+      {n:4,t:'Quem fez mais, quem travou, quem riu. Celebração coletiva. Número final de cada um na tela.',note:'3s · Comunidade'},
+      {n:5,t:'"Quantos você faz? Grava, marca a gente e desafia um amigo." + logo.',note:'2s · CTA de marcação'},
     ],
-    caption:`Junho: 30 segundos.\nJulho: 1 minuto.\nAgosto: 2 MINUTOS.\n\nO desafio escalou. Prancha com toque no ombro. Sem parar.\n\nParece pouco. Até tentar.\n\nMarca quem você acha que aguenta.\n📍 It's Power · Cláudio, MG`,
-    stories:['Countdown: "Tenta aí. 2 minutos. Me marca fazendo."','Repost dos melhores que tentaram','Enquete: "Você aguentou?" Sim / Quase / Nem tenta'],
+    caption:`DESAFIO DO MÊS 💥\n\nAgosto é agachamento: quantos você faz em 30 segundos — sem perder a postura?\n\nParece fácil. Até a coxa começar a queimar.\n\nGrava o teu, marca a gente e desafia um amigo. 👇\n\n(Todo mês tem desafio novo. Bora?)\n📍 It's Power · Cláudio, MG`,
+    stories:['Vinheta "Desafio do mês" + professor mostrando a execução certa','"Tenta aí e manda no direct" — caixa de resposta com vídeo','Enquete: "Quantos você fez?" 0-15 / 16-30 / 30+'],
   },
   {
     id:'V08',num:8,date:'2026-08-18',dayFull:'Terça · 18 de Agosto',week:3,special:false,
-    title:'Supino reto — o erro que trava seu peitoral.',
-    type:'Técnica · Correção',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
+    title:'Professor responde: por que meu supino não evolui?',
+    type:'Professor Responde · Quadro Fixo',typeCss:'background:var(--blue-light);color:var(--blue-dark)',
     numCss:'',metaCss:'',
     cuts:[
-      {n:1,t:'"Você faz supino reto? Provavelmente faz assim." Demonstração do erro mais comum (ombros avançados).',note:'3s · Identificação imediata'},
-      {n:2,t:'Câmera lateral: "Percebe? O ombro tá fazendo o trabalho que deveria ser do peito." Seta visual.',note:'3s · Diagnóstico visual'},
-      {n:3,t:'Correção: "Escápula retraída, peito pra cima, cotovelo a 45 graus." Demonstração lenta.',note:'4s · Solução passo a passo'},
-      {n:4,t:'Comparativo lado a lado: errado vs. correto. Diferença visível na ativação muscular.',note:'3s · Prova visual'},
-      {n:5,t:'"Um detalhe. Resultado completamente diferente. Salva e testa no próximo treino." + logo BV.',note:'2s · CTA'},
+      {n:1,t:'Vinheta fixa "PROFESSOR RESPONDE". Pergunta de um aluno na tela: "Por que meu supino não evolui?"',note:'3s · Vinheta do quadro + a pergunta'},
+      {n:2,t:'Professor: "Na maioria das vezes é um erro só — o ombro avançado roubando o trabalho do peito." Demonstra o erro, câmera lateral, seta visual.',note:'4s · O diagnóstico'},
+      {n:3,t:'A resposta prática: "Escápula retraída, peito pra cima, cotovelo a 45 graus." Demonstração lenta.',note:'4s · A correção'},
+      {n:4,t:'Comparativo lado a lado: errado vs. correto. Diferença visível na ativação do peito.',note:'3s · Prova visual'},
+      {n:5,t:'"Manda tua dúvida no direct — o professor responde uma toda semana." + logo BV.',note:'2s · CTA + recorrência do quadro'},
     ],
-    caption:`Supino reto. O exercício mais popular da academia.\n\nE o mais mal executado.\n\nO erro: ombro avançado roubando o trabalho do peito.\n\nA correção:\n→ Escápula retraída\n→ Peito projetado pra cima\n→ Cotovelo a 45 graus\n\nUm detalhe. Resultado completamente diferente.\n\nSalva e testa no próximo treino.\n📍 It's Power Bela Vista · Cláudio, MG`,
-    stories:['Slow motion da execução correta com seta mostrando a escápula','Enquete: "Você retrai a escápula no supino?" Sempre / Às vezes / O quê?','Antes e depois: "Experimente e me conta a diferença"'],
+    caption:`PROFESSOR RESPONDE 🎙️\n\n"Por que meu supino não evolui?"\n\nNa maioria das vezes, é um erro só: o ombro avançado roubando o trabalho do peito.\n\nA correção:\n→ Escápula retraída\n→ Peito projetado pra cima\n→ Cotovelo a 45 graus\n\nUm detalhe. Resultado completamente diferente.\n\nManda tua dúvida no direct — o professor responde. 👇\n📍 It's Power Bela Vista · Cláudio, MG`,
+    stories:['Vinheta "Professor Responde" + a pergunta do aluno','Slow motion da execução correta com seta na escápula','Caixa: "Qual a tua dúvida pro professor?"'],
   },
   {
     id:'V09',num:9,date:'2026-08-20',dayFull:'Quinta · 20 de Agosto',week:3,special:false,
