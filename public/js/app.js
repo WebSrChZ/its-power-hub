@@ -135,7 +135,7 @@ POSTS.forEach(p => { p.sede = SEDE_MAP[p.id] || 'ambas'; });
 [
   { id:'ago01',day:1,wday:'Sab',pillar:'c',num:'01/12',
     title:'Agosto chegou: horários, equipe e as duas unidades.',
-    desc:'Informativo operacional: horários de funcionamento, apresentação da equipe e as duas unidades (BV + Centro). Card salvável.',
+    desc:'Informativo operacional: horários, equipe e o perfil de cada unidade — Bela Vista (climatizada, espaço Kids) e Centro (a maior, mais equipamentos). Card salvável.',
     tags:['Informativo','Horários','Equipe','2 unidades']},
   { id:'ago02',day:4,wday:'Ter',pillar:'a',num:'02/12',
     title:'O treino que mais muda o corpo — e ninguém faz.',
