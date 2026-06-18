@@ -207,7 +207,10 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
   .content{padding:14px 14px 60px}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .vcard-hdr{grid-template-columns:44px 1fr}
-  .vcard-right{display:none}
+  .vcard-right{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-end;flex-wrap:wrap;min-width:0;padding:10px 14px;border-top:1px solid var(--border);gap:8px}
+  .vcard-status-row{flex:1 1 auto;justify-content:flex-end}
+  .s-sel{font-size:12px;padding:8px 30px 8px 12px}
+  .expand-ico{font-size:15px;padding:4px 2px}
   .vcard-body{grid-template-columns:1fr!important}
   .checklist{grid-template-columns:1fr}
   .mob-menu{display:flex}
@@ -523,6 +526,7 @@ function saveState(){save('state',state)}
 
 /* ── SYNC: Communicate with parent portal ── */
 const SYNC_MONTH = 'jun';
+const ROTEIRO_TO_PORTAL = {pendente:'pendente',gravando:'producao',editando:'producao',pronto:'aprovado',publicado:'publicado'};
 let _syncFromPortal = false;
 
 function notifyParentStatusChange(videoId, roteiroStatus) {
@@ -546,6 +550,9 @@ function setupPortalSyncListener() {
     const newStatus = data.status;
     if (!state[videoId]) return;
     if (state[videoId].status === newStatus) return;
+    // Keep the finer local phase (e.g. 'editando') when the portal only round-trips the
+    // coarser bucket: gravando/editando both map to 'producao' -> back to 'gravando'.
+    if (ROTEIRO_TO_PORTAL[state[videoId].status] && ROTEIRO_TO_PORTAL[state[videoId].status] === ROTEIRO_TO_PORTAL[newStatus]) return;
     _syncFromPortal = true;
     state[videoId].status = newStatus;
     saveState();
@@ -650,7 +657,7 @@ function buildCards(){
     </div>`).join('');
 
     html+=`<div class="vcard" id="card_${v.id}" data-week="${v.week}" data-status="${st}">
-      <div class="vcard-hdr" onclick="toggleCard('${v.id}')">
+      <div class="vcard-hdr" onclick="toggleCard('${v.id}',event)">
         <div class="vcard-ncol ${v.numCss}"><div class="vcard-n">${String(v.num).padStart(2,'0')}</div></div>
         <div class="vcard-meta ${v.metaCss}">
           <div class="vcard-dt">${v.dayFull}</div>
@@ -661,7 +668,7 @@ function buildCards(){
           ${v.sede?`<span class="vcard-type" style="background:${SEDE[v.sede].bg};color:${SEDE[v.sede].color};border:1px solid ${SEDE[v.sede].border}">${SEDE[v.sede].short}</span>`:''}
           <div class="vcard-status-row">
             <span class="s-lbl">Status</span>
-            <select class="s-sel" id="sel_${v.id}" onchange="setStatus('${v.id}',this.value)" onclick="e=>e.stopPropagation()">${selOpts}</select>
+            <select class="s-sel" id="sel_${v.id}" onchange="setStatus('${v.id}',this.value)" onclick="event.stopPropagation()">${selOpts}</select>
           </div>
           <span class="expand-ico" id="exp_${v.id}">▼</span>
         </div>
@@ -703,7 +710,8 @@ function buildCards(){
 }
 
 /* ── INTERACTIONS ── */
-function toggleCard(id){
+function toggleCard(id,ev){
+  if(ev&&ev.target&&ev.target.closest&&ev.target.closest('select,button,textarea,input,a,label,.s-sel,.vcard-status-row'))return;
   const body=document.getElementById('body_'+id);
   const ico=document.getElementById('exp_'+id);
   const open=body.classList.toggle('open');
