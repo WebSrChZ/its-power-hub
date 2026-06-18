@@ -535,7 +535,6 @@ function saveState(){save('state',state)}
 
 /* -- SYNC: Communicate with parent portal -- */
 const SYNC_MONTH = 'ago';
-const ROTEIRO_TO_PORTAL = {pendente:'pendente',gravando:'producao',editando:'producao',pronto:'aprovado',publicado:'publicado'};
 let _syncFromPortal = false;
 
 function notifyParentStatusChange(videoId, roteiroStatus) {
@@ -559,9 +558,6 @@ function setupPortalSyncListener() {
     const newStatus = data.status;
     if (!state[videoId]) return;
     if (state[videoId].status === newStatus) return;
-    // Keep the finer local phase (e.g. 'editando') when the portal only round-trips the
-    // coarser bucket: gravando/editando both map to 'producao' -> back to 'gravando'.
-    if (ROTEIRO_TO_PORTAL[state[videoId].status] && ROTEIRO_TO_PORTAL[state[videoId].status] === ROTEIRO_TO_PORTAL[newStatus]) return;
     _syncFromPortal = true;
     state[videoId].status = newStatus;
     saveState();

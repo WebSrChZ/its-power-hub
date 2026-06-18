@@ -18,7 +18,8 @@ const API = {
   async updatePost(id, d) {
     await getDb().from('post_data').upsert({
       post_id: id, status: d.status||'pendente', stars: d.stars||0,
-      feedback: d.fb||'', note: d.note||'', updated_at: new Date().toISOString()
+      feedback: d.fb||'', note: d.note||'', roteiro_status: d.roteiroStatus||null,
+      updated_at: new Date().toISOString()
     }, { onConflict: 'post_id' });
   },
 
