@@ -231,10 +231,30 @@ function notifyIframeStatusChange(portalId, portalStatus) {
   }
 }
 
+// Push the roteiro's per-video notes + checklist (relayed as opaque strings) to its iframe.
+function notifyIframeDataChange(portalId) {
+  const s = STATE[portalId];
+  if (!s) return;
+  const month = portalIdToMonth(portalId);
+  const videoId = portalIdToVideoId(portalId);
+  const iframeId = month === 'ago' ? 'iframeAgo' : month === 'jul' ? 'iframeJul' : 'iframeJun';
+  const iframe = document.getElementById(iframeId);
+  if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage({
+      type: 'portal-data-change',
+      videoId: videoId,
+      notes: s.roteiroNotes || '',
+      checks: s.roteiroChecks || '',
+      source: 'portal'
+    }, '*');
+  }
+}
+
 function syncAllStatusesToIframes() {
   POSTS.forEach(p => {
     const st = STATE[p.id]?.status || 'pendente';
     notifyIframeStatusChange(p.id, st);
+    notifyIframeDataChange(p.id);
   });
 }
 
@@ -265,9 +285,25 @@ function setupIframeSyncListener() {
   });
 }
 
+// Receive the roteiro's per-video notes/checklist from an iframe and persist them.
+function setupIframeDataListener() {
+  window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (!data || data.type !== 'roteiro-data-change' || data.source === 'portal') return;
+    const portalId = videoIdToPortalId(data.videoId, data.month);
+    if (!STATE[portalId]) return;
+    const notes = data.notes || '';
+    const checks = data.checks || '';
+    if (STATE[portalId].roteiroNotes === notes && STATE[portalId].roteiroChecks === checks) return;
+    STATE[portalId].roteiroNotes = notes;
+    STATE[portalId].roteiroChecks = checks;
+    savePost(portalId);
+  });
+}
+
 /* ─── STATE ─── */
 let STATE = {};
-POSTS.forEach(p => { STATE[p.id] = {status:'pendente',note:'',stars:0,fb:'',roteiroStatus:''}; });
+POSTS.forEach(p => { STATE[p.id] = {status:'pendente',note:'',stars:0,fb:'',roteiroStatus:'',roteiroNotes:'',roteiroChecks:''}; });
 let APPROVED = {essencial:false,growth:false};
 let MONTH_NOTE = '';
 
@@ -279,7 +315,7 @@ async function loadData() {
       API.getPosts(), API.getSettings(), API.getRequests(), API.getActivity(),
     ]);
     if (posts) posts.forEach(r => {
-      STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||'',roteiroStatus:r.roteiro_status||''};
+      STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||'',roteiroStatus:r.roteiro_status||'',roteiroNotes:r.roteiro_notes||'',roteiroChecks:r.roteiro_checks||''};
     });
     if (settings) settings.forEach(r => {
       if (r.key==='month_note') MONTH_NOTE = r.value||'';
@@ -1123,7 +1159,7 @@ function setupRealtimeNotifications() {
       try {
         const posts = await API.getPosts();
         if (posts) {
-          posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||'',roteiroStatus:r.roteiro_status||''}; });
+          posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||'',roteiroStatus:r.roteiro_status||'',roteiroNotes:r.roteiro_notes||'',roteiroChecks:r.roteiro_checks||''}; });
           buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
           syncAllStatusesToIframes();
         }
@@ -1575,6 +1611,7 @@ async function initApp() {
   restoreCardStates();
   Router.init();
   setupIframeSyncListener();
+  setupIframeDataListener();
 
   // Load data FIRST, then render once (fixes double render)
   await loadData();

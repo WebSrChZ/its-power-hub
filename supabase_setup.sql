@@ -9,12 +9,16 @@ create table if not exists post_data (
   status    text    not null default 'pendente', -- visão cliente (4 estados): pendente | producao | aprovado | publicado
   stars     integer not null default 0,
   feedback  text    not null default '',
-  note      text    not null default '',
+  note      text    not null default '',          -- nota interna do admin no portal (≠ Observações do roteiro)
   roteiro_status text,                            -- fase fina do roteiro (5 estados): pendente | gravando | editando | pronto | publicado; null = não definido (cai no mapeamento de status)
+  roteiro_notes  text,                            -- "Observações" por vídeo no cronograma (cross-device)
+  roteiro_checks text,                            -- checklist de produção por vídeo, JSON: {"Roteiro":true,...}
   updated_at timestamptz default now()
 );
 -- Para bancos já existentes:
 alter table post_data add column if not exists roteiro_status text;
+alter table post_data add column if not exists roteiro_notes  text;
+alter table post_data add column if not exists roteiro_checks text;
 
 -- 2. Configurações gerais do projeto (nota mensal, aprovações, etc.)
 create table if not exists project_settings (
