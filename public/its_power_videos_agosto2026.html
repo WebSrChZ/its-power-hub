@@ -571,6 +571,67 @@ function setupPortalSyncListener() {
 }
 setupPortalSyncListener();
 
+/* -- SYNC: per-video notes + checklist (cross-device via portal) -- */
+const _notesTimers = {};
+const _notesDirty = new Set();
+
+function notifyParentDataChange(videoId) {
+  if (_syncFromPortal) return;
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({
+      type: 'roteiro-data-change',
+      month: SYNC_MONTH,
+      videoId: videoId,
+      notes: state[videoId].notes || '',
+      checks: JSON.stringify(state[videoId].checks || {}),
+      source: 'roteiro'
+    }, '*');
+  }
+}
+
+function setupPortalDataListener() {
+  window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (!data || data.type !== 'portal-data-change' || data.source !== 'portal') return;
+    const id = data.videoId;
+    if (!state[id]) return;
+    let pushUp = false;
+    _syncFromPortal = true;
+
+    // Checklist (relayed as a JSON string)
+    let incoming = null;
+    if (typeof data.checks === 'string' && data.checks) { try { incoming = JSON.parse(data.checks); } catch {} }
+    const incomingHasChecks = incoming && Object.values(incoming).some(Boolean);
+    const localHasChecks = Object.values(state[id].checks || {}).some(Boolean);
+    if (incomingHasChecks) {
+      if (JSON.stringify(state[id].checks) !== JSON.stringify(incoming)) {
+        CHECKS.forEach(c => { state[id].checks[c] = !!incoming[c]; });
+        updateCardChecks(id); updateStats(); updateProgress();
+      }
+    } else if (localHasChecks) {
+      pushUp = true; // DB empty but we have local checks -> migrate up instead of wiping
+    }
+
+    // Notes (never clobber text being typed or not yet flushed)
+    const ta = document.getElementById('notes_' + id);
+    const editing = _notesDirty.has(id) || (ta && document.activeElement === ta);
+    const incomingNotes = typeof data.notes === 'string' ? data.notes : '';
+    if (incomingNotes) {
+      if (!editing && state[id].notes !== incomingNotes) {
+        state[id].notes = incomingNotes;
+        if (ta) ta.value = incomingNotes;
+      }
+    } else if ((state[id].notes || '') !== '') {
+      pushUp = true; // DB empty but we have a local note -> migrate up
+    }
+
+    saveState();
+    _syncFromPortal = false;
+    if (pushUp) notifyParentDataChange(id);
+  });
+}
+setupPortalDataListener();
+
 /* -- CALENDAR -- */
 function buildCalendar(){
   const grid = document.getElementById('calGrid');
@@ -763,11 +824,15 @@ function toggleCheck(id,key){
   updateCardChecks(id);
   updateStats();
   updateProgress();
+  notifyParentDataChange(id);
 }
 
 function saveNotes(id,val){
   state[id].notes=val;
   saveState();
+  _notesDirty.add(id);
+  clearTimeout(_notesTimers[id]);
+  _notesTimers[id]=setTimeout(function(){ _notesDirty.delete(id); notifyParentDataChange(id); }, 700);
 }
 
 function copyCaption(id){

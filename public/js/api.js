@@ -19,6 +19,7 @@ const API = {
     await getDb().from('post_data').upsert({
       post_id: id, status: d.status||'pendente', stars: d.stars||0,
       feedback: d.fb||'', note: d.note||'', roteiro_status: d.roteiroStatus||null,
+      roteiro_notes: d.roteiroNotes||null, roteiro_checks: d.roteiroChecks||null,
       updated_at: new Date().toISOString()
     }, { onConflict: 'post_id' });
   },
