@@ -6,12 +6,15 @@
 -- 1. Tabela principal: dados de cada post
 create table if not exists post_data (
   post_id   text primary key,
-  status    text    not null default 'pendente',
+  status    text    not null default 'pendente', -- visão cliente (4 estados): pendente | producao | aprovado | publicado
   stars     integer not null default 0,
   feedback  text    not null default '',
   note      text    not null default '',
+  roteiro_status text,                            -- fase fina do roteiro (5 estados): pendente | gravando | editando | pronto | publicado; null = não definido (cai no mapeamento de status)
   updated_at timestamptz default now()
 );
+-- Para bancos já existentes:
+alter table post_data add column if not exists roteiro_status text;
 
 -- 2. Configurações gerais do projeto (nota mensal, aprovações, etc.)
 create table if not exists project_settings (

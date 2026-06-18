@@ -191,6 +191,15 @@ const STATUS_COLOR = {pendente:'#94A3B8',producao:'#8B5CF6',aprovado:'#F59E0B',p
 const SYNC_ROTEIRO_TO_PORTAL = {pendente:'pendente',gravando:'producao',editando:'producao',pronto:'aprovado',publicado:'publicado'};
 const SYNC_PORTAL_TO_ROTEIRO = {pendente:'pendente',producao:'gravando',aprovado:'pronto',publicado:'publicado'};
 
+// Reconcile the fine roteiro phase (roteiro_status) with the coarse portal status:
+// keep the stored fine value when it still belongs to that portal bucket (so 'editando'
+// survives), otherwise fall back to the default coarse→fine mapping.
+function reconcileRoteiro(portalId, portalStatus) {
+  const cur = STATE[portalId] && STATE[portalId].roteiroStatus;
+  if (cur && SYNC_ROTEIRO_TO_PORTAL[cur] === portalStatus) return cur;
+  return SYNC_PORTAL_TO_ROTEIRO[portalStatus] || portalStatus;
+}
+
 function portalIdToVideoId(portalId) {
   const num = portalId.replace(/^(jun|jul|ago)/, '');
   return 'V' + num;
@@ -209,7 +218,7 @@ function videoIdToPortalId(videoId, month) {
 function notifyIframeStatusChange(portalId, portalStatus) {
   const month = portalIdToMonth(portalId);
   const videoId = portalIdToVideoId(portalId);
-  const roteiroStatus = SYNC_PORTAL_TO_ROTEIRO[portalStatus] || portalStatus;
+  const roteiroStatus = reconcileRoteiro(portalId, portalStatus);
   const iframeId = month === 'ago' ? 'iframeAgo' : month === 'jul' ? 'iframeJul' : 'iframeJun';
   const iframe = document.getElementById(iframeId);
   if (iframe && iframe.contentWindow) {
@@ -239,9 +248,12 @@ function setupIframeSyncListener() {
     const portalId = videoIdToPortalId(videoId, month);
     const portalStatus = SYNC_ROTEIRO_TO_PORTAL[roteiroStatus] || 'pendente';
     if (!STATE[portalId]) return;
-    if (STATE[portalId].status === portalStatus) return; // already in sync
+    // Save when EITHER the coarse bucket OR the fine phase changed (gravando→editando
+    // keeps the same bucket but must still persist roteiro_status).
+    if (STATE[portalId].status === portalStatus && STATE[portalId].roteiroStatus === roteiroStatus) return;
     // Update portal state silently (no re-notify iframe to avoid loop)
     STATE[portalId].status = portalStatus;
+    STATE[portalId].roteiroStatus = roteiroStatus;
     const dot = document.querySelector(`[onclick="scrollToPost('${portalId}')"] .cal-sdot`);
     if (dot) dot.style.background = STATUS_COLOR[portalStatus];
     // Update select dropdowns in post list
@@ -255,7 +267,7 @@ function setupIframeSyncListener() {
 
 /* ─── STATE ─── */
 let STATE = {};
-POSTS.forEach(p => { STATE[p.id] = {status:'pendente',note:'',stars:0,fb:''}; });
+POSTS.forEach(p => { STATE[p.id] = {status:'pendente',note:'',stars:0,fb:'',roteiroStatus:''}; });
 let APPROVED = {essencial:false,growth:false};
 let MONTH_NOTE = '';
 
@@ -267,7 +279,7 @@ async function loadData() {
       API.getPosts(), API.getSettings(), API.getRequests(), API.getActivity(),
     ]);
     if (posts) posts.forEach(r => {
-      STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||''};
+      STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||'',roteiroStatus:r.roteiro_status||''};
     });
     if (settings) settings.forEach(r => {
       if (r.key==='month_note') MONTH_NOTE = r.value||'';
@@ -406,6 +418,7 @@ function buildFeedbackBoard() {
 /* ─── INTERACTIONS ─── */
 function setStatus(id, val) {
   STATE[id].status = val;
+  STATE[id].roteiroStatus = reconcileRoteiro(id, val); // keep a compatible fine phase
   const dot = document.querySelector(`[onclick="scrollToPost('${id}')"] .cal-sdot`);
   if (dot) dot.style.background = STATUS_COLOR[val];
   updateStats();
@@ -1110,7 +1123,7 @@ function setupRealtimeNotifications() {
       try {
         const posts = await API.getPosts();
         if (posts) {
-          posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||''}; });
+          posts.forEach(r => { STATE[r.post_id] = {status:r.status||'pendente',stars:r.stars||0,fb:r.feedback||'',note:r.note||'',roteiroStatus:r.roteiro_status||''}; });
           buildCalendar(); buildPosts(); buildFeedbackBoard(); updateStats(); buildCronogramaInline();
           syncAllStatusesToIframes();
         }
