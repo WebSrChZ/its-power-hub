@@ -16,9 +16,13 @@
 
 ---
 
+## Brand Kit (ler primeiro)
+
+Identidade, vídeo, áudio e voz da SrChZ e dos clientes em **`../BRAND-KIT.md`** (um nível acima desta pasta). Para produzir vídeos no padrão, use o skill `/srchz-video`.
+
 ## Projeto ItsPower
 
-**Contexto:** ItsPower é um programa de desenvolvimento pessoal baseado no "Ecossistema de Desejo". Os vídeos são conteúdo educativo/motivacional em português do Brasil.
+**Contexto:** ItsPower é uma **academia** em Cláudio/MG (24 anos, 2 unidades — Bela Vista e Centro); IG `@academiaitspower`. Os vídeos são conteúdo educativo/motivacional em português do Brasil. Detalhes de marca, pilares e quadros no `../BRAND-KIT.md`.
 
 **Estilo visual dos vídeos:**
 - Logotipo disponível em: `LogoItsPower.jpg`
