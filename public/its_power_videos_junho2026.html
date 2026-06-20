@@ -184,8 +184,8 @@ body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:va
 .toast.show{opacity:1;transform:translateY(0)}
 
 /* ── SIDEBAR OVERLAY (mobile) ── */
-.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;transition:opacity .3s}
-.sb-overlay.show{opacity:1}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
+.sb-overlay.show{opacity:1;pointer-events:auto}
 
 /* ── PRINT ── */
 @media print{
