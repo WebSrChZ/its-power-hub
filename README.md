@@ -28,7 +28,8 @@ Painel onde a agência e o cliente acompanham o projeto de conteúdo da academia
 - 🎬 **Roteiros completos** — cortes cena a cena, legendas e ideias de stories de cada vídeo (jun/jul/ago)
 - ⭐ **Feedback do cliente** — avaliação por estrelas e observações, sincronizados em tempo real
 - 🔔 **Notificações realtime** — pedidos, mudanças de status e atividade via Supabase Realtime
-- 📊 **Resultados** — métricas de desempenho do Instagram das duas sedes
+- 🔄 **Sincronização multi-device** — status, fase, anotações e checklist de cada roteiro espelhados entre portal e dispositivos em tempo real
+- 📊 **Resultados** — métricas de desempenho do Instagram das duas unidades
 - 🔐 **Acesso autenticado** + consentimento **LGPD** persistente
 - 📱 **PWA instalável** — ícones maskable, modo standalone, offline com service worker
 - 🌗 **Dark mode** e layout responsivo mobile-first
@@ -73,6 +74,14 @@ python -m http.server 8000 --directory public
 ```
 
 As credenciais do Supabase no front-end são a `anon key` pública (protegida por RLS no banco).
+
+## Deploy
+
+Push na `master` → GitHub Actions publica no GitHub Pages (~1 min). Como há service worker, a versão de cache (`CACHE_NAME` + os `?v=` dos assets) deve ser bumpada junto para o deploy chegar aos usuários — use o helper:
+
+```bash
+./bump-cache.sh          # versão automática AAAAMMDD-<sha-curto>
+```
 
 ## Status
 
