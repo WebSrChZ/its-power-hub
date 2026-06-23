@@ -44,10 +44,10 @@ const Router = {
   _activate(tab, updateUI) {
     if (tab === 'roteiros' && typeof loadRoteiroIframes === 'function') loadRoteiroIframes();
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tb-tab, .nav-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tb-tab, .nav-item').forEach(b => { b.classList.remove('active'); b.removeAttribute('aria-current'); });
     const panel = document.getElementById('panel-' + tab);
     if (panel) panel.classList.add('active');
-    document.querySelectorAll(`[data-tab="${tab}"]`).forEach(b => b.classList.add('active'));
+    document.querySelectorAll(`[data-tab="${tab}"]`).forEach(b => { b.classList.add('active'); b.setAttribute('aria-current', 'page'); });
 
     // Update breadcrumb
     const breadcrumb = document.getElementById('breadcrumb');
