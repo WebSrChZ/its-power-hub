@@ -1,8 +1,8 @@
 /* ─── SERVICE WORKER — ITS Power Portal ─── */
 /* Atualizar CACHE_NAME junto com o ?v dos assets em cada deploy. */
-const CACHE_NAME = 'its-power-v20260627-487d434';
+const CACHE_NAME = 'its-power-v20260801-56096ff';
 const BASE = '/its-power-hub/';
-const VER = '?v=20260627-487d434';
+const VER = '?v=20260801-56096ff';
 const ASSETS = [
   BASE,
   BASE + 'index.html',

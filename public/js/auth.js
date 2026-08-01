@@ -11,10 +11,23 @@ const Auth = {
       const saved = sessionStorage.getItem('ip_session');
       if (saved) {
         const data = JSON.parse(saved);
-        if (data && data.user) { Auth.user = data; return true; }
+        // Sessao so vale com token dentro da validade; sem isso, forca novo login.
+        if (data && data.user && data.token) {
+          if (data.expiresAt && Date.parse(data.expiresAt) <= Date.now()) {
+            sessionStorage.removeItem('ip_session');
+            return false;
+          }
+          Auth.user = data;
+          return true;
+        }
+        sessionStorage.removeItem('ip_session');
       }
     } catch {}
     return false;
+  },
+
+  token() {
+    return Auth.user?.token || null;
   },
 
   isLocked() {
@@ -57,7 +70,12 @@ const Auth = {
         role: match.role,
         name: match.display_name,
         desc: match.description,
-        avatar: match.avatar
+        avatar: match.avatar,
+        // Token de sessao emitido pelo servidor. O papel guardado aqui serve
+        // so para a UI — quem manda nas operacoes destrutivas e o token,
+        // revalidado no banco a cada chamada.
+        token: match.token,
+        expiresAt: match.expires_at
       };
       try { sessionStorage.setItem('ip_session', JSON.stringify(Auth.user)); } catch {}
       return { ok: true };
@@ -78,6 +96,9 @@ const Auth = {
   },
 
   logout() {
+    const tk = Auth.token();
+    // Invalida a sessao no servidor antes de sair (best-effort).
+    if (tk) { try { getDb().rpc('logout', { p_token: tk }); } catch {} }
     Auth.user = null;
     try { sessionStorage.removeItem('ip_session'); } catch {}
     location.reload();

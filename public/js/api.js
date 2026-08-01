@@ -50,8 +50,11 @@ const API = {
   async updateRequest(id, d) {
     await getDb().from('requests').update({ status: d.status, updated_at: new Date().toISOString() }).eq('id', id);
   },
+  // Apagar e operacao de admin: vai por RPC, que revalida o token no servidor.
+  // `anon` nao tem mais permissao de DELETE na tabela (ver supabase_hardening_001.sql).
   async deleteRequest(id) {
-    await getDb().from('requests').delete().eq('id', id);
+    const { error } = await getDb().rpc('admin_delete_request', { p_token: Auth.token(), p_id: id });
+    if (error) throw error;
   },
 
   // Activity
@@ -64,19 +67,24 @@ const API = {
     await getDb().from('activity').insert({ message, bold_part: bold_part||'' });
   },
   async deleteActivity(id) {
-    await getDb().from('activity').delete().eq('id', id);
+    const { error } = await getDb().rpc('admin_delete_activity', { p_token: Auth.token(), p_id: id });
+    if (error) throw error;
   },
 
-  // LGPD
+  // LGPD — a tabela guarda dado pessoal e nao e mais acessivel direto pelo
+  // front-end. Vai por RPC: cada chamada toca apenas a linha do proprio usuario
+  // e a leitura devolve so o booleano (nao expoe ip/user_agent de ninguem).
   async lgpdStatus(userId) {
-    const { data } = await getDb().from('lgpd_consent').select('accepted').eq('user_id', userId).single();
-    return { accepted: !!data?.accepted };
+    const { data, error } = await getDb().rpc('lgpd_status', { p_user_id: userId });
+    if (error) throw error;
+    return { accepted: !!data };
   },
   async lgpdAccept(userId) {
-    await getDb().from('lgpd_consent').upsert({
-      user_id: userId, accepted: true, accepted_at: new Date().toISOString(),
-      user_agent: navigator.userAgent
-    }, { onConflict: 'user_id' });
+    const { error } = await getDb().rpc('lgpd_accept', {
+      p_user_id: userId,
+      p_user_agent: navigator.userAgent
+    });
+    if (error) throw error;
   },
 
   // Notifications

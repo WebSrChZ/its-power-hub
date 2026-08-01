@@ -321,7 +321,7 @@ async function loadData() {
       if (r.key==='month_note') MONTH_NOTE = r.value||'';
       if (r.key==='approved_essencial') APPROVED.essencial = r.value==='true';
       if (r.key==='approved_growth') APPROVED.growth = r.value==='true';
-      if (r.key==='timeline_steps') { try { TIMELINE = JSON.parse(r.value); } catch {} }
+      if (r.key==='timeline_steps') { try { TIMELINE = normalizeTimeline(JSON.parse(r.value)); } catch {} }
     });
     if (!TIMELINE.length) TIMELINE = JSON.parse(JSON.stringify(DEFAULT_TIMELINE));
     if (reqs) renderRequests(reqs);
@@ -809,6 +809,26 @@ const DEFAULT_TIMELINE = [
 ];
 let TIMELINE = [];
 
+/* Fases válidas de uma etapa — usadas como classe CSS, então nunca aceitar valor livre. */
+const TL_STATUSES = ['done','active','upcoming','locked'];
+
+/* `timeline_steps` vem do banco (project_settings), ou seja: entrada não confiável.
+   Normaliza a forma antes de qualquer render — descarta campos extras, força string
+   nos textos e restringe `status` à lista acima. O escape de HTML continua sendo feito
+   no render (esc()); isto aqui é a segunda camada. */
+function normalizeTimeline(raw) {
+  if (!Array.isArray(raw)) return [];
+  const str = v => typeof v === 'string' ? v : (v == null ? '' : String(v));
+  return raw.slice(0, 50).map(s => ({
+    title:  str(s && s.title).slice(0, 200),
+    desc:   str(s && s.desc).slice(0, 1000),
+    date:   str(s && s.date).slice(0, 120),
+    price:  str(s && s.price).slice(0, 120),
+    badge:  str(s && s.badge).slice(0, 60),
+    status: TL_STATUSES.includes(s && s.status) ? s.status : 'upcoming'
+  })).filter(s => s.title);
+}
+
 function buildTimeline() {
   const c = document.getElementById('timelineContainer');
   if (!c) return;
@@ -825,7 +845,7 @@ function buildTimeline() {
       <button class="tl-edit-btn" onclick="editTimelineStep(${i})" title="Editar"><i data-lucide="pencil"></i></button>
       <button class="tl-del-btn" onclick="deleteTimelineStep(${i})" title="Remover"><i data-lucide="x"></i></button>
     </div>` : '';
-    html += `<div class="tl-item"><div class="tl-dot ${m.dot}">${m.icon}</div><div class="tl-content"><div class="tl-header"><span class="tl-title">${s.title}</span><span class="tl-badge ${m.bcls}">${s.badge}</span>${adminBtns}</div><div class="tl-desc">${s.desc}</div>${s.price?'<div class="tl-price">'+s.price+'</div>':''}<div class="tl-date">${s.date}</div></div></div>`;
+    html += `<div class="tl-item"><div class="tl-dot ${m.dot}">${m.icon}</div><div class="tl-content"><div class="tl-header"><span class="tl-title">${esc(s.title)}</span><span class="tl-badge ${m.bcls}">${esc(s.badge)}</span>${adminBtns}</div><div class="tl-desc">${esc(s.desc)}</div>${s.price?'<div class="tl-price">'+esc(s.price)+'</div>':''}<div class="tl-date">${esc(s.date)}</div></div></div>`;
   });
   if (Auth.isAdmin()) {
     html += `<div style="padding:8px 0 0 42px"><button class="btn" style="font-size:10px;padding:6px 14px;background:var(--surface2);border:1.5px dashed var(--border);color:var(--muted);border-radius:8px;cursor:pointer;font-weight:600" onclick="addTimelineStep()"><i data-lucide="plus"></i> Adicionar etapa</button></div>`;
@@ -842,15 +862,15 @@ function buildEtapasSummary() {
   const doneCount = TIMELINE.filter(s => s.status === 'done').length;
   const activeIdx = TIMELINE.findIndex(s => s.status === 'active');
   const nextStep = TIMELINE.find((s,i) => i > activeIdx && (s.status === 'upcoming' || s.status === 'locked'));
-  const progressSteps = TIMELINE.map(s => `<div class="ep-step ${s.status}"></div>`).join('');
+  const progressSteps = TIMELINE.map(s => `<div class="ep-step ${TL_STATUSES.includes(s.status) ? s.status : 'upcoming'}"></div>`).join('');
   const stepLabel = active ? `Etapa ${activeIdx+1} de ${TIMELINE.length}` : `${doneCount} de ${TIMELINE.length} concluídas`;
   let html = '<div class="etapas-summary">';
   if (active) {
-    html += `<div class="etapas-summary-current"><div class="es-dot"><i data-lucide="circle-dot"></i></div><div class="es-info"><div class="es-label">Etapa atual</div><div class="es-title">${active.title}</div><div class="es-date">${active.date}</div></div></div>`;
+    html += `<div class="etapas-summary-current"><div class="es-dot"><i data-lucide="circle-dot"></i></div><div class="es-info"><div class="es-label">Etapa atual</div><div class="es-title">${esc(active.title)}</div><div class="es-date">${esc(active.date)}</div></div></div>`;
   }
   html += `<div><div class="etapas-progress-label"><span>${stepLabel}</span><span>${doneCount>0?doneCount+' concluída'+(doneCount>1?'s':''):''}</span></div><div class="etapas-progress">${progressSteps}</div></div>`;
   if (nextStep) {
-    html += `<div class="etapas-next"><span class="en-icon"><i data-lucide="arrow-right"></i></span><span><strong>Próximo:</strong> ${nextStep.title}${nextStep.date?' — '+nextStep.date:''}</span></div>`;
+    html += `<div class="etapas-next"><span class="en-icon"><i data-lucide="arrow-right"></i></span><span><strong>Próximo:</strong> ${esc(nextStep.title)}${nextStep.date?' — '+esc(nextStep.date):''}</span></div>`;
   }
   html += '</div>';
   el.innerHTML = html;
@@ -1189,7 +1209,15 @@ async function acceptLGPD() {
   const checkbox = document.getElementById('lgpdCheckbox');
   if (!checkbox.checked) { document.getElementById('lgpdError').style.display = 'block'; return; }
   const userId = Auth.user?.user || 'unknown';
-  await API.lgpdAccept(userId);
+  try {
+    await API.lgpdAccept(userId);
+  } catch (e) {
+    // Sem registro no servidor nao ha prova de consentimento — nao fecha o modal
+    // fingindo que gravou.
+    console.warn('Erro ao registrar consentimento:', e);
+    showToast('Nao consegui registrar o aceite. Tente novamente.', true);
+    return;
+  }
   try { localStorage.setItem('ip_lgpd_' + userId, 'true'); } catch {}
   document.getElementById('lgpdModal').classList.remove('open');
   showToast('Termos aceitos com sucesso');

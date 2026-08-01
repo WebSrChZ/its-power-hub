@@ -1,6 +1,12 @@
 -- ============================================================
 -- SETUP DO BANCO DE DADOS — ITS POWER HUB × SRCHZ TECHNOLOGIES
 -- Execute este SQL no painel do Supabase: SQL Editor → New query
+--
+-- ORDEM CORRETA:
+--   1) este arquivo            → cria o schema
+--   2) supabase_hardening_001  → corrige as policies de acesso (OBRIGATÓRIO)
+--
+-- Rodar só este arquivo deixa o banco aberto para escrita e remoção anônimas.
 -- ============================================================
 
 -- 1. Tabela principal: dados de cada post
@@ -53,7 +59,13 @@ alter table project_settings replica identity full;
 alter table requests replica identity full;
 alter table activity replica identity full;
 
--- ── Row Level Security (acesso público por enquanto — protegido pela chave anon) ──
+-- ── Row Level Security ──
+-- ATENÇÃO: as policies abaixo são o estado ORIGINAL e são inseguras — liberam
+-- leitura, escrita e remoção para qualquer um. A chave anon do front-end é
+-- pública por natureza (está no repositório e no DevTools de quem abrir o
+-- portal), então ela NÃO é um mecanismo de proteção.
+-- Rode `supabase_hardening_001.sql` logo em seguida: ele substitui estas
+-- policies, tira o DELETE do anon e move os dados de LGPD para trás de RPC.
 alter table post_data       enable row level security;
 alter table project_settings enable row level security;
 alter table requests        enable row level security;
@@ -151,10 +163,14 @@ create table if not exists portal_users (
 -- RLS: nenhuma policy = acesso direto bloqueado para anon/authenticated
 alter table portal_users enable row level security;
 
--- Inserir usuários padrão (ALTERE AS SENHAS antes de rodar em produção!)
+-- Usuários do portal.
+-- NUNCA deixe senha literal neste arquivo: ele está em repositório público e o
+-- histórico do git guarda tudo o que já passou por aqui. Troque os dois
+-- placeholders abaixo no editor SQL do Supabase, na hora de rodar, e não
+-- commite o valor real.
 insert into portal_users (username, password_hash, role, display_name, description, avatar) values
-  ('admin',   crypt('__SENHA_REMOVIDA_DO_HISTORICO__', gen_salt('bf')), 'admin',  'Rafael Cordeiro', 'SrChZ Technologies', 'R'),
-  ('cliente', crypt('__SENHA_REMOVIDA_DO_HISTORICO__', gen_salt('bf')), 'client', 'ITS Power', 'Cliente — Academia ITS Power', 'I')
+  ('admin',   crypt('__DEFINA_UMA_SENHA_FORTE__', gen_salt('bf')), 'admin',  'Rafael Cordeiro', 'SrChZ Technologies', 'R'),
+  ('cliente', crypt('__DEFINA_UMA_SENHA_FORTE__', gen_salt('bf')), 'client', 'ITS Power', 'Cliente — Academia ITS Power', 'I')
 on conflict (username) do nothing;
 
 -- Função RPC para verificação de login (SECURITY DEFINER = roda com permissão do owner)
@@ -179,10 +195,11 @@ revoke all on portal_users from anon;
 grant execute on function verify_login(text, text) to anon;
 
 -- ============================================================
--- PRONTO! Configure as variáveis de ambiente no arquivo .env:
---   SUPABASE_URL=https://xxxx.supabase.co
---   SUPABASE_ANON_KEY=eyJ...
---   SUPABASE_SERVICE_KEY=eyJ...
---   JWT_SECRET=sua_chave_secreta
--- E inicie o servidor: npm run dev
+-- PRONTO — mas o schema ainda NÃO está seguro neste ponto.
+-- Rode agora `supabase_hardening_001.sql` (mesma pasta).
+--
+-- Não há mais servidor Node neste projeto: o portal é estático (GitHub Pages)
+-- e fala direto com o Supabase usando a anon key, que é pública e fica em
+-- public/js/api.js. Toda proteção real precisa estar em RLS e em funções
+-- SECURITY DEFINER — nunca no front-end.
 -- ============================================================
