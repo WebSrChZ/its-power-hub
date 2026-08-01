@@ -46,6 +46,34 @@ PWA         manifest + service worker (stale-while-revalidate)
 
 A pasta `public/` é publicada como está — o que está no repositório é exatamente o que vai ao ar.
 
+## Modelo de acesso
+
+O portal é estático e fala direto com o Supabase. A `anon key` em `public/js/api.js`
+é **pública por natureza** — está no repositório e no DevTools de qualquer visitante —
+então ela não protege nada. Toda a proteção real vive no banco:
+
+| Camada | Onde | O que garante |
+|---|---|---|
+| RLS por operação | `supabase_hardening_001.sql` | `anon` não tem `DELETE` em nenhuma tabela |
+| Token de sessão | `verify_login` → `portal_sessions` | sessão com validade (12 h), verificável no servidor |
+| RPC de admin | `admin_delete_*` | remoção exige token de admin válido, checado no Postgres |
+| RPC de LGPD | `lgpd_status` / `lgpd_accept` | dado pessoal fora do alcance direto do cliente |
+
+`Auth.isAdmin()` no front-end serve **apenas para mostrar/esconder controles**. Não é
+uma fronteira de segurança: quem edita o `sessionStorage` muda o que aparece na tela,
+mas não consegue apagar nada sem um token de admin emitido pelo servidor.
+
+**Risco residual conhecido:** `SELECT`, `INSERT` e `UPDATE` seguem liberados para
+`anon` nas tabelas de conteúdo — é o que o portal precisa hoje sem uma refatoração
+maior. O caminho para fechar isso está descrito no fim de `supabase_hardening_001.sql`.
+
+### Ordem de execução do SQL
+
+```
+1) supabase_setup.sql          schema
+2) supabase_hardening_001.sql  policies de acesso  ← obrigatório
+```
+
 ## Estrutura
 
 ```
@@ -61,6 +89,7 @@ public/
 ├── manifest.json · sw.js            PWA
 └── assets/                          Logo, ícones, og-image
 supabase_setup.sql                   Schema do backend (referência)
+supabase_hardening_001.sql           Policies de acesso, sessões e RPCs (obrigatório)
 .github/workflows/deploy.yml         Deploy GitHub Pages
 ```
 
