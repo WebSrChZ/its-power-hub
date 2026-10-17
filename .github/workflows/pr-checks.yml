@@ -1,0 +1,69 @@
+name: PR checks
+
+# O deploy publica a pasta public/ como esta: um merge com HTML quebrado ou
+# link morto vai direto para o portal do cliente. O workflow de deploy roda
+# so no push para master, ou seja, depois que o estrago ja foi feito — este
+# roda antes. Usa apenas a stdlib do Python e node --check.
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static:
+    name: HTML, JSON-LD e links internos de public/
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Os steps abaixo comparam com a branch base: sem o historico
+          # completo, origin/<base> nao existe no runner.
+          fetch-depth: 0
+
+      - name: Verificacao estatica de public/
+        run: python3 tools/check_site.py public
+
+      - name: Sintaxe dos arquivos JavaScript
+        run: |
+          status=0
+          while IFS= read -r -d '' file; do
+            if ! node --check "$file"; then
+              echo "::error file=$file::erro de sintaxe"
+              status=1
+            fi
+          done < <(find public -name '*.js' -print0)
+          exit $status
+
+      - name: Versao de cache acompanha mudanca em public/
+        run: |
+          # O service worker cacheia index.html, css e js. Sem o bump do
+          # CACHE_NAME (./bump-cache.sh), quem ja abriu o portal continua na
+          # versao antiga e nao ve a mudanca deste PR.
+          base="origin/${{ github.base_ref }}"
+          # Falha explicita: um check que nao consegue comparar precisa gritar,
+          # nao passar verde.
+          git rev-parse --verify "$base" >/dev/null 2>&1 \
+            || { echo "::error::$base indisponivel no runner"; exit 1; }
+          changed=$(git diff --name-only "$base...HEAD")
+          if echo "$changed" | grep -qE '^public/(index\.html|css/|js/)'; then
+            if ! echo "$changed" | grep -q '^public/sw\.js$'; then
+              echo "::error::public/ mudou mas public/sw.js nao: rode ./bump-cache.sh"
+              exit 1
+            fi
+          fi
+
+      - name: CACHE_NAME e ?v= em sincronia
+        run: |
+          # bump-cache.sh mantem os dois alinhados. Se divergirem, o navegador
+          # busca assets novos mas mantem o shell antigo em cache.
+          ver=$(grep -oE "its-power-v[A-Za-z0-9._-]+" public/sw.js | head -1 | sed 's/^its-power-v//')
+          echo "CACHE_NAME: $ver"
+          bad=$(grep -roE '\?v=[A-Za-z0-9._-]+' public --include='*.html' \
+                | grep -v "?v=$ver" || true)
+          if [ -n "$bad" ]; then
+            echo "::error::assets com ?v= diferente do CACHE_NAME ($ver):"
+            echo "$bad"
+            exit 1
+          fi

@@ -4,7 +4,7 @@
 
 # It's Power — Portal do Projeto
 
-**Portal SaaS de gestão de conteúdo digital** para a Academia It's Power (Cláudio/MG), desenvolvido pela [SrChZ Technologies](https://github.com/WebSrChZ).
+**Portal SaaS de gestão de conteúdo digital** para a Academia It's Power (Cláudio/MG), desenvolvido pela [SrChZ Technologies](https://github.com/WebSrChZ) — CNPJ 68.371.698/0001-95.
 
 [![Acessar Portal](https://img.shields.io/badge/▶_Acessar_Portal-1A7EC8?style=for-the-badge&logo=google-chrome&logoColor=white)](https://websrchz.github.io/its-power-hub/)
 &nbsp;
@@ -40,11 +40,39 @@ Painel onde a agência e o cliente acompanham o projeto de conteúdo da academia
 Front-end   HTML + CSS + JavaScript vanilla (sem framework, sem build)
 Backend     Supabase (Postgres, Auth via RPC, Realtime)
 Hospedagem  GitHub Pages
-CI/CD       GitHub Actions → deploy automático a cada push na master
+CI/CD       GitHub Actions → checks em todo PR + deploy automático no push na master
 PWA         manifest + service worker (stale-while-revalidate)
 ```
 
 A pasta `public/` é publicada como está — o que está no repositório é exatamente o que vai ao ar.
+
+## Modelo de acesso
+
+O portal é estático e fala direto com o Supabase. A `anon key` em `public/js/api.js`
+é **pública por natureza** — está no repositório e no DevTools de qualquer visitante —
+então ela não protege nada. Toda a proteção real vive no banco:
+
+| Camada | Onde | O que garante |
+|---|---|---|
+| RLS por operação | `supabase_hardening_001.sql` | `anon` não tem `DELETE` em nenhuma tabela |
+| Token de sessão | `verify_login` → `portal_sessions` | sessão com validade (12 h), verificável no servidor |
+| RPC de admin | `admin_delete_*` | remoção exige token de admin válido, checado no Postgres |
+| RPC de LGPD | `lgpd_status` / `lgpd_accept` | dado pessoal fora do alcance direto do cliente |
+
+`Auth.isAdmin()` no front-end serve **apenas para mostrar/esconder controles**. Não é
+uma fronteira de segurança: quem edita o `sessionStorage` muda o que aparece na tela,
+mas não consegue apagar nada sem um token de admin emitido pelo servidor.
+
+**Risco residual conhecido:** `SELECT`, `INSERT` e `UPDATE` seguem liberados para
+`anon` nas tabelas de conteúdo — é o que o portal precisa hoje sem uma refatoração
+maior. O caminho para fechar isso está descrito no fim de `supabase_hardening_001.sql`.
+
+### Ordem de execução do SQL
+
+```
+1) supabase_setup.sql          schema
+2) supabase_hardening_001.sql  policies de acesso  ← obrigatório
+```
 
 ## Estrutura
 
@@ -61,7 +89,27 @@ public/
 ├── manifest.json · sw.js            PWA
 └── assets/                          Logo, ícones, og-image
 supabase_setup.sql                   Schema do backend (referência)
+supabase_hardening_001.sql           Policies de acesso, sessões e RPCs (obrigatório)
 .github/workflows/deploy.yml         Deploy GitHub Pages
+```
+
+## Verificação antes do merge
+
+O deploy publica `public/` como está — um merge com link morto vai direto para
+o portal do cliente, e o workflow de deploy só roda **depois**, no push para
+`master`. O `.github/workflows/pr-checks.yml` roda antes, em todo PR:
+
+| Check | Barra |
+|---|---|
+| `tools/check_site.py public` | HTML malformado, JSON-LD inválido, link ou asset interno inexistente |
+| `node --check` | erro de sintaxe em qualquer JS de `public/` |
+| bump de cache | alteração em `public/{index.html,css,js}` sem bump do `sw.js` |
+| sincronia de versão | `?v=` dos assets divergindo do `CACHE_NAME` |
+
+Localmente:
+
+```bash
+python3 tools/check_site.py public
 ```
 
 ## Desenvolvimento local
@@ -90,5 +138,5 @@ Push na `master` → GitHub Actions publica no GitHub Pages (~1 min). Como há s
 ---
 
 <div align="center">
-<sub>© 2026 SrChZ Technologies — projeto proprietário de cliente. Todos os direitos reservados.</sub>
+<sub>© 2026 SrChZ Technologies · CNPJ 68.371.698/0001-95 — projeto proprietário de cliente. Todos os direitos reservados.</sub>
 </div>
