@@ -63,16 +63,47 @@ então ela não protege nada. Toda a proteção real vive no banco:
 uma fronteira de segurança: quem edita o `sessionStorage` muda o que aparece na tela,
 mas não consegue apagar nada sem um token de admin emitido pelo servidor.
 
-**Risco residual conhecido:** `SELECT`, `INSERT` e `UPDATE` seguem liberados para
-`anon` nas tabelas de conteúdo — é o que o portal precisa hoje sem uma refatoração
-maior. O caminho para fechar isso está descrito no fim de `supabase_hardening_001.sql`.
+**Escrita anônima: fechada** pelo par 002a + 002b. Toda escrita exige um token
+de sessão emitido por `verify_login` (12 h de validade), e remoção e entrada de
+métricas exigem papel de admin — verificado no Postgres.
+
+**`SELECT` segue liberado** para `anon` nas tabelas de conteúdo, e isso é
+deliberado: é a permissão que o Realtime usa para entregar `postgres_changes`,
+que é o que sincroniza o portal entre dispositivos. Fechar a leitura exigiria
+trocar o Realtime por polling autenticado. As tabelas com dado pessoal
+(`lgpd_consent`, `portal_users`, `portal_sessions`) estão fechadas também para
+leitura.
+
+### O repositório não descrevia a produção
+
+Até 2026-10-17 os arquivos `.sql` daqui não registravam uma camada de
+autorização que existia em produção desde 2026-06-30. A auditoria de agosto leu
+o repositório, com o banco pausado, e concluiu errado sobre o estado do banco.
+
+**[`SCHEMA.md`](SCHEMA.md)** documenta o que a produção realmente tem, lido dos
+catálogos. As consultas que o geram estão em `tools/inspect_schema.sql` — vale
+rodar depois de qualquer pausa/restauração do projeto, que foi o que derrubou a
+publicação do Realtime sem nenhum sintoma além de "o portal não atualiza mais
+sozinho".
 
 ### Ordem de execução do SQL
 
+A ordem importa: um dos arquivos remove permissão e quebra o portal se rodar
+cedo.
+
 ```
-1) supabase_setup.sql          schema
-2) supabase_hardening_001.sql  policies de acesso  ← obrigatório
+1) supabase_setup.sql                        schema
+2) supabase_hardening_001.sql                policies, sessões, LGPD
+3) supabase_realtime_001.sql                 recoloca as tabelas na publicação
+4) supabase_hardening_002a_rpc_sessao.sql    escritas via RPC com token  (aditivo)
+   ↓  merge + deploy: o front-end passa a chamar as RPCs
+5) supabase_hardening_002b_fecha_escrita_anon.sql   fecha a escrita anônima
 ```
+
+O **002b é o único que remove permissão.** Rodá-lo antes do deploy do passo
+intermediário faz toda escrita do portal falhar: o front-end antigo grava
+direto na tabela com a anon key. O 002a é aditivo e pode rodar com o portal
+velho no ar.
 
 ## Estrutura
 
@@ -88,8 +119,14 @@ public/
 ├── its_power_videos_*2026.html      Páginas de roteiros (jun/jul/ago)
 ├── manifest.json · sw.js            PWA
 └── assets/                          Logo, ícones, og-image
+SCHEMA.md                            O que a produção realmente tem
 supabase_setup.sql                   Schema do backend (referência)
-supabase_hardening_001.sql           Policies de acesso, sessões e RPCs (obrigatório)
+supabase_hardening_001.sql           Policies, sessões e RPCs de admin
+supabase_realtime_001.sql            Tabelas na publicação do Realtime
+supabase_hardening_002a_rpc_sessao.sql          Escritas via RPC (aditivo)
+supabase_hardening_002b_fecha_escrita_anon.sql  Fecha escrita anônima (só pós-deploy)
+tools/check_site.py                  Verificação estática (roda no CI)
+tools/inspect_schema.sql             Consultas que geram o SCHEMA.md
 .github/workflows/deploy.yml         Deploy GitHub Pages
 ```
 

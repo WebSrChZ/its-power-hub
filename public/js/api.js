@@ -8,6 +8,53 @@ function getDb() {
   return _sb;
 }
 
+/* ─── ESCRITA ───
+   Toda escrita vai por RPC com o token de sessao. A anon key acima e publica
+   (esta no repositorio e no DevTools de quem abre o portal), entao ela nao
+   autoriza nada: quem autoriza e o token que `verify_login` emite, revalidado
+   no Postgres a cada chamada.
+
+   `wr()` concentra o tratamento de erro porque a falha agora tem um caso novo
+   e esperado: sessao de 12 h vencida no meio do uso. Antes, essas escritas
+   engoliam o erro em silencio e a edicao do usuario desaparecia sem aviso. */
+async function wr(fn, args) {
+  const token = (typeof Auth !== 'undefined' && Auth.token) ? Auth.token() : null;
+  if (!token) {
+    const e = new Error('Sessão expirada. Entre novamente.');
+    if (typeof showToast === 'function') showToast(e.message);
+    throw e;
+  }
+  const { data, error } = await getDb().rpc(fn, { p_token: token, ...args });
+  if (error) {
+    // 42501 = o portao do banco recusou: token vencido, invalido, ou falta de
+    // papel de admin. Qualquer outra coisa e erro de rede ou bug.
+    const expirou = error.code === '42501' || /sessao invalida|expirada/i.test(error.message || '');
+    const msg = expirou
+      ? 'Sessão expirada ou sem permissão. Entre novamente.'
+      : 'Não consegui salvar agora. Tente de novo.';
+    if (typeof showToast === 'function') showToast(msg);
+    console.error('[api] ' + fn, error);
+    throw error;
+  }
+  return data;
+}
+
+/* Escrita secundaria: feed de atividade, notificacoes e marcar-como-lida.
+   Essas acontecem como efeito colateral de outra operacao que o usuario de
+   fato pediu. Se lancassem, abortariam o fluxo principal — `approvePhase`
+   pararia antes de notificar, `markNotifRead` nao atualizaria o badge, e o
+   `API.notify` solto em `saveNote` viraria unhandled rejection. Reportam e
+   seguem: a operacao principal da mesma acao ja avisa o usuario se a sessao
+   caiu. */
+async function wrSoft(fn, args) {
+  try {
+    return await wr(fn, args);
+  } catch (e) {
+    console.warn('[api] ' + fn + ' falhou (efeito colateral, fluxo segue)', e);
+    return null;
+  }
+}
+
 const API = {
   // Posts
   async getPosts() {
@@ -16,12 +63,16 @@ const API = {
     return data || [];
   },
   async updatePost(id, d) {
-    await getDb().from('post_data').upsert({
-      post_id: id, status: d.status||'pendente', stars: d.stars||0,
-      feedback: d.fb||'', note: d.note||'', roteiro_status: d.roteiroStatus||null,
-      roteiro_notes: d.roteiroNotes||null, roteiro_checks: d.roteiroChecks||null,
-      updated_at: new Date().toISOString()
-    }, { onConflict: 'post_id' });
+    return wr('post_save', {
+      p_post_id: id,
+      p_status: d.status || 'pendente',
+      p_stars: d.stars || 0,
+      p_feedback: d.fb || '',
+      p_note: d.note || '',
+      p_roteiro_status: d.roteiroStatus || null,
+      p_roteiro_notes: d.roteiroNotes || null,
+      p_roteiro_checks: d.roteiroChecks || null
+    });
   },
 
   // Settings
@@ -31,7 +82,7 @@ const API = {
     return data || [];
   },
   async updateSetting(key, value) {
-    await getDb().from('project_settings').upsert({ key, value: value||'' }, { onConflict: 'key' });
+    return wr('setting_set', { p_key: key, p_value: value || '' });
   },
 
   // Requests
@@ -42,19 +93,22 @@ const API = {
   },
   async createRequest(d) {
     if (!d.title) return;
-    await getDb().from('requests').insert({
-      title: d.title, description: d.description||'', due_date: d.due_date||'',
-      status: d.source==='client'?'novo':'pendente', source: d.source||'admin', priority: d.priority||'normal'
+    return wr('req_create', {
+      p_title: d.title,
+      p_description: d.description || '',
+      p_due_date: d.due_date || '',
+      p_status: d.source === 'client' ? 'novo' : 'pendente',
+      p_source: d.source || 'admin',
+      p_priority: d.priority || 'normal'
     });
   },
   async updateRequest(id, d) {
-    await getDb().from('requests').update({ status: d.status, updated_at: new Date().toISOString() }).eq('id', id);
+    return wr('req_set_status', { p_id: id, p_status: d.status });
   },
-  // Apagar e operacao de admin: vai por RPC, que revalida o token no servidor.
-  // `anon` nao tem mais permissao de DELETE na tabela (ver supabase_hardening_001.sql).
+  // Apagar e operacao de admin: a RPC checa o papel no servidor, nao basta
+  // ter sessao valida.
   async deleteRequest(id) {
-    const { error } = await getDb().rpc('admin_delete_request', { p_token: Auth.token(), p_id: id });
-    if (error) throw error;
+    return wr('admin_delete_request', { p_id: id });
   },
 
   // Activity
@@ -64,27 +118,21 @@ const API = {
     return data || [];
   },
   async addActivity(message, bold_part) {
-    await getDb().from('activity').insert({ message, bold_part: bold_part||'' });
+    return wrSoft('activity_add', { p_message: message, p_bold_part: bold_part || '' });
   },
   async deleteActivity(id) {
-    const { error } = await getDb().rpc('admin_delete_activity', { p_token: Auth.token(), p_id: id });
-    if (error) throw error;
+    return wr('admin_delete_activity', { p_id: id });
   },
 
-  // LGPD — a tabela guarda dado pessoal e nao e mais acessivel direto pelo
-  // front-end. Vai por RPC: cada chamada toca apenas a linha do proprio usuario
-  // e a leitura devolve so o booleano (nao expoe ip/user_agent de ninguem).
+  // LGPD — a tabela guarda dado pessoal e nao e acessivel direto pelo
+  // front-end. O aceite so pode ser gravado para o usuario da propria sessao,
+  // checado no banco.
   async lgpdStatus(userId) {
-    const { data, error } = await getDb().rpc('lgpd_status', { p_user_id: userId });
-    if (error) throw error;
+    const data = await wr('lgpd_status', { p_user_id: userId });
     return { accepted: !!data };
   },
   async lgpdAccept(userId) {
-    const { error } = await getDb().rpc('lgpd_accept', {
-      p_user_id: userId,
-      p_user_agent: navigator.userAgent
-    });
-    if (error) throw error;
+    return wr('lgpd_accept', { p_user_id: userId, p_user_agent: navigator.userAgent });
   },
 
   // Notifications
@@ -99,16 +147,23 @@ const API = {
     return count || 0;
   },
   async markRead(id) {
-    await getDb().from('notifications').update({ read: true }).eq('id', id);
+    return wrSoft('notif_mark_read', { p_id: id });
   },
   async markAllRead(role) {
-    await getDb().from('notifications').update({ read: true }).eq('target_role', role).eq('read', false);
+    return wrSoft('notif_mark_all', { p_target_role: role });
   },
   async notify(targetRole, type, title, message) {
-    await getDb().from('notifications').insert({ target_role: targetRole, type, title, message: message||'' });
+    return wrSoft('notif_create', {
+      p_target_role: targetRole,
+      p_type: type,
+      p_title: title,
+      p_message: message || ''
+    });
   },
 
   // Realtime subscription
+  // O Realtime entrega `postgres_changes` usando a permissao de SELECT, que
+  // segue liberada de proposito — e o que sincroniza os dispositivos.
   subscribeNotifications(role, callback) {
     return getDb().channel('notif-' + role)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: 'target_role=eq.' + role }, payload => {
@@ -123,19 +178,36 @@ const API = {
       }).subscribe();
   },
 
-  // Instagram Metrics
+  // Instagram Metrics — entrada de dado da agencia: as RPCs exigem admin.
   async getIgAccount() {
     const { data } = await getDb().from('instagram_account').select('*').order('date', { ascending: false }).limit(2);
     return data || [];
   },
   async upsertIgAccount(row) {
-    await getDb().from('instagram_account').upsert(row, { onConflict: 'date' });
+    return wr('ig_account_upsert', {
+      p_date: row.date,
+      p_followers: row.followers ?? 0,
+      p_reach: row.reach ?? 0,
+      p_impressions: row.impressions ?? 0,
+      p_profile_visits: row.profile_visits ?? 0,
+      p_link_clicks: row.link_clicks ?? 0,
+      p_engagement_rate: row.engagement_rate ?? 0
+    });
   },
   async getIgPosts() {
     const { data } = await getDb().from('instagram_posts').select('*');
     return data || [];
   },
   async upsertIgPost(row) {
-    await getDb().from('instagram_posts').upsert(row, { onConflict: 'post_id' });
+    return wr('ig_posts_upsert', {
+      p_post_id: row.post_id,
+      p_ig_url: row.ig_url || '',
+      p_views: row.views ?? 0,
+      p_likes: row.likes ?? 0,
+      p_comments: row.comments ?? 0,
+      p_shares: row.shares ?? 0,
+      p_saves: row.saves ?? 0,
+      p_reach: row.reach ?? 0
+    });
   }
 };

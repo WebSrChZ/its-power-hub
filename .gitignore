@@ -1,5 +1,6 @@
 tools/*
 !tools/check_site.py
+!tools/inspect_schema.sql
 .claude/
 *.log
 *.tmp
