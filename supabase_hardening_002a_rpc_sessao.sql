@@ -314,10 +314,16 @@ comment on table private.portal_config is
 -- ------------------------------------------------------------
 -- 7. GRANTS
 -- ------------------------------------------------------------
--- As funcoes em `private` nao sao expostas: so as RPCs em `public` as chamam,
--- e elas rodam como owner.
-revoke all on function private.require_session(uuid) from anon, authenticated;
-revoke all on function private.require_admin(uuid)   from anon, authenticated;
+-- As funcoes em `private` nao sao expostas. O que de fato barra `anon` e a
+-- falta de USAGE no schema `private` (e o PostgREST so expor `public`), nao o
+-- EXECUTE: Postgres concede EXECUTE a PUBLIC por padrao em toda funcao nova, e
+-- `revoke ... from anon` NAO remove isso — anon herda via PUBLIC. Por isso o
+-- revoke aqui e de PUBLIC.
+--
+-- Nao quebra as RPCs: sao SECURITY DEFINER com owner `postgres`, entao a
+-- chamada a estes helpers roda como postgres, que mantem o EXECUTE.
+revoke execute on function private.require_session(uuid) from public;
+revoke execute on function private.require_admin(uuid)   from public;
 
 grant execute on function public.post_save(uuid, text, text, integer, text, text, text, text, text) to anon;
 grant execute on function public.setting_set(uuid, text, text)                                      to anon;

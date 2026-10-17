@@ -64,8 +64,13 @@ portão dentro da função.
 | `admin_delete_request`, `admin_delete_activity` | `session_role = 'admin'` |
 | `ig_account_upsert`, `ig_posts_upsert` | `private.require_admin` |
 
-`private.require_session` / `require_admin` não têm `EXECUTE` para `anon`: só as
-RPCs em `public` as chamam, rodando como owner.
+`private.require_session` / `require_admin` não são alcançáveis por `anon`. O
+que barra é a falta de `USAGE` no schema `private` e o PostgREST expor apenas
+`public` — **não** o bit de `EXECUTE`: o Postgres concede `EXECUTE` a `PUBLIC`
+por padrão em toda função nova, e `revoke ... from anon` não remove isso,
+porque `anon` herda via `PUBLIC`. O revoke é de `PUBLIC`, e aí `EXECUTE` para
+`anon` lê `false` de verdade. Só as RPCs em `public` as chamam, rodando como
+owner.
 
 ## Realtime
 
@@ -108,3 +113,27 @@ As consultas estão em `tools/inspect_schema.sql`. Rode no SQL Editor do painel
 e compare com o que está escrito aqui. Vale fazer isso depois de qualquer
 pausa/restauração do projeto, que foi justamente o que derrubou a publicação do
 Realtime.
+
+## Estado da aplicação (2026-10-17)
+
+O que **já está no banco**:
+
+- `hardening_001` — rodado pelo SQL Editor
+- `realtime_001` — 5 tabelas de volta na publicação, verificado
+- `hardening_002a`, **parte aditiva** — os 12 RPCs com `p_token uuid`, os dois
+  helpers em `private`, os grants, e o revoke de `EXECUTE` em `PUBLIC` nos
+  helpers. Portões testados: token inválido em `post_save` devolve
+  `42501 sessao invalida ou expirada`, e em `ig_account_upsert` devolve
+  `42501 nao autorizado`
+
+O que **falta**, e por quê:
+
+- `hardening_002a`, **parte destrutiva** — os 13 `drop function` das RPCs com
+  `p_token text` e de `private.check_write_token`. São limpeza de superfície
+  morta: nenhuma delas é chamada pelo front-end. Ficaram pendentes porque o
+  gate de permissão do ambiente barra SQL com `drop`
+- `hardening_002b` — depende do deploy do front-end novo
+
+Enquanto a parte destrutiva não roda, as duas famílias de RPC convivem como
+overload. Não há ambiguidade: o PostgREST resolve por parâmetro nomeado, então
+`{p_token, p_post_id, ...}` com uuid cai na nova e com text cai na antiga.
