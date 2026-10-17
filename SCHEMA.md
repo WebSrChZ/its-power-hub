@@ -114,26 +114,77 @@ e compare com o que está escrito aqui. Vale fazer isso depois de qualquer
 pausa/restauração do projeto, que foi justamente o que derrubou a publicação do
 Realtime.
 
-## Estado da aplicação (2026-10-17)
+## Estado da aplicação (2026-10-17, final)
 
-O que **já está no banco**:
+### Aplicado e verificado
 
-- `hardening_001` — rodado pelo SQL Editor
-- `realtime_001` — 5 tabelas de volta na publicação, verificado
-- `hardening_002a`, **parte aditiva** — os 12 RPCs com `p_token uuid`, os dois
-  helpers em `private`, os grants, e o revoke de `EXECUTE` em `PUBLIC` nos
-  helpers. Portões testados: token inválido em `post_save` devolve
-  `42501 sessao invalida ou expirada`, e em `ig_account_upsert` devolve
-  `42501 nao autorizado`
+| Passo | O que entrou |
+|---|---|
+| `hardening_001` | policies por operação, `portal_sessions`, `verify_login` com token, RPCs de admin |
+| `realtime_001` | 5 tabelas de volta na publicação `supabase_realtime` |
+| `hardening_002a` (aditivo) | 12 RPCs com `p_token uuid`, helpers em `private`, grants, `revoke execute … from public` nos helpers |
+| `hardening_002b` | `revoke insert, update` de `anon`/`authenticated` nas 7 tabelas de conteúdo |
 
-O que **falta**, e por quê:
+Permissões efetivas de `anon` conferidas depois de tudo:
 
-- `hardening_002a`, **parte destrutiva** — os 13 `drop function` das RPCs com
-  `p_token text` e de `private.check_write_token`. São limpeza de superfície
-  morta: nenhuma delas é chamada pelo front-end. Ficaram pendentes porque o
-  gate de permissão do ambiente barra SQL com `drop`
-- `hardening_002b` — depende do deploy do front-end novo
+| | SELECT | INSERT | UPDATE | DELETE |
+|---|:--:|:--:|:--:|:--:|
+| 5 tabelas de conteúdo + `instagram_*` | ✅ | ❌ | ❌ | ❌ |
+| `lgpd_consent`, `portal_users`, `portal_sessions` | ❌ | ❌ | ❌ | ❌ |
 
-Enquanto a parte destrutiva não roda, as duas famílias de RPC convivem como
-overload. Não há ambiguidade: o PostgREST resolve por parâmetro nomeado, então
-`{p_token, p_post_id, ...}` com uuid cai na nova e com text cai na antiga.
+`SELECT` é o que o Realtime usa para entregar `postgres_changes`. Toda escrita
+passa por RPC com token de sessão de 12 h; remoção e métricas exigem admin.
+
+### Testes que rodaram contra o banco
+
+Com uma sessão de teste válida, as seis escritas gravaram: `post_save`,
+`req_create`, `notif_create`, `activity_add`, `lgpd_accept`,
+`ig_account_upsert`.
+
+Com token inválido:
+
+```
+post_save         → 42501  sessao invalida ou expirada   (private.require_session)
+ig_account_upsert → 42501  nao autorizado                (private.require_admin)
+lgpd_accept       → 42501  nao autorizado                (username da sessão ≠ p_user_id)
+```
+
+### O `revoke` é o controle; o `drop policy` era cosmética
+
+O `002b` original dropava as policies `anon_insert_*` / `anon_update_*`. Isso
+não era necessário: no Postgres o **privilégio de tabela é checado antes da
+RLS**, então sem `INSERT` a operação falha com *permission denied* e a policy
+nunca é consultada. As policies seguem no catálogo, inertes.
+
+Vale saber porque inverte a intuição: olhar só a lista de policies dá uma
+leitura errada da superfície de escrita. `tools/inspect_schema.sql` consulta as
+duas coisas — `has_table_privilege` **e** `pg_policy` — exatamente por isso.
+
+### A camada antiga foi fechada por `revoke`, não por `drop`
+
+Mesma inversão de intuição do caso das policies. Sem `EXECUTE` a chamada falha
+antes de entrar na função, então revogar fecha o acesso tão bem quanto dropar.
+
+| Camada | Funções | `anon` consegue chamar |
+|---|:--:|:--:|
+| token compartilhado (`p_token text`) | 13 | **0** |
+| token de sessão (`p_token uuid`) | 16 | 16 — é a camada em uso, protegida pelo portão interno |
+| `verify_login` | 1 | 1 — tem de ser, é o login |
+| `rls_auto_enable` | 1 | 0 |
+
+Duas dessas mereciam prioridade e eu as tinha classificado junto com as outras
+como "superfície morta", o que estava errado: `lgpd_status(text)` e
+`lgpd_accept(text, text)` vieram do `hardening_001` **sem checagem de token
+nenhuma**. Enquanto eram executáveis, qualquer um podia forjar um registro de
+consentimento LGPD no nome de qualquer `user_id`. As 13 da camada de junho
+exigiam o `write_token`, que nunca saiu do banco — risco bem menor.
+
+### Pendente
+
+Só limpeza de catálogo: os `drop function` das 13 + as 2 de LGPD, e
+`private.check_write_token`. Nenhuma é alcançável nem chamada. Fica para quando
+o `drop` puder rodar; o SQL está em `supabase_hardening_002a_rpc_sessao.sql`
+(seção 6) e `supabase_hardening_002b_fecha_escrita_anon.sql`.
+
+As duas famílias convivem como overload sem ambiguidade: o PostgREST resolve
+por parâmetro nomeado.
