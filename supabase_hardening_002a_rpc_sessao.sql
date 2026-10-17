@@ -35,8 +35,9 @@
 --   * recria as 13 RPCs com `p_token uuid`, mesmo corpo, novo portao;
 --   * remove as versoes `text` e as tres duplicatas que (B) ja cobria
 --     (`req_delete`, `activity_delete`, `lgpd_set`);
---   * poe token em `lgpd_status` / `lgpd_accept`, que o 001 deixou sem — era
---     possivel gravar consentimento no nome de qualquer user_id;
+--   * cria versoes com token de `lgpd_status` / `lgpd_accept`, que o 001 deixou
+--     sem — era possivel gravar consentimento no nome de qualquer user_id. As
+--     versoes antigas ficam como overload ate o deploy (ver secao 5);
 --   * aposenta `private.check_write_token`.
 --
 -- Nao fecha a escrita anonima direta na tabela: isso e o 002b, que SO pode
@@ -239,11 +240,16 @@ end; $$;
 -- 5. LGPD — o 001 deixou estas duas SEM token
 -- ------------------------------------------------------------
 -- Como estavam, qualquer um podia gravar aceite no nome de qualquer user_id,
--- ou descobrir se um usuario aceitou. Agora exigem sessao, e o aceite so
--- pode ser gravado para o usuario da propria sessao.
-drop function if exists public.lgpd_status(text);
-drop function if exists public.lgpd_accept(text, text);
-
+-- ou descobrir se um usuario aceitou. As versoes novas exigem sessao, e o
+-- aceite so pode ser gravado para o usuario da propria sessao.
+--
+-- As versoes ANTIGAS (`lgpd_status(text)` e `lgpd_accept(text, text)`) nao sao
+-- removidas aqui, de proposito: sao exatamente as assinaturas que o front-end
+-- PUBLICADO chama hoje. Dropa-las antes do deploy quebraria o caminho de LGPD
+-- em producao — `checkLGPD` cairia no catch e passaria por cima da checagem, e
+-- um usuario que ainda nao aceitou ficaria preso na modal sem conseguir
+-- registrar. Postgres aceita as duas aritmidades convivendo, entao ficam como
+-- overload e saem no 002b, junto com o resto do que depende do deploy.
 create or replace function public.lgpd_status(p_token uuid, p_user_id text)
 returns boolean
 language plpgsql

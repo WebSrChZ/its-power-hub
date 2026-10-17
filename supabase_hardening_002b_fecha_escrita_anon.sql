@@ -19,6 +19,9 @@
 --   abra o portal, faca uma alteracao qualquer (uma estrela num post) e
 --   confirme que gravou. Se gravou com o front-end novo, foi via RPC.
 --
+-- Este arquivo tambem remove as duas funcoes de LGPD sem token, que o 002a
+-- manteve como overload justamente porque o front-end antigo as chamava.
+--
 -- O QUE FICA ABERTO DE PROPOSITO
 --
 -- SELECT continua liberado para anon nas tabelas de conteudo. Nao e descuido:
@@ -45,6 +48,14 @@ begin
     execute format('revoke insert, update on public.%I from anon, authenticated', t);
   end loop;
 end $$;
+
+-- As versoes sem token de LGPD, que o 002a deixou de proposito como overload
+-- porque o front-end publicado as chamava. A esta altura o deploy ja aconteceu
+-- e o front-end novo usa `lgpd_status(uuid, text)` / `lgpd_accept(uuid, ...)`,
+-- entao as antigas viram superficie morta — e enquanto existirem, qualquer um
+-- pode gravar consentimento no nome de qualquer user_id.
+drop function if exists public.lgpd_status(text);
+drop function if exists public.lgpd_accept(text, text);
 
 -- As duas tabelas de Instagram seguem o mesmo caminho. A escrita nelas ja era
 -- admin-only desde o 002a, via ig_*_upsert.
