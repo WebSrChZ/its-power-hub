@@ -1,4 +1,5 @@
-tools/
+tools/*
+!tools/check_site.py
 .claude/
 *.log
 *.tmp

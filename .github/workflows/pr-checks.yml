@@ -17,6 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Os steps abaixo comparam com a branch base: sem o historico
+          # completo, origin/<base> nao existe no runner.
+          fetch-depth: 0
 
       - name: Verificacao estatica de public/
         run: python3 tools/check_site.py public
@@ -37,7 +41,12 @@ jobs:
           # O service worker cacheia index.html, css e js. Sem o bump do
           # CACHE_NAME (./bump-cache.sh), quem ja abriu o portal continua na
           # versao antiga e nao ve a mudanca deste PR.
-          changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          base="origin/${{ github.base_ref }}"
+          # Falha explicita: um check que nao consegue comparar precisa gritar,
+          # nao passar verde.
+          git rev-parse --verify "$base" >/dev/null 2>&1 \
+            || { echo "::error::$base indisponivel no runner"; exit 1; }
+          changed=$(git diff --name-only "$base...HEAD")
           if echo "$changed" | grep -qE '^public/(index\.html|css/|js/)'; then
             if ! echo "$changed" | grep -q '^public/sw\.js$'; then
               echo "::error::public/ mudou mas public/sw.js nao: rode ./bump-cache.sh"
