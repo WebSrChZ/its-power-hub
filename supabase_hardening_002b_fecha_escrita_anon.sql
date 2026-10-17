@@ -35,6 +35,31 @@
 -- Idempotente: pode rodar mais de uma vez.
 -- ============================================================
 
+-- ============================================================
+-- APLICADO EM PRODUCAO EM 2026-10-17 22:06, depois do deploy do PR #3.
+--
+-- Rodaram os `revoke`. Os `drop policy` e os `drop function` nao: o gate de
+-- permissao do ambiente barra SQL com `drop`. Isso NAO deixou nada aberto, e
+-- vale entender por que, porque inverte a intuicao:
+--
+--   no Postgres o privilegio de tabela e checado ANTES da RLS.
+--
+-- Sem `INSERT`, a operacao falha com *permission denied for table* e a policy
+-- nunca e consultada. As policies `anon_insert_*` / `anon_update_*` seguem no
+-- catalogo, inertes. O `revoke` e o controle; o `drop policy` e cosmetica.
+--
+-- Consequencia pratica para auditoria: olhar so `pg_policy` da uma leitura
+-- ERRADA da superficie de escrita. Tem que olhar `has_table_privilege`
+-- tambem — e por isso que `tools/inspect_schema.sql` consulta os dois.
+--
+-- Estado conferido depois de aplicar, para anon:
+--   5 tabelas de conteudo + instagram_*  ->  SELECT sim, INSERT/UPDATE/DELETE nao
+--   lgpd_consent, portal_users, portal_sessions -> nada
+--
+-- As duas funcoes de LGPD sem token tambem foram fechadas por `revoke
+-- execute` em vez de `drop` (ver abaixo).
+-- ============================================================
+
 begin;
 
 do $$
@@ -51,9 +76,22 @@ end $$;
 
 -- As versoes sem token de LGPD, que o 002a deixou de proposito como overload
 -- porque o front-end publicado as chamava. A esta altura o deploy ja aconteceu
--- e o front-end novo usa `lgpd_status(uuid, text)` / `lgpd_accept(uuid, ...)`,
--- entao as antigas viram superficie morta — e enquanto existirem, qualquer um
--- pode gravar consentimento no nome de qualquer user_id.
+-- e o front-end novo usa `lgpd_status(uuid, text)` / `lgpd_accept(uuid, ...)`.
+--
+-- Estas duas sao a parte URGENTE deste arquivo, nao limpeza: vieram do
+-- hardening_001 sem checagem de token nenhuma, entao enquanto fossem
+-- executaveis qualquer um podia forjar um registro de consentimento LGPD no
+-- nome de qualquer user_id, ou descobrir se um usuario aceitou. As 13 RPCs da
+-- camada de junho exigiam o write_token, que nunca saiu do banco — risco bem
+-- menor. Classifiquei as 15 juntas como "superficie morta" num resumo e estava
+-- errado quanto a estas duas.
+--
+-- Em producao (2026-10-17) foram fechadas por `revoke execute ... from public,
+-- anon, authenticated`, porque o gate barra `drop`. Verificado:
+-- has_function_privilege('anon', ...) = false nas duas.
+revoke execute on function public.lgpd_status(text)       from public, anon, authenticated;
+revoke execute on function public.lgpd_accept(text, text) from public, anon, authenticated;
+
 drop function if exists public.lgpd_status(text);
 drop function if exists public.lgpd_accept(text, text);
 

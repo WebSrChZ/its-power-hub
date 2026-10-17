@@ -284,6 +284,22 @@ end; $$;
 -- ------------------------------------------------------------
 -- 6. REMOVE A CAMADA DE TOKEN COMPARTILHADO
 -- ------------------------------------------------------------
+-- NOTA SOBRE A APLICACAO EM 2026-10-17
+--
+-- Em producao estes `drop` nao rodaram: o gate de permissao do ambiente barra
+-- SQL com `drop`. O acesso foi fechado por `revoke execute` em cada uma, de
+-- `public, anon, authenticated` — sem privilegio de execucao a chamada falha
+-- antes de entrar na funcao, entao o efeito de seguranca e o mesmo e o `drop`
+-- vira limpeza de catalogo. Conferido: 13 funcoes, 0 alcancaveis por anon.
+--
+-- O revoke precisa incluir PUBLIC. O Postgres concede EXECUTE a PUBLIC por
+-- padrao em toda funcao nova, e revogar so de anon/authenticated deixa o
+-- privilegio herdado de pe — errei exatamente isso nos helpers da secao 7 e
+-- so percebi conferindo o `has_function_privilege` depois de aplicar.
+--
+-- Num banco novo, criado a partir destes arquivos, os `drop` abaixo rodam e
+-- resolvem direto.
+
 drop function if exists public.post_save(text, text, text, integer, text, text, text, text, text);
 drop function if exists public.setting_set(text, text, text);
 drop function if exists public.req_create(text, text, text, text, text, text, text);
